@@ -2,8 +2,9 @@
 #ifndef OSCILOSCOPIO_H
 #define OSCILOSCOPIO_H
 
-#include "instrumento.h"         // inheriting class's header file
-#include "canal.h"
+#include "instrumento.h"         // Cabecera de la superclase
+#include "Fl_Scope.h"            // Clase para presentar las gráficas
+#include "canal.h"               
 #include <FL/Fl.H>
 #include <FL/Fl_Widget.H>        // inheriting class's header file
 #include <FL/fl_draw.h>          // header file for drawing
@@ -30,8 +31,14 @@ class Osciloscopio : public Instrumento, public Fl_Widget
         {   
                 
             icolor = ncol;  
+            
+            opantalla = new Fl_Scope(8,8,380, 304,"");  // Instancia de scope
+            opantalla ->TraceColour(FL_WHITE);
+            opantalla->tracetype(FL_SCOPE_TRACE_LOOP);
+            opantalla->redrawmode(FL_SCOPE_REDRAW_FULL);
+            opantalla->linetype(FL_SCOPE_LINE);
                         
-            ogroup_osc = new Fl_Group (5,5,680,360,""); 
+            ogroup_osc = new Fl_Group (5,5,680,360,"");    // Agrupa los elementos del osciloscopio
             ogroup_osc->box(FL_ENGRAVED_FRAME); 
             ogroup_osc->deactivate();
             canal1 = new Canal(400,9,130,230,"",100); 
@@ -69,9 +76,7 @@ class Osciloscopio : public Instrumento, public Fl_Widget
             ohelp_osc->labelsize(10);
             ogroup_osc->end();  
             
-            
-            
-            ogroup_tdiv = new Fl_Group (400,243,240,115,"");
+            ogroup_tdiv = new Fl_Group (400,243,240,115,"");    //Agrupa los controles de tiempo por división
             ogroup_tdiv->box(FL_ENGRAVED_FRAME);
             ogroup_tdiv->deactivate();
             otiempo_div = new Fl_Knob (405,250,70,70,"T_DIV");
@@ -215,8 +220,28 @@ class Osciloscopio : public Instrumento, public Fl_Widget
 		 * Perilla de desplazamiento de la señal de forma horizontal.
 	    */
         Fl_Knob *opos_y;
+        /**
+		 * Objeto de la calse scope que representa la pantalla del osciloscopio 
+		 * donde se grafica la señal digitalizada por el canal.
+		*/
+		Fl_Scope*  opantalla;
+		/**
+		 * Variable que contiene el valor del dato que se envia para adicionar 
+		 * a la gráfica del canal 1 en el método recorrer datos.
+		*/
+		int idato_graf_ch1;
+		/**
+		 * Variable que contiene el valor del dato que se envia para adicionar 
+		 * a la gráfica del canal 2 en el método recorrer datos.
+		*/
+		int idato_graf_ch2;
     	
 	private:
+         /**
+		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
+         * por punto los datos para graficar.
+		*/
+		void recorrer_datos();
          /**
          * Este método es el callback del hilo de ejecución del canal 
          * del osciloscopio.  
@@ -229,14 +254,34 @@ class Osciloscopio : public Instrumento, public Fl_Widget
          inline void cb_hilo_in();
          /**
          * Este método es el callback del timer para realizar la solicitud 
-         * de datos del osciloscopio al hardware.  
+         * de datos del canal 1 del osciloscopio al hardware.  
          */   
-         static void cb_timer(void *);
+         static void cb_timer_ch1(void *);
          /**
-         * Esta función acompaña la función cb_timer
+         * Esta función acompaña la función cb_timer_ch1
          * para realizar los llamados de callback del timer 
          */
-         inline void cb_timer_in();
+         inline void cb_timer_ch1_in();
+         /**
+         * Este método es el callback del timer para realizar la solicitud 
+         * de datos del canal 2 osciloscopio al hardware.  
+         */   
+         static void cb_timer_ch2(void *);
+         /**
+         * Esta función acompaña la función cb_timer_ch2
+         * para realizar los llamados de callback del timer 
+         */
+         inline void cb_timer_ch2_in();
+         /**
+         * Este método es el callback del timer para realizar la solicitud 
+         * de datos de los 2 canales del osciloscopio simulteneamente al hardware.  
+         */   
+         static void cb_timer_dual_ch(void *);
+         /**
+         * Esta función acompaña la función cb_timer_dual_ch
+         * para realizar los llamados de callback del timer 
+         */
+         inline void cb_timer_dual_ch_in();
         /**
 		 * Este método es el callback del boton selector de canal
 		 * en el osciloscopio debe ir acompañada de una función inline para

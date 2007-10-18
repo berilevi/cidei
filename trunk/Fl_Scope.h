@@ -55,12 +55,12 @@
 
 class FL_EXPORT Fl_Scope : public Fl_Widget
 {
-  int       _x,_y,_w,_h;     /* The draw position */
+  int       _x,_y,_w,_h;     /* Screen Possition and Size */
 
-  //unsigned char *ScopeData;  /* Pointer to dynamic array of track info */
-  int *ScopeData;  /* Pointer to dynamic array of track info */
+  int *ScopeData;            /* Pointer to dynamic array of track info in channel 1*/
+  int *ScopeData2;           /* Pointer to dynamic array of track info in channel 2*/
   
-  int ScopeDataSize;
+  int ScopeDataSize;         /* */
   int ScopeDataPos;
   
   Fl_Color _TraceColour;     /* Trace Colour */
@@ -70,6 +70,8 @@ class FL_EXPORT Fl_Scope : public Fl_Widget
   int RedrawMode;
   int LineType;
   int DataType;
+  bool bdual;
+  int ivez;
   
 protected:
 
@@ -90,19 +92,15 @@ protected:
   
   
 public:
-
+       int NumDatos;
 
   int x(){return _x;};
-  //void x(int X){ _x=X;};
 
   int y(){return _y;};
-  //void y(int Y){ _y=Y;};
 
   int w(){return _w;};
-  //void w(int W){ _w=W;};
 
   int h(){return _h;};
-  //void h(int H){ _h=H;};
 
   char cnombre[10];
   
@@ -119,9 +117,10 @@ public:
   int datatype(){return DataType;};
   void datatype(int t){DataType=t;};
   
-  
-  //int Add(unsigned char);          /* Add Data to Scope */
+
   int Add(int);          /* Add Data to Scope */ 
+  
+  int Add(int, int);     /* Overload function Add */
    
   Fl_Color TraceColour(){return _TraceColour;};
   void     TraceColour(Fl_Color c){_TraceColour=c;};
@@ -132,10 +131,10 @@ public:
   virtual int handle(int);
   Fl_Scope(int,int,int,int,const char * = 0);
   ~Fl_Scope();
+  
 };
 
 
 /**************** END OF FILE ******************************/
 #endif
-
 

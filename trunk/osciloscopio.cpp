@@ -69,21 +69,7 @@ void Osciloscopio::Setbdual(bool bx)
  */
 void Osciloscopio::draw()
 {
-	 int icont1,icont2;
-     fl_draw_box(FL_FLAT_BOX,8, 8, 380, 304, Fl_Color(icolor)); // Pantalla del osciloscopio
-     fl_color(FL_DARK_GREEN);
-     fl_line_style(0,0);
-     fl_line(8, 152, 388, 152);             // Eje x
-     fl_line(198, 8, 198, 312);             // Eje y
-     if (bdual){                            // Para graficar suma, resta y lissajous
-        fl_color(FL_WHITE);
-        fl_line_style(0,0);
-        for (icont1=0;icont1 < inum_datos-2;icont1++){   
-             for (icont2=0;icont2 < 380;icont2++){
-                  fl_line((itiempo[icont1]+8), (195-idatos[icont1]), ((itiempo[icont1+1])+8), (195-idatos[icont1+1]) );              
-             }                    
-         }
-     }
+
 }
 
 /*
@@ -144,29 +130,35 @@ void Osciloscopio::cb_sel_ch_in(){
      int ihilo_status;
      if (isec_ch==0){
      och2->value(0);
+     Fl::remove_timeout(cb_timer_ch2, this);
      canal2->ogroup_ch->deactivate();
      odual_menu->deactivate();
      och1->value(1);
      canal1->activar(1);
      canal1->ogroup_ch->activate();
-     Fl::add_timeout(0.5, cb_timer, this);
+     Fl::add_timeout(0.5, cb_timer_ch1, this);
      }
      if (isec_ch==1){
      och1->value(0);
+     canal1->activar(0);
      canal1->ogroup_ch->deactivate();
-     Fl::remove_timeout(cb_timer, this);
+     Fl::remove_timeout(cb_timer_ch1, this);
      och2->value(1);
+     canal2->activar(1);
      canal2->ogroup_ch->activate();
+     Fl::add_timeout(0.2, cb_timer_ch2, this);
      }
      if (isec_ch==2){
+     Fl::remove_timeout(cb_timer_ch2, this);
+     Fl::remove_timeout(cb_timer_ch1, this);
      och1->value(1);
+     canal1->activar(1);
      canal1->ogroup_ch->activate();
+     Fl::add_timeout(0.5, cb_timer_dual_ch, this);
      odual_menu->activate();
      isec_ch=-1;
      }
      isec_ch++;
-     pthread_join(thcanales[0], NULL);
-     pthread_join(thcanales[1], NULL);
 }
 
 /**
@@ -278,25 +270,124 @@ void Osciloscopio::cb_pos_y_in(Fl_Widget* psel){
 }
 
 /**
- * Este método es el callback del timer
- * para realizar la solicitud de datos del osciloscopio al hardware.  
+ * Este método es el callback del timer para realizar la solicitud 
+ * de datos del canal 1 del osciloscopio al hardware.  
 */
-void Osciloscopio::cb_timer(void *pany)
+void Osciloscopio::cb_timer_ch1(void *pany)
 {
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_timer_in();
+     posc->cb_timer_ch1_in();
 }
 
 /**
- * Esta función acompaña la función cb_timer
+ * Esta función acompaña la función cb_timer_ch1
  * para realizar los llamados de callback del timer 
 */
-void Osciloscopio::cb_timer_in(){
+void Osciloscopio::cb_timer_ch1_in(){
      canal1->Encapsular('A','P',0x3F,'0','0');
      canal1->Transmision();
      canal1->almacenar(canal1->itamano_trama,canal1->receive_buf2);
-     canal1->recorrer_datos();
-     Fl::repeat_timeout(0.2, cb_timer, this);
+     recorrer_datos();
+     Fl::repeat_timeout(0.1, cb_timer_ch1, this);
+}
+
+
+/**
+ * Este método es el callback del timer para realizar la solicitud 
+ * de datos del canal 2 del osciloscopio al hardware.  
+*/
+void Osciloscopio::cb_timer_ch2(void *pany)
+{
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cb_timer_ch2_in();
+}
+
+/**
+ * Esta función acompaña la función cb_timer_ch2
+ * para realizar los llamados de callback del timer 
+*/
+void Osciloscopio::cb_timer_ch2_in(){
+     canal2->Encapsular('A','P',0x3F,'0','0');
+     canal2->Transmision();
+     canal2->almacenar(canal2->itamano_trama,canal2->receive_buf2);
+     recorrer_datos();
+     Fl::repeat_timeout(0.1, cb_timer_ch2, this);
+}
+
+
+/**
+ * Este método es el callback del timer para realizar la solicitud 
+ * de datos de los 2 canales del osciloscopio simultaneamente al hardware.  
+*/
+void Osciloscopio::cb_timer_dual_ch(void *pany)
+{
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cb_timer_dual_ch_in();
+}
+
+/**
+ * Esta función acompaña la función cb_timer_dual_ch
+ * para realizar los llamados de callback del timer 
+*/
+void Osciloscopio::cb_timer_dual_ch_in(){
+     canal1->Encapsular('A','P',0x3F,'0','0');
+     canal1->Transmision();
+     canal1->almacenar(canal1->itamano_trama,canal1->receive_buf2);
+     canal2->Encapsular('A','P',0x3F,'0','0');
+     canal2->Transmision();
+     canal2->almacenar(canal2->itamano_trama,canal2->receive_buf2);
+     recorrer_datos();
+     Fl::repeat_timeout(0.01, cb_timer_dual_ch, this);
+}
+
+/**
+ * La función recorrer_datos recorre el arreglo idatos y envia punto 
+ * por punto los datos para graficar.
+*/
+void Osciloscopio::recorrer_datos()
+{
+     int icont;
+     
+     if (canal1->bestado && ~canal2->bestado){
+        opantalla->TraceColour(Fl_Color(canal1->ncolor));
+        for(icont=0;icont < canal1->inum_datos-1; icont++){
+            idato_graf_ch1 = canal1->idatos[icont];
+            if (idato_graf_ch1 == 0){
+               opantalla->Add(560+ canal1->npos_y);
+            }
+            else {
+                opantalla->Add(canal1->npos_y + (560*(idato_graf_ch1)*canal1->nv_div));
+            }              
+        }                   
+     }
+     
+     if (canal2->bestado && ~canal1->bestado){
+        opantalla->TraceColour(Fl_Color(canal2->ncolor));
+        for(icont=0;icont < canal2->inum_datos-1; icont++){
+            idato_graf_ch2 = canal2->idatos[icont];
+            if (idato_graf_ch2 == 0){
+               opantalla->Add(560+ canal2->npos_y);
+            }
+            else {
+                 opantalla->Add(canal2->npos_y + (560*(idato_graf_ch2)*canal2->nv_div));
+            }              
+        }                   
+     }
+     
+     if (canal2->bestado && canal1->bestado){
+        for(icont=0;icont < canal2->inum_datos-1; icont++){
+            idato_graf_ch1 = canal1->idatos[icont];
+            idato_graf_ch2 = canal2->idatos[icont];
+            if (idato_graf_ch2 == 0 || idato_graf_ch1 == 0){
+               opantalla->Add((560 + canal1->npos_y), (560 + canal2->npos_y));
+            }
+            else {
+                 opantalla->NumDatos = canal1->inum_datos -1;
+                 opantalla->Add(canal1->npos_y + (560*(idato_graf_ch1)*canal1->nv_div),
+                 canal2->npos_y + (560*(idato_graf_ch2)*canal2->nv_div));
+            }              
+        }                   
+     }
 }
 
 

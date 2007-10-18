@@ -1,7 +1,7 @@
 [Project]
 FileName=LIV.dev
 Name=LIV
-UnitCount=16
+UnitCount=18
 Type=0
 Ver=1
 ObjFiles=
@@ -198,7 +198,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit17]
-FileName=Fl_Scope.cxx
+FileName=Fl_7Seg.cpp
 Folder=LIV
 Compile=1
 Link=1
@@ -218,7 +218,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit18]
-FileName=Fl_Scope.h
+FileName=Fl_7Seg.H
 CompileCpp=1
 Folder=LIV
 Compile=1
