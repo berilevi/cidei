@@ -9,13 +9,13 @@ Instrumento::Instrumento()
 {
     int icont;
     inum_datos=0;
-    strcpy(vid_pid, "vid_04d8&pid_000a");
-    strcpy(out_pipe, "\\MCHP_EP3");
-    strcpy(in_pipe, "\\MCHP_EP3");
-    trama_control[0] = 0x01;             
-    trama_control[1] = 0x11;
-    trama_control[7] = 0x04;
-    trama_control[8] = 0x00;
+    strcpy(vid_pid, "vid_04d8&pid_000a");       // Product & Vendor ID
+    strcpy(out_pipe, "\\MCHP_EP3");             // End Point de salida 
+    strcpy(in_pipe, "\\MCHP_EP3");              // End Point de salida
+    trama_control[0] = 0x01;                    // Valor de inicio de trama
+    trama_control[1] = 0x11;                    // Tipo de trama de control
+    trama_control[7] = 0x04;                    // Final de trama del protocolo
+    trama_control[8] = 0x00;                    // Fin de cadena que se va a transmitir
 }
 
 // class destructor
@@ -56,7 +56,7 @@ void Instrumento::Setnum_datos(int x)
 void Instrumento::almacenar(int itamano, char cdato [])
 {
      int ii;
-     if (inum_datos >= 379) {
+     if (inum_datos >= 379) {              // Almacenar datos para pantalla y media del osciloscopio
         inum_datos = 0;
      }
      for (ii=0;ii < itamano-1; ii++){   
@@ -105,7 +105,7 @@ void Instrumento::Transmision(){
         return;
     }
 
-    DWORD RecvLength=4;
+    DWORD RecvLength=100;
     DWORD SentDataLength;
      
     

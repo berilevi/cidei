@@ -136,6 +136,7 @@ void Canal::cb_volt_div_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      pselector->value(floor(pselector->value()));
      omenu_v_div->value(pselector->value());
+     Setnv_div(int((pselector->value())*0.5));
 }
 
 /**
@@ -162,20 +163,4 @@ void Canal::cb_posx_in(Fl_Widget* psel){
 }
 
 
-/**
- * La función recorrer_datos recorre el arreglo idatos y envia punto 
- * por punto los datos para graficar.
-*/
-void Canal::recorrer_datos()
-{
-     int icont;
-     for (icont=0; icont < inum_datos-1; icont++){
-        idato_graf= idatos[icont];
-        if (idato_graf==0) {
-           opantalla->Add(560+npos_y);
-        } 
-        else{
-             opantalla->Add(npos_y+(560*(idato_graf)));
-        }
-     }
-}
+

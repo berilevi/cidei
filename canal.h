@@ -4,7 +4,6 @@
 #define CANAL_H
 
 #include "instrumento.h"         // inheriting class's header file
-#include "Fl_Scope.h"            // header file for screen
 #include <FL/Fl_Widget.H>        // inheriting class's header file
 #include <FL/fl_draw.h>          // header file for drawing
 #include <FL/Fl_Group.H>         //          
@@ -31,13 +30,7 @@ class Canal : public Instrumento, public Fl_Widget
              Fl_Knob *opos_x;
              Fl_Repeat_Button *osel_acople;
              ncolor = ncolo;
-             
-             opantalla = new Fl_Scope(8,8,380, 304,"");  // instancia de scope
-             opantalla ->TraceColour(FL_WHITE);
-             opantalla->tracetype(FL_SCOPE_TRACE_LOOP);
-             opantalla->redrawmode(FL_SCOPE_REDRAW_FULL);
-             opantalla->linetype(FL_SCOPE_LINE);
-             
+                     
              ogroup_ch = new Fl_Group (x,y,w,h,"");
              ogroup_ch->box(FL_ENGRAVED_FRAME);
              ogroup_ch->deactivate();
@@ -111,34 +104,25 @@ class Canal : public Instrumento, public Fl_Widget
 		 */
 		float frecuencia();
 		/**
-		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
-         * por punto los datos para graficar.
-		*/
-		void recorrer_datos();
-		/**
 		 * Grupo de los diferentes botones y selectores que componen
 		 * el canal.
         */
 		Fl_Group *ogroup_ch;
 		/**
-		 * Apuntador para recorrer los datos que se van graficar en cada canal
-		*/
-		int *pdatos;
+		 * Esta variable representa el color de la gráfica de la señal
+		 * adquirida por el canal
+	    */
+		int ncolor;
 		/**
-		 * Variable que contiene el valor del dato que se envia para adicionar 
-		 * a la gráfica en el método recorrer datos.
-		*/
-		int idato_graf;
+		 * Esta varible representa el valor de voltios por división
+		 * seleccionado por el usuario. 
+		 */
+		int nv_div;
 		/**
-		 * Variable que recorre el eje X de la gráfica que representa el tiempo 
-		 * en la representación gráfica de la señal.
-		*/
-		int itiempos;
-		/**
-		 * Objeto de la calse scope que representa la pantalla del osciloscopio 
-		 * donde se grafica la señal digitalizada por el canal.
-		*/
-		Fl_Scope*  opantalla;
+		 * Esta variable representa la posición de la gráfica del canal
+		 * respecto al eje x 
+		 */
+		int npos_y;
 		
 	private:
         /**
@@ -178,16 +162,6 @@ class Canal : public Instrumento, public Fl_Widget
 		 */
 		inline void cb_posx_in(Fl_Widget*);
 		/**
-		 * Esta varible representa el valor de voltios por división
-		 * seleccionado por el usuario. 
-		 */
-		int nv_div;
-		/**
-		 * Esta variable representa la posición de la gráfica del canal
-		 * respecto al eje x 
-		 */
-		int npos_y;
-		/**
 		 * Esta variable representa el valor pico a pico de la señal 
 		 * analizada con el osciloscopio
 		 */
@@ -212,11 +186,6 @@ class Canal : public Instrumento, public Fl_Widget
 		 * canal del osciloscopio
 		 */
 		bool bdc;
-		/**
-		 * Esta variable representa el color de la gráfica de la señal
-		 * adquirida por el canal
-		 */
-		int ncolor;
 		/**
 		 * Este indicador luminoso indica que está activado el acople
 		 * gnd del canal  

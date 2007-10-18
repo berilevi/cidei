@@ -53,6 +53,10 @@
 * V0.0.0 - 1 August 2003
 *  Modified for use with Makefile.
 *  Added Version() function to return code version.
+************************************************************
+* V0.0.0 - 1 October 2007
+*  Modified for use with two channels.
+*  Overload the function Add
 ************************************************************/
 
 
@@ -69,9 +73,10 @@ void Fl_Scope::draw()
 
 void Fl_Scope::draw(int xx, int yy, int ww, int hh)
 {
- //unsigned char *Ptr,*Ptr2;
+
  int *Ptr,*Ptr2;
- int count;//,x;
+ int *ptrjp, *ptrjp2;
+ int count;
  int Yval,Yval2;
  int valor_y;
  
@@ -86,47 +91,53 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh)
  /* Draw the scope Data */
  Ptr2=Ptr=ScopeData;
  Ptr2++;
- for(count=0;count<ScopeDataSize-1;count++)
- {
  
-   
-  switch(LineType)
-  {
-   default:
-   case FL_SCOPE_LINE:  
-    //fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/255.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/255.0)) );
-    if(DataType==FL_SCOPE_UNSIGNED)
-    {        
-     valor_y = (int)((float)*Ptr * ((float)hh/65535.0));                            
-     fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)) );
-     //fl_line((yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)), xx+1);
+ ptrjp2=ptrjp=ScopeData2;                         
+ ptrjp2++;
+ 
+ if (~bdual){
+    for(count=0;count<ScopeDataSize-1;count++){  
+       switch(LineType){
+             default:
+             case FL_SCOPE_LINE:  
+                  if(DataType==FL_SCOPE_UNSIGNED){                                 
+                     fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
+                     fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
+                  }
+                  else{
+                       Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
+                       Yval2=(int) (  (float)((int)*Ptr2) * (float)hh/(65535.0/2.0));
+                       fl_line(xx,(yy+(hh/2)) - Yval,xx+1,(yy+(hh/2)) - Yval2 );
+                  }
+             break;
+             case FL_SCOPE_DOT:
+                  if(DataType==FL_SCOPE_UNSIGNED){
+                     fl_point(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)) );
+                  }
+                  else{
+                       Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
+                       fl_point(xx,(yy+(hh/2)) - Yval);
+                  }
+             break;  
+      }
+      xx++;
+      Ptr2++;
+      Ptr++;
+      ptrjp2++;
+      ptrjp++;
     }
-    else
-    {
-     Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
-     Yval2=(int) (  (float)((int)*Ptr2) * (float)hh/(65535.0/2.0));
-     fl_line(xx,(yy+(hh/2)) - Yval,xx+1,(yy+(hh/2)) - Yval2 );
-    }
-    break;
-   
-   case FL_SCOPE_DOT:
-    if(DataType==FL_SCOPE_UNSIGNED)
-    {
-     fl_point(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)) );
-    }
-    else
-    {
-     Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
-     fl_point(xx,(yy+(hh/2)) - Yval);
-    }
-    break;  
-    
-  }
-  xx++;
-  Ptr2++;
-  Ptr++;
- }
-
+}
+else if (bdual){
+   if (ivez >0){
+      for(count=0;count<89;count++){
+          fl_line(((int)(float)*ptrjp)+100,(190-(int)(float)*Ptr), ((int)(float)*ptrjp2)+100,(190-(int)(float)*Ptr2)); 
+          Ptr2++;
+          Ptr++;
+          ptrjp2++;
+          ptrjp++;
+      }
+   }
+}
  
  /* pop the clip */
  fl_pop_clip();
@@ -137,14 +148,13 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh)
 /*******************************************************
 *               Fl_Scope::Add
 *******************************************************/
-//int Fl_Scope::Add(unsigned char data)
+
 int Fl_Scope::Add(int data)
 {
- //unsigned char *Ptr,*Ptr2;
+
  int *Ptr,*Ptr2;
  int count;
  
- //fl_message("adiciono");
  if(ScopeDataPos > ScopeDataSize)ScopeDataPos=0;
  
  switch(TraceType)
@@ -160,7 +170,6 @@ int Fl_Scope::Add(int data)
       Ptr++;Ptr2++;
     }
     *Ptr=data;
-    //fl_message("adiciono %d", *Ptr);
     break;
  
   case FL_SCOPE_TRACE_LOOP_CLEAR:
@@ -180,11 +189,9 @@ int Fl_Scope::Add(int data)
    Ptr+=ScopeDataPos;
    *Ptr=data;
    break;
-  
  }
  
  ScopeDataPos++;
- //fl_message("pos %d", ScopeDataPos);
  
  switch(RedrawMode)
  {
@@ -200,11 +207,39 @@ int Fl_Scope::Add(int data)
    redraw();
    break;
  }
-  
  return(1); 
 }
 
+/*******************************************************
+*               Fl_Scope::Add  Overload
+*******************************************************/
 
+int Fl_Scope::Add(int data, int data2)
+{
+
+ int *Ptr;
+ 
+ int *ptrjp;    
+
+ if (ScopeDataPos > ScopeDataSize)ScopeDataPos = 0; 
+
+   Ptr=ScopeData;
+   Ptr+=ScopeDataPos;
+   *Ptr=data;
+   
+   ptrjp=ScopeData2;
+   ptrjp+=ScopeDataPos;
+   *ptrjp=data2;
+
+   ScopeDataPos++;
+   ivez++;
+
+ 
+  if(ScopeDataPos == ScopeDataSize) {             
+      redraw(); 
+   }
+ return(1);   
+}
 
 /********************************************************
 *                   handle(int)
@@ -222,7 +257,6 @@ int Fl_Scope::handle(int event)
     h()-Fl::box_dh(box()));
 
 }
-
 /********************************************************
 *                   handle(int,int,int,int,int)
 *
@@ -284,8 +318,9 @@ int Fl_Scope::handle(int event, int X, int Y, int W, int H)
 Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l)
 : Fl_Widget(X,Y,W,H,l)
 {
- //unsigned char *Ptr;
+
  int *Ptr;
+ int *ptrjp;     
  int count;
  
  /* Size of it !! */
@@ -293,20 +328,24 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l)
 
  box(FL_UP_BOX);
   
- //BackColour(FL_BLACK);
- //BackColour(FL_DARK_GREEN);
  BackColour(Fl_Color(256));
  TraceColour(FL_WHITE);
  
  /* Create Array for Scope Data */
- //Ptr=ScopeData=(unsigned char*)calloc(W,sizeof(char));
+
  Ptr=ScopeData=(int*)calloc(W,sizeof(int));
+ ptrjp=ScopeData2=(int*)calloc(W,sizeof(int));
   
  ScopeDataSize=W-1;
 
  ScopeDataPos=0;
  
- strcpy(cnombre, "datos.txt");
+ NumDatos = 0;
+ 
+ bdual = 0;
+ 
+ ivez = 0;
+ 
  
  /* Make Scope trace a scrolling type */
  tracetype(FL_SCOPE_TRACE_SCROLL);
@@ -318,9 +357,11 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l)
  datatype(FL_SCOPE_UNSIGNED);
  
  /* Clear Scope Data Array */
- for(count=0;count<W;count++)
- {
-  *Ptr=0;Ptr++;
+ for(count=0;count<W;count++){
+    *Ptr=0;
+    Ptr++;
+    *ptrjp=0; 
+    ptrjp++; 
  }
 
 }
@@ -331,6 +372,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l)
 Fl_Scope::~Fl_Scope()
 {
  free(ScopeData); /* Free the scope data */
+ free(ScopeData2);
 }
 
 

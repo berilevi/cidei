@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <FL/Fl_Ask.H>
+
 #define SIZE_DATA 100
 
 #pragma hdrstop
