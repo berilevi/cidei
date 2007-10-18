@@ -1,7 +1,7 @@
 [Project]
 FileName=LIV.dev
 Name=LIV
-UnitCount=18
+UnitCount=16
 Type=0
 Ver=1
 ObjFiles=
@@ -138,36 +138,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit10]
-FileName=..\prueba multimetro\Fl_7Seg.cpp
-CompileCpp=1
-Folder=LIV
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit11]
-FileName=..\prueba multimetro\Fl_7Seg.H
-CompileCpp=1
-Folder=LIV
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit13]
-FileName=Fl_Knob.h
-CompileCpp=1
-Folder=LIV
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit12]
 FileName=Fl_Knob.cxx
 CompileCpp=1
 Folder=LIV
@@ -177,7 +147,27 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit14]
+[Unit11]
+FileName=Fl_Knob.h
+CompileCpp=1
+Folder=LIV
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit13]
+FileName=generador.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit12]
 FileName=generador.h
 CompileCpp=1
 Folder=
@@ -187,10 +177,20 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit15]
-FileName=generador.cpp
+[Unit14]
+FileName=mpusbapi.h
 CompileCpp=1
-Folder=
+Folder=LIV
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=Fl_Scope.cxx
+CompileCpp=1
+Folder=LIV
 Compile=1
 Link=1
 Priority=1000
@@ -208,7 +208,7 @@ BuildCmd=
 CompileCpp=1
 
 [Unit16]
-FileName=mpusbapi.h
+FileName=Fl_Scope.h
 CompileCpp=1
 Folder=LIV
 Compile=1
