@@ -51,7 +51,7 @@ class Multimetro : public Instrumento
 		 * Este método coloca el valor de la medición en el display
 		 * del multímetro.
 		*/
-		void set_disp_mult(char [6]);
+		void set_disp_mult(char [4]);
 		 /**
 		 * Agrupa los botones e indicadores del multimetro
 		 */
@@ -87,6 +87,16 @@ class Multimetro : public Instrumento
 		inline void cb_mult_on_in();
 		
 private:
+        /**
+         * Este método es el callback del timer para realizar la solicitud 
+         * de datos del multímetro al hardware.  
+         */   
+         static void cb_timer_mult(void *);
+         /**
+         * Esta función acompaña la función cb_timer_mult
+         * para realizar los llamados de callback del timer 
+         */
+         inline void cb_timer_mult_in();
 		/**
 		 * Esta varaible representa los instrumentos que contiene
 		 * el multimetro

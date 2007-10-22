@@ -2,9 +2,7 @@
 
 #include "multimetro.h" // class's header file
 
-
 int isec_mult;
-
 
 // class constructor
 Multimetro::Multimetro()
@@ -85,8 +83,8 @@ if (isec_mult==0){
      if (isec_mult==1){
      ov_ac->value(0);
      ov_dc->value(1);
-     Encapsular('D','P',0x3F,'0','0');
      instrument = volt_dc;
+     Fl::add_timeout(0.5, cb_timer_mult, this);
      }
      if (isec_mult==2){
      ov_dc->value(0);
@@ -135,8 +133,28 @@ void Multimetro::cb_mult_on_in(){
 * Este método coloca el valor de la medición en el display
 * del multímetro.
 */
-void Multimetro::set_disp_mult(char svalor [6]){
-     Transmision();
-     odisp_mult->value(receive_buf2);     
+void Multimetro::set_disp_mult(char svalor [4 ]){
+     odisp_mult->value(svalor);      
 }
 
+/**
+ * Este método es el callback del timer para realizar la solicitud 
+ * de datos del canal 1 del osciloscopio al hardware.  
+*/
+void Multimetro::cb_timer_mult(void *pany)
+{
+     Multimetro* pmult=(Multimetro*)pany;
+     pmult->cb_timer_mult_in();
+}
+
+/**
+ * Esta función acompaña la función cb_timer_ch1
+ * para realizar los llamados de callback del timer 
+*/
+void Multimetro::cb_timer_mult_in(){
+
+     Encapsular('D','P',0x3F,'1','0');
+     Transmision();
+     set_disp_mult((receive_buf_mult));
+     Fl::repeat_timeout(0.5, cb_timer_mult, this);
+}

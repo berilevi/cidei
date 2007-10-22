@@ -16,22 +16,22 @@ void recount(void *);
 
 
 
-void recount(void *){
+/*void recount(void *){
      mult->set_disp_mult("0.00");
      Fl::repeat_timeout(0.5, recount); 
-}
+}*/
 
 
 void cb_onmult(Fl_Widget * pbot){
      Fl_Button* ponmult = (Fl_Button *)pbot;
      if (ponmult->value()== 1){
         mult->activar(1);
-        Fl::add_timeout(0.5, recount);
+        //Fl::add_timeout(0.5, recount);
         mult->ogroup_mult->activate(); 
      }
      if (ponmult->value()== 0){
         mult->activar(0);
-        strcpy(mult->receive_buf2,"0.00");
+        strcpy(mult->receive_buf_mult,"0.00");
         mult->ogroup_mult->deactivate(); 
      }
 }
