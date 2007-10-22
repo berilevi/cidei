@@ -16,6 +16,8 @@ Instrumento::Instrumento()
     trama_control[1] = 0x11;                    // Tipo de trama de control
     trama_control[7] = 0x04;                    // Final de trama del protocolo
     trama_control[8] = 0x00;                    // Fin de cadena que se va a transmitir
+    
+    strcpy(receive_buf_mult,"0000");
 }
 
 // class destructor
@@ -107,18 +109,32 @@ void Instrumento::Transmision(){
 
     DWORD RecvLength=100;
     DWORD SentDataLength;
-     
     
+     
     MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,10);
       
     MPUSBRead(myInPipe,receive_buf,110,&RecvLength,10);
     
+    
     itamano_trama = int(receive_buf [4]);
 
-
-    for (icont=5;icont<(itamano_trama+4);icont++){
-        receive_buf2[icont-5]=receive_buf[icont]; 
+    if (receive_buf[2]== 'D'){
+       strcpy(receive_buf_mult,"0000");
+       for (icont=5;icont<(itamano_trama+5);icont++){
+             receive_buf_mult[icont-5]=receive_buf[icont];
+         }
+         if (itamano_trama < 4){
+            receive_buf_mult[itamano_trama] = 0x00;
+         }
     }
+    else if (receive_buf[2]== 'A'){
+         //fl_message("dato es: %s", receive_buf_osc);
+         for (icont=5;icont<(itamano_trama+4);icont++){
+             receive_buf_osc[icont-5]=receive_buf[icont]; 
+         }
+    }
+    
+    //fl_message("dato es: %d", atoi(receive_buf_mult));
                
     MPUSBClose(myOutPipe);
     MPUSBClose(myInPipe);

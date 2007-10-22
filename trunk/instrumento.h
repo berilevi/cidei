@@ -101,9 +101,14 @@ class Instrumento
 	    char receive_buf[SIZE_DATA];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
-         * enviada desde el hardware.
+         * enviada desde el hardware por el osciloscopio.
 	    */
-	    char receive_buf2[SIZE_DATA];
+	    char receive_buf_osc[SIZE_DATA];
+	    /**
+		 * Buffer donde se almacena la información desencapsulada 
+         * enviada desde el hardware por el multimetro.
+	    */
+	    char receive_buf_mult[5];
 	    /**
 		 * Esta variable contiene un arreglo con los datos de las señales
          * digitalizados por el hardware del instrumento.
