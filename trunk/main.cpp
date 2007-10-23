@@ -7,32 +7,33 @@
 #include <string>
 #include <pthread.h>
 
-Multimetro *mult;
+
 Osciloscopio *osc;
-pthread_t thread;
 int hilo, a;
 
-void recount(void *);
+extern "C" void *runhilo(void *);
 
-
-
-/*void recount(void *){
-     mult->set_disp_mult("0.00");
-     Fl::repeat_timeout(0.5, recount); 
-}*/
+void *runhilo(void *pmult)
+{
+   Multimetro *multimetro = (Multimetro *)pmult;  
+   multimetro->activar(1);
+   multimetro->ogroup_mult->activate();
+   return (NULL);
+}
 
 
 void cb_onmult(Fl_Widget * pbot){
+
      Fl_Button* ponmult = (Fl_Button *)pbot;
      if (ponmult->value()== 1){
-        mult->activar(1);
-        //Fl::add_timeout(0.5, recount);
-        mult->ogroup_mult->activate(); 
+        //mult->activar(1);
+        //mult->ogroup_mult->activate();
      }
      if (ponmult->value()== 0){
-        mult->activar(0);
-        strcpy(mult->receive_buf_mult,"0.00");
-        mult->ogroup_mult->deactivate(); 
+        //mult->activar(0);
+        pthread_exit(NULL);
+        //strcpy(mult->receive_buf_mult,"0.00");
+        //mult->ogroup_mult->deactivate(); 
      }
 }
 
@@ -55,19 +56,39 @@ void cb_onosc(Fl_Widget * pbot){
 int main (int argc, char ** argv)
 {
   Fl_Double_Window *window;
+  
+  Multimetro *mult =0;
+  pthread_t thread;
  
   Fl_Light_Button *omult_on;
   Fl_Light_Button *oosc_on;
   
+  int t =0;
+  int rc;
+  
   window = new Fl_Double_Window (1024, 708);
   osc    = new Osciloscopio(8,8,380,304,"",150); 
-  
   mult   = new Multimetro();
+  
+  
   omult_on = new Fl_Light_Button(960,280,30,20,"ON");
   oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
   oosc_on->labelsize(9);
   omult_on->labelsize(9);
- 
+  
+rc=pthread_create(&thread, NULL, runhilo, (void *)mult);
+        if (rc){
+           fl_message("ERROR; return code from pthread_create() is %d\n", rc);
+           exit(-1);
+        }
+
+
+rc = pthread_join(thread, NULL);
+        if (rc) {
+           cout << "Failed to joint a thread" << "\n";
+           exit(EXIT_FAILURE);
+        }
+
   omult_on->callback(cb_onmult);
   oosc_on->callback(cb_onosc);
    
@@ -75,7 +96,5 @@ int main (int argc, char ** argv)
   window->show (argc, argv);
   
   return(Fl::run());
-  pthread_exit(NULL);
-  
-  
+  //pthread_exit(NULL);
 }
