@@ -185,10 +185,6 @@ class Osciloscopio : public Instrumento, public Fl_Widget
 	    */
         Canal *canal2;	
         /**
-		 * Hilos para la ejecución de los 2 canales del osciloscopio
-	    */
-        pthread_t thcanales[2];
-        /**
 		 * Boton para iniciar el instrumento osciloscopio
 	    */
         Fl_Light_Button *oosc_on;
@@ -242,16 +238,6 @@ class Osciloscopio : public Instrumento, public Fl_Widget
          * por punto los datos para graficar.
 		*/
 		void recorrer_datos();
-         /**
-         * Este método es el callback del hilo de ejecución del canal 
-         * del osciloscopio.  
-         */
-         static void *cb_hilo(void *);
-         /**
-         * Esta función acompaña la función cb_hilo
-         * para realizar los llamados de callback del hilo 
-         */
-         inline void cb_hilo_in();
          /**
          * Este método es el callback del timer para realizar la solicitud 
          * de datos del canal 1 del osciloscopio al hardware.  

@@ -128,7 +128,6 @@ void Instrumento::Transmision(){
          }
     }
     else if (receive_buf[2]== 'A'){
-         //fl_message("dato es: %s", receive_buf_osc);
          for (icont=5;icont<(itamano_trama+4);icont++){
              receive_buf_osc[icont-5]=receive_buf[icont]; 
          }

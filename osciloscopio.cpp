@@ -127,7 +127,6 @@ void Osciloscopio::cb_sel_ch(Fl_Widget* pboton, void *pany)
 * en el osciloscopio 
 */
 void Osciloscopio::cb_sel_ch_in(){
-     int ihilo_status;
      if (isec_ch==0){
      och2->value(0);
      Fl::remove_timeout(cb_timer_ch2, this);
@@ -391,21 +390,3 @@ void Osciloscopio::recorrer_datos()
 }
 
 
-/**
- * Este método es el callback del hilo de ejecución del canal 
- * del osciloscopio.  
-*/
-void *Osciloscopio::cb_hilo(void *pany)
-{
-     Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_hilo_in();
-     return NULL;
-}
-
-/**
- * Esta función acompaña la función cb_hilo
- * para realizar los llamados de callback del hilo 
-*/
-void Osciloscopio::cb_hilo_in(){
-    // Fl::add_timeout(0.5, cb_timer, this);
-}
