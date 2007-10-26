@@ -7,33 +7,33 @@
 #include <string>
 #include <pthread.h>
 
-
+Multimetro *mult =0;
 Osciloscopio *osc;
+pthread_t thread;
 int hilo, a;
 
-extern "C" void *runhilo(void *);
-
-void *runhilo(void *pmult)
+void *runhilo(void *threadid)
 {
-   Multimetro *multimetro = (Multimetro *)pmult;  
-   multimetro->activar(1);
-   multimetro->ogroup_mult->activate();
-   return (NULL);
+   int tid;
+   tid = (int)threadid;
+   mult   = new Multimetro();
+   mult->activar(1);
+   mult->ogroup_mult->activate();
+   pthread_exit(NULL);
 }
 
 
 void cb_onmult(Fl_Widget * pbot){
-
      Fl_Button* ponmult = (Fl_Button *)pbot;
      if (ponmult->value()== 1){
-        //mult->activar(1);
-        //mult->ogroup_mult->activate();
+        mult->activar(1);
+        mult->ogroup_mult->activate(); 
      }
      if (ponmult->value()== 0){
-        //mult->activar(0);
+        mult->activar(0);
         pthread_exit(NULL);
-        //strcpy(mult->receive_buf_mult,"0.00");
-        //mult->ogroup_mult->deactivate(); 
+        strcpy(mult->receive_buf_mult,"0.00");
+        mult->ogroup_mult->deactivate(); 
      }
 }
 
@@ -56,45 +56,42 @@ void cb_onosc(Fl_Widget * pbot){
 int main (int argc, char ** argv)
 {
   Fl_Double_Window *window;
-  
-  Multimetro *mult =0;
-  pthread_t thread;
  
   Fl_Light_Button *omult_on;
   Fl_Light_Button *oosc_on;
   
   int t =0;
   int rc;
+  int status;
   
   window = new Fl_Double_Window (1024, 708);
   osc    = new Osciloscopio(8,8,380,304,"",150); 
-  mult   = new Multimetro();
-  
+ 
   
   omult_on = new Fl_Light_Button(960,280,30,20,"ON");
   oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
   oosc_on->labelsize(9);
   omult_on->labelsize(9);
   
-rc=pthread_create(&thread, NULL, runhilo, (void *)mult);
+  rc=pthread_create(&thread, NULL, runhilo, (void *)t);
         if (rc){
            fl_message("ERROR; return code from pthread_create() is %d\n", rc);
            exit(-1);
         }
-
-
-rc = pthread_join(thread, NULL);
-        if (rc) {
-           cout << "Failed to joint a thread" << "\n";
-           exit(EXIT_FAILURE);
-        }
-
+ 
   omult_on->callback(cb_onmult);
   oosc_on->callback(cb_onosc);
    
   window->end ();
   window->show (argc, argv);
   
+  rc = pthread_join(thread, (void **)&status);
+      if (rc)
+      {
+         printf("ERROR; return code from pthread_join() is %d\n", rc);
+         exit(-1);
+      }
+  
   return(Fl::run());
-  //pthread_exit(NULL);
+  
 }
