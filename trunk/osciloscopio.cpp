@@ -287,7 +287,7 @@ void Osciloscopio::cb_timer_ch1_in(){
      canal1->Transmision();
      canal1->almacenar(canal1->itamano_trama,canal1->receive_buf_osc);
      recorrer_datos();
-     Fl::repeat_timeout(0.1, cb_timer_ch1, this);
+     Fl::repeat_timeout(0.2, cb_timer_ch1, this);
 }
 
 
@@ -310,7 +310,7 @@ void Osciloscopio::cb_timer_ch2_in(){
      canal2->Transmision();
      canal2->almacenar(canal2->itamano_trama,canal2->receive_buf_osc);
      recorrer_datos();
-     Fl::repeat_timeout(0.1, cb_timer_ch2, this);
+     Fl::repeat_timeout(0.2, cb_timer_ch2, this);
 }
 
 
@@ -336,7 +336,7 @@ void Osciloscopio::cb_timer_dual_ch_in(){
      canal2->Transmision();
      canal2->almacenar(canal2->itamano_trama,canal2->receive_buf_osc);
      recorrer_datos();
-     Fl::repeat_timeout(0.01, cb_timer_dual_ch, this);
+     Fl::repeat_timeout(0.2, cb_timer_dual_ch, this);
 }
 
 /**

@@ -84,7 +84,7 @@ if (isec_mult==0){
      ov_ac->value(0);
      ov_dc->value(1);
      instrument = volt_dc;
-     Fl::add_timeout(0.5, cb_timer_mult, this);
+     Fl::add_timeout(0.005, cb_timer_mult, this);
      }
      if (isec_mult==2){
      ov_dc->value(0);
@@ -156,5 +156,5 @@ void Multimetro::cb_timer_mult_in(){
      Encapsular('D','P',0x3F,'1','0');
      Transmision();
      set_disp_mult((receive_buf_mult));
-     Fl::repeat_timeout(0.5, cb_timer_mult, this);
+     Fl::repeat_timeout(0.3, cb_timer_mult, this);
 }
