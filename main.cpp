@@ -10,7 +10,6 @@
 Multimetro *mult =0;
 Osciloscopio *osc = 0;
 pthread_t thread, thread1;
-int hilo, a;
 int status, status2;
 
 
@@ -24,7 +23,6 @@ void *runhilo2(void *threadid)
 {
    osc    = new Osciloscopio(8,8,380,304,"",150);
 }
-
 
 
 void cb_onmult(Fl_Widget * pbot){
@@ -42,39 +40,18 @@ void cb_onmult(Fl_Widget * pbot){
 }
 
 
-void cb_onosc(Fl_Widget * pbot){
-     Fl_Button* ponosc = (Fl_Button *)pbot;
-     if (ponosc->value()== 1){
-        osc->activar(1);
-        osc->ogroup_osc->activate(); 
-        osc->ogroup_tdiv->activate();
-     }
-     if (ponosc->value()== 0){
-        osc->activar(0);
-        osc->ogroup_osc->deactivate(); 
-        osc->ogroup_tdiv->deactivate();
-     }
-}
-
-
 int main (int argc, char ** argv)
 {
   Fl_Double_Window *window;
- 
   Fl_Light_Button *omult_on;
-  Fl_Light_Button *oosc_on;
-  
+
   int t =0;
   int u =0;
   int rc, rc2;
   
-  
   window = new Fl_Double_Window (1024, 708);
  
-  
   omult_on = new Fl_Light_Button(960,280,30,20,"ON");
-  oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
-  oosc_on->labelsize(9);
   omult_on->labelsize(9);
   
   rc=pthread_create(&thread, NULL, runhilo, (void *)t);
@@ -90,7 +67,6 @@ int main (int argc, char ** argv)
   }      
  
   omult_on->callback(cb_onmult);
-  oosc_on->callback(cb_onosc);
    
 
   rc = pthread_join(thread, NULL);

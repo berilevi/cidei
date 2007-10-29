@@ -111,6 +111,46 @@ void Osciloscopio::lissajous(int idato1[], int idato2[])
      }
 }
 
+/**
+ * Este método es el callback del boton que enciende el osciloscopio 
+ * debe ir acompañada de una función inline para poder realizar los callbacks. 
+*/
+void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany)
+{
+     Osciloscopio* posc=(Osciloscopio*)pany;       //
+     posc->cb_osc_on_in();
+}
+
+/**
+ * Esta función acompaña la función  cb_osc_on 
+ * para realizar los llamados de callback del boton que enciende
+ * el osciloscopio 
+*/
+void Osciloscopio::cb_osc_on_in(){
+      if (oosc_on->value()== 1){
+        activar(1);
+        ogroup_osc->activate(); 
+        ogroup_tdiv->activate();
+        
+        och1->value(1);
+        canal1->activar(1);
+        canal1->ogroup_ch->activate();
+        Fl::add_timeout(0.5, cb_timer_ch1, this);
+     }
+     if (oosc_on->value()== 0){
+        Fl::remove_timeout(cb_timer_ch2, this);
+        Fl::remove_timeout(cb_timer_ch1, this);
+        activar(0);
+        ogroup_osc->deactivate(); 
+        ogroup_tdiv->deactivate();
+     }
+     
+     
+     
+     isec_ch++;
+}
+
+
 /*
  * Este método es el callback del boton selector de canales
  * en el osciloscopio
