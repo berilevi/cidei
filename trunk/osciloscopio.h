@@ -37,14 +37,17 @@ class Osciloscopio : public Instrumento, public Fl_Widget
             opantalla->tracetype(FL_SCOPE_TRACE_LOOP);
             opantalla->redrawmode(FL_SCOPE_REDRAW_FULL);
             opantalla->linetype(FL_SCOPE_LINE);
+            
+            oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
+            oosc_on->labelsize(9);
                         
             ogroup_osc = new Fl_Group (5,5,680,360,"");    // Agrupa los elementos del osciloscopio
             ogroup_osc->box(FL_ENGRAVED_FRAME); 
             ogroup_osc->deactivate();
             canal1 = new Canal(400,9,130,230,"",100); 
             canal2 = new Canal(545,9,130,230,"",250);
-            oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
-            oosc_on->labelsize(9);
+            //oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
+            //oosc_on->labelsize(9);
             osel_ch = new Fl_Repeat_Button(110,335,40,18,"Canal");
             osel_ch->labelsize(10);
             och1 = new Fl_Light_Button(160,340,10,10,"CH1");
@@ -127,6 +130,7 @@ class Osciloscopio : public Instrumento, public Fl_Widget
             osel_trigger->callback(cb_sel_trigger, this);
             otiempo_div->callback(cb_tiempo_div, this);
             opos_y->callback(cb_pos_y, this);
+            oosc_on->callback(cb_osc_on, this);
         }
 		// class destructor
 		~Osciloscopio();
@@ -232,7 +236,7 @@ class Osciloscopio : public Instrumento, public Fl_Widget
 		*/
 		int idato_graf_ch2;
     	
-	private:
+	private:   
          /**
 		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
          * por punto los datos para graficar.
@@ -304,6 +308,17 @@ class Osciloscopio : public Instrumento, public Fl_Widget
 		 * fuente del trigger en el osciloscopio 
 	    */
 		inline void cb_sel_trigger_in();
+		/**
+		 * Este método es el callback del boton que enciende el osciloscopio 
+		 * debe ir acompañada de una función inline para poder realizar los callbacks. 
+		 */
+		static void cb_osc_on(Fl_Widget*, void *);
+		/**
+		 * Esta función acompaña la función  cb_osc_on 
+		 * para realizar los llamados de callback del boton que enciende
+		 * el osciloscopio 
+	    */
+		inline void cb_osc_on_in();
 		/**
 		 * Este método es el callback del boton selector de la escala de 
 		 * tiempo por división en el osciloscopio, debe ir acompañada de una 
