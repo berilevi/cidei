@@ -8,19 +8,23 @@
 #include <pthread.h>
 
 Multimetro *mult =0;
-Osciloscopio *osc;
-pthread_t thread;
+Osciloscopio *osc = 0;
+pthread_t thread, thread1;
 int hilo, a;
+int status, status2;
+
 
 void *runhilo(void *threadid)
 {
-   int tid;
-   tid = (int)threadid;
    mult   = new Multimetro();
-   mult->activar(1);
-   mult->ogroup_mult->activate();
-   pthread_exit(NULL);
 }
+
+
+void *runhilo2(void *threadid)
+{
+   osc    = new Osciloscopio(8,8,380,304,"",150);
+}
+
 
 
 void cb_onmult(Fl_Widget * pbot){
@@ -61,11 +65,11 @@ int main (int argc, char ** argv)
   Fl_Light_Button *oosc_on;
   
   int t =0;
-  int rc;
-  int status;
+  int u =0;
+  int rc, rc2;
+  
   
   window = new Fl_Double_Window (1024, 708);
-  osc    = new Osciloscopio(8,8,380,304,"",150); 
  
   
   omult_on = new Fl_Light_Button(960,280,30,20,"ON");
@@ -77,20 +81,36 @@ int main (int argc, char ** argv)
         if (rc){
            fl_message("ERROR; return code from pthread_create() is %d\n", rc);
            exit(-1);
-        }
+  }
+        
+  rc2=pthread_create(&thread1, NULL, runhilo2, (void *)u);
+        if (rc2){
+           fl_message("ERROR; return code from pthread_create() is %d\n", rc2);
+           exit(-1);
+  }      
  
   omult_on->callback(cb_onmult);
   oosc_on->callback(cb_onosc);
    
-  window->end ();
-  window->show (argc, argv);
-  
-  rc = pthread_join(thread, (void **)&status);
+
+  rc = pthread_join(thread, NULL);
       if (rc)
       {
          printf("ERROR; return code from pthread_join() is %d\n", rc);
          exit(-1);
-      }
+      } 
+      
+ rc2 = pthread_join(thread1, NULL);
+      if (rc2)
+      {
+         printf("ERROR; return code from pthread_join() is %d\n", rc2);
+         exit(-1);
+      }    
+   
+  window->end ();
+  window->show (argc, argv);
+  
+  
   
   return(Fl::run());
   
