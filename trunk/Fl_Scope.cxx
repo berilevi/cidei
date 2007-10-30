@@ -328,7 +328,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l)
 
  box(FL_UP_BOX);
   
- BackColour(Fl_Color(256));
+ BackColour(Fl_Color(10));
  TraceColour(FL_WHITE);
  
  /* Create Array for Scope Data */

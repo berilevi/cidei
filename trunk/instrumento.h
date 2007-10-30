@@ -126,6 +126,11 @@ class Instrumento
 		*/
 		bool bestado;
 		/**
+		 * Esta variable representa si se ha digitalizado datos para el
+		 * instrumento.
+		*/
+		bool bmuestreado;
+		/**
 		 * Esta variable representa el numero de datos que se han
 		 * almacenado provenientes del hardware del instrumento.
 		*/

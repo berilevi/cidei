@@ -75,9 +75,10 @@ void Instrumento::almacenar(int itamano, char cdato [])
 void Instrumento::archivar()
 {
      FILE * log;
-     log = fopen(cnombre,"w");
+     log = fopen(cnombre,"w+");
      if (log != NULL) {
-             fwrite(idatos,1,inum_datos,log);
+             //fwrite(idatos,sizeof(int),inum_datos,log);
+             //fwrite(receive_buf_osc,sizeof(char),50,log);
      }
      else {
           fl_alert("No se pudo abrir el archivo");     

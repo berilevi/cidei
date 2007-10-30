@@ -144,9 +144,6 @@ void Osciloscopio::cb_osc_on_in(){
         ogroup_osc->deactivate(); 
         ogroup_tdiv->deactivate();
      }
-     
-     
-     
      isec_ch++;
 }
 
@@ -157,7 +154,7 @@ void Osciloscopio::cb_osc_on_in(){
  */
 void Osciloscopio::cb_sel_ch(Fl_Widget* pboton, void *pany)
 {
-     Osciloscopio* posc=(Osciloscopio*)pany;       //
+     Osciloscopio* posc=(Osciloscopio*)pany;       
      posc->cb_sel_ch_in();
 }
 
@@ -429,4 +426,24 @@ void Osciloscopio::recorrer_datos()
      }
 }
 
+
+/**
+ * Este método es el callback del boton que activa el almacenamiento en 
+ * archivos planos de texto de los datos capturados para el osciloscopio,  
+ * debe ir acompañada de una función inline para poder realizar los callbacks. 
+*/
+void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany)
+{
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cb_log_osc_in();
+}
+
+/**
+ * Esta función acompaña la función  cb_log_osc para realizar los 
+ * llamados de callback del boton que activa el almacenamiento en archivos
+ * planos de texto de los datos capturados para el osciloscopio. 
+*/
+void Osciloscopio::cb_log_osc_in(){
+     archivar();
+}
 

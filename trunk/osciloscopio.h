@@ -17,6 +17,7 @@
 #include <FL/Fl_Ask.H>
 #include <math.h>
 #include <pthread.h>
+#include <string.h>
 
 /**
  * La clase Osciloscopio representa las funcionalidades del instrumento
@@ -30,7 +31,8 @@ class Osciloscopio : public Instrumento, public Fl_Widget
 		Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento(), Fl_Widget(x,y,w,h,l)
         {   
                 
-            icolor = ncol;  
+            icolor = ncol;
+            strcpy(cnombre,"osc.txt");  
             
             opantalla = new Fl_Scope(8,8,380, 304,"");  // Instancia de scope
             opantalla ->TraceColour(FL_WHITE);
@@ -131,6 +133,7 @@ class Osciloscopio : public Instrumento, public Fl_Widget
             otiempo_div->callback(cb_tiempo_div, this);
             opos_y->callback(cb_pos_y, this);
             oosc_on->callback(cb_osc_on, this);
+            olog_osc->callback(cb_log_osc, this);
         }
 		// class destructor
 		~Osciloscopio();
@@ -319,6 +322,18 @@ class Osciloscopio : public Instrumento, public Fl_Widget
 		 * el osciloscopio 
 	    */
 		inline void cb_osc_on_in();
+		/**
+		 * Este método es el callback del boton que activa el almacenamiento en 
+         * archivos planos de texto de los datos capturados para el osciloscopio,  
+		 * debe ir acompañada de una función inline para poder realizar los callbacks. 
+		 */
+		static void cb_log_osc(Fl_Widget*, void *);
+		/**
+		 * Esta función acompaña la función  cb_log_osc para realizar los 
+         * llamados de callback del boton que activa el almacenamiento en archivos
+         * planos de texto de los datos capturados para el osciloscopio. 
+	    */
+		inline void cb_log_osc_in();
 		/**
 		 * Este método es el callback del boton selector de la escala de 
 		 * tiempo por división en el osciloscopio, debe ir acompañada de una 
