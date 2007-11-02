@@ -5,8 +5,8 @@ CPP  = g++.exe -D__DEBUG__
 CC   = gcc.exe -D__DEBUG__
 WINDRES = windres.exe
 RES  = LIV_private.res
-OBJ  = main.o instrumento.o osciloscopio.o canal.o multimetro.o Fl_Knob.o generador.o Fl_Scope.o Fl_7Seg.o $(RES)
-LINKOBJ  = main.o instrumento.o osciloscopio.o canal.o multimetro.o Fl_Knob.o generador.o Fl_Scope.o Fl_7Seg.o $(RES)
+OBJ  = main.o instrumento.o osciloscopio.o canal.o multimetro.o Fl_Knob.o generador.o Fl_Scope.o Fl_7Seg.o analizador.o $(RES)
+LINKOBJ  = main.o instrumento.o osciloscopio.o canal.o multimetro.o Fl_Knob.o generador.o Fl_Scope.o Fl_7Seg.o analizador.o $(RES)
 LIBS =  -L"C:/Dev-Cpp/lib" -mwindows -lfltk -lole32 -luuid -lcomctl32 -lwsock32 -lm  setupapi.lib libmpusb.a  libpthreadGC1.a  -g3 
 INCS =  -I"C:/Dev-Cpp/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
@@ -52,6 +52,9 @@ Fl_Scope.o: Fl_Scope.cxx
 
 Fl_7Seg.o: Fl_7Seg.cpp
 	$(CPP) -c Fl_7Seg.cpp -o Fl_7Seg.o $(CXXFLAGS)
+
+analizador.o: analizador.cpp
+	$(CPP) -c analizador.cpp -o analizador.o $(CXXFLAGS)
 
 LIV_private.res: LIV_private.rc 
 	$(WINDRES) -i LIV_private.rc --input-format=rc -o LIV_private.res -O coff 

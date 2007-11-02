@@ -7,7 +7,7 @@
 #include <FL/Fl_Widget.H>        // inheriting class's header file
 #include <FL/fl_draw.h>          // header file for drawing
 #include <FL/Fl_Group.H>         //          
-#include <Fl/fl_Knob.h>
+#include "fl_Knob.h"
 #include <FL/Fl_Value_Output.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Repeat_Button.H>
