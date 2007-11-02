@@ -8,8 +8,9 @@
 Analizador::Analizador()
 {
                 
-    Fl_Light_Button *omult_on;
+    Fl_Light_Button *amult_on;
     Fl_Repeat_Button *oSel_mult;
+    Fl_Knob *atiempo_div;
     
     //isec_mult=0;
     
@@ -19,87 +20,34 @@ Analizador::Analizador()
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->deactivate();
     
+    amult_on = new Fl_Light_Button(570,645,30,20,"ON");
+    amult_on->labelsize(9);
+    
     apantalla = new Fl_Scope(8,375,380, 290,"");  // Instancia de scope
     apantalla->TraceColour(FL_WHITE);
     apantalla->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla->redrawmode(FL_SCOPE_REDRAW_FULL);
     apantalla->linetype(FL_SCOPE_LINE);  
     
+    ogroup_ana_botones = new Fl_Group (450,395,85,90,"");    // Agrupa los elementos del osciloscopio
+    ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
+    ogroup_ana_botones->deactivate();
+    
+    atiempo_div = new Fl_Knob(455,400,70,70,"CANAL");
+    atiempo_div->color(147);
+    atiempo_div->type(8);
+    atiempo_div->labelsize(9);
+    atiempo_div->scaleticks(8);
+    atiempo_div->range(0,100);
+    
     ogroup_mult-> end();
      
-    omult_on->callback(cb_mult_on, this);
+    //amult_on->callback(cb_mult_on, this);
 }
 
 // class destructor
 Analizador::~Analizador()
 {
-	// insert your code here
-}
-
-/*
- * Este método es el callback del boton selector de instrumentos
- * en el multímetro
- */
-void Analizador::cb_sel_instrumento(Fl_Widget* pboton, void *any)
-{
-     Analizador* pmult=(Analizador*)any;
-     pmult->cb_sel_instrumento_in();
-}
-
-/**
-* Esta función acompaña la función  cb_sel_instrumento 
-* para realizar los llamados de callback del selector de instrumento
-* en el multimetro 
-*/
-void Analizador::cb_sel_instrumento_in(){
 
 }
 
-/*
- * Este método es el callback del boton selector de instrumentos
- * en el multímetro
- */
-void Analizador::cb_mult_on(Fl_Widget* pboton, void *any)
-{
-     Analizador* pmult=(Analizador*)any;
-     pmult->cb_mult_on_in();
-}
-
-/**
-* Esta función acompaña la función  cb_sel_instrumento 
-* para realizar los llamados de callback del selector de instrumento
-* en el multimetro 
-*/
-void Analizador::cb_mult_on_in(){
-     
-}
-
-/**
-* Este método coloca el valor de la medición en el display
-* del multímetro.
-*/
-void Analizador::set_disp_mult(char svalor [4 ]){
-     odisp_mult->value(svalor);      
-}
-
-/**
- * Este método es el callback del timer para realizar la solicitud 
- * de datos del canal 1 del osciloscopio al hardware.  
-*/
-void Analizador::cb_timer_mult(void *pany)
-{
-     Analizador* pmult=(Analizador*)pany;
-     pmult->cb_timer_mult_in();
-}
-
-/**
- * Esta función acompaña la función cb_timer_ch1
- * para realizar los llamados de callback del timer 
-*/
-void Analizador::cb_timer_mult_in(){
-
-     Encapsular('D','P',0x3F,'1','0');
-     Transmision();
-     set_disp_mult((receive_buf_mult));
-     Fl::repeat_timeout(0.3, cb_timer_mult, this);
-}

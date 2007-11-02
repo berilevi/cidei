@@ -11,6 +11,8 @@
 #include <FL/Fl_Repeat_Button.H>
 #include <FL/fl_ask.H>
 #include "Fl_Scope.h"
+#include "fl_Knob.h"
+#include <FL/Fl_Group.H>
 #include <iostream>
 #include <string>
 
@@ -58,9 +60,13 @@ class Analizador : public Instrumento
 		*/
 		void set_disp_mult(char [4]);
 		 /**
-		 * Agrupa los botones e indicadores del multimetro
+		 * Agrupa los botones e indicadores del analizador
 		 */
 	    Fl_Group *ogroup_mult;
+	    /**
+        * Agrupa las herramientas e indicadores del analizador
+        */
+        Fl_Group *ogroup_ana_botones;
 	    
 		// class constructor
 		Analizador();
