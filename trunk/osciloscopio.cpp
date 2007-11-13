@@ -320,7 +320,7 @@ void Osciloscopio::cb_timer_ch1(void *pany)
  * para realizar los llamados de callback del timer 
 */
 void Osciloscopio::cb_timer_ch1_in(){
-     canal1->Encapsular('A','P',0x3F,'1','0');
+     canal1->Encapsular('A','P','1','0');
      canal1->Transmision();
      canal1->almacenar(canal1->itamano_trama,canal1->receive_buf_osc);
      recorrer_datos();
@@ -343,7 +343,7 @@ void Osciloscopio::cb_timer_ch2(void *pany)
  * para realizar los llamados de callback del timer 
 */
 void Osciloscopio::cb_timer_ch2_in(){
-     canal2->Encapsular('A','P',0x3F,'1','0');
+     canal2->Encapsular('A','P','1','0');
      canal2->Transmision();
      canal2->almacenar(canal2->itamano_trama,canal2->receive_buf_osc);
      recorrer_datos();
@@ -366,10 +366,10 @@ void Osciloscopio::cb_timer_dual_ch(void *pany)
  * para realizar los llamados de callback del timer 
 */
 void Osciloscopio::cb_timer_dual_ch_in(){
-     canal1->Encapsular('A','P',0x3F,'1','0');
+     canal1->Encapsular('A','P','1','0');
      canal1->Transmision();
      canal1->almacenar(canal1->itamano_trama,canal1->receive_buf_osc);
-     canal2->Encapsular('A','P',0x3F,'1','0');
+     canal2->Encapsular('A','P','1','0');
      canal2->Transmision();
      canal2->almacenar(canal2->itamano_trama,canal2->receive_buf_osc);
      recorrer_datos();
