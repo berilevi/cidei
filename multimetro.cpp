@@ -133,7 +133,7 @@ void Multimetro::cb_mult_on_in(){
 * Este método coloca el valor de la medición en el display
 * del multímetro.
 */
-void Multimetro::set_disp_mult(char svalor [4 ]){
+void Multimetro::set_disp_mult(char svalor [4]){
      odisp_mult->value(svalor);      
 }
 
@@ -153,8 +153,8 @@ void Multimetro::cb_timer_mult(void *pany)
 */
 void Multimetro::cb_timer_mult_in(){
 
-     Encapsular('D','P',0x3F,'1','0');
+     Encapsular('D','P','1','0');
      Transmision();
-     set_disp_mult((receive_buf_mult));
+     set_disp_mult((buf_mult));
      Fl::repeat_timeout(0.3, cb_timer_mult, this);
 }
