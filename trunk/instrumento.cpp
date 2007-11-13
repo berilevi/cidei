@@ -13,11 +13,10 @@ Instrumento::Instrumento()
     strcpy(out_pipe, "\\MCHP_EP3");             // End Point de salida 
     strcpy(in_pipe, "\\MCHP_EP3");              // End Point de salida
     trama_control[0] = 0x01;                    // Valor de inicio de trama
-    trama_control[1] = 0x11;                    // Tipo de trama de control
-    trama_control[7] = 0x04;                    // Final de trama del protocolo
-    trama_control[8] = 0x00;                    // Fin de cadena que se va a transmitir
+    trama_control[5] = 0x04;                    // Final de trama del protocolo
+    trama_control[6] = 0x00;                    // Fin de cadena que se va a transmitir
     
-    strcpy(receive_buf_mult,"0000");
+    strcpy(buf_mult,"0000");
 }
 
 // class destructor
@@ -65,7 +64,7 @@ void Instrumento::almacenar(int itamano, char cdato [])
          idatos[ii+inum_datos] = int(cdato[ii]);
          //itiempo[ii+inum_datos]=ii+inum_datos;
       }   
-     inum_datos = inum_datos+(itamano-1);  
+      inum_datos = inum_datos+(itamano-1);  
 }
 
 /*
@@ -116,16 +115,17 @@ void Instrumento::Transmision(){
       
     MPUSBRead(myInPipe,receive_buf,110,&RecvLength,10);
     
+    Desencapsular(receive_buf);
     
     itamano_trama = int(receive_buf [4]);
 
     if (receive_buf[2]== 'D'){
-       strcpy(receive_buf_mult,"0000");
+      //strcpy(receive_buf_mult,"0000");
        for (icont=5;icont<(itamano_trama+5);icont++){
-             receive_buf_mult[icont-5]=receive_buf[icont];
+            // receive_buf_mult[icont-5]=receive_buf[icont];
          }
          if (itamano_trama < 4){
-            receive_buf_mult[itamano_trama] = 0x00;
+         //   receive_buf_mult[itamano_trama] = 0x00;
          }
     }
     else if (receive_buf[2]== 'A'){
@@ -152,15 +152,98 @@ void Instrumento::Transmision(){
  * La función Encapsular organiza la trama que se envía
  * al hardware a través de USB.
 */
-void Instrumento::Encapsular(char cnom, char coper, char cgetset, char clong, char cdato)
+void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato)
+{
+     trama_control[1] = cnom;
+     trama_control[2] = coper;
+     trama_control[3] = clong;
+     trama_control[4] = cdato;
+}
+
+/**
+ * La función Desencapsular organiza los datos enviados desde el hardware
+ * a los instrumentos de software a través de USB.
+*/
+void Instrumento::Desencapsular(char recibida [])
 {
      int icont;
-     trama_control[2] = cnom;
-     trama_control[3] = coper;
-     trama_control[4] = cgetset;
-     trama_control[5] = clong;
-    // for (icont= 6; icont<= strlen(cdato);icont++){
-     trama_control[6] = cdato;
-    // }
+     int itamano;
+     char sanalizador1 [8];
+     char sanalizador2 [5];
+     int imsb;
+     int ilsb;
+     itamano = int (recibida [3]);
+     switch (recibida [1]){
+            case 'A':
+                 switch (recibida [2]){
+                        case '1':
+                             for (icont = 4; icont < (itamano+4); icont++){
+                                 buf_osc_ch1[icont-4]=recibida[icont];
+                             }
+                        case '2':
+                             for (icont = 4; icont < (itamano+4); icont++){
+                                 buf_osc_ch1[(icont-4)+143]=recibida[icont];
+                             }
+                        case '3':
+                             for (icont = 4; icont < (itamano+4); icont++){
+                                 buf_osc_ch1[(icont-4)+286]=recibida[icont];
+                             }
+                        case '4':
+                             for (icont = 4; icont < (itamano+4); icont++){
+                                 buf_osc_ch1[(icont-4)+429]=recibida[icont];
+                             }                    
+                 }
+            case 'B':
+                 switch (recibida [2]){
+                        case '1':
+                             for (icont = 4; icont < (itamano+4); icont++){
+                                 buf_osc_ch2[icont-4]=recibida[icont];
+                             }
+                        case '2':
+                             for (icont = 4; icont < (itamano+4); icont++){
+                                 buf_osc_ch2[(icont-4)+143]=recibida[icont];
+                             }
+                        case '3':
+                             for (icont = 4; icont < (itamano+4); icont++){
+                                 buf_osc_ch2[(icont-4)+286]=recibida[icont];
+                             }
+                        case '4':
+                             for (icont = 4; icont < (itamano+4); icont++){
+                                 buf_osc_ch2[(icont-4)+429]=recibida[icont];
+                             }                    
+                 }
+            case 'C':
+                 imsb = int(recibida [4]);
+                 ilsb = int(recibida [5]);
+                 itoa (imsb, sanalizador1, 2);
+                 itoa (imsb, sanalizador2, 2);
+                 strcat (sanalizador1, sanalizador2);
+                 /* TODO (JPP#1#): revizar lo que hizo ricardo para el analizador */
+            case 'D':
+                 strcpy(buf_mult,"0000");
+                 for (icont=4;icont<(itamano+4);icont++){
+                     buf_mult[icont-4]=receive_buf[icont];
+                 }
+                 if (itamano < 4){
+                    buf_mult[itamano] = 0x00;
+                 }
+            case 'E':
+                 
+            case 'F':
+                 
+            case 'G':
+                 
+            case 'H':
+            
+            case 'I':
+            
+            case 'J':
+                 
+            case 'K':
+                 
+            case 'L':
+                 
+     ;}
 }
+
 
