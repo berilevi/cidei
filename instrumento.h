@@ -65,7 +65,12 @@ class Instrumento
 		 * La función Encapsular organiza la trama que se envía
 		 * al hardware a través de USB.
 		*/
-		void Encapsular(char, char, char, char, char);
+		void Encapsular(char, char, char, char);
+		/**
+		 * La función Desencapsular organiza los datos enviados desde el hardware
+		 * a los instrumentos de software a través de USB.
+		*/
+		void Desencapsular(char []);
 		/**
 		 * Almacena los identificadores de producto y vendedor
         */
@@ -103,12 +108,27 @@ class Instrumento
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio.
 	    */
-	    char receive_buf_osc[SIZE_DATA];
+	    char receive_buf_osc[572];
+	    /**
+		 * Buffer donde se almacena la información desencapsulada 
+         * enviada desde el hardware por el osciloscopio al canal 1.
+	    */
+	    char buf_osc_ch1[572];
+	    /**
+		 * Buffer donde se almacena la información desencapsulada 
+         * enviada desde el hardware por el osciloscopio al canal 2.
+	    */
+	    char buf_osc_ch2[572];
+	    /**
+		 * Buffer donde se almacena la información desencapsulada 
+         * enviada desde el hardware del analizador lógico.
+	    */
+	    char buf_analizador[8][8];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el multimetro.
 	    */
-	    char receive_buf_mult[5];
+	    char buf_mult[4];
 	    /**
 		 * Esta variable contiene un arreglo con los datos de las señales
          * digitalizados por el hardware del instrumento.
@@ -142,7 +162,6 @@ class Instrumento
 		int itamano_trama;
 	    
 	protected:
-		
 		/**
 		 * Esta variable representa el estado funcional del hardware del instrumento.
 		*/
@@ -155,7 +174,9 @@ class Instrumento
 		/**
 		 * Esta variable contiene el nombre del instrumento
 		*/
-		char cnombre [12];	
+		char cnombre [12];
+  
+		
 };
 
 #endif // INSTRUMENTO_H
