@@ -37,7 +37,7 @@ void cb_onmult(Fl_Widget * pbot){
      if (ponmult->value()== 0){
         mult->activar(0);
         pthread_exit(NULL);
-        strcpy(mult->receive_buf_mult,"0.00");
+        //strcpy(mult->receive_buf_mult,"0.00");
         mult->ogroup_mult->deactivate(); 
      }
 }
