@@ -14,10 +14,14 @@ Analizador *ana = 0;
 pthread_t thread, thread1, thread2;
 int status, status2, status3;
 
+
+
 void *runhilo(void *threadid)
 {
    mult = new Multimetro();
 }
+
+
 void *runhilo3(void *threadid)
 {
    ana = new Analizador();
@@ -37,7 +41,7 @@ void cb_onmult(Fl_Widget * pbot){
      if (ponmult->value()== 0){
         mult->activar(0);
         pthread_exit(NULL);
-        //strcpy(mult->receive_buf_mult,"0.00");
+        strcpy(mult->buf_mult,"0.00");
         mult->ogroup_mult->deactivate(); 
      }
 }
@@ -49,9 +53,11 @@ int main (int argc, char ** argv)
 
   int t =0;
   int u =0;
+  int y =0;
   int rc, rc2, rc3;
   
   window = new Fl_Double_Window (1024, 708);
+  
  
   omult_on = new Fl_Light_Button(960,280,30,20,"ON");
   omult_on->labelsize(9);
@@ -68,20 +74,20 @@ int main (int argc, char ** argv)
            exit(-1);
   }
   
-  rc3=pthread_create(&thread2, NULL, runhilo3, (void *)u);
+ /* rc3=pthread_create(&thread2, NULL, runhilo3, (void *)y);
         if (rc3){
            fl_message("ERROR; return code from pthread_create() is %d\n", rc3);
            exit(-1);
-  }       
+  }*/       
  
   omult_on->callback(cb_onmult);
    
-  rc = pthread_join(thread, NULL);
+ /* rc = pthread_join(thread, NULL);
       if (rc)
       {
          printf("ERROR; return code from pthread_join() is %d\n", rc);
          exit(-1);
-      } 
+      } */
       
   rc2 = pthread_join(thread1, NULL);
       if (rc2)
@@ -90,13 +96,13 @@ int main (int argc, char ** argv)
          exit(-1);
       }
       
-  rc3= pthread_join(thread2, NULL);
+/*  rc3= pthread_join(thread2, NULL);
       if (rc3)
       {
          printf("ERROR; return code from pthread_join() is %d\n", rc3);
          exit(-1);
       }      
-   
+  */ 
   window->end ();
   window->show (argc, argv);
   

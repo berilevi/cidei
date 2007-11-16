@@ -24,117 +24,12 @@
  * oscilscopio.
  * Esta clase hereda tambien de la clase Fl_Widget para poder realizar gráficas. 
 */
-class Osciloscopio : public Instrumento, public Fl_Widget
+
+class Osciloscopio : public Instrumento
 {
 	public:
 		// class constructor
-		Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento(), Fl_Widget(x,y,w,h,l)
-        {   
-                
-            icolor = ncol;
-            strcpy(cnombre,"osc.txt");  
-            
-            opantalla = new Fl_Scope(8,8,380, 304,"");  // Instancia de scope
-            opantalla ->TraceColour(FL_WHITE);
-            opantalla->tracetype(FL_SCOPE_TRACE_LOOP);
-            opantalla->redrawmode(FL_SCOPE_REDRAW_FULL);
-            opantalla->linetype(FL_SCOPE_LINE);
-            
-            oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
-            oosc_on->labelsize(9);
-                        
-            ogroup_osc = new Fl_Group (5,5,680,360,"");    // Agrupa los elementos del osciloscopio
-            ogroup_osc->box(FL_ENGRAVED_FRAME); 
-            ogroup_osc->deactivate();
-            canal1 = new Canal(400,9,130,230,"",100); 
-            canal2 = new Canal(545,9,130,230,"",250);
-            //oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
-            //oosc_on->labelsize(9);
-            osel_ch = new Fl_Repeat_Button(110,335,40,18,"Canal");
-            osel_ch->labelsize(10);
-            och1 = new Fl_Light_Button(160,340,10,10,"CH1");
-            och1->labelsize(10);
-            och1->box(FL_NO_BOX);
-            och1->align(FL_ALIGN_TOP);
-            och2 = new Fl_Light_Button(185,340,10,10,"CH2");
-            och2->labelsize(10);
-            och2->box(FL_NO_BOX);
-            och2->align(FL_ALIGN_TOP);
-            odual_menu = new Fl_Repeat_Button(230,335,40,18,"Dual");
-            odual_menu->labelsize(10);
-            odual_menu->deactivate();
-            osuma = new Fl_Light_Button(290,340,10,10,"Suma");
-            osuma->labelsize(10);
-            osuma->box(FL_NO_BOX);
-            osuma->align(FL_ALIGN_TOP);
-            oresta = new Fl_Light_Button(325,340,10,10,"Resta");
-            oresta->labelsize(10);
-            oresta->box(FL_NO_BOX);
-            oresta->align(FL_ALIGN_TOP);
-            ox_y = new Fl_Light_Button(355,340,10,10,"X_Y");
-            ox_y->labelsize(10);
-            ox_y->box(FL_NO_BOX);
-            ox_y->align(FL_ALIGN_TOP);
-            olog_osc  = new Fl_Button (15,320,40,18,"Log");
-            olog_osc->labelsize(10);
-            ohelp_osc  = new Fl_Button (15,342,40,18,"Help");
-            ohelp_osc->labelsize(10);
-            ogroup_osc->end();  
-            
-            ogroup_tdiv = new Fl_Group (400,243,240,115,"");    //Agrupa los controles de tiempo por división
-            ogroup_tdiv->box(FL_ENGRAVED_FRAME);
-            ogroup_tdiv->deactivate();
-            otiempo_div = new Fl_Knob (405,250,70,70,"T_DIV");
-            otiempo_div->color(147);
-            otiempo_div->type(8);
-            otiempo_div->labelsize(9);
-            otiempo_div->scaleticks(17);
-            otiempo_div->range(0,17);
-            omenu_t_div = new Fl_Choice(415,335,50,20,"");
-            omenu_t_div->add("0.5 s");
-            omenu_t_div->add("0.2 s");
-            omenu_t_div->add("0.1 s");
-            omenu_t_div->add("50 m");
-            omenu_t_div->add("20 m");
-            omenu_t_div->add("10 m");
-            omenu_t_div->add("5 m");
-            omenu_t_div->add("2 m");
-            omenu_t_div->add("1 m");
-            omenu_t_div->add("0.5 m");
-            omenu_t_div->add("0.2 m");
-            omenu_t_div->add("0.1 m");
-            omenu_t_div->add("50 u");
-            omenu_t_div->add("20 u");
-            omenu_t_div->add("10 u");
-            omenu_t_div->add("5 u");
-            omenu_t_div->add("2 u");
-            omenu_t_div->add("1 u");            
-            opos_y = new Fl_Knob (495,255,50,50,"X-Pos");
-            opos_y->color(180);
-            opos_y->scaleticks(0);
-            opos_y->cursor(40);
-            opos_y->range(0,10);
-            ov_posx = new Fl_Value_Output(500,335,50,20,"");
-            osel_trigger = new Fl_Repeat_Button(580,310,40,18,"Trigger");  
-            osel_trigger->labelsize(10);
-            otrigger_ch1 = new Fl_Light_Button(580,275,10,10,"Ch1");
-            otrigger_ch1->labelsize(10);
-            otrigger_ch1->box(FL_NO_BOX);
-            otrigger_ch1->align(FL_ALIGN_RIGHT);
-            otrigger_ch2 = new Fl_Light_Button(580,295,10,10,"Ch2");
-            otrigger_ch2->labelsize(10);
-            otrigger_ch2->box(FL_NO_BOX);
-            otrigger_ch2->align(FL_ALIGN_RIGHT);
-            ogroup_tdiv->end();
-                        
-            osel_ch->callback(cb_sel_ch, this);
-            odual_menu->callback(cb_dual_menu, this);    
-            osel_trigger->callback(cb_sel_trigger, this);
-            otiempo_div->callback(cb_tiempo_div, this);
-            opos_y->callback(cb_pos_y, this);
-            oosc_on->callback(cb_osc_on, this);
-            olog_osc->callback(cb_log_osc, this);
-        }
+		Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
 		// class destructor
 		~Osciloscopio();
 		void Setbsuma(bool bx); // sets the value of bsuma
@@ -147,7 +42,7 @@ class Osciloscopio : public Instrumento, public Fl_Widget
 		 * Método para realizar la gráfica de la pantalla y la 
 		 * cuadricula del osciloscopio
 		 */
-		void draw();
+	//	void draw();
 		/**
 		 * Método para sumar las señales adquiridas por los 2 canales
 		 * del instrumento.
