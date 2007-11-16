@@ -5,8 +5,8 @@ UnitCount=20
 Type=0
 Ver=1
 ObjFiles=
-Includes=
-Libs=
+Includes=C:\Dev-Cpp\pthread\include
+Libs=C:\Dev-Cpp\lib
 PrivateResource=LIV_private.rc
 ResourceIncludes=
 MakeIncludes=
@@ -241,6 +241,16 @@ BuildCmd=
 FileName=analizador.h
 CompileCpp=1
 Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit22]
+FileName=SevenSegment.h
+CompileCpp=1
+Folder=LIV
 Compile=1
 Link=1
 Priority=1000

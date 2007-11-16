@@ -117,24 +117,6 @@ void Instrumento::Transmision(){
     
     Desencapsular(receive_buf);
     
-    itamano_trama = int(receive_buf [4]);
-
-    if (receive_buf[2]== 'D'){
-      //strcpy(receive_buf_mult,"0000");
-       for (icont=5;icont<(itamano_trama+5);icont++){
-            // receive_buf_mult[icont-5]=receive_buf[icont];
-         }
-         if (itamano_trama < 4){
-         //   receive_buf_mult[itamano_trama] = 0x00;
-         }
-    }
-    else if (receive_buf[2]== 'A'){
-         for (icont=5;icont<(itamano_trama+4);icont++){
-             receive_buf_osc[icont-5]=receive_buf[icont]; 
-         }
-    }
-    
-    //fl_message("dato es: %d", atoi(receive_buf_mult));
                
     MPUSBClose(myOutPipe);
     MPUSBClose(myInPipe);
