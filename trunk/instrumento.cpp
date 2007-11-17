@@ -195,11 +195,6 @@ void Instrumento::Desencapsular(char recibida [])
                              }                    
                  }
             case 'C':
-                 imsb = int(recibida [4]);
-                 ilsb = int(recibida [5]);
-                 itoa (imsb, sanalizador1, 2);
-                 itoa (imsb, sanalizador2, 2);
-                 strcat (sanalizador1, sanalizador2);
                  /* TODO (JPP#1#): revizar lo que hizo ricardo para el analizador */
             case 'D':
                  strcpy(buf_mult,"0000");
@@ -210,13 +205,37 @@ void Instrumento::Desencapsular(char recibida [])
                     buf_mult[itamano] = 0x00;
                  }
             case 'E':
-                 
+                 strcpy(buf_mult,"0000");
+                 for (icont=4;icont<(itamano+4);icont++){
+                     buf_mult[icont-4]=receive_buf[icont];
+                 }
+                 if (itamano < 4){
+                    buf_mult[itamano] = 0x00;
+                 }
             case 'F':
-                 
+                 strcpy(buf_mult,"0000");
+                 for (icont=4;icont<(itamano+4);icont++){
+                     buf_mult[icont-4]=receive_buf[icont];
+                 }
+                 if (itamano < 4){
+                    buf_mult[itamano] = 0x00;
+                 }
             case 'G':
-                 
+                 strcpy(buf_mult,"0000");
+                 for (icont=4;icont<(itamano+4);icont++){
+                     buf_mult[icont-4]=receive_buf[icont];
+                 }
+                 if (itamano < 4){
+                    buf_mult[itamano] = 0x00;
+                 }
             case 'H':
-            
+                 strcpy(buf_mult,"0000");
+                 for (icont=4;icont<(itamano+4);icont++){
+                     buf_mult[icont-4]=receive_buf[icont];
+                 }
+                 if (itamano < 4){
+                    buf_mult[itamano] = 0x00;
+                 }
             case 'I':
             
             case 'J':
