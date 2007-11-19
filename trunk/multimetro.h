@@ -5,12 +5,13 @@
 
 #include "instrumento.h" // inheriting class's header file
 #include "Fl_7Seg.H"     // inheriting class's header file
-//#include "SevenSegment.h"
 #include <FL/Fl.H>
+#include <FL/fl_draw.h>
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
 #include <FL/fl_ask.H>
+#include <FL/Fl_Text_Display.H>
 #include <iostream>
 #include <string>
 
@@ -57,7 +58,6 @@ class Multimetro : public Instrumento
 		 * Agrupa los botones e indicadores del multimetro
 		 */
 	    Fl_Group *ogroup_mult;
-	    
 		// class constructor
 		Multimetro();
 		// class destructor
@@ -104,35 +104,39 @@ private:
 		 */
 		inst instrument;
 		/**
-		 * Este indicador luminoso indica que está activado el voltímetro
-		 * de corriente alterna
+		 * Indicador luminoso de activación del medidor
+		 * de voltaje en ac.
 		 */
 		Fl_Light_Button *ov_ac; 
 		/**
-		 * Este indicador luminoso indica que está activado el voltímetro
-		 * de corriente continua
+		 * Indicador luminoso de activación del medidor
+		 * de voltaje en dc.
 		 */
 	    Fl_Light_Button *ov_dc;
 	    /**
-		 * Este indicador luminoso indica que está activado el amperímetro
-		 * de corriente alterna
+		 * Indicador luminoso de activación del medidor
+		 * de corriente en ac.
 		 */
 	    Fl_Light_Button *oa_ac;
 	    /**
-		 * Este indicador luminoso indica que está activado el amperímetro
-		 * de corriente continua
+		 * Indicador luminoso de activación del medidor
+		 * de corriente en dc.
 		 */
 	    Fl_Light_Button *oa_dc;
 	    /**
-		 * Este indicador luminoso indica que está activado el ohmetro
-		 * 
+		 * Indicador luminoso de activación del medidor
+		 * de resistencia
 		 */
 	    Fl_Light_Button *oohmetro;
 	    /**
-		 * Este indicador luminoso indica que está activado el medidor
+		 * Indicador luminoso de activación del medidor
 		 * de continuidad
 		 */
 	    Fl_Light_Button *ocont;
+	    /**
+		 * Boton para encender el instrumento multimetro.
+		 */
+        Fl_Light_Button *omult_on;
 };
 
 #endif // MULTIMETRO_H

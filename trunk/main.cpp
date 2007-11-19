@@ -32,19 +32,6 @@ void *runhilo2(void *threadid)
    osc = new Osciloscopio(8,8,380,304,"",150);
 }
 
-void cb_onmult(Fl_Widget * pbot){
-     Fl_Button* ponmult = (Fl_Button *)pbot;
-     if (ponmult->value()== 1){
-        mult->activar(1);
-        mult->ogroup_mult->activate(); 
-     }
-     if (ponmult->value()== 0){
-        mult->activar(0);
-        pthread_exit(NULL);
-        strcpy(mult->buf_mult,"0.00");
-        mult->ogroup_mult->deactivate(); 
-     }
-}
 
 int main (int argc, char ** argv)
 {
@@ -80,14 +67,13 @@ int main (int argc, char ** argv)
            exit(-1);
   }*/       
  
-  omult_on->callback(cb_onmult);
    
- /* rc = pthread_join(thread, NULL);
+  rc = pthread_join(thread, NULL);
       if (rc)
       {
          printf("ERROR; return code from pthread_join() is %d\n", rc);
          exit(-1);
-      } */
+      } 
       
   rc2 = pthread_join(thread1, NULL);
       if (rc2)
