@@ -6,13 +6,16 @@
 #include <stdlib.h>
 #include <FL/Fl_Ask.H>
 
-#define SIZE_DATA 100
-
 #pragma hdrstop
 #include <stdio.h>
 #include <windows.h>
-#include "_mpusbapi.h"                  
+#include "_mpusbapi.h"         // Archivo de cabecera para el enlace con la DLL 
+                               // que provee Microchip para la comunicacion USB          
 #pragma argsused*/
+
+#define SIZE_DATA 150          // Maximo tamaño del vector recibido desde el hardawre 
+#define DATA_OSC  572          // Tamaño del vector de datos para las graficas del osciloscopio 
+
 
 /**
  * La clase Instrumento es la clase base para los cuatro instrumentos
@@ -22,9 +25,9 @@
 class Instrumento	
 {
 	public:
-		// class constructor
+		// Constructor de Clase
 		Instrumento();
-		// class destructor
+		// Destructor de clase
 		~Instrumento();
 		/**
 		 * La función archivar genera un archivo plano con los datos 
@@ -33,29 +36,29 @@ class Instrumento
 		void archivar();
 		/**
 		 * La función almacenar guarda los datos enviados por el hardware
-		 * del instrumento en el arreglo datos [].
+		 * del instrumento en el arreglo idatos [].
 		*/
 		void almacenar(int, char[]);
 		/**
 		 * La función Setnum_datos asigna el valor de la variable
-		 * num_datos
+		 * num_datos que contiene el numero de datos almacenados en el 
+         * arreglo idatos[]. 
 		*/
 		void Setnum_datos(int x); 
         /**
 		 * La función Setarchivo asigna el valor de la variable
-		 * archivo.
+		 * barchivo para habilitar el almacenamiento en archivos de texto.
 		*/		
-		void Setarchivo(bool x); // sets the value of archivo
+		void Setarchivo(bool x); 
 		/**
 		 * La función Sethardware asigna el valor de la variable
-		 * hardware.
+		 * bhardware que indica el estado del hardware.
 		*/
-        void Sethardware(bool x); // sets the value of hardware
+        void Sethardware(bool x); 
         /**
-		 * La función activar asigna el valor de la variable
-		 * estado.
+		 * La función activar asigna el valor de la variable estado.
 		*/
-		void activar(bool bx); // sets the value of estado
+		void activar(bool bx); 
 		/**
 		 * La función Transmision realiza la comunicación
 		 * con el hardware a través de USB.
@@ -130,16 +133,10 @@ class Instrumento
 	    */
 	    char buf_mult[4];
 	    /**
-		 * Esta variable contiene un arreglo con los datos de las señales
-         * digitalizados por el hardware del instrumento.
+		 * Arreglo con los datos de las señales digitalizados por el 
+         * hardware del instrumento.
 		*/
-		int idatos[380];
-		/**
-		 * Esta variable contiene un arreglo con los valores del tiempo
-		 * en que se han adquirido los datos de las señales digitalizados 
-         * por el hardware del instrumento.
-	    */
-		int itiempo[380];
+		int idatos[DATA_OSC];
 		/**
 		 * Esta variable representa el estado activo o inactivo del
 		 * instrumento.
@@ -156,8 +153,8 @@ class Instrumento
 		*/
 		int inum_datos;
 		/**
-		 * Esta variable representa el numero de datos que se han
-		 * recibido provenientes del hardware del instrumento sin cabecera.
+		 * Esta variable representa el numero de datos que se han	recibido 
+         * provenientes del hardware del instrumento excluyendo las cabeceras.
 		*/
 		int itamano_trama;
 	    
@@ -172,7 +169,8 @@ class Instrumento
 		*/
 		bool barchivo;
 		/**
-		 * Esta variable contiene el nombre del instrumento
+		 * Esta variable contiene el nombre del archivo de texto donde se 
+         * almacenan los datos del instrumento.
 		*/
 		char cnombre [12];
   

@@ -172,15 +172,6 @@ void Osciloscopio::Setbdual(bool bx)
 
 
 /*
- * Método para realizar la gráfica de la pantalla y la 
- * cuadricula del osciloscopio
- */
-/*void Osciloscopio::draw()
-{
-
-}*/
-
-/*
  * Método para sumar las señales adquiridas por los 2 canales
  * del instrumento.
  */
@@ -189,7 +180,6 @@ void Osciloscopio::sumar(int idato1[], int idato2[])
      int icont1;
      for (icont1=0; icont1 < inum_datos; icont1++){
          idatos[icont1] = idato1[icont1]+idato2[icont1]; // Suma de las dos señales para el eje y
-         itiempo[icont1] = icont1;                       //Llenar el vector con valores para el eje x
      }
 }
 
@@ -202,7 +192,6 @@ void Osciloscopio::restar(int idato1[], int idato2[])
      int icont1;
      for (icont1=0; icont1 < inum_datos; icont1++){
          idatos[icont1] = idato1[icont1] - idato2[icont1];    //Diferencia de las dos señales para el eje y
-         itiempo[icont1] = icont1;                            //Llenar el vector con valores para el eje x
      }
 }
 
@@ -215,7 +204,6 @@ void Osciloscopio::lissajous(int idato1[], int idato2[])
      int icont1;
      for (icont1=0; icont1 < inum_datos; icont1++){
          idatos[icont1] = idato1[icont1];                     //Datos del canal 1 para el eje y
-         itiempo[icont1] = idato2[icont1];                    //Datos del canal 2 para el eje x 
      }
 }
 
@@ -430,7 +418,7 @@ void Osciloscopio::cb_timer_ch1(void *pany)
 void Osciloscopio::cb_timer_ch1_in(){
      canal1->Encapsular('A','P','1','0');
      canal1->Transmision();
-     canal1->almacenar(canal1->itamano_trama,canal1->receive_buf_osc);
+     canal1->almacenar(canal1->itamano_trama,canal1->buf_osc_ch1);
      recorrer_datos();
      Fl::repeat_timeout(0.2, cb_timer_ch1, this);
 }
@@ -453,7 +441,7 @@ void Osciloscopio::cb_timer_ch2(void *pany)
 void Osciloscopio::cb_timer_ch2_in(){
      canal2->Encapsular('A','P','1','0');
      canal2->Transmision();
-     canal2->almacenar(canal2->itamano_trama,canal2->receive_buf_osc);
+     canal2->almacenar(canal2->itamano_trama,canal2->buf_osc_ch2);
      recorrer_datos();
      Fl::repeat_timeout(0.2, cb_timer_ch2, this);
 }

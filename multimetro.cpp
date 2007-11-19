@@ -5,49 +5,48 @@
 int isec_mult;
 
 // class constructor
-Multimetro::Multimetro()
-{
-                
-    Fl_Light_Button *omult_on;
+Multimetro::Multimetro(){
     Fl_Repeat_Button *oSel_mult;
     isec_mult=0;
     strcpy(cvalor,"0.000");
+    strcpy(cnombre,"mult.txt"); 
+    omult_on = new Fl_Light_Button(960,280,30,20,"ON");
+    omult_on->labelsize(9);
     ogroup_mult = new Fl_Group (695,5,300,300,"");
-     ogroup_mult->box(FL_ENGRAVED_FRAME);
-     ogroup_mult->deactivate();
-     odisp_mult  = new Fl_7Seg (710,15,260,105);
-     odisp_mult->box(FL_EMBOSSED_FRAME);
-     odisp_mult->segment_gap(2);
-     odisp_mult->value("1234");
-     omult_on = new Fl_Light_Button(960,280,30,20,"ON");
-     omult_on->labelsize(9);
-     oSel_mult = new Fl_Repeat_Button(768,230,150,25,"Selección de Instrumento");
-     oSel_mult->labelsize(12);
-     ov_ac = new Fl_Light_Button(745,160,10,10,"V_ac");
-     ov_ac->labelsize(12);
-     ov_ac->box(FL_NO_BOX);
-     ov_ac->align(FL_ALIGN_RIGHT);
-     ov_dc = new Fl_Light_Button(825,160,10,10,"V_dc");
-     ov_dc->labelsize(12);
-     ov_dc->box(FL_NO_BOX);
-     ov_dc->align(FL_ALIGN_RIGHT);
-     oa_ac = new Fl_Light_Button(905,160,10,10,"A_ac");
-     oa_ac->labelsize(12);
-     oa_ac->box(FL_NO_BOX);
-     oa_ac->align(FL_ALIGN_RIGHT);
-     oa_dc = new Fl_Light_Button(745,200,10,10,"A_dc");
-     oa_dc->labelsize(12);
-     oa_dc->box(FL_NO_BOX);
-     oa_dc->align(FL_ALIGN_RIGHT);
-     oohmetro = new Fl_Light_Button(825,200,10,10,"R");
-     oohmetro->labelsize(12);
-     oohmetro->box(FL_NO_BOX);
-     oohmetro->align(FL_ALIGN_RIGHT);
-     ocont = new Fl_Light_Button(905,200,10,10,"Cont");
-     ocont->labelsize(12);
-     ocont->box(FL_NO_BOX);
-     ocont->align(FL_ALIGN_RIGHT);      
-     ogroup_mult-> end();
+    ogroup_mult->box(FL_ENGRAVED_FRAME);
+    ogroup_mult->deactivate();
+    odisp_mult  = new Fl_7Seg (710,15,230,105);
+    odisp_mult->box(FL_EMBOSSED_FRAME);
+    odisp_mult->segment_gap(2);
+    odisp_mult->value("1234");
+    
+    oSel_mult = new Fl_Repeat_Button(768,230,150,25,"Selección de Instrumento");
+    oSel_mult->labelsize(12);
+    ov_ac = new Fl_Light_Button(745,160,10,10,"V_ac");
+    ov_ac->labelsize(12);
+    ov_ac->box(FL_NO_BOX);
+    ov_ac->align(FL_ALIGN_RIGHT);
+    ov_dc = new Fl_Light_Button(825,160,10,10,"V_dc");
+    ov_dc->labelsize(12);
+    ov_dc->box(FL_NO_BOX);
+    ov_dc->align(FL_ALIGN_RIGHT);
+    oa_ac = new Fl_Light_Button(905,160,10,10,"A_ac");
+    oa_ac->labelsize(12);
+    oa_ac->box(FL_NO_BOX);
+    oa_ac->align(FL_ALIGN_RIGHT);
+    oa_dc = new Fl_Light_Button(745,200,10,10,"A_dc");
+    oa_dc->labelsize(12);
+    oa_dc->box(FL_NO_BOX);
+    oa_dc->align(FL_ALIGN_RIGHT);
+    oohmetro = new Fl_Light_Button(825,200,10,10,"R");
+    oohmetro->labelsize(12);
+    oohmetro->box(FL_NO_BOX);
+    oohmetro->align(FL_ALIGN_RIGHT);
+    ocont = new Fl_Light_Button(905,200,10,10,"Cont");
+    ocont->labelsize(12);
+    ocont->box(FL_NO_BOX);
+    ocont->align(FL_ALIGN_RIGHT);      
+    ogroup_mult-> end();
      
     oSel_mult->callback(cb_sel_instrumento, this);
     omult_on->callback(cb_mult_on, this);
@@ -76,7 +75,7 @@ void Multimetro::cb_sel_instrumento(Fl_Widget* pboton, void *any)
 */
 void Multimetro::cb_sel_instrumento_in(){
 
-if (isec_mult==0){
+     if (isec_mult==0){
      ocont->value(0);
      ov_ac->value(1);
      instrument = volt_ac;
@@ -85,9 +84,10 @@ if (isec_mult==0){
      ov_ac->value(0);
      ov_dc->value(1);
      instrument = volt_dc;
-     Fl::add_timeout(0.005, cb_timer_mult, this);
+     //Fl::add_timeout(0.005, cb_timer_mult, this);
      }
      if (isec_mult==2){
+     fl_alert("Verifique las puntas de prueba");
      ov_dc->value(0);
      oa_ac->value(1);
      instrument = amp_ac;
@@ -112,9 +112,8 @@ if (isec_mult==0){
 }
 
 /*
- * Este método es el callback del boton selector de instrumentos
- * en el multímetro
- */
+ * Este método es el callback del boton que activa el multimetro
+*/
 void Multimetro::cb_mult_on(Fl_Widget* pboton, void *any)
 {
      Multimetro* pmult=(Multimetro*)any;
@@ -122,12 +121,18 @@ void Multimetro::cb_mult_on(Fl_Widget* pboton, void *any)
 }
 
 /**
-* Esta función acompaña la función  cb_sel_instrumento 
-* para realizar los llamados de callback del selector de instrumento
-* en el multimetro 
+ * Esta función acompaña la función  cb_mult_on para activar el  
+ * multimetro
 */
 void Multimetro::cb_mult_on_in(){
-     
+     if (omult_on->value()== 1){
+        activar(1);
+        ogroup_mult->activate();
+     }
+     if (omult_on->value()== 0){
+        activar(0);
+        ogroup_mult->deactivate(); 
+     } 
 }
 
 /**
@@ -153,8 +158,21 @@ void Multimetro::cb_timer_mult(void *pany)
  * para realizar los llamados de callback del timer 
 */
 void Multimetro::cb_timer_mult_in(){
-
-     Encapsular('D','P','1','0');
+     switch (intrument) {
+            case volt_ac:
+                 
+            case volt_dc:
+            
+            case amp_ac:
+                 
+            case amp_dc:
+                 
+            case ohm:
+                 
+            case continuidad:
+            
+     }
+     Encapsular('E','P','1','0');
      Transmision();
      set_disp_mult((buf_mult));
      Fl::repeat_timeout(0.3, cb_timer_mult, this);

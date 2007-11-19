@@ -3,8 +3,7 @@
 #include "canal.h" // class's header file
 int isec_acople;
 
-Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
-        {
+Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento() {
              
              Fl_Knob *ovolt_div;
              Fl_Knob *opos_x;
