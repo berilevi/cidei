@@ -8,7 +8,6 @@ int isec_dual;            // Variable global para realizar la secuencia del menu
 int isec_trigger;         // Variable global para realizar la secuencia del menu dual 
 
 
-
 // class constructor
 Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento()
 {
@@ -122,13 +121,11 @@ Osciloscopio::~Osciloscopio()
 	// insert your code here
 }
 
-
 // sets the value of bsuma
 void Osciloscopio::Setbsuma(bool bx)
 {
 	bsuma = bx;
 }
-
 
 // sets the value of bx_y
 void Osciloscopio::Setbx_y(bool bx)
@@ -136,13 +133,11 @@ void Osciloscopio::Setbx_y(bool bx)
 	bx_y = bx;
 }
 
-
 // sets the value of ipos_x
 void Osciloscopio::Setipos_x(int ix)
 {
 	ipos_x = ix;
 }
-
 
 // sets the value of it_div
 void Osciloscopio::Setit_div(int ix)
@@ -150,13 +145,11 @@ void Osciloscopio::Setit_div(int ix)
 	it_div = ix;
 }
 
-
 // sets the value of ifrec_muestreo
 void Osciloscopio::Setifrec_muestreo(int ix)
 {
 	ifrec_muestreo = ix;
 }
-
 
 // sets the value of nnivel_trigger
 void Osciloscopio::Setinivel_trigger(int ix)
@@ -169,7 +162,6 @@ void Osciloscopio::Setbdual(bool bx)
 {
 	bdual = bx;
 }
-
 
 /*
  * Método para sumar las señales adquiridas por los 2 canales
@@ -242,7 +234,6 @@ void Osciloscopio::cb_osc_on_in(){
      }
      isec_ch++;
 }
-
 
 /*
  * Este método es el callback del boton selector de canales
@@ -423,7 +414,6 @@ void Osciloscopio::cb_timer_ch1_in(){
      Fl::repeat_timeout(0.2, cb_timer_ch1, this);
 }
 
-
 /**
  * Este método es el callback del timer para realizar la solicitud 
  * de datos del canal 2 del osciloscopio al hardware.  
@@ -445,7 +435,6 @@ void Osciloscopio::cb_timer_ch2_in(){
      recorrer_datos();
      Fl::repeat_timeout(0.2, cb_timer_ch2, this);
 }
-
 
 /**
  * Este método es el callback del timer para realizar la solicitud 

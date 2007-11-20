@@ -133,6 +133,16 @@ void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato)
      trama_control[4] = cdato;
 }
 
+/*
+ * La función GuardarBit guarda el bit como caracter en los
+ * respectivos bufferes correspondientes a los canales del analizador
+ * lógico.
+*/
+void Instrumento::GuardarBit(bool, char)
+{
+ 
+}
+
 /**
  * La función Desencapsular organiza los datos enviados desde el hardware
  * a los instrumentos de software a través de USB.
