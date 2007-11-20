@@ -68,7 +68,7 @@ class Instrumento
 		 * La función Encapsular organiza la trama que se envía
 		 * al hardware a través de USB.
 		*/
-		void GuardarBit(bool, char);
+		void GuardarBit(int canal[], int posicion, bool bit);
 		/**
 		 * La función GuardarBit guarda el bit como caracter en los
 		 * respectivos bufferes correspondientes a los canales del analizador
@@ -127,8 +127,8 @@ class Instrumento
 		 * Buffers donde se almacena la información en caracter de los
 		 * bits que se recibieron para el analizador logico.
 	    */
-	    char datos1[8], datos2[8], datos3[8], datos4[8], datos5[8],
-             datos6[8], datos7[8], datos8[8];
+	    int datos1[7], datos2[7], datos3[7], datos4[7], datos5[7],
+             datos6[7], datos7[7], datos8[7];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 2.
