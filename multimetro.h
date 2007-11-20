@@ -98,11 +98,17 @@ private:
          * para realizar los llamados de callback del timer 
          */
          inline void cb_timer_mult_in();
+         /**
+         * Envia la información al hardware para configurar el instrumento
+         * del multimetro
+         */
+         void config_instrumento(int);
 		/**
 		 * Esta varaible representa los instrumentos que contiene
 		 * el multimetro
 		 */
 		inst instrument;
+		
 		/**
 		 * Indicador luminoso de activación del medidor
 		 * de voltaje en ac.

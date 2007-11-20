@@ -74,38 +74,48 @@ void Multimetro::cb_sel_instrumento(Fl_Widget* pboton, void *any)
 * en el multimetro 
 */
 void Multimetro::cb_sel_instrumento_in(){
-
      if (isec_mult==0){
+     Fl::remove_timeout(cb_timer_mult, this);
      ocont->value(0);
      ov_ac->value(1);
      instrument = volt_ac;
+     config_instrumento(volt_ac);
      }
      if (isec_mult==1){
+     Fl::remove_timeout(cb_timer_mult, this);
      ov_ac->value(0);
      ov_dc->value(1);
      instrument = volt_dc;
-     //Fl::add_timeout(0.005, cb_timer_mult, this);
+     config_instrumento(volt_dc);
      }
      if (isec_mult==2){
+     Fl::remove_timeout(cb_timer_mult, this);
      fl_alert("Verifique las puntas de prueba");
      ov_dc->value(0);
      oa_ac->value(1);
      instrument = amp_ac;
+     config_instrumento(amp_ac);
      }
      if (isec_mult==3){
+     Fl::remove_timeout(cb_timer_mult, this);
      oa_ac->value(0);
      oa_dc->value(1);
      instrument = amp_dc;
+     config_instrumento(amp_dc);
      }
      if (isec_mult==4){
+     Fl::remove_timeout(cb_timer_mult, this);
      oa_dc->value(0);
      oohmetro->value(1);
      instrument = ohm;
+     config_instrumento(ohm);
      }
      if (isec_mult==5){
+     Fl::remove_timeout(cb_timer_mult, this);
      oohmetro->value(0);
      ocont->value(1);
      instrument = continuidad;
+     config_instrumento(ohm);
      isec_mult=-1;
      }
      isec_mult++;
@@ -158,22 +168,62 @@ void Multimetro::cb_timer_mult(void *pany)
  * para realizar los llamados de callback del timer 
 */
 void Multimetro::cb_timer_mult_in(){
-     switch (intrument) {
+     switch (instrument) {
             case volt_ac:
-                 
+                 Encapsular('K','p','1','2');
+                 Transmision();
+                 set_disp_mult((buf_mult));
             case volt_dc:
-            
+                 Encapsular('K','p','1','1');
+                 Transmision();
+                 set_disp_mult((buf_mult));
             case amp_ac:
-                 
+                 Encapsular('K','p','1','4');
+                 Transmision();
+                 set_disp_mult((buf_mult));
             case amp_dc:
-                 
+                 Encapsular('K','p','1','3');
+                 Transmision();
+                 set_disp_mult((buf_mult));
             case ohm:
-                 
-            case continuidad:
-            
-     }
-     Encapsular('E','P','1','0');
-     Transmision();
-     set_disp_mult((buf_mult));
-     Fl::repeat_timeout(0.3, cb_timer_mult, this);
+                 Encapsular('K','p','1','5');
+                 Transmision();
+                 set_disp_mult((buf_mult));
+     ;}
+     Fl::repeat_timeout(0.5, cb_timer_mult, this);
+}
+
+
+/**
+ * Envia la información al hardware para configurar el instrumento
+ * del multimetro
+*/
+void Multimetro::config_instrumento(int instrumento){
+     switch (instrumento) {
+            case volt_ac:
+                 Encapsular('K','q','1','2');
+                 Transmision();
+                 if (bhardware)
+                    //Fl::add_timeout(0.005, cb_timer_mult, this);
+            case volt_dc:
+                 Encapsular('K','q','1','1');
+                 Transmision();
+                 if (bhardware)
+                    //Fl::add_timeout(0.005, cb_timer_mult, this);
+            case amp_ac:
+                 Encapsular('K','q','1','4');
+                 Transmision();
+                 if (bhardware)
+                    //Fl::add_timeout(0.005, cb_timer_mult, this);
+            case amp_dc:
+                 Encapsular('K','q','1','3');
+                 Transmision();
+                 if (bhardware)
+                    //Fl::add_timeout(0.005, cb_timer_mult, this); 
+            case ohm:
+                 Encapsular('K','q','1','5');
+                 Transmision();
+                 if (bhardware)
+                    //Fl::add_timeout(0.005, cb_timer_mult, this); 
+    ;}
 }
