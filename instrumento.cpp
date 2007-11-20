@@ -136,7 +136,8 @@ void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato)
 /*
  * La función GuardarBit guarda el bit como caracter en los
  * respectivos bufferes correspondientes a los canales del analizador
- * lógico.
+ * lógico. Se debe almacenar en los diferentes buffers de datos para
+ * los canales declarados en instrumento.h
 */
 void Instrumento::GuardarBit(int canal[], int posicion, bool bit)
 {   
