@@ -227,7 +227,7 @@ void Osciloscopio::cb_osc_on_in(){
         activar(1);
         ogroup_osc->activate(); 
         ogroup_tdiv->activate();
-        
+      
         och1->value(1);
         canal1->activar(1);
         canal1->ogroup_ch->activate();

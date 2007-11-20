@@ -225,8 +225,14 @@ void Instrumento::Desencapsular(char recibida [])
                  }
             case 'I':                        //Generador de señales
             
-            case 'J':                        //Pruebas de conectividad de LIV
-                 
+            case 'J':                                    //Pruebas de conectividad de LIV
+                 if (recibida [2]== 0x06){               //ACK
+                    Sethardware(true);
+                 }
+                 else if (recibida [2] == 0x15){         //NACK
+                      fl_message("Error de Hardware");
+                      Sethardware(0);
+                 }
             case 'K':                        //Multimetro
                  
             case 'L':                        //Osciloscopio

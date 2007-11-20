@@ -140,6 +140,11 @@ class Osciloscopio : public Instrumento
          * por punto los datos para graficar.
 		*/
 		void recorrer_datos();
+		/**
+		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
+         * por punto los datos para graficar.
+		*/
+		void config_canal();
          /**
          * Este método es el callback del timer para realizar la solicitud 
          * de datos del canal 1 del osciloscopio al hardware.  
