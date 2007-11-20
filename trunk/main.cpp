@@ -12,15 +12,13 @@ Multimetro *mult =0;
 Osciloscopio *osc = 0;
 Analizador *ana = 0;
 pthread_t thread, thread1, thread2;
+
 int status, status2, status3;
-
-
 
 void *runhilo(void *threadid)
 {
    mult = new Multimetro();
 }
-
 
 void *runhilo3(void *threadid)
 {
@@ -31,7 +29,6 @@ void *runhilo2(void *threadid)
 {
    osc = new Osciloscopio(8,8,380,304,"",150);
 }
-
 
 int main (int argc, char ** argv)
 {
@@ -44,7 +41,7 @@ int main (int argc, char ** argv)
   int rc, rc2, rc3;
   
   window = new Fl_Double_Window (1024, 708);
-  
+  ana = new Analizador();
  
   omult_on = new Fl_Light_Button(960,280,30,20,"ON");
   omult_on->labelsize(9);

@@ -138,9 +138,14 @@ void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato)
  * respectivos bufferes correspondientes a los canales del analizador
  * lógico.
 */
-void Instrumento::GuardarBit(bool, char)
-{
- 
+void Instrumento::GuardarBit(int canal[], int posicion, bool bit)
+{   
+    if(bit == true) {
+        canal[posicion] = 1;
+    }
+    else {
+        canal[posicion] = 0;
+    }
 }
 
 /**
