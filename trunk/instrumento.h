@@ -68,6 +68,12 @@ class Instrumento
 		 * La función Encapsular organiza la trama que se envía
 		 * al hardware a través de USB.
 		*/
+		void GuardarBit(bool, char);
+		/**
+		 * La función GuardarBit guarda el bit como caracter en los
+		 * respectivos bufferes correspondientes a los canales del analizador
+		 * lógico.
+		**/
 		void Encapsular(char, char, char, char);
 		/**
 		 * La función Desencapsular organiza los datos enviados desde el hardware
@@ -117,6 +123,12 @@ class Instrumento
          * enviada desde el hardware por el osciloscopio al canal 1.
 	    */
 	    char buf_osc_ch1[572];
+        /**
+		 * Buffers donde se almacena la información en caracter de los
+		 * bits que se recibieron para el analizador logico.
+	    */
+	    char datos1[8], datos2[8], datos3[8], datos4[8], datos5[8],
+             datos6[8], datos7[8], datos8[8];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 2.
@@ -157,6 +169,20 @@ class Instrumento
          * provenientes del hardware del instrumento excluyendo las cabeceras.
 		*/
 		int itamano_trama;
+		/**
+		 * Esta estructura es para guardar los bits para los canales del analizador
+		 * logico.
+	    **/
+		struct CanalAnalizador {
+            int BitUno : 1;
+            int BitDos : 1;
+            int BitTres : 1;
+            int BitCuatro : 1;
+            int BitCinco : 1;
+            int BitSeis : 1;
+            int BitSiete : 1;
+            int BitOcho : 1;
+        }; /* falta finalizar */
 	    
 	protected:
 		/**
