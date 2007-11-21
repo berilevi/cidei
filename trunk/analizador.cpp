@@ -48,27 +48,19 @@ Analizador::~Analizador()
 
 void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany)
 {
-     //Analizador* pana=(Analizador*)pany;
-     //pana->cb_ana_on_in();
+     Analizador* pana=(Analizador*)pany;
+     pana->cb_ana_on_in();
 }
 
 void Analizador::cb_ana_on_in(){
-      if(oana_on->value()== 1){/*
+      if(oana_on->value()== 1){
         activar(1);
-        ogroup_osc->activate(); 
-        ogroup_tdiv->activate();
-      
-        och1->value(1);
-        canal1->activar(1);
-        canal1->ogroup_ch->activate();
-        Fl::add_timeout(0.5, cb_timer_ch1, this);*/
+        /*Fl::add_timeout(0.5, cb_timer_ch1, this);*/
      }
      if(oana_on->value()== 0){
         /*Fl::remove_timeout(cb_timer_ch2, this);
-        Fl::remove_timeout(cb_timer_ch1, this);
+        Fl::remove_timeout(cb_timer_ch1, this);*/
         activar(0);
-        ogroup_osc->deactivate(); 
-        ogroup_tdiv->deactivate();*/
      }
      //isec_ch++;
 }
