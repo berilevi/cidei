@@ -8,9 +8,6 @@ int isec_dual;            // Variable global para realizar la secuencia del menu
 int isec_trigger;         // Variable global para realizar la secuencia del menu dual 
 
 
-
-
-
 // class constructor
 Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento()
 {
