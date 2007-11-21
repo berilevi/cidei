@@ -182,7 +182,7 @@ class Instrumento
             int BitSeis : 1;
             int BitSiete : 1;
             int BitOcho : 1;
-        }; /* falta finalizar */
+        } Canal1, Canal2, Canal3, Canal4, Canal5, Canal6, Canal7, Canal8; 
 	    
 	protected:
 		/**
