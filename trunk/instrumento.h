@@ -119,26 +119,31 @@ class Instrumento
 	    */
 	    char receive_buf_osc[572];
 	    /**
+		 * Variable que indica si el hardware ya completo de tomar las muestras 
+         * de la señal en el canal 1 del osciloscopio.
+	    */
+	    bool ch1_muestreado;
+	    /**
+		 * Variable que indica si el hardware ya completo de tomar las muestras 
+         * de la señal en el canal 2 del osciloscopio.
+	    */
+	    bool ch2_muestreado;
+	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 1.
 	    */
 	    char buf_osc_ch1[572];
-        /**
-		 * Buffers donde se almacena la información en caracter de los
-		 * bits que se recibieron para el analizador logico.
-	    */
-	    int datos1[7], datos2[7], datos3[7], datos4[7], datos5[7],
-             datos6[7], datos7[7], datos8[7];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 2.
 	    */
 	    char buf_osc_ch2[572];
 	    /**
-		 * Buffer donde se almacena la información desencapsulada 
-         * enviada desde el hardware del analizador lógico.
+		 * Buffers donde se almacena la información en caracter de los
+		 * bits que se recibieron para el analizador logico.
 	    */
-	    char buf_analizador[8][8];
+	    int datos1[7], datos2[7], datos3[7], datos4[7], datos5[7],
+            datos6[7], datos7[7], datos8[7];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el multimetro.
