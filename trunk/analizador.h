@@ -91,28 +91,28 @@ class Analizador : public Instrumento
 		inline void cb_sel_instrumento_in();
 		/**
 		 * Este método es el callback del boton de encendido
-		 * del multímetro debe ir acompañada de una función inline para
+		 * del analizador debe ir acompañada de una función inline para
          * poder realizar los callbacks. 
 		 */
 		static void cb_ana_on(Fl_Widget*, void *);
 		/**
-		 * Esta función acompaña la función  cb_mult_on 
+		 * Esta función acompaña la función cb_ana_on 
 		 * para realizar los llamados de callback del boton de encendido
-		 * del multimetro 
+		 * del analizador 
 		 */
 		inline void cb_ana_on_in();
 		
 private:
         /**
          * Este método es el callback del timer para realizar la solicitud 
-         * de datos del multímetro al hardware.  
+         * de datos del analizador logico al hardware.  
          */   
-         static void cb_timer_mult(void *);
+         static void cb_timer_ana(void *);
          /**
-         * Esta función acompaña la función cb_timer_mult
+         * Esta función acompaña la función cb_timer_ana
          * para realizar los llamados de callback del timer 
          */
-         inline void cb_timer_mult_in();
+         inline void cb_timer_ana_in();
 		/**
 		 * Esta varaible representa los instrumentos que contiene
 		 * el multimetro
