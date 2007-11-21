@@ -27,12 +27,12 @@ Analizador::Analizador()
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
     
-    atiempo_div = new Fl_Knob(455,400,70,70,"CANAL");
+    atiempo_div = new Fl_Knob(455,400,70,70,"TIMER (MS)");
     av_posc = new Fl_Value_Output(467,485,50,20,""); /* textbox para la posicion del canal */
     atiempo_div->color(147);
     atiempo_div->type(8);
     atiempo_div->labelsize(9);
-    atiempo_div->scaleticks(8);
+    atiempo_div->scaleticks(10);
     atiempo_div->range(0,100);
     
     ogroup_ana->end();
@@ -59,14 +59,33 @@ void Analizador::cb_ana_on_in(){
         ogroup_ana->activate();
         ogroup_ana_botones->activate();
         av_posc->value(1);
-        /*Fl::add_timeout(0.5, cb_timer_ch1, this);*/
+        Fl::add_timeout(0.5, cb_timer_ana, this);
      }
      if(oana_on->value()== 0){
-        /*Fl::remove_timeout(cb_timer_ch2, this);*/
+        Fl::remove_timeout(cb_timer_ana, this);
         activar(0);
         ogroup_ana->deactivate();
         av_posc->value(0);
-        ogroup_ana_botones->deactivate();
+        ogroup_ana_botones->deactivate(); 
      }
      //isec_ch++;
+}
+
+/**
+ * Este método es el callback del timer para realizar la solicitud 
+ * de datos del analizador al hardware.  
+*/
+void Analizador::cb_timer_ana(void *pany)
+{
+     Analizador* pana=(Analizador*)pany;
+     pana->cb_timer_ana_in();
+}
+
+/**
+ * Esta función acompaña la función cb_timer_ana
+ * para realizar los llamados de callback del timer 
+*/
+void Analizador::cb_timer_ana_in(){
+     Fl::repeat_timeout(0.2, cb_timer_ana, this);
+     fl_message("el timeout sirve");
 }
