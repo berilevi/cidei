@@ -10,13 +10,13 @@ Analizador::Analizador()
       
     strcpy(cvalor,"0.000");
     
-    ogroup_mult = new Fl_Group (5,370,600,300,"");
-    ogroup_mult->box(FL_ENGRAVED_FRAME);
-    ogroup_mult->deactivate();
-    
     oana_on = new Fl_Light_Button(570,645,30,20,"ON");
     oana_on->labelsize(9);
     
+    ogroup_mult = new Fl_Group (5,370,600,300,"");
+    ogroup_mult->box(FL_ENGRAVED_FRAME);
+    ogroup_mult->deactivate();  
+   
     apantalla = new Fl_Scope(8,375,380, 290,"");  // Instancia de scope
     apantalla->TraceColour(FL_WHITE);
     apantalla->tracetype(FL_SCOPE_TRACE_LOOP);
