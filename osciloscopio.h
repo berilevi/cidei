@@ -136,6 +136,168 @@ class Osciloscopio : public Instrumento
     	
 	private:   
          /**
+		 * Calback para la escala de 0.5s por división
+		*/
+		static void cb_tdiv05s(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv05s para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv05s_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 0.2s por división
+		*/
+		static void cb_tdiv02s(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv02s para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv02s_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 0.1s por división
+		*/
+		static void cb_tdiv01s(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv01s para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv01s_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 50 ms por división
+		*/
+		static void cb_tdiv50ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv50ms para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv50ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 20 ms por división
+		*/
+		static void cb_tdiv20ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv05s para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv20ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 10 ms por división
+		*/
+		static void cb_tdiv10ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv10ms para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv10ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 5 ms por división
+		*/
+		static void cb_tdiv5ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv5ms para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv5ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 2ms por división
+		*/
+		static void cb_tdiv2ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv2ms para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv2ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 1ms por división
+		*/
+		static void cb_tdiv1ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv1ms para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv1ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 0.5ms por división
+		*/
+		static void cb_tdiv05ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv05ms para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv05ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 0.2ms por división
+		*/
+		static void cb_tdiv02ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv02ms para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv02ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 0.1ms por división
+		*/
+		static void cb_tdiv01ms(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv01ms para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv01ms_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 50us por división
+		*/
+		static void cb_tdiv50us(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv50us para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv50us_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 20us por división
+		*/
+		static void cb_tdiv20us(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv20us para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv20us_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 10us por división
+		*/
+		static void cb_tdiv10us(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv10us para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv10us_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 5us por división
+		*/
+		static void cb_tdiv5us(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv5us para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv5us_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 2us por división
+		*/
+		static void cb_tdiv2us(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv2us para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv2us_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 1us por división
+		*/
+		static void cb_tdiv1us(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función cb_tdiv1us para realizar los 
+         * llamados de callback de las escalas de tiempo por division 
+         */
+		inline void cb_tdiv1us_in(Fl_Widget*);
+         /**
 		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
          * por punto los datos para graficar.
 		*/

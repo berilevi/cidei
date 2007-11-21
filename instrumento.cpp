@@ -16,6 +16,8 @@ Instrumento::Instrumento()
     trama_control[5] = 0x04;                    // Final de trama del protocolo
     trama_control[6] = 0x00;                    // Fin de cadena que se va a transmitir
     strcpy(buf_mult,"0000");                    // Inicializar el bufer del multimetro.
+    ch1_muestreado = 0;                         // Inicializar el estado del muestreo del canal 1 del osciloscopio
+    ch2_muestreado = 0;                         // Inicializar el estado del muestreo del canal 2 del osciloscopio
 }
 
 // Destructor de clase
@@ -252,7 +254,24 @@ void Instrumento::Desencapsular(char recibida [])
             case 'K':                        //Multimetro
                  
             case 'L':                        //Osciloscopio
-                 
+                 switch (recibida [2]){
+                        case 'p':            //Muestreo completo del osciloscopio
+                             if (recibida [4]== 1){        //Muestreo completo de señal en canal 1 del osciloscopio
+                                 ch1_muestreado = 1;         
+                             }
+                             else if (recibida [4] == 2){  //Muestreo completo de señal en canal 2 del osciloscopio
+                                  ch2_muestreado = 1;     
+                             }
+                             else if (recibida [4] == 3){  //Muestreo completo de señales en canal 1 y 2 del osciloscopio
+                                  ch1_muestreado = 1;
+                                  ch2_muestreado = 1;
+                             }
+                        case '1':            //Una sola muestra del canal 1
+                        
+                        case '2':            //Una sola muestra del canal 2
+                             
+                        case '3':            //Una muestra del canal 1 y una del canal 2
+                 ;}
      ;}
 }
 
