@@ -34,7 +34,7 @@ Analizador::Analizador()
     atiempo_div->scaleticks(8);
     atiempo_div->range(0,100);
     
-    ogroup_mult-> end();
+    ogroup_mult->end();
     oana_on->callback(cb_ana_on, this);
      
     //amult_on->callback(cb_mult_on, this);
@@ -58,8 +58,7 @@ void Analizador::cb_ana_on_in(){
         /*Fl::add_timeout(0.5, cb_timer_ch1, this);*/
      }
      if(oana_on->value()== 0){
-        /*Fl::remove_timeout(cb_timer_ch2, this);
-        Fl::remove_timeout(cb_timer_ch1, this);*/
+        /*Fl::remove_timeout(cb_timer_ch2, this);*/
         activar(0);
      }
      //isec_ch++;
