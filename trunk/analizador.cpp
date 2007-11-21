@@ -13,9 +13,9 @@ Analizador::Analizador()
     oana_on = new Fl_Light_Button(570,645,30,20,"ON");
     oana_on->labelsize(9);
     
-    ogroup_mult = new Fl_Group (5,370,600,300,"");
-    ogroup_mult->box(FL_ENGRAVED_FRAME);
-    ogroup_mult->deactivate();  
+    ogroup_ana = new Fl_Group(5,370,600,300,"");
+    ogroup_ana->box(FL_ENGRAVED_FRAME);
+    ogroup_ana->deactivate();  
    
     apantalla = new Fl_Scope(8,375,380, 290,"");  // Instancia de scope
     apantalla->TraceColour(FL_WHITE);
@@ -28,13 +28,14 @@ Analizador::Analizador()
     ogroup_ana_botones->deactivate();
     
     atiempo_div = new Fl_Knob(455,400,70,70,"CANAL");
+    av_posc = new Fl_Value_Output(467,485,50,20,""); /* textbox para la posicion del canal */
     atiempo_div->color(147);
     atiempo_div->type(8);
     atiempo_div->labelsize(9);
     atiempo_div->scaleticks(8);
     atiempo_div->range(0,100);
     
-    ogroup_mult->end();
+    ogroup_ana->end();
     oana_on->callback(cb_ana_on, this);
      
     //amult_on->callback(cb_mult_on, this);
@@ -55,11 +56,17 @@ void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany)
 void Analizador::cb_ana_on_in(){
       if(oana_on->value()== 1){
         activar(1);
+        ogroup_ana->activate();
+        ogroup_ana_botones->activate();
+        av_posc->value(1);
         /*Fl::add_timeout(0.5, cb_timer_ch1, this);*/
      }
      if(oana_on->value()== 0){
         /*Fl::remove_timeout(cb_timer_ch2, this);*/
         activar(0);
+        ogroup_ana->deactivate();
+        av_posc->value(0);
+        ogroup_ana_botones->deactivate();
      }
      //isec_ch++;
 }

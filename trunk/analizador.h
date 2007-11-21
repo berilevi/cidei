@@ -10,6 +10,7 @@
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
 #include <FL/fl_ask.H>
+#include <FL/Fl_Value_Output.H>
 #include "Fl_Scope.h"
 #include "fl_Knob.h"
 #include <FL/Fl_Group.H>
@@ -62,7 +63,7 @@ class Analizador : public Instrumento
         /**
 		 * Agrupa los botones e indicadores del analizador
 		 */
-	    Fl_Group *ogroup_mult;
+	    Fl_Group *ogroup_ana;
         /**
 		 * Boton para iniciar el instrumento analizador
 	    */
@@ -147,6 +148,10 @@ private:
 		 * de continuidad
 		 */
 	    Fl_Light_Button *ocont;
+        /**
+		 * Panel para visualizar la posición del canal
+	     */
+        Fl_Value_Output *av_posc;
 };
 
 #endif // ANALIZADOR_H
