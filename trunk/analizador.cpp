@@ -2,26 +2,20 @@
 
 #include "analizador.h" // class's header file
 
-//int isec_mult;
-
 // class constructor
 Analizador::Analizador()
-{
-                
-    Fl_Light_Button *amult_on;
+{             
     Fl_Repeat_Button *oSel_mult;
     Fl_Knob *atiempo_div;
-    
-    //isec_mult=0;
-    
+      
     strcpy(cvalor,"0.000");
     
     ogroup_mult = new Fl_Group (5,370,600,300,"");
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->deactivate();
     
-    amult_on = new Fl_Light_Button(570,645,30,20,"ON");
-    amult_on->labelsize(9);
+    oana_on = new Fl_Light_Button(570,645,30,20,"ON");
+    oana_on->labelsize(9);
     
     apantalla = new Fl_Scope(8,375,380, 290,"");  // Instancia de scope
     apantalla->TraceColour(FL_WHITE);
@@ -41,6 +35,7 @@ Analizador::Analizador()
     atiempo_div->range(0,100);
     
     ogroup_mult-> end();
+    oana_on->callback(cb_ana_on, this);
      
     //amult_on->callback(cb_mult_on, this);
 }
@@ -51,3 +46,29 @@ Analizador::~Analizador()
 
 }
 
+void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany)
+{
+     //Analizador* pana=(Analizador*)pany;
+     //pana->cb_ana_on_in();
+}
+
+void Analizador::cb_ana_on_in(){
+      if(oana_on->value()== 1){/*
+        activar(1);
+        ogroup_osc->activate(); 
+        ogroup_tdiv->activate();
+      
+        och1->value(1);
+        canal1->activar(1);
+        canal1->ogroup_ch->activate();
+        Fl::add_timeout(0.5, cb_timer_ch1, this);*/
+     }
+     if(oana_on->value()== 0){
+        /*Fl::remove_timeout(cb_timer_ch2, this);
+        Fl::remove_timeout(cb_timer_ch1, this);
+        activar(0);
+        ogroup_osc->deactivate(); 
+        ogroup_tdiv->deactivate();*/
+     }
+     //isec_ch++;
+}

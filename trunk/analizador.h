@@ -59,10 +59,14 @@ class Analizador : public Instrumento
 		 * del multímetro.
 		*/
 		void set_disp_mult(char [4]);
-		 /**
+        /**
 		 * Agrupa los botones e indicadores del analizador
 		 */
 	    Fl_Group *ogroup_mult;
+        /**
+		 * Boton para iniciar el instrumento analizador
+	    */
+        Fl_Light_Button *oana_on;
 	    /**
         * Agrupa las herramientas e indicadores del analizador
         */
@@ -89,13 +93,13 @@ class Analizador : public Instrumento
 		 * del multímetro debe ir acompañada de una función inline para
          * poder realizar los callbacks. 
 		 */
-		static void cb_mult_on(Fl_Widget*, void *);
+		static void cb_ana_on(Fl_Widget*, void *);
 		/**
 		 * Esta función acompaña la función  cb_mult_on 
 		 * para realizar los llamados de callback del boton de encendido
 		 * del multimetro 
 		 */
-		inline void cb_mult_on_in();
+		inline void cb_ana_on_in();
 		
 private:
         /**
