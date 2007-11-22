@@ -340,7 +340,6 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l)
 
  ScopeDataPos=0;
  
- NumDatos = 0;
  
  bdual = 0;
  

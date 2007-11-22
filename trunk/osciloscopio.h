@@ -300,7 +300,7 @@ class Osciloscopio : public Instrumento
 		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
          * por punto los datos para graficar.
 		*/
-		void recorrer_datos();
+		void recorrer_datos(int);
 		/**
 		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
          * por punto los datos para graficar.
