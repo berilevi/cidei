@@ -132,12 +132,12 @@ class Instrumento
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 1.
 	    */
-	    char buf_osc_ch1[572];
+	    char buf_osc_ch1[DATA_OSC];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 2.
 	    */
-	    char buf_osc_ch2[572];
+	    char buf_osc_ch2[DATA_OSC];
 	    /**
 		 * Buffers donde se almacena la información en caracter de los
 		 * bits que se recibieron para el analizador logico.

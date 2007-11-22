@@ -217,19 +217,23 @@ void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany)
 void Osciloscopio::cb_osc_on_in(){
       if (oosc_on->value()== 1){
          Encapsular('A','a','1','0');
-         Transmision();
-         if (bhardware){
+        // Transmision();
+        // if (bhardware){
             activar(1);
             ogroup_osc->activate(); 
             ogroup_tdiv->activate();     
             och1->value(1);
             canal1->activar(1);
             canal1->ogroup_ch->activate();
-            muestrear(1);
-         }
+            otiempo_div->value(6);
+            omenu_t_div->value(6);
+            /* TODO (JuanPablo#1#): Configurar el valor por defecto de voltios por divison y 
+                                    acople del canal */
+        //    muestrear(1);
+        /* }
          else {
               fl_message("Error de hardware");
-         }
+         }*/
       }
       if (oosc_on->value()== 0){
          Fl::remove_timeout(cb_timer_ch2, this);
@@ -258,34 +262,72 @@ void Osciloscopio::cb_sel_ch(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_sel_ch_in(){
      if (isec_ch==0){
-     och2->value(0);
-     Fl::remove_timeout(cb_timer_ch2, this);
-     canal2->ogroup_ch->deactivate();
-     odual_menu->deactivate();
-     och1->value(1);
-     canal1->activar(1);
-     canal1->ogroup_ch->activate();
-     Fl::add_timeout(0.5, cb_timer_ch1, this);
+        Encapsular('B','b','1','0');         //Desactivar canal 2
+    //    Transmision();
+    //    if (bhardware){
+           och2->value(0);
+           Fl::remove_timeout(cb_timer_ch2, this);
+           canal2->ogroup_ch->deactivate();
+           odual_menu->deactivate();
+    /*    }
+        else {
+             fl_message("Error de hardware");
+        }*/
+        Encapsular('A','a','1','0');           //Activar canal 1
+    //    Transmision();
+   //     if (bhardware){
+           och1->value(1);
+           canal1->activar(1);
+           canal1->ogroup_ch->activate();
+     //      muestrear(1);
+           //Fl::add_timeout(0.5, cb_timer_ch1, this);
+    /*    }
+        else {
+             fl_message("Error de hardware");
+        }*/
      }
      if (isec_ch==1){
-     och1->value(0);
-     canal1->activar(0);
-     canal1->ogroup_ch->deactivate();
-     Fl::remove_timeout(cb_timer_ch1, this);
-     och2->value(1);
-     canal2->activar(1);
-     canal2->ogroup_ch->activate();
-     Fl::add_timeout(0.2, cb_timer_ch2, this);
+        Encapsular('A','b','1','0');         //Desactivar canal 1
+     //   Transmision();
+     //   if (bhardware){
+           och1->value(0);
+           canal1->activar(0);
+           canal1->ogroup_ch->deactivate();
+           //Fl::remove_timeout(cb_timer_ch1, this);
+     /*   }
+        else {
+             fl_message("Error de hardware");
+        }*/
+        Encapsular('B','a','1','0');         //Activar canal 2
+     //   Transmision();
+     //   if (bhardware){
+           och2->value(1);
+           canal2->activar(1);
+           canal2->ogroup_ch->activate();
+     //      muestrear(2);
+           //Fl::add_timeout(0.2, cb_timer_ch2, this);
+    /*    }
+        else {
+             fl_message("Error de hardware");
+        }*/
      }
      if (isec_ch==2){
-     Fl::remove_timeout(cb_timer_ch2, this);
-     Fl::remove_timeout(cb_timer_ch1, this);
-     och1->value(1);
-     canal1->activar(1);
-     canal1->ogroup_ch->activate();
-     Fl::add_timeout(0.5, cb_timer_dual_ch, this);
-     odual_menu->activate();
-     isec_ch=-1;
+        Fl::remove_timeout(cb_timer_ch2, this);
+        Fl::remove_timeout(cb_timer_ch1, this);
+        Encapsular('A','a','1','0');           //Activar canal 1
+    //    Transmision();
+    //    if (bhardware){
+           och1->value(1);
+           canal1->activar(1);
+           canal1->ogroup_ch->activate();
+           //Fl::add_timeout(0.5, cb_timer_dual_ch, this);
+           odual_menu->activate();
+    //       muestrear(3);
+    /*    }
+        else {
+             fl_message("Error de hardware");
+        }*/
+        isec_ch=-1;
      }
      isec_ch++;
 }
@@ -416,7 +458,7 @@ void Osciloscopio::cb_timer_ch1_in(){
      canal1->Encapsular('A','P','1','0');
      //canal1->Transmision();
      canal1->almacenar(canal1->itamano_trama,canal1->buf_osc_ch1);
-     recorrer_datos();
+     //recorrer_datos();
      Fl::repeat_timeout(0.2, cb_timer_ch1, this);
 }
 
@@ -438,7 +480,7 @@ void Osciloscopio::cb_timer_ch2_in(){
      canal2->Encapsular('A','P','1','0');
      canal2->Transmision();
      canal2->almacenar(canal2->itamano_trama,canal2->buf_osc_ch2);
-     recorrer_datos();
+     //recorrer_datos();
      Fl::repeat_timeout(0.2, cb_timer_ch2, this);
 }
 
@@ -463,7 +505,7 @@ void Osciloscopio::cb_timer_dual_ch_in(){
      canal2->Encapsular('A','P','1','0');
      canal2->Transmision();
      canal2->almacenar(canal2->itamano_trama,canal2->receive_buf_osc);
-     recorrer_datos();
+     //recorrer_datos();
      Fl::repeat_timeout(0.2, cb_timer_dual_ch, this);
 }
 
@@ -471,14 +513,13 @@ void Osciloscopio::cb_timer_dual_ch_in(){
  * La función recorrer_datos recorre el arreglo idatos y envia punto 
  * por punto los datos para graficar.
 */
-void Osciloscopio::recorrer_datos()
+void Osciloscopio::recorrer_datos(int num_canal)
 {
      int icont;
-     
-     if (canal1->bestado && ~canal2->bestado){
+     if (num_canal == 1){
         opantalla->TraceColour(Fl_Color(canal1->ncolor));
-        for(icont=0;icont < canal1->inum_datos-1; icont++){
-            idato_graf_ch1 = canal1->idatos[icont];
+        for(icont=0;icont < DATA_OSC-1; icont++){
+            idato_graf_ch1 = buf_osc_ch1[icont];
             if (idato_graf_ch1 == 0){
                opantalla->Add(560+ canal1->npos_y);
             }
@@ -488,10 +529,10 @@ void Osciloscopio::recorrer_datos()
         }                   
      }
      
-     if (canal2->bestado && ~canal1->bestado){
+     if (num_canal == 2){
         opantalla->TraceColour(Fl_Color(canal2->ncolor));
-        for(icont=0;icont < canal2->inum_datos-1; icont++){
-            idato_graf_ch2 = canal2->idatos[icont];
+        for(icont=0;icont < DATA_OSC-1; icont++){
+            idato_graf_ch2 = buf_osc_ch2[icont];
             if (idato_graf_ch2 == 0){
                opantalla->Add(560+ canal2->npos_y);
             }
@@ -501,15 +542,14 @@ void Osciloscopio::recorrer_datos()
         }                   
      }
      
-     if (canal2->bestado && canal1->bestado){
-        for(icont=0;icont < canal2->inum_datos-1; icont++){
-            idato_graf_ch1 = canal1->idatos[icont];
-            idato_graf_ch2 = canal2->idatos[icont];
+     if (num_canal == 3){
+        for(icont=0;icont < DATA_OSC-1; icont++){
+            idato_graf_ch1 = buf_osc_ch1[icont];
+            idato_graf_ch2 = buf_osc_ch2[icont];
             if (idato_graf_ch2 == 0 || idato_graf_ch1 == 0){
                opantalla->Add((560 + canal1->npos_y), (560 + canal2->npos_y));
             }
             else {
-                 opantalla->NumDatos = canal1->inum_datos -1;
                  opantalla->Add(canal1->npos_y + (560*(idato_graf_ch1)*canal1->nv_div),
                  canal2->npos_y + (560*(idato_graf_ch2)*canal2->nv_div));
             }              
@@ -557,6 +597,7 @@ void Osciloscopio::muestrear(int num_canal){
                  Transmision();
                  Encapsular('A', 'p', '1', '4');
                  Transmision();
+                 recorrer_datos(1);
               }
         }
      }
@@ -573,6 +614,7 @@ void Osciloscopio::muestrear(int num_canal){
                  Transmision();
                  Encapsular('B', 'p', '1', '4');
                  Transmision();
+                 recorrer_datos(2);
               }
         }
      }
@@ -597,6 +639,7 @@ void Osciloscopio::muestrear(int num_canal){
                  Transmision();
                  Encapsular('B', 'p', '1', '4');
                  Transmision();
+                 recorrer_datos(3);
               }
         }
      }

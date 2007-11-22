@@ -92,7 +92,7 @@ protected:
   
   
 public:
-       int NumDatos;
+
 
   int x(){return _x;};
 
