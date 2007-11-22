@@ -225,7 +225,7 @@ void Osciloscopio::cb_osc_on_in(){
             och1->value(1);
             canal1->activar(1);
             canal1->ogroup_ch->activate();
-            //muestrear();
+            muestrear(1);
          }
          else {
               fl_message("Error de hardware");
@@ -536,6 +536,70 @@ void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_log_osc_in(){
      archivar();
+}
+
+
+
+/**
+ * Rutina para solicitar al hardware las muestras de las señales 
+*/
+void Osciloscopio::muestrear(int num_canal){
+     if (num_canal == 1){
+        while (canal1->bestado){
+              Encapsular('L', 'p', '1', '0');
+              Transmision();
+              if (ch1_muestreado){
+                 Encapsular('A', 'p', '1', '1');
+                 Transmision();
+                 Encapsular('A', 'p', '1', '2');
+                 Transmision();
+                 Encapsular('A', 'p', '1', '3');
+                 Transmision();
+                 Encapsular('A', 'p', '1', '4');
+                 Transmision();
+              }
+        }
+     }
+     if (num_canal == 2){
+        while (canal2->bestado){
+              Encapsular('L', 'p', '1', '0');
+              Transmision();
+              if (ch1_muestreado){
+                 Encapsular('B', 'p', '1', '1');
+                 Transmision();
+                 Encapsular('B', 'p', '1', '2');
+                 Transmision();
+                 Encapsular('B', 'p', '1', '3');
+                 Transmision();
+                 Encapsular('B', 'p', '1', '4');
+                 Transmision();
+              }
+        }
+     }
+     if (num_canal == 3){
+        while (canal2->bestado && canal1->bestado){
+              Encapsular('L', 'p', '1', '0');
+              Transmision();
+              if (ch1_muestreado && ch2_muestreado){
+                 Encapsular('A', 'p', '1', '1');
+                 Transmision();
+                 Encapsular('A', 'p', '1', '2');
+                 Transmision();
+                 Encapsular('A', 'p', '1', '3');
+                 Transmision();
+                 Encapsular('A', 'p', '1', '4');
+                 Transmision();
+                 Encapsular('B', 'p', '1', '1');
+                 Transmision();
+                 Encapsular('B', 'p', '1', '2');
+                 Transmision();
+                 Encapsular('B', 'p', '1', '3');
+                 Transmision();
+                 Encapsular('B', 'p', '1', '4');
+                 Transmision();
+              }
+        }
+     }
 }
 
 

@@ -39,11 +39,6 @@ class Osciloscopio : public Instrumento
 		void Setifrec_muestreo(int ix); // sets the value of nfrec_muestreo
 		void Setinivel_trigger(int ix); // sets the value of nnivel_trigger
 		/**
-		 * Método para realizar la gráfica de la pantalla y la 
-		 * cuadricula del osciloscopio
-		 */
-	//	void draw();
-		/**
 		 * Método para sumar las señales adquiridas por los 2 canales
 		 * del instrumento.
 		 */
@@ -134,7 +129,11 @@ class Osciloscopio : public Instrumento
 		*/
 		int idato_graf_ch2;
     	
-	private:   
+	    private:   
+        /**
+		 * Rutina para solicitar las muestras de las señales en el osciloscopio 
+		*/
+		void muestrear(int);
          /**
 		 * Calback para la escala de 0.5s por división
 		*/
