@@ -279,8 +279,13 @@ void Osciloscopio::cb_sel_ch_in(){
            och1->value(1);
            canal1->activar(1);
            canal1->ogroup_ch->activate();
-     //      muestrear(1);
-           //Fl::add_timeout(0.5, cb_timer_ch1, this);
+           if (otiempo_div->value() > 9){
+           muestrear(1);
+           }
+           else {
+                muestreo_timer();
+           }
+
     /*    }
         else {
              fl_message("Error de hardware");
@@ -415,6 +420,15 @@ void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      pselector->value(floor(pselector->value()));
      omenu_t_div->value(pselector->value());
+     if (pselector->value()>7){
+        Encapsular('L','d','1',char((pselector->value())-8));           //Configurar Tiempo por division 
+        Transmision();
+        if (~bhardware)
+           fl_message("Error de hardware");
+     }
+     else {
+          muestreo_timer();    
+     }
 }
 
 /**
@@ -455,11 +469,27 @@ void Osciloscopio::cb_timer_ch1(void *pany)
  * para realizar los llamados de callback del timer 
 */
 void Osciloscopio::cb_timer_ch1_in(){
-     canal1->Encapsular('A','P','1','0');
-     //canal1->Transmision();
-     canal1->almacenar(canal1->itamano_trama,canal1->buf_osc_ch1);
-     //recorrer_datos();
-     Fl::repeat_timeout(0.2, cb_timer_ch1, this);
+     Encapsular('L','y','1','0');
+     //Transmision();
+     //recorrer_datos(isec_ch);
+     switch (omenu_t_div->value()){
+            case 0:
+                 Fl::repeat_timeout(0.2, cb_timer_ch1, this);
+            case 1:
+                 Fl::repeat_timeout(0.2, cb_timer_ch1, this); 
+            case 2:
+                 Fl::repeat_timeout(0.2, cb_timer_ch1, this); 
+            case 3:
+                 Fl::repeat_timeout(0.2, cb_timer_ch1, this); 
+            case 4:
+                 Fl::repeat_timeout(0.2, cb_timer_ch1, this); 
+            case 5:
+                 Fl::repeat_timeout(0.2, cb_timer_ch1, this); 
+            case 6:
+                 Fl::repeat_timeout(0.2, cb_timer_ch1, this); 
+            case 7:
+                 Fl::repeat_timeout(0.5, cb_timer_ch1, this); 
+     ;}
 }
 
 /**
@@ -579,9 +609,9 @@ void Osciloscopio::cb_log_osc_in(){
 }
 
 
-
 /**
- * Rutina para solicitar al hardware las muestras de las señales 
+ * Rutina para solicitar los cuatro vectores de las muestras de las 
+ * señales en el osciloscopio. 
 */
 void Osciloscopio::muestrear(int num_canal){
      if (num_canal == 1){
@@ -644,6 +674,15 @@ void Osciloscopio::muestrear(int num_canal){
         }
      }
 }
+
+/**
+ * Rutina para solicitar una a una las muestras de las 
+ * señales en el osciloscopio. 
+*/
+void Osciloscopio::muestreo_timer(){
+        Fl::add_timeout(0.1, cb_timer_ch1, this);
+}
+
 
 
 void Osciloscopio::cb_tdiv05s(Fl_Widget* psel, void *pany){
