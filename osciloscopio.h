@@ -38,6 +38,14 @@ class Osciloscopio : public Instrumento
 		void Setit_div(int ix); // sets the value of nt_div
 		void Setifrec_muestreo(int ix); // sets the value of nfrec_muestreo
 		void Setinivel_trigger(int ix); // sets the value of nnivel_trigger
+/*		enum t_por_d {
+             volt_ac,
+             volt_dc,
+             amp_ac, 
+             amp_dc,
+             ohm,
+             continuidad
+        };*/
 		/**
 		 * Método para sumar las señales adquiridas por los 2 canales
 		 * del instrumento.
@@ -131,9 +139,15 @@ class Osciloscopio : public Instrumento
     	
 	    private:   
         /**
-		 * Rutina para solicitar las muestras de las señales en el osciloscopio 
+		 * Rutina para solicitar los cuatro vectores de las muestras de las 
+         * señales en el osciloscopio. 
 		*/
 		void muestrear(int);
+		/**
+		 * Rutina para solicitar una a una las muestras de las 
+         * señales en el osciloscopio. 
+		*/
+		void muestreo_timer();
          /**
 		 * Calback para la escala de 0.5s por división
 		*/
