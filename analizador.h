@@ -111,6 +111,11 @@ class Analizador : public Instrumento
 		 * del analizador 
 		 */
 		inline void cb_ana_on_in();
+		/**
+		 * Esta funcion recorre los buffers de los diferentes canales del
+		 * analizador logico y grafica sus datos en los canales en pantalla
+		 */
+		void graficar_datos();
 		
 private:
         Fl_Repeat_Button *oSel_mult;

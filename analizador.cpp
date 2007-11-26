@@ -47,8 +47,6 @@ Analizador::Analizador() {
     
     ogroup_ana->end();
     oana_on->callback(cb_ana_on, this);
-     
-    //amult_on->callback(cb_mult_on, this);
 }
 
 // class destructor
@@ -103,4 +101,10 @@ void Analizador::cb_timer_ana(void *pany) {
 void Analizador::cb_timer_ana_in() {
      Fl::repeat_timeout(0.9, cb_timer_ana, this);
      fl_message("el timer");
+}
+/**
+ * Funcion para recorrer los buffers y graficar la informacion
+*/
+void Analizador::graficar_datos() {
+/* TODO: hacer */
 }
