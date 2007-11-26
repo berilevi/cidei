@@ -54,7 +54,8 @@ class Analizador : public Instrumento
 		 * Objeto de la calse scope que representa la pantalla del analizador 
 		 * donde se grafica la señal digitalizada por el canal.
 		*/
-		Fl_Scope *apantalla;
+		Fl_Scope *apantalla_ch1, *apantalla_ch2, *apantalla_ch3, *apantalla_ch4, *apantalla_ch5,
+                 *apantalla_ch6, *apantalla_ch7, *apantalla_ch8;
 		/**
 		 * Este método coloca el valor de la medición en el display
 		 * del multímetro.
