@@ -17,11 +17,18 @@ Analizador::Analizador()
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->deactivate();  
    
-    apantalla = new Fl_Scope(8,375,380, 290,"");  // Instancia de scope
-    apantalla->TraceColour(FL_WHITE);
-    apantalla->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla->redrawmode(FL_SCOPE_REDRAW_FULL);
-    apantalla->linetype(FL_SCOPE_LINE);  
+    apantalla_ch1 = new Fl_Scope(8,375,380,30,"");  // Instancia de scope
+    apantalla_ch2 = new Fl_Scope(8,407,380,30,"");  // Instancia de scope
+    apantalla_ch3 = new Fl_Scope(8,439,380,30,"");  // Instancia de scope
+    apantalla_ch4 = new Fl_Scope(8,471,380,30,"");  // Instancia de scope
+    apantalla_ch5 = new Fl_Scope(8,503,380,30,"");  // Instancia de scope
+    apantalla_ch6 = new Fl_Scope(8,535,380,30,"");  // Instancia de scope
+    apantalla_ch7 = new Fl_Scope(8,567,380,30,"");  // Instancia de scope
+    apantalla_ch8 = new Fl_Scope(8,599,380,30,"");  // Instancia de scope
+    apantalla_ch1->TraceColour(FL_WHITE);
+    apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantalla_ch1->redrawmode(FL_SCOPE_REDRAW_FULL);
+    apantalla_ch1->linetype(FL_SCOPE_LINE);  
     
     ogroup_ana_botones = new Fl_Group (450,395,85,90,"");    // Agrupa los elementos del osciloscopio
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
