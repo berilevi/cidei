@@ -69,6 +69,15 @@ class Analizador : public Instrumento
 		 * Boton para iniciar el instrumento analizador
 	    */
         Fl_Light_Button *oana_on;
+        /**
+		 * Boton que habilita el almacenamiento de datos en archivos planos de 
+		 * texto.
+	    */
+        Fl_Button *olog_ana;
+        /**
+		 * Boton que habilita la ayuda para el uso del instrumento. 
+	    */
+        Fl_Button *ohelp_ana;
 	    /**
         * Agrupa las herramientas e indicadores del analizador
         */

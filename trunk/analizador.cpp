@@ -10,26 +10,32 @@ Analizador::Analizador()
       
     strcpy(cvalor,"0.000");
     
-    oana_on = new Fl_Light_Button(570,645,30,20,"ON");
+    oana_on = new Fl_Light_Button(570,655,30,20,"ON");
     oana_on->labelsize(9);
     
-    ogroup_ana = new Fl_Group(5,370,600,300,"");
+    ogroup_ana = new Fl_Group(5,370,600,309,"");
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->deactivate();  
    
-    apantalla_ch1 = new Fl_Scope(8,375,380,30,"");  // Instancia de scope
-    apantalla_ch2 = new Fl_Scope(8,407,380,30,"");  // Instancia de scope
-    apantalla_ch3 = new Fl_Scope(8,439,380,30,"");  // Instancia de scope
-    apantalla_ch4 = new Fl_Scope(8,471,380,30,"");  // Instancia de scope
-    apantalla_ch5 = new Fl_Scope(8,503,380,30,"");  // Instancia de scope
-    apantalla_ch6 = new Fl_Scope(8,535,380,30,"");  // Instancia de scope
-    apantalla_ch7 = new Fl_Scope(8,567,380,30,"");  // Instancia de scope
-    apantalla_ch8 = new Fl_Scope(8,599,380,30,"");  // Instancia de scope
-    apantalla_ch1->TraceColour(FL_WHITE);
-    apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch1->redrawmode(FL_SCOPE_REDRAW_FULL);
-    apantalla_ch1->linetype(FL_SCOPE_LINE);  
+    apantalla_ch1 = new Fl_Scope(8,373,380,32,"");  // Instancia de canal 1
+    apantalla_ch2 = new Fl_Scope(8,407,380,30,"");  // Instancia de canal 2
+    apantalla_ch3 = new Fl_Scope(8,439,380,30,"");  // Instancia de canal 3
+    apantalla_ch4 = new Fl_Scope(8,471,380,30,"");  // Instancia de canal 4
+    apantalla_ch5 = new Fl_Scope(8,503,380,30,"");  // Instancia de canal 5
+    apantalla_ch6 = new Fl_Scope(8,535,380,30,"");  // Instancia de canal 6
+    apantalla_ch7 = new Fl_Scope(8,567,380,30,"");  // Instancia de canal 7
+    apantalla_ch8 = new Fl_Scope(8,599,380,30,"");  // Instancia de canal 8
     
+    olog_ana  = new Fl_Button(15,635,40,18,"Log");
+    olog_ana->labelsize(10);
+    ohelp_ana = new Fl_Button(15,656,40,18,"Help");
+    ohelp_ana->labelsize(10);
+    
+    apantalla_ch2->TraceColour(FL_WHITE);
+    apantalla_ch2->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantalla_ch2->redrawmode(FL_SCOPE_REDRAW_FULL);
+    apantalla_ch2->linetype(FL_SCOPE_LINE);
+            
     ogroup_ana_botones = new Fl_Group (450,395,85,90,"");    // Agrupa los elementos del osciloscopio
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
@@ -60,7 +66,7 @@ void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany)
      pana->cb_ana_on_in();
 }
 
-void Analizador::cb_ana_on_in(){
+void Analizador::cb_ana_on_in() {
       if(oana_on->value()== 1){
         activar(1);
         ogroup_ana->activate();
@@ -92,7 +98,9 @@ void Analizador::cb_timer_ana(void *pany)
  * Esta función acompaña la función cb_timer_ana
  * para realizar los llamados de callback del timer 
 */
-void Analizador::cb_timer_ana_in(){
-     Fl::repeat_timeout(0.2, cb_timer_ana, this);
-     fl_message("el timeout sirve");
+void Analizador::cb_timer_ana_in() {
+     Fl::repeat_timeout(0.9, cb_timer_ana, this);
+     apantalla_ch2->Add(410, 30);
+     apantalla_ch2->redraw();
+     //fl_message("el timeout sirve");
 }
