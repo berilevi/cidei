@@ -33,12 +33,12 @@ Analizador::Analizador() {
     apantalla_ch2->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch2->linetype(FL_SCOPE_LINE);
             
-    ogroup_ana_botones = new Fl_Group(450,395,85,90,"");    // Agrupa los elementos del osciloscopio
+    ogroup_ana_botones = new Fl_Group(450,395,85,90,"");  // Agrupa los elementos del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
     
     atiempo_div = new Fl_Knob(455,400,70,70,"TIMER (MS)");
-    av_posc = new Fl_Value_Output(467,485,50,20,""); /* textbox para la posicion del canal */
+    av_posc = new Fl_Value_Output(467,485,50,20,"");     /* textbox para la posicion del canal */
     atiempo_div->color(147);
     atiempo_div->type(8);
     atiempo_div->labelsize(9);
@@ -69,23 +69,22 @@ void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany) {
  * cb_ana_on.
 */
 void Analizador::cb_ana_on_in() {
-      if(oana_on->value()== 1){
+      if(oana_on->value()== 1) {
         activar(1);
         ogroup_ana->activate();
         ogroup_ana_botones->activate();
         av_posc->value(1);
-        apantalla_ch2->Add(410);
-        apantalla_ch2->redraw();
+        apantalla_ch2->Add(410); /* no grafica */
+        apantalla_ch2->redraw(); /* no vuelve a dibujar la pantalla */
         Fl::add_timeout(0.5, cb_timer_ana, this);
      }
-     if(oana_on->value()== 0){
+     if(oana_on->value()== 0) {
         Fl::remove_timeout(cb_timer_ana, this);
         activar(0);
         ogroup_ana->deactivate();
         av_posc->value(0);
         ogroup_ana_botones->deactivate(); 
      }
-     //isec_ch++;
 }
 
 /**
