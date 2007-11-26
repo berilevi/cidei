@@ -3,11 +3,7 @@
 #include "analizador.h" // class's header file
 
 // class constructor
-Analizador::Analizador()
-{             
-    Fl_Repeat_Button *oSel_mult;
-    Fl_Knob *atiempo_div;
-      
+Analizador::Analizador() {                 
     strcpy(cvalor,"0.000");
     
     oana_on = new Fl_Light_Button(570,655,30,20,"ON");
@@ -26,17 +22,18 @@ Analizador::Analizador()
     apantalla_ch7 = new Fl_Scope(8,567,380,30,"");  // Instancia de canal 7
     apantalla_ch8 = new Fl_Scope(8,599,380,30,"");  // Instancia de canal 8
     
-    olog_ana  = new Fl_Button(15,635,40,18,"Log");
+    olog_ana = new Fl_Button(15,635,40,18,"Log");
     olog_ana->labelsize(10);
+    
     ohelp_ana = new Fl_Button(15,656,40,18,"Help");
     ohelp_ana->labelsize(10);
     
-    apantalla_ch2->TraceColour(FL_WHITE);
+    apantalla_ch2->TraceColour(FL_RED);
     apantalla_ch2->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch2->redrawmode(FL_SCOPE_REDRAW_FULL);
+    apantalla_ch2->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch2->linetype(FL_SCOPE_LINE);
             
-    ogroup_ana_botones = new Fl_Group (450,395,85,90,"");    // Agrupa los elementos del osciloscopio
+    ogroup_ana_botones = new Fl_Group(450,395,85,90,"");    // Agrupa los elementos del osciloscopio
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
     
@@ -55,23 +52,30 @@ Analizador::Analizador()
 }
 
 // class destructor
-Analizador::~Analizador()
-{
+Analizador::~Analizador() {
 
 }
-
-void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany)
-{
+/**
+ * Este callback es llamado cuando se inicializa el analizador
+ * logico.
+*/
+void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_ana_on_in();
 }
 
+/**
+ * Esta es la funcion inline que es llamada desde el callback
+ * cb_ana_on.
+*/
 void Analizador::cb_ana_on_in() {
       if(oana_on->value()== 1){
         activar(1);
         ogroup_ana->activate();
         ogroup_ana_botones->activate();
         av_posc->value(1);
+        apantalla_ch2->Add(410);
+        apantalla_ch2->redraw();
         Fl::add_timeout(0.5, cb_timer_ana, this);
      }
      if(oana_on->value()== 0){
@@ -88,8 +92,7 @@ void Analizador::cb_ana_on_in() {
  * Este método es el callback del timer para realizar la solicitud 
  * de datos del analizador al hardware.  
 */
-void Analizador::cb_timer_ana(void *pany)
-{
+void Analizador::cb_timer_ana(void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_timer_ana_in();
 }
@@ -100,7 +103,5 @@ void Analizador::cb_timer_ana(void *pany)
 */
 void Analizador::cb_timer_ana_in() {
      Fl::repeat_timeout(0.9, cb_timer_ana, this);
-     apantalla_ch2->Add(410, 30);
-     apantalla_ch2->redraw();
-     //fl_message("el timeout sirve");
+     fl_message("el timer");
 }

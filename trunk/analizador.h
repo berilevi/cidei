@@ -113,6 +113,8 @@ class Analizador : public Instrumento
 		inline void cb_ana_on_in();
 		
 private:
+        Fl_Repeat_Button *oSel_mult;
+        Fl_Knob *atiempo_div;
         /**
          * Este método es el callback del timer para realizar la solicitud 
          * de datos del analizador logico al hardware.  
