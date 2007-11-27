@@ -35,11 +35,6 @@ class Instrumento
 		*/
 		void archivar();
 		/**
-		 * La función almacenar guarda los datos enviados por el hardware
-		 * del instrumento en el arreglo idatos [].
-		*/
-		void almacenar(int, char[]);
-		/**
 		 * La función Setnum_datos asigna el valor de la variable
 		 * num_datos que contiene el numero de datos almacenados en el 
          * arreglo idatos[]. 
@@ -132,7 +127,7 @@ class Instrumento
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 1.
 	    */
-	    char buf_osc_ch1[DATA_OSC];
+	    int buf_osc_ch1[DATA_OSC];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 2.
@@ -169,6 +164,11 @@ class Instrumento
 		 * almacenado provenientes del hardware del instrumento.
 		*/
 		int inum_datos;
+		/**
+		 * Contador de datos cuando se realiza un muestreo en el osciloscopio
+		 * dato por dato.
+		*/
+		int icont_muestreo_unico;
 		/**
 		 * Esta variable representa el numero de datos que se han	recibido 
          * provenientes del hardware del instrumento excluyendo las cabeceras.

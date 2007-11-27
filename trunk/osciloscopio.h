@@ -137,7 +137,19 @@ class Osciloscopio : public Instrumento
 		*/
 		int idato_graf_ch2;
     	
-	    private:   
+	    private: 
+        /**
+		 * Este método es el callback del selector de la escala de volt/div
+		 * del canal del osciloscopio debe ir acompañada de una función 
+         * inline para poder realizar los callbacks. 
+		 */
+		static void cb_volt_div(Fl_Widget*, void *);
+		/**
+		 * Esta función acompaña la función  cb_volt_div  
+		 * para realizar los llamados de callback del selector de la escala
+		 * de volt/div del canal en el osciloscopio 
+		 */
+		inline void cb_volt_div_in(Fl_Widget*);  
         /**
 		 * Rutina para solicitar los cuatro vectores de las muestras de las 
          * señales en el osciloscopio. 
@@ -330,26 +342,6 @@ class Osciloscopio : public Instrumento
          * para realizar los llamados de callback del timer 
          */
          inline void cb_timer_ch1_in();
-         /**
-         * Este método es el callback del timer para realizar la solicitud 
-         * de datos del canal 2 osciloscopio al hardware.  
-         */   
-         static void cb_timer_ch2(void *);
-         /**
-         * Esta función acompaña la función cb_timer_ch2
-         * para realizar los llamados de callback del timer 
-         */
-         inline void cb_timer_ch2_in();
-         /**
-         * Este método es el callback del timer para realizar la solicitud 
-         * de datos de los 2 canales del osciloscopio simulteneamente al hardware.  
-         */   
-         static void cb_timer_dual_ch(void *);
-         /**
-         * Esta función acompaña la función cb_timer_dual_ch
-         * para realizar los llamados de callback del timer 
-         */
-         inline void cb_timer_dual_ch_in();
         /**
 		 * Este método es el callback del boton selector de canal
 		 * en el osciloscopio debe ir acompañada de una función inline para
