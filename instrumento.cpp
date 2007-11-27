@@ -18,6 +18,7 @@ Instrumento::Instrumento()
     strcpy(buf_mult,"0000");                    // Inicializar el bufer del multimetro.
     ch1_muestreado = 0;                         // Inicializar el estado del muestreo del canal 1 del osciloscopio
     ch2_muestreado = 0;                         // Inicializar el estado del muestreo del canal 2 del osciloscopio
+    icont_muestreo_unico = 0;
 }
 
 // Destructor de clase
@@ -50,21 +51,6 @@ void Instrumento::Setnum_datos(int x)
 	inum_datos = x;
 }
 
-/*
- * Esta función almacena los datos enviados por el hardware
- * del instrumento en el arreglo datos.
- */
-void Instrumento::almacenar(int itamano, char cdato [])
-{
-     int ii;
-     if (inum_datos >= DATA_OSC-1) {              // Almacenar datos para graficar maximo pantalla y media del osciloscopio
-        inum_datos = 0;
-     }
-     for (ii=0;ii < itamano-1; ii++){   
-         idatos[ii+inum_datos] = int(cdato[ii]);
-     }   
-     inum_datos = inum_datos+(itamano-1);  
-}
 
 /*
  * Esta función genera un archivo plano con los datos 
@@ -102,13 +88,15 @@ void Instrumento::Transmision(){
         return;
       }
 
-      DWORD RecvLength=150;        
+      DWORD RecvLength=190;        
       DWORD SentDataLength;
     
-      MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,10);
+      MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,1);
+      fflush(stdin);
       
-      MPUSBRead(myInPipe,receive_buf,150,&RecvLength,10);
-    
+      MPUSBRead(myInPipe,receive_buf,190,&RecvLength,1);
+      MPUSBRead(myInPipe,receive_buf,190,&RecvLength,1);
+  
       Desencapsular(receive_buf);
              
       MPUSBClose(myOutPipe);
@@ -129,10 +117,10 @@ void Instrumento::Transmision(){
 */
 void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato)
 {
-     trama_control[1] = cnom;
-     trama_control[2] = coper;
-     trama_control[3] = clong;
-     trama_control[4] = cdato;
+     trama_control[1] = cnom;           //Dispositivo de hardware 
+     trama_control[2] = coper;          //Operacion que se va a realizar 
+     trama_control[3] = clong;          //Longitud de datos que se van a enviar
+     trama_control[4] = cdato;          //Dato que se va a configurar en el hardware
 }
 
 /*
@@ -157,50 +145,69 @@ void Instrumento::GuardarBit(int canal[], int posicion, bool bit)
 */
 void Instrumento::Desencapsular(char recibida [])
 {
-     int icont;
+  /*  fl_message("trama recibida 0 %X", recibida[0]);
+    fl_message("trama recibida 1 %X", recibida[1]);
+    fl_message("trama recibida 2 %X", recibida[2]);
+    fl_message("trama recibida 3 %X", recibida[3]);
+    fl_message("trama recibida 4 %X", recibida[4]);
+    fl_message("trama recibida 5 %X", recibida[5]);
+    fl_message("trama recibida 6 %X", recibida[6]);*/
+    //fl_message("trama recibida %s", recibida);
+     int icont = 0;
      int itamano;
      itamano = int (recibida [3]);            //Tamano de la informacion enviada
      switch (recibida [1]){
-            case 'A':                         //Osciloscopio canal 1
-                 switch (recibida [2]){
-                        case '1':             //Primer vector de datos 
-                             for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch1[icont-4]=recibida[icont];
-                             }
-                        case '2':             //Segundo vector de datos                                 
-                             for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch1[(icont-4)+143]=recibida[icont];
-                             }
-                        case '3':             //Tercer vector de datos
-                             for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch1[(icont-4)+286]=recibida[icont];
-                             }
-                        case '4':             //Cuarto vector de datos
-                             for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch1[(icont-4)+429]=recibida[icont];
-                             }                    
+            case 'A':
+                 if (recibida [2] == '1'){                         //Osciloscopio canal 1
+                   // fl_message("muestrear primer vector");
+                   for (icont = 4; icont < 147; icont++){
+                        buf_osc_ch1[icont-4]=int(recibida[icont]);
+                        //fl_message("recibida en pos %d : %d", icont-4,buf_osc_ch1[icont-4]);
+                    }
                  }
+                 else if (recibida [2] == '2'){
+                      for (icont = 4; icont < 147; icont++){
+                          buf_osc_ch1[(icont-4)+143]=int(recibida[icont]);
+                      }
+                 }
+                 else if (recibida [2] == '3'){
+                      for (icont = 4; icont < 147; icont++){
+                          buf_osc_ch1[(icont-4)+286]=int(recibida[icont]);
+                      }
+                 }
+                 else if (recibida [2] == '4'){
+                      for (icont = 4; icont < 147; icont++){
+                          buf_osc_ch1[(icont-4)+429]=int(recibida[icont]);
+                      }
+                 }
+                 break;
             case 'B':                         //Osciloscopio canal 2
                  switch (recibida [2]){
                         case '1':             //Primer vetor de datos
                              for (icont = 4; icont < (itamano+4); icont++){
                                  buf_osc_ch2[icont-4]=recibida[icont];
                              }
+                             break;
                         case '2':             //Segundo vector de datos
                              for (icont = 4; icont < (itamano+4); icont++){
                                  buf_osc_ch2[(icont-4)+143]=recibida[icont];
                              }
+                             break;
                         case '3':             //Tercer vector de datos
                              for (icont = 4; icont < (itamano+4); icont++){
                                  buf_osc_ch2[(icont-4)+286]=recibida[icont];
                              }
+                             break;
                         case '4':             //Cuarto vector de datos
                              for (icont = 4; icont < (itamano+4); icont++){
                                  buf_osc_ch2[(icont-4)+429]=recibida[icont];
-                             }                    
+                             }
+                             break;                    
                  }
+                 break;
             case 'C':                         //Analizador lógico
                  /* TODO (JPP#1#): revizar lo que hizo ricardo para el analizador */
+                 break;
             case 'D':                         //Voltimetro AC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -209,6 +216,7 @@ void Instrumento::Desencapsular(char recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 break;
             case 'E':                         //Voltimetro DC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -217,6 +225,7 @@ void Instrumento::Desencapsular(char recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 break;
             case 'F':                        //Amperimetro AC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -225,6 +234,7 @@ void Instrumento::Desencapsular(char recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 break;
             case 'G':                        //Amperimetro DC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -233,6 +243,7 @@ void Instrumento::Desencapsular(char recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 break;
             case 'H':                        //Ometro
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -241,37 +252,37 @@ void Instrumento::Desencapsular(char recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 break;
             case 'I':                        //Generador de señales
-            
+                 break;
             case 'J':                                    //Pruebas de conectividad de LIV
                  if (recibida [2]== 0x06){               //ACK
                     Sethardware(true);
                  }
                  else if (recibida [2] == 0x15){         //NACK
-                      fl_message("Error de Hardware");
+                      fl_message("Error de Hardware nack");
                       Sethardware(0);
                  }
+                 break;
             case 'K':                        //Multimetro
-                 
+                 break;
             case 'L':                        //Osciloscopio
-                 switch (recibida [2]){
-                        case 'p':            //Muestreo completo del osciloscopio
-                             if (recibida [4]== 1){        //Muestreo completo de señal en canal 1 del osciloscopio
-                                 ch1_muestreado = 1;         
-                             }
-                             else if (recibida [4] == 2){  //Muestreo completo de señal en canal 2 del osciloscopio
-                                  ch2_muestreado = 1;     
-                             }
-                             else if (recibida [4] == 3){  //Muestreo completo de señales en canal 1 y 2 del osciloscopio
-                                  ch1_muestreado = 1;
-                                  ch2_muestreado = 1;
-                             }
-                        case '1':            //Una sola muestra del canal 1
-                        
-                        case '2':            //Una sola muestra del canal 2
-                             
-                        case '3':            //Una muestra del canal 1 y una del canal 2
-                 ;}
+                 if (recibida [2] == 'p'){
+                    if (recibida [4]== '1'){        //Muestreo completo de señal en canal 1 del osciloscopio
+                       ch1_muestreado = 1;         
+                    }
+                 }
+                 else if (recibida [2] == '1'){
+                      buf_osc_ch1[0]=int(recibida[4]);
+                      icont_muestreo_unico++;
+                 }
+                 else if (recibida [2] == '2'){
+                      buf_osc_ch2[icont_muestreo_unico]=recibida[5];
+                      icont_muestreo_unico++;
+                 }
+                 else if (recibida [2] == '3'){
+                 }
+                 break;
      ;}
 }
 

@@ -5,7 +5,7 @@ int isec_acople;
 
 Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento() {
              
-             Fl_Knob *ovolt_div;
+             
              Fl_Knob *opos_x;
              Fl_Repeat_Button *osel_acople;
              ncolor = ncolo;
@@ -56,7 +56,7 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
              
              ogroup_ch->end();
              osel_acople->callback(cb_acople, this);   //Callback selector de acoples.
-             ovolt_div->callback(cb_volt_div, this);   //Callback selector de T/div.
+             //ovolt_div->callback(cb_volt_div, this);   //Callback selector de T/div.
              opos_x->callback(cb_posx, this);          //Callback selector de pos de la señal.
              
         }
@@ -194,7 +194,7 @@ void Canal::cb_volt_div_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      pselector->value(floor(pselector->value()));
      omenu_v_div->value(pselector->value());
-     Setnv_div(int((pselector->value())*0.5));
+    // Setnv_div(int((pselector->value())*0.5));
 }
 
 /**
