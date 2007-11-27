@@ -37,6 +37,11 @@ class Canal : public Instrumento
 		void Setbac(bool x); // sets the value of bac
 		void Setbdc(bool x); // sets the value of bdc
 		/**
+		 * Selector de la escala de voltios por division
+		 * 
+		 */
+		Fl_Knob *ovolt_div;
+		/**
 		 * Método para calcular el valor pico a pico de la señal
 		 * adquirida por el canal del osciloscopio
 		 */
@@ -66,6 +71,11 @@ class Canal : public Instrumento
 		 * respecto al eje x 
 		 */
 		int npos_y;
+		/**
+		 * Menu desplegable para seleccionar la escala de voltios por división 
+		 * del canal  
+	     */
+        Fl_Choice *omenu_v_div;
 		
 	private:
         /**
@@ -144,11 +154,6 @@ class Canal : public Instrumento
 		 * dc del canal  
 		 */
         Fl_Light_Button *oacop_dc;
-        /**
-		 * Menu desplegable para seleccionar la escala de voltios por división 
-		 * del canal  
-	     */
-        Fl_Choice *omenu_v_div;
         /**
 		 * Panel para visualizar la posición de la señal respecto al eje x 
 		 * de la señal.   
