@@ -74,7 +74,7 @@ class Instrumento
 		 * La función Desencapsular organiza los datos enviados desde el hardware
 		 * a los instrumentos de software a través de USB.
 		*/
-		void Desencapsular(char []);
+		void Desencapsular(BYTE []);
 		/**
 		 * Almacena los identificadores de producto y vendedor
         */
@@ -107,7 +107,7 @@ class Instrumento
         /**
 		 * Buffer donde se almacena la información enviada desde el hardware
 	    */
-	    char receive_buf[SIZE_DATA];
+	    BYTE receive_buf[SIZE_DATA];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio.
@@ -128,6 +128,16 @@ class Instrumento
          * enviada desde el hardware por el osciloscopio al canal 1.
 	    */
 	    int buf_osc_ch1[DATA_OSC];
+	    /**
+		 * Variable donde se almacena el dato muestreado uno por uno 
+         * enviado desde el hardware por el canal 1 del osciloscopio.
+	    */
+	    unsigned int idato_osc_ch1;
+	    /**
+		 * Variable donde se almacena el dato muestreado uno por uno 
+         * enviado desde el hardware por el canal 2 del osciloscopio.
+	    */
+	    int idato_osc_ch2;
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 2.
@@ -204,8 +214,6 @@ class Instrumento
          * almacenan los datos del instrumento.
 		*/
 		char cnombre [12];
-  
-		
 };
 
 #endif // INSTRUMENTO_H

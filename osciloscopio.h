@@ -139,6 +139,18 @@ class Osciloscopio : public Instrumento
     	
 	    private: 
         /**
+		 * Este método es el callback del boton selector de acople
+		 * del canal del osciloscopio debe ir acompañada de una función 
+         * inline para poder realizar los callbacks. 
+		 */
+		static void cb_acople(Fl_Widget*, void *);
+		/**
+		 * Esta función acompaña la función  cb_acople  
+		 * para realizar los llamados de callback del selector de acople
+		 * del canal en el osciloscopio 
+		 */
+		inline void cb_acople_in();
+        /**
 		 * Este método es el callback del selector de la escala de volt/div
 		 * del canal del osciloscopio debe ir acompañada de una función 
          * inline para poder realizar los callbacks. 
@@ -515,6 +527,7 @@ class Osciloscopio : public Instrumento
 		 * canal 2  
 		 */
         Fl_Light_Button *otrigger_ch2;
+        
 };
 
 #endif // OSCILOSCOPIO_H
