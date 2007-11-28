@@ -38,9 +38,12 @@ class Canal : public Instrumento
 		void Setbdc(bool x); // sets the value of bdc
 		/**
 		 * Selector de la escala de voltios por division
-		 * 
 		 */
 		Fl_Knob *ovolt_div;
+		/**
+		 * Selector del acople 
+		 */
+		Fl_Repeat_Button *osel_acople;
 		/**
 		 * Método para calcular el valor pico a pico de la señal
 		 * adquirida por el canal del osciloscopio
@@ -76,32 +79,7 @@ class Canal : public Instrumento
 		 * del canal  
 	     */
         Fl_Choice *omenu_v_div;
-		
-	private:
-        /**
-		 * Este método es el callback del boton selector de acople
-		 * del canal del osciloscopio debe ir acompañada de una función 
-         * inline para poder realizar los callbacks. 
-		 */
-		static void cb_acople(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_acople  
-		 * para realizar los llamados de callback del selector de acople
-		 * del canal en el osciloscopio 
-		 */
-		inline void cb_acople_in();
-		/**
-		 * Este método es el callback del selector de la escala de volt/div
-		 * del canal del osciloscopio debe ir acompañada de una función 
-         * inline para poder realizar los callbacks. 
-		 */
-		static void cb_volt_div(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_volt_div  
-		 * para realizar los llamados de callback del selector de la escala
-		 * de volt/div del canal en el osciloscopio 
-		 */
-		inline void cb_volt_div_in(Fl_Widget*);
+
 		/**
 		 * Este método es el callback del selector de posición de la señal
 		 * del canal del osciloscopio debe ir acompañada de una función 
@@ -164,6 +142,7 @@ class Canal : public Instrumento
 		 * de la señal.   
 	     */
         Fl_Knob *opos_x;
+
 };
 
 #endif // CANAL_H

@@ -19,6 +19,8 @@ Instrumento::Instrumento()
     ch1_muestreado = 0;                         // Inicializar el estado del muestreo del canal 1 del osciloscopio
     ch2_muestreado = 0;                         // Inicializar el estado del muestreo del canal 2 del osciloscopio
     icont_muestreo_unico = 0;
+    idato_osc_ch1 =0;
+    idato_osc_ch2 =0;
 }
 
 // Destructor de clase
@@ -90,6 +92,8 @@ void Instrumento::Transmision(){
 
       DWORD RecvLength=190;        
       DWORD SentDataLength;
+      
+      //fl_message("envio al hw es: %s", trama_control);
     
       MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,1);
       fflush(stdin);
@@ -143,15 +147,8 @@ void Instrumento::GuardarBit(int canal[], int posicion, bool bit)
  * La función Desencapsular organiza los datos enviados desde el hardware
  * a los instrumentos de software a través de USB.
 */
-void Instrumento::Desencapsular(char recibida [])
+void Instrumento::Desencapsular(BYTE recibida [])
 {
-  /*  fl_message("trama recibida 0 %X", recibida[0]);
-    fl_message("trama recibida 1 %X", recibida[1]);
-    fl_message("trama recibida 2 %X", recibida[2]);
-    fl_message("trama recibida 3 %X", recibida[3]);
-    fl_message("trama recibida 4 %X", recibida[4]);
-    fl_message("trama recibida 5 %X", recibida[5]);
-    fl_message("trama recibida 6 %X", recibida[6]);*/
     //fl_message("trama recibida %s", recibida);
      int icont = 0;
      int itamano;
@@ -235,7 +232,7 @@ void Instrumento::Desencapsular(char recibida [])
                     buf_mult[itamano] = 0x00;
                  }
                  break;
-            case 'G':                        //Amperimetro DC
+            case 'G':                                      //Amperimetro DC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
                      buf_mult[icont-4]=receive_buf[icont];
@@ -244,7 +241,7 @@ void Instrumento::Desencapsular(char recibida [])
                     buf_mult[itamano] = 0x00;
                  }
                  break;
-            case 'H':                        //Ometro
+            case 'H':                                        //Ometro
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
                      buf_mult[icont-4]=receive_buf[icont];
@@ -253,31 +250,31 @@ void Instrumento::Desencapsular(char recibida [])
                     buf_mult[itamano] = 0x00;
                  }
                  break;
-            case 'I':                        //Generador de señales
+            case 'I':                                         //Generador de señales
                  break;
-            case 'J':                                    //Pruebas de conectividad de LIV
-                 if (recibida [2]== 0x06){               //ACK
+            case 'J':                                         //Pruebas de conectividad de LIV
+                 if (recibida [2]== 0x06){                    //ACK
                     Sethardware(true);
                  }
-                 else if (recibida [2] == 0x15){         //NACK
+                 else if (recibida [2] == 0x15){              //NACK
                       fl_message("Error de Hardware nack");
                       Sethardware(0);
                  }
                  break;
-            case 'K':                        //Multimetro
+            case 'K':                                          //Multimetro
                  break;
-            case 'L':                        //Osciloscopio
+            case 'L':                                          //Osciloscopio
                  if (recibida [2] == 'p'){
-                    if (recibida [4]== '1'){        //Muestreo completo de señal en canal 1 del osciloscopio
+                    if (recibida [4]== '1'){                   //Muestreo completo de señal en canal 1 del osciloscopio
                        ch1_muestreado = 1;         
                     }
                  }
-                 else if (recibida [2] == '1'){
-                      buf_osc_ch1[0]=int(recibida[4]);
+                 else if (recibida [2] == '1'){                //Muestreo de la señal dato por dato en canal 1
+                      idato_osc_ch1=(recibida[4]);
                       icont_muestreo_unico++;
                  }
-                 else if (recibida [2] == '2'){
-                      buf_osc_ch2[icont_muestreo_unico]=recibida[5];
+                 else if (recibida [2] == '2'){                //Muestreo de la señal dato por dato en canal 2
+                      idato_osc_ch2=int(recibida[5]-'0');
                       icont_muestreo_unico++;
                  }
                  else if (recibida [2] == '3'){
