@@ -471,9 +471,6 @@ void Osciloscopio::cb_volt_div_in(Fl_Widget* psel){
           //fl_message("es %c",int((pselector->value()))+0x30);
           Transmision();
      }
-     
-     
-    
 }
 
 

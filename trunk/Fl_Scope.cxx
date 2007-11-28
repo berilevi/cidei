@@ -86,7 +86,15 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh)
  /* Draw Main Box */
  fl_draw_box(FL_FLAT_BOX,xx,yy,ww,hh,_BackColour);
 
+ 
+ fl_color( FL_BLACK);
+ fl_line_style(FL_DOT);
+ fl_line(xx,(hh/2),ww+9,(hh/2));
+ fl_line((ww/2),yy,(ww/2),hh+9);
+
+ fl_line_style(0);
  fl_color(_TraceColour);
+
  
  /* Draw the scope Data */
  Ptr2=Ptr=ScopeData;
