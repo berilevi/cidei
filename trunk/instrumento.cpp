@@ -93,7 +93,7 @@ void Instrumento::Transmision(){
       DWORD RecvLength=190;        
       DWORD SentDataLength;
       
-      //fl_message("envio al hw es: %s", trama_control);
+        //fl_message("envio al hw es: %s", trama_control);
     
       MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,1);
       fflush(stdin);
@@ -149,7 +149,7 @@ void Instrumento::GuardarBit(int canal[], int posicion, bool bit)
 */
 void Instrumento::Desencapsular(BYTE recibida [])
 {
-    //fl_message("trama recibida %s", recibida);
+     //fl_message("trama recibida %s", recibida);
      int icont = 0;
      int itamano;
      itamano = int (recibida [3]);            //Tamano de la informacion enviada

@@ -218,6 +218,7 @@ void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany)
  * el osciloscopio 
 */
 void Osciloscopio::cb_osc_on_in(){
+      char t_div;
       if (oosc_on->value()== 1){
          activar(1);
          Encapsular('A','a','1','0');
@@ -231,10 +232,12 @@ void Osciloscopio::cb_osc_on_in(){
             canal1->ogroup_ch->activate();
             otiempo_div->value(6);
             omenu_t_div->value(6);
+            //Encapsular('L','d','1','6');           //Configurar Tiempo por division 
+            //Transmision();
             canal1->ovolt_div->value(0);
             /* TODO (JuanPablo#1#): Configurar el valor por defecto de acople del canal */
             //fl_message("muestrear");
-            muestrear(1);
+            muestreo_timer(1);
          }
          else {
               fl_message("Error de hardware");
@@ -242,7 +245,7 @@ void Osciloscopio::cb_osc_on_in(){
       }
       if (oosc_on->value()== 0){
 //         Fl::remove_timeout(cb_timer_ch2, this);
-         Fl::remove_timeout(cb_timer_ch1, this);
+         Fl::remove_timeout(cb_timer, this);
          activar(0);
          ogroup_osc->deactivate(); 
          ogroup_tdiv->deactivate();
@@ -284,10 +287,10 @@ void Osciloscopio::cb_sel_ch_in(){
            canal1->activar(1);
            canal1->ogroup_ch->activate();
            if (otiempo_div->value() > 9){
-           muestrear(1);
+           muestreo_timer(1);
            }
            else {
-                muestreo_timer();
+                muestreo_timer(1);
            }
 
     /*    }
@@ -312,7 +315,7 @@ void Osciloscopio::cb_sel_ch_in(){
            och2->value(1);
            canal2->activar(1);
            canal2->ogroup_ch->activate();
-     //      muestrear(2);
+     //     muestreo_timer(2);
     /*    }
         else {
              fl_message("Error de hardware");
@@ -326,7 +329,7 @@ void Osciloscopio::cb_sel_ch_in(){
            canal1->activar(1);
            canal1->ogroup_ch->activate();
            odual_menu->activate();
-    //       muestrear(3);
+    //       muestreo_timer(2);
     /*    }
         else {
              fl_message("Error de hardware");
@@ -416,20 +419,27 @@ void Osciloscopio::cb_tiempo_div(Fl_Widget* psel, void *pany)
  * escala de tiempo por división en el osciloscopio 
 */
 void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
+     char t_div;
      Fl_Knob *pselector = (Fl_Knob *)psel;
      pselector->value(floor(pselector->value()));
      omenu_t_div->value(pselector->value());
-     if (pselector->value()==6){
-        Encapsular('L','d','1',char((pselector->value())-8));           //Configurar Tiempo por division 
+     if (pselector->value()>=6){
+        Fl::remove_timeout(cb_timer,this);
+        Fl::remove_timeout(cb_timer_vectores,this);
+        t_div = pselector->value()+48;           //Convertir a caracter la escala de tiempo por division
+        Encapsular('L','d','1',t_div);           //Configurar Tiempo por division 
         Transmision();
+        muestreo_timer(1);
         if (~bhardware)
            fl_message("Error de hardware");
      }
      else {
+          Fl::remove_timeout(cb_timer,this);
+          Fl::remove_timeout(cb_timer_vectores,this);
           Encapsular('L','d','1','B');
           Transmision();
           if (bhardware)
-             muestreo_timer();   
+             muestreo_timer(2);   
      }
 }
 
@@ -534,50 +544,125 @@ void Osciloscopio::cb_pos_y_in(Fl_Widget* psel){
 
 /**
  * Este método es el callback del timer para realizar la solicitud 
- * de datos del canal 1 del osciloscopio al hardware.  
+ * de datos uno a uno en el osciloscopio.  
 */
-void Osciloscopio::cb_timer_ch1(void *pany)
+void Osciloscopio::cb_timer(void *pany)
 {
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_timer_ch1_in();
+     posc->cb_timer_in();
 }
 
 /**
- * Esta función acompaña la función cb_timer_ch1
- * para realizar los llamados de callback del timer 
+ * Esta función acompaña la función cb_timer para realizar los llamados 
+ * de callback del timer de solicitud de muestras una a una 
 */
-void Osciloscopio::cb_timer_ch1_in(){
+void Osciloscopio::cb_timer_in(){
      Encapsular('L','y','1','0');
      Transmision();
      recorrer_datos(isec_ch);
-    switch (omenu_t_div->value()){
+     switch (omenu_t_div->value()){
             case 0:
-                 Fl::repeat_timeout(0.002, cb_timer_ch1, this);
+                 Fl::repeat_timeout(0.002, cb_timer, this);
                  break;
             case 1:
-                 Fl::repeat_timeout(0.005, cb_timer_ch1, this);
+                 Fl::repeat_timeout(0.005, cb_timer, this);
                  break; 
             case 2:
-                 Fl::repeat_timeout(0.01, cb_timer_ch1, this); 
+                 Fl::repeat_timeout(0.01, cb_timer, this); 
                  break;
             case 3:
-                 Fl::repeat_timeout(0.02, cb_timer_ch1, this); 
+                 Fl::repeat_timeout(0.02, cb_timer, this); 
                  break;
             case 4:
-                 Fl::repeat_timeout(0.05, cb_timer_ch1, this); 
+                 Fl::repeat_timeout(0.05, cb_timer, this); 
                  break;
             case 5:
-                 Fl::repeat_timeout(0.1, cb_timer_ch1, this);
+                 Fl::repeat_timeout(0.1, cb_timer, this);
                  break; 
             case 6:      
-                 Fl::repeat_timeout(0.2, cb_timer_ch1, this); 
+                 Fl::repeat_timeout(0.2, cb_timer, this); 
                  break;
             case 7:
-                 Fl::repeat_timeout(0.5, cb_timer_ch1, this); 
+                 Fl::repeat_timeout(0.5, cb_timer, this); 
                  break;
      }
    
 }
+
+
+/**
+ * Este método es el callback del timer para realizar la solicitud 
+ * de vectores de datos del osciloscopio.  
+*/
+void Osciloscopio::cb_timer_vectores(void *pany)
+{
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cb_timer_vectores_in();
+}
+
+
+/**
+ * Esta función acompaña la función cb_timer para realizar los llamados 
+ * de callback del timer de solicitud de muestras una a una 
+*/
+void Osciloscopio::cb_timer_vectores_in(){
+     if (canal1->bestado && ~canal2->bestado){
+        Encapsular('L', 'p', '1', '0');                //Trama Osc14   
+        Transmision();
+        //fl_message("entro inicio timer");
+        if (ch1_muestreado){
+           Encapsular('A', 'p', '1', '1');             //Trama Osc16 
+           Transmision();
+           Encapsular('A', 'p', '1', '2');             //Trama Osc16
+           Transmision();
+           Encapsular('A', 'p', '1', '3');             //Trama Osc16
+           Transmision();
+           Encapsular('A', 'p', '1', '4');             //Trama Osc16
+           Transmision();
+           recorrer_datos(1);
+        }
+     }
+     if (canal2->bestado && ~canal1->bestado){
+        Encapsular('L', 'p', '1', '0');
+        Transmision();
+        if (ch1_muestreado){
+           Encapsular('B', 'p', '1', '1');
+           Transmision();
+           Encapsular('B', 'p', '1', '2');
+           Transmision();
+           Encapsular('B', 'p', '1', '3');
+           Transmision();
+           Encapsular('B', 'p', '1', '4');
+           Transmision();
+           recorrer_datos(2);
+        }
+     }
+     if (canal1->bestado && canal2->bestado){
+        Encapsular('L', 'p', '1', '0');
+        Transmision();
+        if (ch1_muestreado && ch2_muestreado){
+           Encapsular('A', 'p', '1', '1');
+           Transmision();
+           Encapsular('A', 'p', '1', '2');
+           Transmision();
+           Encapsular('A', 'p', '1', '3');
+           Transmision();
+           Encapsular('A', 'p', '1', '4');
+           Transmision();
+           Encapsular('B', 'p', '1', '1');
+           Transmision();
+           Encapsular('B', 'p', '1', '2');
+           Transmision();
+           Encapsular('B', 'p', '1', '3');
+           Transmision();
+           Encapsular('B', 'p', '1', '4');
+           Transmision();
+           recorrer_datos(3);
+        }
+     }
+    Fl::repeat_timeout(0.0005, cb_timer_vectores, this); 
+}
+
 
 
 /**
@@ -590,22 +675,14 @@ void Osciloscopio::recorrer_datos(int num_canal)
      if (num_canal == 1){
         if (omenu_t_div->value()<6){
            opantalla->TraceColour(Fl_Color(canal1->ncolor));
-           //fl_message("dato es %d", receive_buf[4]);
            idato_graf_ch1 = idato_osc_ch1;
            opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257)); //es
-           //opantalla->Add((canal1->opos_x->value()) + (1));
         }
         else{
              opantalla->TraceColour(Fl_Color(canal1->ncolor));
              for(icont=0;icont < DATA_OSC-1; icont++){
                  idato_graf_ch1 = buf_osc_ch1[icont];
-                 //fl_message("datos grafica es: %d, pos es %d", idato_graf_ch1, icont);
-                 if (idato_graf_ch1 == 0){
-                    opantalla->Add(560+ canal1->npos_y);
-                 }
-                 else {
-                      opantalla->Add(canal1->npos_y + (idato_graf_ch1));
-                 }              
+                      opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257)); //es            
              }   
         }                
      }
@@ -665,83 +742,19 @@ void Osciloscopio::cb_log_osc_in(){
  * señales en el osciloscopio. 
 */
 void Osciloscopio::muestrear(int num_canal){
-     int cont;
-     if (num_canal == 1){
-      //  while (canal1->bestado){
-        //for (cont = 0; cont < 3; cont ++){
-              //fl_message("iniciar a muestrear");
-              Encapsular('L', 'p', '1', '0');                //Trama Osc14   
-              Transmision();
-              //fl_message("iniciar a muestrear");
-              if (ch1_muestreado){
-                // fl_message("pedir primer vector");
-                 Encapsular('A', 'p', '1', '1');             //Trama Osc16 
-                 Transmision();
-                // fl_message("pedir segundo vector");
-                 Encapsular('A', 'p', '1', '2');             //Trama Osc16
-                 Transmision();
-                // fl_message("pedir tercer vector");
-                 Encapsular('A', 'p', '1', '3');             //Trama Osc16
-                 Transmision();
-                 //fl_message("pedir cuarto vector");
-                 Encapsular('A', 'p', '1', '4');             //Trama Osc16
-                 Transmision();
-                 recorrer_datos(1);
-              }
-      //  }
-     }
-     if (num_canal == 2){
-        while (canal2->bestado){
-              Encapsular('L', 'p', '1', '0');
-              Transmision();
-              if (ch1_muestreado){
-                 Encapsular('B', 'p', '1', '1');
-                 Transmision();
-                 Encapsular('B', 'p', '1', '2');
-                 Transmision();
-                 Encapsular('B', 'p', '1', '3');
-                 Transmision();
-                 Encapsular('B', 'p', '1', '4');
-                 Transmision();
-                 recorrer_datos(2);
-              }
-        }
-     }
-     if (num_canal == 3){
-        while (canal2->bestado && canal1->bestado){
-              Encapsular('L', 'p', '1', '0');
-              Transmision();
-              if (ch1_muestreado && ch2_muestreado){
-                 Encapsular('A', 'p', '1', '1');
-                 Transmision();
-                 Encapsular('A', 'p', '1', '2');
-                 Transmision();
-                 Encapsular('A', 'p', '1', '3');
-                 Transmision();
-                 Encapsular('A', 'p', '1', '4');
-                 Transmision();
-                 Encapsular('B', 'p', '1', '1');
-                 Transmision();
-                 Encapsular('B', 'p', '1', '2');
-                 Transmision();
-                 Encapsular('B', 'p', '1', '3');
-                 Transmision();
-                 Encapsular('B', 'p', '1', '4');
-                 Transmision();
-                 recorrer_datos(3);
-              }
-        }
-     }
 }
 
 /**
  * Rutina para solicitar una a una las muestras de las 
  * señales en el osciloscopio. 
 */
-void Osciloscopio::muestreo_timer(){
-        Fl::add_timeout(0.1, cb_timer_ch1, this);
+void Osciloscopio::muestreo_timer(int isel){
+     if (isel==1){
+        Fl::add_timeout(0.1, cb_timer_vectores, this);
+     }
+     else
+        Fl::add_timeout(0.1, cb_timer, this);
 }
-
 
 
 /**
@@ -755,6 +768,7 @@ void Osciloscopio::cb_acople(Fl_Widget* pboton, void *pany)
      posc->cb_acople_in();
 }
 
+
 /**
  * Esta función acompaña la función  cb_acople  
  * para realizar los llamados de callback del selector de acople
@@ -763,17 +777,38 @@ void Osciloscopio::cb_acople(Fl_Widget* pboton, void *pany)
 void Osciloscopio::cb_acople_in(){
   if (isec_acople==0){
      canal1->oacop_gnd->value(0);
-     canal1->oacop_ac->value(1);
+     Encapsular('A', 'e', '1', '2');
+     Transmision();
+     if (bhardware){
+        canal1->oacop_ac->value(1);
      }
-     if (isec_acople==1){
+     else{
+         fl_message("Error de hardware"); 
+     }
+  }
+  if (isec_acople==1){
      canal1->oacop_ac->value(0);
-     canal1->oacop_dc->value(1);
+     Encapsular('A', 'e', '1', '1');
+     Transmision();
+     if (bhardware){
+        canal1->oacop_dc->value(1);
      }
-     if (isec_acople==2){
+     else{
+         fl_message("Error de hardware"); 
+     }
+  }
+  if (isec_acople==2){
      canal1->oacop_dc->value(0);
-     canal1->oacop_gnd->value(1);
-     isec_acople=-1;
+     Encapsular('A', 'e', '1', '3');
+     Transmision();
+      if (bhardware){
+         canal1->oacop_gnd->value(1);
+      }
+     else{
+         fl_message("Error de hardware"); 
      }
+     isec_acople=-1;
+  }
      isec_acople++;  
 }
 

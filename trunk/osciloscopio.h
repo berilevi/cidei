@@ -38,14 +38,6 @@ class Osciloscopio : public Instrumento
 		void Setit_div(int ix); // sets the value of nt_div
 		void Setifrec_muestreo(int ix); // sets the value of nfrec_muestreo
 		void Setinivel_trigger(int ix); // sets the value of nnivel_trigger
-/*		enum t_por_d {
-             volt_ac,
-             volt_dc,
-             amp_ac, 
-             amp_dc,
-             ohm,
-             continuidad
-        };*/
 		/**
 		 * Método para sumar las señales adquiridas por los 2 canales
 		 * del instrumento.
@@ -168,10 +160,9 @@ class Osciloscopio : public Instrumento
 		*/
 		void muestrear(int);
 		/**
-		 * Rutina para solicitar una a una las muestras de las 
-         * señales en el osciloscopio. 
+		 * Rutina para solicitar las muestras de las señales en el osciloscopio. 
 		*/
-		void muestreo_timer();
+		void muestreo_timer(int);
          /**
 		 * Calback para la escala de 0.5s por división
 		*/
@@ -344,16 +335,26 @@ class Osciloscopio : public Instrumento
          * por punto los datos para graficar.
 		*/
 		void config_canal();
+		/**
+         * Este método es el callback del timer para realizar la solicitud 
+         * de los vectores de datos de los canales del osciloscopio.  
+         */   
+         static void cb_timer_vectores(void *);
+         /**
+         * Esta función acompaña la función cb_timer_vectores
+         * para realizar los llamados de callback del timer. 
+         */
+         inline void cb_timer_vectores_in();
          /**
          * Este método es el callback del timer para realizar la solicitud 
-         * de datos del canal 1 del osciloscopio al hardware.  
+         * de datos uno a uno en el osciloscopio.  
          */   
-         static void cb_timer_ch1(void *);
+         static void cb_timer(void *);
          /**
-         * Esta función acompaña la función cb_timer_ch1
-         * para realizar los llamados de callback del timer 
+         * Esta función acompaña la función cb_timer para realizar los llamados 
+         * de callback del timer de solicitud de muestras una a una 
          */
-         inline void cb_timer_ch1_in();
+         inline void cb_timer_in();
         /**
 		 * Este método es el callback del boton selector de canal
 		 * en el osciloscopio debe ir acompañada de una función inline para
