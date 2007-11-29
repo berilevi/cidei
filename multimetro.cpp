@@ -137,7 +137,14 @@ void Multimetro::cb_mult_on(Fl_Widget* pboton, void *any)
 void Multimetro::cb_mult_on_in(){
      if (omult_on->value()== 1){
         activar(1);
-        ogroup_mult->activate();
+        Encapsular('K','a','1','0');
+        Transmision();
+        if (bhardware){
+           ogroup_mult->activate();
+        }
+        else {
+             fl_message("Error de hardware");
+        }
      }
      if (omult_on->value()== 0){
         activar(0);
@@ -150,7 +157,7 @@ void Multimetro::cb_mult_on_in(){
 * del multímetro.
 */
 void Multimetro::set_disp_mult(char svalor [4]){
-     odisp_mult->value(svalor);      
+     odisp_mult->value((svalor));      
 }
 
 /**
@@ -168,28 +175,9 @@ void Multimetro::cb_timer_mult(void *pany)
  * para realizar los llamados de callback del timer 
 */
 void Multimetro::cb_timer_mult_in(){
-     switch (instrument) {
-            case volt_ac:
-                 Encapsular('K','p','1','2');
-                 Transmision();
-                 set_disp_mult((buf_mult));
-            case volt_dc:
-                 Encapsular('K','p','1','1');
-                 Transmision();
-                 set_disp_mult((buf_mult));
-            case amp_ac:
-                 Encapsular('K','p','1','4');
-                 Transmision();
-                 set_disp_mult((buf_mult));
-            case amp_dc:
-                 Encapsular('K','p','1','3');
-                 Transmision();
-                 set_disp_mult((buf_mult));
-            case ohm:
-                 Encapsular('K','p','1','5');
-                 Transmision();
-                 set_disp_mult((buf_mult));
-     ;}
+     Encapsular('K','p','1','0');
+     Transmision();
+     set_disp_mult((buf_mult));
      Fl::repeat_timeout(0.5, cb_timer_mult, this);
 }
 
@@ -204,26 +192,31 @@ void Multimetro::config_instrumento(int instrumento){
                  Encapsular('K','q','1','2');
                  Transmision();
                  if (bhardware)
-                    //Fl::add_timeout(0.005, cb_timer_mult, this);
+                 Fl::add_timeout(0.005, cb_timer_mult, this);
+                 break;
             case volt_dc:
                  Encapsular('K','q','1','1');
                  Transmision();
                  if (bhardware)
-                    //Fl::add_timeout(0.005, cb_timer_mult, this);
+                 Fl::add_timeout(0.005, cb_timer_mult, this);
+                 break;
             case amp_ac:
                  Encapsular('K','q','1','4');
                  Transmision();
                  if (bhardware)
-                    //Fl::add_timeout(0.005, cb_timer_mult, this);
+                 Fl::add_timeout(0.005, cb_timer_mult, this);
+                 break;
             case amp_dc:
                  Encapsular('K','q','1','3');
                  Transmision();
                  if (bhardware)
-                    //Fl::add_timeout(0.005, cb_timer_mult, this); 
+                 Fl::add_timeout(0.005, cb_timer_mult, this); 
+                 break;
             case ohm:
                  Encapsular('K','q','1','5');
                  Transmision();
                  if (bhardware)
-                    //Fl::add_timeout(0.005, cb_timer_mult, this); 
-    ;}
+                 Fl::add_timeout(0.005, cb_timer_mult, this); 
+                 break;
+    }
 }
