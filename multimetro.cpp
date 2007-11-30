@@ -12,7 +12,7 @@ Multimetro::Multimetro(){
     strcpy(cnombre,"mult.txt"); 
     omult_on = new Fl_Light_Button(960,280,30,20,"ON");
     omult_on->labelsize(9);
-    ogroup_mult = new Fl_Group (695,5,300,300,"");
+    ogroup_mult = new Fl_Group (695,5,300,360,"");
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->deactivate();
     odisp_mult  = new Fl_7Seg (710,15,230,105);

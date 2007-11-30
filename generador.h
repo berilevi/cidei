@@ -3,7 +3,14 @@
 #ifndef GENERADOR_H
 #define GENERADOR_H
 
-#include "instrumento.h" // inheriting class's header file
+#include "instrumento.h"                    // inheriting class's header file
+#include <FL/Fl_Group.H>
+#include <Fl/fl_Light_Button.h>
+#include <Fl/fl_Button.h>
+#include <FL/Fl_Repeat_Button.H>
+#include "Fl_7Seg.H"                        // class's header file
+#include "fl_Knob.h"
+#include <FL/Fl_Counter.H>
 
 /**
  * Clase que representa el funcionamiento del instrumento 
@@ -16,6 +23,91 @@ class Generador : public Instrumento
 		Generador();
 		// class destructor
 		~Generador();
+		
+	private:
+         /**
+		 * Agrupa los botones e indicadores del generador de señales
+	     */
+		Fl_Group *ogroup_generador;
+		/**
+		 * Agrupa los botones para ajustar la frecuencia de la señal generada
+	     */
+		Fl_Group *ogroup_frecuencia;
+		/**
+		 * Agrupa los botones e indicadores para seleccionar la señal generada
+	     */
+		Fl_Group *ogroup_senal;
+		/**
+		 * Agrupa los botones para seleccionar la amplitud y nivel de offset de 
+		 * la señal generada.
+	     */
+		Fl_Group *ogroup_amplitud;
+		/**
+		 * Boton para prender el instrumento generador de señales
+	     */
+		Fl_Light_Button *ogen_on;
+		/**
+		 * Display del generador donde el usuario observa el valor de frecuencia
+         * que el usuario configura.
+		*/
+		Fl_7Seg *odisp_gen;
+		/**
+		 * Boton que habilita la ayuda al usuario sobre el manejo del instrumento 
+		*/
+        Fl_Button *ohelp_gen;
+        /**
+		 * Boton para seleccionar el tipo de señal que se debe generar con el 
+         * instrumento.
+		*/
+        Fl_Repeat_Button *osel_gen;
+        /**
+		 * Indicador luminoso de seleccion de generar señal de tipo  
+         * sinusoidal
+		*/
+        Fl_Light_Button *oseno;
+        /**
+		 * Indicador luminoso de seleccion de generar señal de tipo  
+         * cuadrada
+		*/
+        Fl_Light_Button *ocuadrada;
+        /**
+		 * Indicador luminoso de seleccion de generar señal de tipo  
+         * triangular.
+		*/
+        Fl_Light_Button *otriangulo;
+        /**
+		 * Indicador luminoso del valor de la frecuencia en la escala de mili-Hertz  
+		*/
+        Fl_Light_Button *omHz;
+        /**
+		 * Indicador luminoso del valor de la frecuencia en la escala de Hertz  
+		*/
+        Fl_Light_Button *oHz;
+        /**
+		 * Indicador luminoso del valor de la frecuencia en la escala de Mega-Hertz  
+		*/
+        Fl_Light_Button *oMeHz;
+        /**
+		 * Boton de ajuste lineal fino de la frecuencia de la señal seleccionada  
+         * por el ususario.
+		*/
+        Fl_Knob *ofrec_gen;
+        /**
+		 * Boton de seleccion de rango de frecuencias de la señal seleccionada  
+         * por el ususario para ajuste grueso.
+		*/
+        Fl_Counter *oescala_frec;
+        /**
+		 * Boton de ajuste lineal de la amplitud de la señal seleccionada  
+         * por el ususario.
+		*/
+        Fl_Knob *oamplitud;
+        /**
+		 * Boton de ajuste lineal del nivel de offset de la señal seleccionada  
+         * por el ususario.
+		*/
+        Fl_Knob *ooffset;
+        
 };
 
 #endif // GENERADOR_H
