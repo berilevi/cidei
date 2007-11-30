@@ -3,12 +3,12 @@
 #ifndef GENERADOR_H
 #define GENERADOR_H
 
-#include "instrumento.h"                    // inheriting class's header file
+#include "instrumento.h"                    //Inheriting class's header file
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <Fl/fl_Button.h>
 #include <FL/Fl_Repeat_Button.H>
-#include "Fl_7Seg.H"                        // class's header file
+#include "Fl_7Seg.H"                        //Class's header file
 #include "fl_Knob.h"
 #include <FL/Fl_Counter.H>
 
@@ -23,7 +23,6 @@ class Generador : public Instrumento
 		Generador();
 		// class destructor
 		~Generador();
-		
 	private:
          /**
 		 * Agrupa los botones e indicadores del generador de señales
@@ -106,7 +105,18 @@ class Generador : public Instrumento
 		 * Boton de ajuste lineal del nivel de offset de la señal seleccionada  
          * por el ususario.
 		*/
-        Fl_Knob *ooffset;
+        Fl_Knob *ooffset;  
+        /**
+		 * Este método es el callback del boton de encendido del generador de
+         * señales.
+		 */
+		static void cb_generador_on(Fl_Widget*, void *);
+		/**
+		 * Esta función acompaña la función  cb_generador_on 
+		 * para realizar los llamados de callback del boton de encendido
+		 * del generador.
+		 */
+		inline void cb_generador_on_in();
         
 };
 

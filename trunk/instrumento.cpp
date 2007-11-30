@@ -93,7 +93,7 @@ void Instrumento::Transmision(){
       DWORD RecvLength=190;        
       DWORD SentDataLength;
       
-        //fl_message("envio al hw es: %s", trama_control);
+      //fl_message("envio al hw es: %s", trama_control);
     
       MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,1);
       fflush(stdin);
@@ -149,7 +149,7 @@ void Instrumento::GuardarBit(int canal[], int posicion, bool bit)
 */
 void Instrumento::Desencapsular(BYTE recibida [])
 {
-     //fl_message("trama recibida %s", recibida);
+     // fl_message("trama recibida %s", recibida);
      int icont = 0;
      int itamano;
      itamano = int (recibida [3]);            //Tamano de la informacion enviada
@@ -182,22 +182,22 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  switch (recibida [2]){
                         case '1':             //Primer vetor de datos
                              for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch2[icont-4]=recibida[icont];
+                                 buf_osc_ch2[icont-4]=int(recibida[icont]);
                              }
                              break;
                         case '2':             //Segundo vector de datos
                              for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch2[(icont-4)+143]=recibida[icont];
+                                 buf_osc_ch2[(icont-4)+143]=int(recibida[icont]);
                              }
                              break;
                         case '3':             //Tercer vector de datos
                              for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch2[(icont-4)+286]=recibida[icont];
+                                 buf_osc_ch2[(icont-4)+286]=int(recibida[icont]);
                              }
                              break;
                         case '4':             //Cuarto vector de datos
                              for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch2[(icont-4)+429]=recibida[icont];
+                                 buf_osc_ch2[(icont-4)+429]=int(recibida[icont]);
                              }
                              break;                    
                  }
@@ -267,6 +267,9 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  if (recibida [2] == 'p'){
                     if (recibida [4]== '1'){                   //Muestreo completo de señal en canal 1 del osciloscopio
                        ch1_muestreado = 1;         
+                    }
+                    else if(recibida [4]== '2'){
+                        ch2_muestreado = 1; 
                     }
                  }
                  else if (recibida [2] == '1'){                //Muestreo de la señal dato por dato en canal 1

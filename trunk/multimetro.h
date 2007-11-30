@@ -108,7 +108,10 @@ private:
 		 * el multimetro
 		 */
 		inst instrument;
-		
+		/**
+		 * Boton que habilita la ayuda para el uso del instrumento. 
+	    */
+        Fl_Button *ohelp_mult;
 		/**
 		 * Indicador luminoso de activación del medidor
 		 * de voltaje en ac.
