@@ -5,12 +5,14 @@
 #include "osciloscopio.h"
 #include "multimetro.h"
 #include "analizador.h"
+#include "generador.h"
 #include <string>
 #include <pthread.h>
 
 Multimetro *mult =0;
 Osciloscopio *osc = 0;
 Analizador *ana = 0;
+Generador *gene = 0;
 pthread_t thread, thread1, thread2;
 
 int status, status2, status3;
@@ -42,9 +44,8 @@ int main (int argc, char ** argv)
   
   window = new Fl_Double_Window (1024, 708);
   ana = new Analizador();
+  gene = new Generador();
  
-  omult_on = new Fl_Light_Button(960,280,30,20,"ON");
-  omult_on->labelsize(9);
   
   rc=pthread_create(&thread, NULL, runhilo, (void *)t);
         if (rc){
