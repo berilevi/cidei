@@ -64,14 +64,58 @@ Generador::Generador()
     ooffset->type(8); 
     ooffset->labelsize(11);
     ogroup_amplitud->end();
-    
-    
-    
+ 
 	ogroup_generador-> end();
 	
 	ogen_on = new Fl_Light_Button(960,655,30,20,"ON");  
     ogen_on->labelsize(9);     
+    
+    ogen_on->callback(cb_generador_on, this);
+    //osel_gen->callback(cb_sel_gen_on, this);
+
+
+
 }
+
+
+/*
+ * Este método es el callback del boton que activa el generador de señales
+*/
+void Generador::cb_generador_on(Fl_Widget* pboton, void *any)
+{
+     Generador* pgener=(Generador*)any;
+     pgener->cb_generador_on_in();
+}
+
+/**
+ * Esta función acompaña la función  cb_mult_on para activar el  
+ * multimetro
+*/
+void Generador::cb_generador_on_in(){
+     if (ogen_on->value()== 1){
+        activar(1);
+        Encapsular('I','a','1','0');
+        //Transmision();
+    //    if (bhardware){
+           ogroup_generador->activate();
+           ogroup_frecuencia->activate();
+           ogroup_senal->activate();
+           ogroup_amplitud->activate();
+           
+    //    }
+    //    else {
+       //      fl_message("Error de hardware");
+     //   }
+     }
+     if (ogen_on->value()== 0){
+        activar(0);
+        ogroup_generador->deactivate(); 
+     } 
+}
+
+
+
+
 
 // class destructor
 Generador::~Generador()

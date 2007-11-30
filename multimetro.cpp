@@ -10,7 +10,7 @@ Multimetro::Multimetro(){
     isec_mult=0;
     strcpy(cvalor,"0.000");
     strcpy(cnombre,"mult.txt"); 
-    omult_on = new Fl_Light_Button(960,280,30,20,"ON");
+    omult_on = new Fl_Light_Button(960,340,30,20,"ON");
     omult_on->labelsize(9);
     ogroup_mult = new Fl_Group (695,5,300,360,"");
     ogroup_mult->box(FL_ENGRAVED_FRAME);
@@ -19,8 +19,9 @@ Multimetro::Multimetro(){
     odisp_mult->box(FL_EMBOSSED_FRAME);
     odisp_mult->segment_gap(2);
     odisp_mult->value("1234");
-    
-    oSel_mult = new Fl_Repeat_Button(768,230,150,25,"Selección de Instrumento");
+    ohelp_mult  = new Fl_Button (705,340,40,18,"Help");
+    ohelp_mult->labelsize(10);
+    oSel_mult = new Fl_Repeat_Button(768,250,150,25,"Selección de Instrumento");
     oSel_mult->labelsize(12);
     ov_ac = new Fl_Light_Button(745,160,10,10,"V_ac");
     ov_ac->labelsize(12);

@@ -222,6 +222,7 @@ void Osciloscopio::cb_osc_on_in(){
       if (oosc_on->value()== 1){
          activar(1);
          Encapsular('A','a','1','0');
+         //Encapsular('B','a','1','0');
          Transmision();
          if (bhardware){
             activar(1);
@@ -232,11 +233,8 @@ void Osciloscopio::cb_osc_on_in(){
             canal1->ogroup_ch->activate();
             otiempo_div->value(6);
             omenu_t_div->value(6);
-            //Encapsular('L','d','1','6');           //Configurar Tiempo por division 
-            //Transmision();
             canal1->ovolt_div->value(0);
             /* TODO (JuanPablo#1#): Configurar el valor por defecto de acople del canal */
-            //fl_message("muestrear");
             muestreo_timer(1);
          }
          else {
@@ -244,7 +242,6 @@ void Osciloscopio::cb_osc_on_in(){
          }
       }
       if (oosc_on->value()== 0){
-//         Fl::remove_timeout(cb_timer_ch2, this);
          Fl::remove_timeout(cb_timer, this);
          activar(0);
          ogroup_osc->deactivate(); 
@@ -281,45 +278,51 @@ void Osciloscopio::cb_sel_ch_in(){
              fl_message("Error de hardware");
         }*/
         Encapsular('A','a','1','0');           //Activar canal 1
-    //    Transmision();
-   //     if (bhardware){
+        Transmision();
+        if (bhardware){
            och1->value(1);
            canal1->activar(1);
            canal1->ogroup_ch->activate();
-           if (otiempo_div->value() > 9){
-           muestreo_timer(1);
+           if (otiempo_div->value() >= 6){
+              muestreo_timer(1);
            }
            else {
-                muestreo_timer(1);
+                muestreo_timer(2);
            }
-
-    /*    }
+        }
         else {
              fl_message("Error de hardware");
-        }*/
+        }
      }
      if (isec_ch==1){
         Encapsular('A','b','1','0');         //Desactivar canal 1
-     //   Transmision();
-     //   if (bhardware){
+        Transmision();
+        if (bhardware){
+           fl_message("apagar a");
            och1->value(0);
            canal1->activar(0);
            canal1->ogroup_ch->deactivate();
-     /*   }
+        }
         else {
              fl_message("Error de hardware");
-        }*/
+        }
         Encapsular('B','a','1','0');         //Activar canal 2
-     //   Transmision();
-     //   if (bhardware){
+        Transmision();
+        if (bhardware){
+           fl_message("activo B");
            och2->value(1);
            canal2->activar(1);
            canal2->ogroup_ch->activate();
-     //     muestreo_timer(2);
-    /*    }
+           if (otiempo_div->value() >= 6){
+              muestreo_timer(1);
+           }
+           else {
+                muestreo_timer(2);
+           }
+        }
         else {
              fl_message("Error de hardware");
-        }*/
+        }
      }
      if (isec_ch==2){
         Encapsular('A','a','1','0');           //Activar canal 1
@@ -625,7 +628,7 @@ void Osciloscopio::cb_timer_vectores_in(){
      if (canal2->bestado && ~canal1->bestado){
         Encapsular('L', 'p', '1', '0');
         Transmision();
-        if (ch1_muestreado){
+        if (ch2_muestreado){
            Encapsular('B', 'p', '1', '1');
            Transmision();
            Encapsular('B', 'p', '1', '2');
@@ -688,18 +691,19 @@ void Osciloscopio::recorrer_datos(int num_canal)
      }
      
      if (num_canal == 2){
-        opantalla->TraceColour(Fl_Color(canal2->ncolor));
-        for(icont=0;icont < DATA_OSC-1; icont++){
-            idato_graf_ch2 = buf_osc_ch2[icont];
-            if (idato_graf_ch2 == 0){
-               opantalla->Add(560+ canal2->npos_y);
+        if (omenu_t_div->value()<6){
+           opantalla->TraceColour(Fl_Color(canal2->ncolor));
+           idato_graf_ch2 = idato_osc_ch2;
+           opantalla->Add((canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+        }
+        else{
+            opantalla->TraceColour(Fl_Color(canal2->ncolor));
+            for(icont=0;icont < DATA_OSC-1; icont++){ 
+                idato_graf_ch2 = buf_osc_ch2[icont];
+                opantalla->Add((canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
             }
-            else {
-                 opantalla->Add(canal2->npos_y + (560*(idato_graf_ch2)*canal2->nv_div));
-            }              
-        }                   
+        }                 
      }
-     
      if (num_canal == 3){
         for(icont=0;icont < DATA_OSC-1; icont++){
             idato_graf_ch1 = buf_osc_ch1[icont];
