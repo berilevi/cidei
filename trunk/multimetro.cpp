@@ -138,7 +138,7 @@ void Multimetro::cb_mult_on(Fl_Widget* pboton, void *any)
 void Multimetro::cb_mult_on_in(){
      if (omult_on->value()== 1){
         activar(1);
-        Encapsular('K','a','1','0');
+        Encapsular('K','a','1','0',0x00,0x00);
         Transmision();
         if (bhardware){
            ogroup_mult->activate();
@@ -176,9 +176,10 @@ void Multimetro::cb_timer_mult(void *pany)
  * para realizar los llamados de callback del timer 
 */
 void Multimetro::cb_timer_mult_in(){
-     Encapsular('K','p','1','0');
+     Encapsular('K','p','1','0',0x00,0x00);
      Transmision();
-     set_disp_mult((buf_mult));
+     escalar_valor(1);
+     //set_disp_mult((buf_mult));
      Fl::repeat_timeout(0.5, cb_timer_mult, this);
 }
 
@@ -190,34 +191,72 @@ void Multimetro::cb_timer_mult_in(){
 void Multimetro::config_instrumento(int instrumento){
      switch (instrumento) {
             case volt_ac:
-                 Encapsular('K','q','1','2');
+                 Encapsular('K','q','1','2',0x00,0x00);
                  Transmision();
                  if (bhardware)
                  Fl::add_timeout(0.005, cb_timer_mult, this);
                  break;
             case volt_dc:
-                 Encapsular('K','q','1','1');
+                 Encapsular('K','q','1','1',0x00,0x00);
                  Transmision();
                  if (bhardware)
                  Fl::add_timeout(0.005, cb_timer_mult, this);
                  break;
             case amp_ac:
-                 Encapsular('K','q','1','4');
+                 Encapsular('K','q','1','4',0x00,0x00);
                  Transmision();
                  if (bhardware)
                  Fl::add_timeout(0.005, cb_timer_mult, this);
                  break;
             case amp_dc:
-                 Encapsular('K','q','1','3');
+                 Encapsular('K','q','1','3',0x00,0x00);
                  Transmision();
                  if (bhardware)
                  Fl::add_timeout(0.005, cb_timer_mult, this); 
                  break;
             case ohm:
-                 Encapsular('K','q','1','5');
+                 Encapsular('K','q','1','5',0x00,0x00);
                  Transmision();
                  if (bhardware)
                  Fl::add_timeout(0.005, cb_timer_mult, this); 
                  break;
     }
+}
+
+
+/**
+ * Calcula el valor de la medicion en el rango de escala en que se encuentre
+*/
+void Multimetro::escalar_valor(int escala){
+ /*        switch (isec_mult) {
+            case 0:
+
+                 break;
+            case 1:
+  */               if (atoi(buf_mult)>= 512){
+                    itoa((atoi(buf_mult)-512)/FACTOR_VDC_1,cvalor,10);
+                    fl_message("valor es : %d", (atoi(buf_mult)-512));
+                    fl_message("cadena es : %s", cvalor);
+                 }
+                 else{
+                      itoa((atoi(buf_mult)*(-1))/FACTOR_VDC_1,cvalor,10);
+                      fl_message("valor 2 es : %d", (atoi(buf_mult)/2560));
+                      fl_message("cadena es : %s", cvalor);
+                 }
+
+     /*/            break;
+            case 2:
+
+                 break;
+            case 3:
+
+                 break;
+            case 4:
+
+                 break;
+            case 5:
+
+                 break;
+    }*/
+     
 }

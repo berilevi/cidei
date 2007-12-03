@@ -158,7 +158,7 @@ class Osciloscopio : public Instrumento
 		 * Rutina para solicitar los cuatro vectores de las muestras de las 
          * señales en el osciloscopio. 
 		*/
-		void muestrear(int);
+	//	void muestrear(int);
 		/**
 		 * Rutina para solicitar las muestras de las señales en el osciloscopio. 
 		*/

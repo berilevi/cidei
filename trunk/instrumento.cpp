@@ -95,11 +95,11 @@ void Instrumento::Transmision(){
       
       //fl_message("envio al hw es: %s", trama_control);
     
-      MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,1);
+      MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,100);
       fflush(stdin);
       
-      MPUSBRead(myInPipe,receive_buf,190,&RecvLength,1);
-      MPUSBRead(myInPipe,receive_buf,190,&RecvLength,1);
+      MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);      
+      MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);
   
       Desencapsular(receive_buf);
              
@@ -119,12 +119,14 @@ void Instrumento::Transmision(){
  * La función Encapsular organiza la trama que se envía
  * al hardware a través de USB.
 */
-void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato)
+void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char cfin, char cfin2)
 {
      trama_control[1] = cnom;           //Dispositivo de hardware 
      trama_control[2] = coper;          //Operacion que se va a realizar 
      trama_control[3] = clong;          //Longitud de datos que se van a enviar
      trama_control[4] = cdato;          //Dato que se va a configurar en el hardware
+     trama_control[7] = cfin;           //Dato que se va a configurar en el hardware
+     trama_control[8] = cfin2;          //Dato que se va a configurar en el hardware
 }
 
 /*
@@ -156,10 +158,8 @@ void Instrumento::Desencapsular(BYTE recibida [])
      switch (recibida [1]){
             case 'A':
                  if (recibida [2] == '1'){                         //Osciloscopio canal 1
-                   // fl_message("muestrear primer vector");
                    for (icont = 4; icont < 147; icont++){
                         buf_osc_ch1[icont-4]=int(recibida[icont]);
-                        //fl_message("recibida en pos %d : %d", icont-4,buf_osc_ch1[icont-4]);
                     }
                  }
                  else if (recibida [2] == '2'){
@@ -179,29 +179,27 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  }
                  break;
             case 'B':                         //Osciloscopio canal 2
-                 switch (recibida [2]){
-                        case '1':             //Primer vetor de datos
-                             for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch2[icont-4]=int(recibida[icont]);
-                             }
-                             break;
-                        case '2':             //Segundo vector de datos
-                             for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch2[(icont-4)+143]=int(recibida[icont]);
-                             }
-                             break;
-                        case '3':             //Tercer vector de datos
-                             for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch2[(icont-4)+286]=int(recibida[icont]);
-                             }
-                             break;
-                        case '4':             //Cuarto vector de datos
-                             for (icont = 4; icont < (itamano+4); icont++){
-                                 buf_osc_ch2[(icont-4)+429]=int(recibida[icont]);
-                             }
-                             break;                    
+                 if (recibida [2] == '1'){         //Primer vetor de datos
+                    for (icont = 4; icont < 147; icont++){
+                        buf_osc_ch2[icont-4]=int(recibida[icont]);
+                    }
                  }
-                 break;
+                 else if (recibida [2] == '2'){             //Segundo vector de datos
+                      for (icont = 4; icont < 147; icont++){
+                          buf_osc_ch2[(icont-4)+143]=int(recibida[icont]);
+                      }
+                 }
+                 else if (recibida [2] == '3'){            //Tercer vector de datos
+                      for (icont = 4; icont < 147; icont++){
+                          buf_osc_ch2[(icont-4)+286]=int(recibida[icont]);
+                      }
+                 }
+                 else if (recibida [2] == '4'){            //Cuarto vector de datos
+                      for (icont = 4; icont < 147; icont++){
+                          buf_osc_ch2[(icont-4)+429]=int(recibida[icont]);
+                      }
+                 } 
+                 break;                  
             case 'C':                         //Analizador lógico
                  /* TODO (JPP#1#): revizar lo que hizo ricardo para el analizador */
                  break;
@@ -213,6 +211,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 imult_escala = recibida[2];
                  break;
             case 'E':                         //Voltimetro DC
                  strcpy(buf_mult,"0000");
@@ -222,6 +221,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 imult_escala = recibida[2];
                  break;
             case 'F':                        //Amperimetro AC
                  strcpy(buf_mult,"0000");
@@ -231,6 +231,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 imult_escala = recibida[2];
                  break;
             case 'G':                                      //Amperimetro DC
                  strcpy(buf_mult,"0000");
@@ -240,6 +241,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
+                 imult_escala = recibida[2];
                  break;
             case 'H':                                        //Ometro
                  strcpy(buf_mult,"0000");
@@ -250,6 +252,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                     buf_mult[itamano] = 0x00;
                  }
                  break;
+                 imult_escala = recibida[2];
             case 'I':                                         //Generador de señales
                  break;
             case 'J':                                         //Pruebas de conectividad de LIV
