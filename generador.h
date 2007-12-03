@@ -11,6 +11,7 @@
 #include "Fl_7Seg.H"                        //Class's header file
 #include "fl_Knob.h"
 #include <FL/Fl_Counter.H>
+#include <FL/Fl_Value_Output.H>
 
 /**
  * Clase que representa el funcionamiento del instrumento 
@@ -23,7 +24,21 @@ class Generador : public Instrumento
 		Generador();
 		// class destructor
 		~Generador();
+		// Enumeracion de los tipos de señal que se pueden generar
+		enum tipo {
+             seno,
+             cuadrada,
+             triangulo
+        };
 	private:
+         /**
+		 * Tipos de señal que se pueden generar. 
+	     */
+		tipo senal;
+		/**
+		 * valor de la frecuencia en exadecimal. 
+	     */
+		char frec_hexa [8];
          /**
 		 * Agrupa los botones e indicadores del generador de señales
 	     */
@@ -92,6 +107,10 @@ class Generador : public Instrumento
 		*/
         Fl_Knob *ofrec_gen;
         /**
+		 * Valor de la frecuencia de la señal seleccionada por el ususario.
+		*/
+        Fl_Value_Output *ovalor_frec;
+        /**
 		 * Boton de seleccion de rango de frecuencias de la señal seleccionada  
          * por el ususario para ajuste grueso.
 		*/
@@ -117,6 +136,26 @@ class Generador : public Instrumento
 		 * del generador.
 		 */
 		inline void cb_generador_on_in();
+		/**
+         * Este método es el callback del boton que selecciona el tipo de señal que va a 
+         * ser generada.
+         */
+		static void cb_sel_gen(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función  cb_sel_gen para seleccionar el tipo de señal 
+         * que va a ser generada.
+         */
+		inline void cb_sel_gen_in();
+		/**
+         * Este método es el callback del boton que selecciona la frecuencia de 
+         * la señal que va a ser generada.
+         */
+		static void cb_frec_gen(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función  cb_frec_gen para seleccionar la 
+         * frecuencia de la señal que va a ser generada.
+         */
+		inline void cb_frec_gen_in();
         
 };
 

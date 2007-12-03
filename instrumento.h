@@ -69,7 +69,7 @@ class Instrumento
 		 * respectivos bufferes correspondientes a los canales del analizador
 		 * lógico.
 		**/
-		void Encapsular(char, char, char, char);
+		void Encapsular(char, char, char, char, char,char);
 		/**
 		 * La función Desencapsular organiza los datos enviados desde el hardware
 		 * a los instrumentos de software a través de USB.
@@ -103,7 +103,7 @@ class Instrumento
 		 * Buffer donde se encapsula los comandos enviados al hardware
 		 * para la comunicación USB
 	    */
-        BYTE trama_control[SIZE_DATA];
+        BYTE trama_control[9];
         /**
 		 * Buffer donde se almacena la información enviada desde el hardware
 	    */
@@ -154,6 +154,10 @@ class Instrumento
          * enviada desde el hardware por el multimetro.
 	    */
 	    char buf_mult[4];
+	    /**
+		 * Valor de escala de la medicion realizada con el multimetro 
+		*/
+		int imult_escala;
 	    /**
 		 * Arreglo con los datos de las señales digitalizados por el 
          * hardware del instrumento.

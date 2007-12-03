@@ -2,9 +2,12 @@
 
 #include "generador.h" // class's header file
 
+int isec_generador;
+
 // class constructor
 Generador::Generador()
 {
+    isec_generador = 0;
 	ogroup_generador = new Fl_Group (540,370,460,310,"");
 	ogroup_generador->box(FL_ENGRAVED_BOX);
 	ogroup_generador->deactivate();
@@ -49,6 +52,8 @@ Generador::Generador()
     ofrec_gen = new Fl_Knob (580,500,80,80,"Frecuencia");
     ofrec_gen->color(147);
     ofrec_gen->type(8);
+    ofrec_gen->range(1,30000);
+    ovalor_frec = new Fl_Value_Output(580,590,40,20,"");
     oescala_frec = new Fl_Counter(570,610,100,20,""); 
     oescala_frec->labelsize(10);
     ogroup_frecuencia->end();
@@ -71,9 +76,8 @@ Generador::Generador()
     ogen_on->labelsize(9);     
     
     ogen_on->callback(cb_generador_on, this);
-    //osel_gen->callback(cb_sel_gen_on, this);
-
-
+    osel_gen->callback(cb_sel_gen, this);
+    ofrec_gen->callback(cb_frec_gen, this);
 
 }
 
@@ -88,33 +92,133 @@ void Generador::cb_generador_on(Fl_Widget* pboton, void *any)
 }
 
 /**
- * Esta función acompaña la función  cb_mult_on para activar el  
- * multimetro
+ * Esta función acompaña la función  cb_generador_on para activar el  
+ * generador de señales
 */
 void Generador::cb_generador_on_in(){
      if (ogen_on->value()== 1){
         activar(1);
-        Encapsular('I','a','1','0');
-        //Transmision();
+        Encapsular('I','a','1','0',0x00,0x00);
+    //    Transmision();
     //    if (bhardware){
            ogroup_generador->activate();
            ogroup_frecuencia->activate();
            ogroup_senal->activate();
            ogroup_amplitud->activate();
-           
-    //    }
-    //    else {
-       //      fl_message("Error de hardware");
-     //   }
+           oseno->value(1);
+   /*     }
+        else {
+             fl_message("Error de hardware");
+        }*/
      }
      if (ogen_on->value()== 0){
         activar(0);
         ogroup_generador->deactivate(); 
      } 
+     isec_generador++;
+}
+
+/*
+ * Este método es el callback del boton que selecciona el tipo de señal que va a 
+ * ser generada.
+*/
+void Generador::cb_sel_gen(Fl_Widget* pboton, void *any)
+{
+     Generador* pgener=(Generador*)any;
+     pgener->cb_sel_gen_in();
+}
+
+/**
+ * Esta función acompaña la función  cb_sel_gen para seleccionar el tipo de señal 
+ * que va a ser generada.
+*/
+void Generador::cb_sel_gen_in(){
+     if (isec_generador==0){
+        Encapsular('I','i','1','1',0x00,0x00);
+        Transmision();
+        if (bhardware){
+           otriangulo->value(0);
+           oseno->value(1);
+        }
+        else {
+             fl_message("Error de hardware");
+        }
+     }
+     if (isec_generador==1){
+        Encapsular('I','i','1','3',0x00,0x00);
+        Transmision();
+        if (bhardware){
+           oseno->value(0);                    
+           ocuadrada->value(1);
+        }
+        else {
+             fl_message("Error de hardware");
+        }
+     }
+     if (isec_generador==2){
+        Encapsular('I','i','1','2',0x00,0x00);
+        Transmision();
+        if (bhardware){
+           ocuadrada->value(0);
+           otriangulo->value(1);
+        }
+        else {
+             fl_message("Error de hardware");
+        }
+        isec_generador=-1;
+     }
+     isec_generador++;
 }
 
 
+/*
+ * Este método es el callback del boton que selecciona la frecuencia de la señal 
+ * que va a ser generada.
+*/
+void Generador::cb_frec_gen(Fl_Widget* pboton, void *any)
+{
+     Generador* pgener=(Generador*)any;
+     pgener->cb_frec_gen_in();
+}
 
+/**
+ * Esta función acompaña la función  cb_frec_gen para seleccionar la frecuencia 
+ * de la señal que va a ser generada.
+*/
+void Generador::cb_frec_gen_in(){
+     int icont;
+     int ilong;
+     int ilong_aux;
+     ovalor_frec->value(ofrec_gen->value());
+     itoa(ofrec_gen->value(),frec_hexa,16);
+     ilong = strlen(frec_hexa);
+     fl_message("trama hexa es: %s", frec_hexa);
+     for (icont = 7; icont > 0; icont --){
+         if (icont >= ilong){
+            if (frec_hexa[icont-ilong]>60){
+               frec_hexa[icont-ilong]=frec_hexa[icont-ilong]-32;                                                           
+            }
+            trama_control[icont]= frec_hexa[icont-ilong];
+         }
+         else{
+              trama_control[icont] = '0';
+         }
+     }
+     trama_control[0] = 0x05;
+     trama_control[8] = 0x00;
+     
+     fl_message("trama control 0 es: %X", trama_control[0]);
+     fl_message("trama control 1 es: %X", trama_control[1]);
+     fl_message("trama control 2 es: %X", trama_control[2]);
+     fl_message("trama control 3 es: %X", trama_control[3]);
+     fl_message("trama control 4 es: %X", trama_control[4]);
+     fl_message("trama control 5 es: %X", trama_control[5]);
+     fl_message("trama control 6 es: %X", trama_control[6]);
+     fl_message("trama control 7 es: %X", trama_control[7]);
+     fl_message("trama control 8 es: %X", trama_control[8]);
+   
+     Transmision();
+}
 
 
 // class destructor

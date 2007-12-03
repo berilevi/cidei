@@ -15,6 +15,12 @@
 #include <iostream>
 #include <string>
 
+#define FACTOR_VDC_1 2560
+#define FACTOR_VDC_2 256
+#define FACTOR_VDC_3 25,6
+#define FACTOR_VDC_4 2,56
+#define FACTOR_VDC_5 0,256
+
 
 using namespace std;
 
@@ -43,7 +49,7 @@ class Multimetro : public Instrumento
 		 * Esta variable representa el valor de la medición realizada
 		 * con algun instrumento del multimetro
 		*/
-		char cvalor[6];
+		char cvalor[7];
 		/**
 		 * Este objeto representa el display del multímetro 
 		 * donde el usuario observa el resultado de la medición.
@@ -103,6 +109,10 @@ private:
          * del multimetro
          */
          void config_instrumento(int);
+         /**
+         * Calcula el valor de la medicion en el rango de escala en que se encuentre
+         */
+         void escalar_valor(int);
 		/**
 		 * Esta varaible representa los instrumentos que contiene
 		 * el multimetro

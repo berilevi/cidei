@@ -110,7 +110,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh)
              case FL_SCOPE_LINE:  
                   if(DataType==FL_SCOPE_UNSIGNED){                                 
                      fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
-                     //fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
+                     fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
                   }
                   else{
                        Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
