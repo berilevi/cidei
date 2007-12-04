@@ -10,8 +10,9 @@
 #include <FL/Fl_Repeat_Button.H>
 #include "Fl_7Seg.H"                        //Class's header file
 #include "fl_Knob.h"
-#include <FL/Fl_Counter.H>
+#include <FL/Fl_Simple_Counter.H>
 #include <FL/Fl_Value_Output.H>
+#include <math.h>
 
 /**
  * Clase que representa el funcionamiento del instrumento 
@@ -39,6 +40,14 @@ class Generador : public Instrumento
 		 * valor de la frecuencia en exadecimal. 
 	     */
 		char frec_hexa [8];
+		/**
+		 * valor de la amplitud en exadecimal. 
+	     */
+		char amplitud_hexa [8];
+		/**
+		 * valor del nivel de offset en exadecimal. 
+	     */
+		char offset_hexa [8];
          /**
 		 * Agrupa los botones e indicadores del generador de señales
 	     */
@@ -156,6 +165,26 @@ class Generador : public Instrumento
          * frecuencia de la señal que va a ser generada.
          */
 		inline void cb_frec_gen_in();
+		/**
+         * Este método es el callback del boton que selecciona la amplitud de 
+         * la señal que va a ser generada.
+         */
+		static void cb_amplitud(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función  cb_amplitud para seleccionar la 
+         * amplitud de la señal que va a ser generada.
+         */
+		inline void cb_amplitud_in();
+		/**
+         * Este método es el callback del boton que selecciona el nivel de offset 
+         * de la señal que va a ser generada.
+         */
+		static void cb_offset(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función  cb_offset para seleccionar el nivel 
+         * de offset de la señal que va a ser generada.
+         */
+		inline void cb_offset_in();
         
 };
 
