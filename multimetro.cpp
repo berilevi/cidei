@@ -179,7 +179,7 @@ void Multimetro::cb_timer_mult_in(){
      Encapsular('K','p','1','0',0x00,0x00);
      Transmision();
      escalar_valor(1);
-     //set_disp_mult((buf_mult));
+     set_disp_mult((buf_mult));
      Fl::repeat_timeout(0.5, cb_timer_mult, this);
 }
 
@@ -228,35 +228,11 @@ void Multimetro::config_instrumento(int instrumento){
  * Calcula el valor de la medicion en el rango de escala en que se encuentre
 */
 void Multimetro::escalar_valor(int escala){
- /*        switch (isec_mult) {
-            case 0:
-
-                 break;
-            case 1:
-  */               if (atoi(buf_mult)>= 512){
-                    itoa((atoi(buf_mult)-512)/FACTOR_VDC_1,cvalor,10);
-                    fl_message("valor es : %d", (atoi(buf_mult)-512));
-                    fl_message("cadena es : %s", cvalor);
-                 }
-                 else{
-                      itoa((atoi(buf_mult)*(-1))/FACTOR_VDC_1,cvalor,10);
-                      fl_message("valor 2 es : %d", (atoi(buf_mult)/2560));
-                      fl_message("cadena es : %s", cvalor);
-                 }
-
-     /*/            break;
-            case 2:
-
-                 break;
-            case 3:
-
-                 break;
-            case 4:
-
-                 break;
-            case 5:
-
-                 break;
-    }*/
-     
+     double fvalor_escalado = 0.0;
+     ivalor_conversion = atoi(buf_mult);
+    // fl_message("valor conversion : %d", ivalor_conversion);
+     fvalor_escalado = ivalor_conversion/20;
+    // fl_message("valor escalado : %f", fvalor_escalado);
+     sprintf(cvalor,"%.4g",fvalor_escalado);
+    // fl_message("cvalor es : %s", cvalor);
 }

@@ -46,6 +46,11 @@ class Multimetro : public Instrumento
 	    */
 		int iescala;
 		/**
+		 * Esta variable almacena el valor entero de la medicion realizada con  
+		 * el hardware.
+	    */
+		long int ivalor_conversion;
+		/**
 		 * Esta variable representa el valor de la medición realizada
 		 * con algun instrumento del multimetro
 		*/
