@@ -27,7 +27,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     ogroup_osc = new Fl_Group (5,5,680,360,"");    // Agrupa los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME); 
     ogroup_osc->deactivate();
-    canal1 = new Canal(400,9,130,230,"",100); 
+    canal1 = new Canal(400,9,130,230,"",255); 
     canal2 = new Canal(545,9,130,230,"",250);
     osel_ch = new Fl_Repeat_Button(110,335,40,18,"Canal");
     osel_ch->labelsize(10);

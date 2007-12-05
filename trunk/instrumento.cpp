@@ -151,7 +151,7 @@ void Instrumento::GuardarBit(int canal[], int posicion, bool bit)
 */
 void Instrumento::Desencapsular(BYTE recibida [])
 {
-     // fl_message("trama recibida %s", recibida);
+      //fl_message("trama recibida %s", recibida);
      int icont = 0;
      int itamano;
      itamano = int (recibida [3]);            //Tamano de la informacion enviada
@@ -200,8 +200,11 @@ void Instrumento::Desencapsular(BYTE recibida [])
                       }
                  } 
                  break;                  
-            case 'C':                         //Analizador lógico
-                 /* TODO (JPP#1#): revizar lo que hizo ricardo para el analizador */
+            case 'C':                                        //Analizador lógico
+                 if (recibida [2] == 'p'){
+                   buf_analizador[0] = recibida[4];
+                   buf_analizador[1] = recibida[5];
+                 }                                     
                  break;
             case 'D':                         //Voltimetro AC
                  strcpy(buf_mult,"0000");

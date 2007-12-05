@@ -60,15 +60,15 @@ class Instrumento
 		*/
 		void Transmision();
 		/**
-		 * La función Encapsular organiza la trama que se envía
-		 * al hardware a través de USB.
-		*/
-		void GuardarBit(int canal[], int posicion, bool bit);
-		/**
 		 * La función GuardarBit guarda el bit como caracter en los
 		 * respectivos bufferes correspondientes a los canales del analizador
 		 * lógico.
 		**/
+		void GuardarBit(int canal[], int posicion, bool bit);
+		/**
+		 * La función Encapsular organiza la trama que se envía
+		 * al hardware a través de USB.
+		*/
 		void Encapsular(char, char, char, char, char,char);
 		/**
 		 * La función Desencapsular organiza los datos enviados desde el hardware
@@ -154,6 +154,11 @@ class Instrumento
          * enviada desde el hardware por el multimetro.
 	    */
 	    char buf_mult[4];
+	    /**
+		 * Buffer donde se almacena la información desencapsulada 
+         * enviada desde el hardware por el analizador logico.
+	    */
+	    char buf_analizador[3];
 	    /**
 		 * Valor de escala de la medicion realizada con el multimetro 
 		*/
