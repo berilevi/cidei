@@ -26,41 +26,16 @@ using namespace std;
 class Analizador : public Instrumento
 {
 	public:
-	enum inst
-		{
-             volt_ac,
-             volt_dc,
-             amp_ac, 
-             amp_dc,
-             ohm,
-             continuidad
-        };
-		/**
-		 * Esta variable representa la escala con la que se realizo 
-		 * la medicion con algun instrumento del multimetro
-	    */
-		int iescala;
-		/**
-		 * Esta variable representa el valor de la medición realizada
-		 * con algun instrumento del multimetro
-		*/
-		char cvalor[6];
-		/**
-		 * Este objeto representa el display del multímetro 
-		 * donde el usuario observa el resultado de la medición.
-		*/
-		Fl_7Seg *odisp_mult;
+        // class constructor
+		Analizador();
+		// class destructor
+		~Analizador();
         /**
-		 * Objeto de la calse scope que representa la pantalla del analizador 
+		 * Objeto de la clase scope que representa la pantalla del analizador 
 		 * donde se grafica la señal digitalizada por el canal.
 		*/
 		Fl_Scope *apantalla_ch1, *apantalla_ch2, *apantalla_ch3, *apantalla_ch4, *apantalla_ch5,
                  *apantalla_ch6, *apantalla_ch7, *apantalla_ch8;
-		/**
-		 * Este método coloca el valor de la medición en el display
-		 * del multímetro.
-		*/
-		void set_disp_mult(char [4]);
         /**
 		 * Agrupa los botones e indicadores del analizador
 		 */
@@ -82,23 +57,6 @@ class Analizador : public Instrumento
         * Agrupa las herramientas e indicadores del analizador
         */
         Fl_Group *ogroup_ana_botones;
-	    
-		// class constructor
-		Analizador();
-		// class destructor
-		~Analizador();
-        /**
-		 * Este método es el callback del boton selector de instrumentos
-		 * en el multímetro debe ir acompañada de una función inline para
-         * poder realizar los callbacks. 
-		 */
-		static void cb_sel_instrumento(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_sel_instrumento 
-		 * para realizar los llamados de callback del selector de instrumento
-		 * en el multimetro 
-		 */
-		inline void cb_sel_instrumento_in();
 		/**
 		 * Este método es el callback del boton de encendido
 		 * del analizador debe ir acompañada de una función inline para
@@ -117,9 +75,12 @@ class Analizador : public Instrumento
 		 */
 		void graficar_datos();
 		
-private:
-        Fl_Repeat_Button *oSel_mult;
-        Fl_Knob *atiempo_div;
+  private:
+        /**
+		 * Boton para seleccionar el tiempo de muestreo del instrumento
+		 * analizador logico.
+		*/
+        Fl_Knob *otiempo_muestreo;
         /**
          * Este método es el callback del timer para realizar la solicitud 
          * de datos del analizador logico al hardware.  
@@ -130,45 +91,20 @@ private:
          * para realizar los llamados de callback del timer 
          */
          inline void cb_timer_ana_in();
+         /**
+		 * Esta funcion separa los datos enviados desde el hardware para cada
+		 * canal del analizador logico.
+		 */
+		void separar_canales();
 		/**
-		 * Esta varaible representa los instrumentos que contiene
-		 * el multimetro
-		 */
-		inst instrument;
-		/**
-		 * Este indicador luminoso indica que está activado el voltímetro
-		 * de corriente alterna
-		 */
-		Fl_Light_Button *ov_ac; 
-		/**
-		 * Este indicador luminoso indica que está activado el voltímetro
-		 * de corriente continua
-		 */
-	    Fl_Light_Button *ov_dc;
-	    /**
-		 * Este indicador luminoso indica que está activado el amperímetro
-		 * de corriente alterna
-		 */
-	    Fl_Light_Button *oa_ac;
-	    /**
-		 * Este indicador luminoso indica que está activado el amperímetro
-		 * de corriente continua
-		 */
-	    Fl_Light_Button *oa_dc;
-	    /**
-		 * Este indicador luminoso indica que está activado el ohmetro
-		 * 
-		 */
-	    Fl_Light_Button *oohmetro;
-	    /**
-		 * Este indicador luminoso indica que está activado el medidor
-		 * de continuidad
-		 */
-	    Fl_Light_Button *ocont;
-        /**
-		 * Panel para visualizar la posición del canal
+		 * valor msb recibido en binario. 
 	     */
-        Fl_Value_Output *av_posc;
+		char  recibido_msb[9],recibido_msb2[9];
+		/**
+		 * valor lsb recibido en binario. 
+	     */
+		char  recibido_lsb[5], recibido_lsb2[5];
+         
 };
 
 #endif // ANALIZADOR_H

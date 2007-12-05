@@ -66,7 +66,7 @@ Generador::Generador()
     oamplitud->color(180);
     oamplitud->type(8); 
     oamplitud->labelsize(11);
-    oamplitud->range(0.0,2.5);
+    oamplitud->range(0,5);
     ooffset = new Fl_Knob (900,400,70,70,"Offset");
     ooffset->color(180);
     ooffset->type(8); 
@@ -206,7 +206,7 @@ void Generador::cb_frec_gen_in(){
                frec_hexa[ilong-1]=frec_hexa[ilong-1]-32;                                                            
             }
             else{
-                 trama_control[icont]= frec_hexa[ilong-1];
+                 trama_control[icont-1]= frec_hexa[ilong-1];
             }
          }
          else{
@@ -236,8 +236,33 @@ void Generador::cb_amplitud(Fl_Widget* pboton, void *any)
  * de la señal que va a ser generada.
 */
 void Generador::cb_amplitud_in(){
-     itoa(oamplitud->value()*102,amplitud_hexa,16);
-     fl_message("amp es : %s",amplitud_hexa);
+     int ilong;
+     itoa(oamplitud->value()*51,amplitud_hexa,16);
+     ilong = strlen(amplitud_hexa);
+     if (amplitud_hexa[0] > 60){
+           amplitud_hexa[0]= amplitud_hexa[0]-32;
+     }
+     if (amplitud_hexa[1] > 60){
+           amplitud_hexa[1]= amplitud_hexa[1]-32;
+     }
+     if (ilong>1){
+        trama_control[4]= amplitud_hexa[0];
+        trama_control[5]= amplitud_hexa[1];
+     }
+     else{
+        trama_control[4]= '0';
+        trama_control[5]= amplitud_hexa[1];
+     }
+     trama_control[0]= 0x01;
+     trama_control[1]= 'I';
+     trama_control[2]= 'm';
+     trama_control[3]= '2';
+     trama_control[6]= 0x04;
+     trama_control[7]= 0x06;
+     Transmision();
+  /*   if ( ~bhardware){
+        fl_message("Error de hardware amp es %d", bhardware);
+     }*/
 }
 
 
@@ -262,10 +287,10 @@ void Generador::cb_offset_in(){
      ilong = strlen(offset_hexa);
      if (offset_hexa[0] > 60){
            offset_hexa[0]= offset_hexa[0]-32;
-        }
-        if (offset_hexa[1] > 60){
+     }
+     if (offset_hexa[1] > 60){
            offset_hexa[1]= offset_hexa[1]-32;
-        }
+     }
      if (ilong>1){
         trama_control[4]= offset_hexa[0];
         trama_control[5]= offset_hexa[1];
@@ -281,8 +306,8 @@ void Generador::cb_offset_in(){
      trama_control[6]= 0x04;
      trama_control[7]= 0x00;
      Transmision();
-     if (~bhardware)
-           fl_message("Error de hardware");
+//     if (~bhardware)
+  //      fl_message("Error de hardware");
 }
 
 
