@@ -100,11 +100,6 @@ void Canal::Setbdc(bool x)
 	bdc = x;
 }
 
-/*
- * Método para realizar la gráfica de la señal adquirida por
- * el canal del osciloscopio
- */
-void Canal::draw(){ }
 
 /*
  * Método para calcular el valor pico a pico de la señal

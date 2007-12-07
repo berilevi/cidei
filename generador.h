@@ -25,17 +25,7 @@ class Generador : public Instrumento
 		Generador();
 		// class destructor
 		~Generador();
-		// Enumeracion de los tipos de señal que se pueden generar
-		enum tipo {
-             seno,
-             cuadrada,
-             triangulo
-        };
 	private:
-         /**
-		 * Tipos de señal que se pueden generar. 
-	     */
-		tipo senal;
 		/**
 		 * valor de la frecuencia en exadecimal. 
 	     */

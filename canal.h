@@ -29,11 +29,6 @@ class Canal : public Instrumento
 		void Setnv_div(int x); // sets the value of nv_div
 		void Setnpos_y(int x); // sets the value of npos_y
 		void Setbgnd(bool x); // sets the value of bgnd
-		/**
-		 * Método para realizar la gráfica de la señal adquirida por
-		 * el canal del osciloscopio
-		 */
-		void draw();
 		void Setbac(bool x); // sets the value of bac
 		void Setbdc(bool x); // sets the value of bdc
 		/**

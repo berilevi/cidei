@@ -30,52 +30,6 @@ class Instrumento
 		// Destructor de clase
 		~Instrumento();
 		/**
-		 * La función archivar genera un archivo plano con los datos 
-		 * enviados por el hardware del intrumento.
-		*/
-		void archivar();
-		/**
-		 * La función Setnum_datos asigna el valor de la variable
-		 * num_datos que contiene el numero de datos almacenados en el 
-         * arreglo idatos[]. 
-		*/
-		void Setnum_datos(int x); 
-        /**
-		 * La función Setarchivo asigna el valor de la variable
-		 * barchivo para habilitar el almacenamiento en archivos de texto.
-		*/		
-		void Setarchivo(bool x); 
-		/**
-		 * La función Sethardware asigna el valor de la variable
-		 * bhardware que indica el estado del hardware.
-		*/
-        void Sethardware(bool x); 
-        /**
-		 * La función activar asigna el valor de la variable estado.
-		*/
-		void activar(bool bx); 
-		/**
-		 * La función Transmision realiza la comunicación
-		 * con el hardware a través de USB.
-		*/
-		void Transmision();
-		/**
-		 * La función GuardarBit guarda el bit como caracter en los
-		 * respectivos bufferes correspondientes a los canales del analizador
-		 * lógico.
-		**/
-		void GuardarBit(int canal[], int posicion, bool bit);
-		/**
-		 * La función Encapsular organiza la trama que se envía
-		 * al hardware a través de USB.
-		*/
-		void Encapsular(char, char, char, char, char,char);
-		/**
-		 * La función Desencapsular organiza los datos enviados desde el hardware
-		 * a los instrumentos de software a través de USB.
-		*/
-		void Desencapsular(BYTE []);
-		/**
 		 * Almacena los identificadores de producto y vendedor
         */
 		char vid_pid[18];
@@ -132,7 +86,7 @@ class Instrumento
 		 * Variable donde se almacena el dato muestreado uno por uno 
          * enviado desde el hardware por el canal 1 del osciloscopio.
 	    */
-	    unsigned int idato_osc_ch1;
+	    int idato_osc_ch1;
 	    /**
 		 * Variable donde se almacena el dato muestreado uno por uno 
          * enviado desde el hardware por el canal 2 del osciloscopio.
@@ -143,12 +97,6 @@ class Instrumento
          * enviada desde el hardware por el osciloscopio al canal 2.
 	    */
 	    char buf_osc_ch2[DATA_OSC];
-	    /**
-		 * Buffers donde se almacena la información en caracter de los
-		 * bits que se recibieron para el analizador logico.
-	    */
-	    int datos1[7], datos2[7], datos3[7], datos4[7], datos5[7],
-            datos6[7], datos7[7], datos8[7];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el multimetro.
@@ -174,40 +122,45 @@ class Instrumento
 		*/
 		bool bestado;
 		/**
-		 * Esta variable representa si se ha digitalizado datos para el
-		 * instrumento.
-		*/
-		bool bmuestreado;
-		/**
 		 * Esta variable representa el numero de datos que se han
 		 * almacenado provenientes del hardware del instrumento.
 		*/
 		int inum_datos;
 		/**
-		 * Contador de datos cuando se realiza un muestreo en el osciloscopio
-		 * dato por dato.
+		 * La función archivar genera un archivo plano con los datos 
+		 * enviados por el hardware del intrumento.
 		*/
-		int icont_muestreo_unico;
+		void archivar();
+        /**
+		 * La función Setarchivo asigna el valor de la variable
+		 * barchivo para habilitar el almacenamiento en archivos de texto.
+		*/		
+		void Setarchivo(bool x); 
 		/**
-		 * Esta variable representa el numero de datos que se han	recibido 
-         * provenientes del hardware del instrumento excluyendo las cabeceras.
+		 * La función Sethardware asigna el valor de la variable
+		 * bhardware que indica el estado del hardware.
 		*/
-		int itamano_trama;
+        void Sethardware(bool x); 
+        /**
+		 * La función activar asigna el valor de la variable estado.
+		*/
+		void activar(bool bx); 
 		/**
-		 * Esta estructura es para guardar los bits para los canales del analizador
-		 * logico.
-	    **/
-		struct CanalAnalizador {
-            int BitUno : 1;
-            int BitDos : 1;
-            int BitTres : 1;
-            int BitCuatro : 1;
-            int BitCinco : 1;
-            int BitSeis : 1;
-            int BitSiete : 1;
-            int BitOcho : 1;
-        } Canal1, Canal2, Canal3, Canal4, Canal5, Canal6, Canal7, Canal8; 
-	    
+		 * La función Transmision realiza la comunicación
+		 * con el hardware a través de USB.
+		*/
+		void Transmision();
+		/**
+		 * La función Encapsular organiza la trama que se envía
+		 * al hardware a través de USB.
+		*/
+		void Encapsular(char, char, char, char, char,char);
+		/**
+		 * La función Desencapsular organiza los datos enviados desde el hardware
+		 * a los instrumentos de software a través de USB.
+		*/
+		void Desencapsular(BYTE []);
+		
 	protected:
 		/**
 		 * Esta variable representa el estado funcional del hardware del instrumento.
