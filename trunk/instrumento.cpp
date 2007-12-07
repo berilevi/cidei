@@ -8,7 +8,6 @@
 Instrumento::Instrumento()
 {
 
-    inum_datos=0;
     strcpy(vid_pid, "vid_04d8&pid_000a");       // Product & Vendor ID
     strcpy(out_pipe, "\\MCHP_EP3");             // End Point de salida 
     strcpy(in_pipe, "\\MCHP_EP3");              // End Point de salida
@@ -18,9 +17,9 @@ Instrumento::Instrumento()
     strcpy(buf_mult,"0000");                    // Inicializar el bufer del multimetro.
     ch1_muestreado = 0;                         // Inicializar el estado del muestreo del canal 1 del osciloscopio
     ch2_muestreado = 0;                         // Inicializar el estado del muestreo del canal 2 del osciloscopio
-    icont_muestreo_unico = 0;
-    idato_osc_ch1 =0;
-    idato_osc_ch2 =0;
+    idato_osc_ch1 =0;                           // Dato muestreado uno a uno por el canal 1 del osciloscopio
+    idato_osc_ch2 =0;                           // Dato muestreado uno a uno por el canal 2 del osciloscopio
+    inum_datos = 0;                             // inicializado el numero de datos almacenados
 }
 
 // Destructor de clase
@@ -29,28 +28,22 @@ Instrumento::~Instrumento()
 	// insert your code here
 }
 
-
+// Activar el instrumento
 void Instrumento::activar(bool bx)
 {
 	bestado = bx;
 }
 
-
+// Verificacion del estado de conexión con el hardware
 void Instrumento::Sethardware(bool x)
 {
 	bhardware = x;
 }
 
-
+// Activar el almacenamiento de datos en archivoa planos
 void Instrumento::Setarchivo(bool x)
 {
 	barchivo = x;
-}
-
-
-void Instrumento::Setnum_datos(int x)
-{
-	inum_datos = x;
 }
 
 
@@ -61,63 +54,63 @@ void Instrumento::Setnum_datos(int x)
 void Instrumento::archivar()
 {
      FILE * log;
-     log = fopen(cnombre,"w+");
+     log = fopen(cnombre,"w+");                           // Nombre y permisos de acceso al archivo de texto
      if (log != NULL) {
-        fwrite(idatos,sizeof(int),inum_datos,log);
+        fwrite(idatos,sizeof(int),inum_datos,log);        // Escritura de los datos en el archivo de texto
      }
      else {
-          fl_alert("No se pudo abrir el archivo");     
+          fl_alert("No se pudo abrir el archivo");        // Error de apertura del archivo 
      }          
 }
 
 /**
- * La función Transmision realiza la comunicación con el hardware a través de USB.
+ * La función Transmision realiza la comunicacion con el hardware a traves de USB
+ * haciendo uso del framework que proporciona Microchip.
 */
 
 void Instrumento::Transmision(){
    
-   if (bestado){                     //Se ejecuta si el instrumento esta activo
+   if (bestado){                     // Se ejecuta si el instrumento esta activo
 
-      DWORD selection;               //Pipe para la transmision 
-      fflush(stdin);
-      selection = 0;
+      DWORD selection;               // Pipe para la transmision 
+      fflush(stdin);                 // Limpiar Buffers
+      selection = 0;                 // El pipe para la comunicacion va a ser siempre el cero
 
-      myOutPipe = MPUSBOpen(selection,vid_pid,out_pipe,MP_WRITE,0);
-      myInPipe = MPUSBOpen(selection,vid_pid,out_pipe,MP_READ,0);
-      if(myOutPipe == INVALID_HANDLE_VALUE || myInPipe == INVALID_HANDLE_VALUE)
+      myOutPipe = MPUSBOpen(selection,vid_pid,out_pipe,MP_WRITE,0);                   //Abrir el pipe de salida para escritura
+      myInPipe = MPUSBOpen(selection,vid_pid,out_pipe,MP_READ,0);                     //Abrir el pipe de entrada para lectura
+      if(myOutPipe == INVALID_HANDLE_VALUE || myInPipe == INVALID_HANDLE_VALUE)       //Verificar que se abrieron correctamente los pipes
       {
-        fl_message("Failed to open data pipes.");
+        fl_message("Failed to open data pipes.");         
         return;
       }
 
-      DWORD RecvLength=190;        
-      DWORD SentDataLength;
+      DWORD RecvLength=190;                                                           //Longitud maxima del buffer que recibe los datos de transmision        
+      DWORD SentDataLength;                                                           
       
       //fl_message("envio al hw es: %s", trama_control);
     
-      MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,100);
-      fflush(stdin);
+      MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,100);                     //Transmitir la trama al hardware
+      fflush(stdin);                                                                  //Limpiar el buffer de salida
       
-      MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);      
+      MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);                            //Recibir lo que transmite el hardware
       MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);
   
-      Desencapsular(receive_buf);
+      Desencapsular(receive_buf);                                                     //Desencapsular la trama enviada desde el hardware
              
-      MPUSBClose(myOutPipe);
+      MPUSBClose(myOutPipe);                                                          //Cerrar los pipes al terminar cada comunicacion 
       MPUSBClose(myInPipe);
-      myOutPipe = myInPipe = INVALID_HANDLE_VALUE;    
+      myOutPipe = myInPipe = INVALID_HANDLE_VALUE;                                    
     
    }
    else {
-        MPUSBClose(myOutPipe);
+        MPUSBClose(myOutPipe);                                                        //Cerrar los pipes al terminar cada comunicacion 
         MPUSBClose(myInPipe);
         myOutPipe = myInPipe = INVALID_HANDLE_VALUE;    
    }
 }
 
 /*
- * La función Encapsular organiza la trama que se envía
- * al hardware a través de USB.
+ * La función Encapsular organiza la trama que se envía al hardware a traves de USB.
 */
 void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char cfin, char cfin2)
 {
@@ -129,84 +122,79 @@ void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char
      trama_control[8] = cfin2;          //Dato que se va a configurar en el hardware
 }
 
-/*
- * La función GuardarBit guarda el bit como caracter en los
- * respectivos bufferes correspondientes a los canales del analizador
- * lógico. Se debe almacenar en los diferentes buffers de datos para
- * los canales declarados en instrumento.h
-*/
-void Instrumento::GuardarBit(int canal[], int posicion, bool bit)
-{   
-    if(bit == true) {
-        canal[posicion] = 1;
-    }
-    else {
-        canal[posicion] = 0;
-    }
-}
 
 /**
  * La función Desencapsular organiza los datos enviados desde el hardware
- * a los instrumentos de software a través de USB.
+ * a los instrumentos de software a traves de USB.
 */
 void Instrumento::Desencapsular(BYTE recibida [])
 {
       //fl_message("trama recibida %s", recibida);
-     int icont = 0;
+     int icont = 0;                                                      //Contador auxiliar para los ciclos
      int itamano;
-     itamano = int (recibida [3]);            //Tamano de la informacion enviada
+     itamano = int (recibida [3]);                                       //Tamano de la informacion enviada
      switch (recibida [1]){
-            case 'A':
-                 if (recibida [2] == '1'){                         //Osciloscopio canal 1
+            case 'A':                                                    //Informacion para Osciloscopio canal 1
+                 if (recibida [2] == '1'){                               //Primer vector de datos para canal 1
                    for (icont = 4; icont < 147; icont++){
                         buf_osc_ch1[icont-4]=int(recibida[icont]);
                     }
                  }
-                 else if (recibida [2] == '2'){
+                 else if (recibida [2] == '2'){                          //Segundo vector de datos para el canal 1
                       for (icont = 4; icont < 147; icont++){
                           buf_osc_ch1[(icont-4)+143]=int(recibida[icont]);
                       }
                  }
-                 else if (recibida [2] == '3'){
+                 else if (recibida [2] == '3'){                           //Tercer vector de datos para el canal 1
                       for (icont = 4; icont < 147; icont++){
                           buf_osc_ch1[(icont-4)+286]=int(recibida[icont]);
                       }
                  }
-                 else if (recibida [2] == '4'){
+                 else if (recibida [2] == '4'){                           //Cuarto vector de datos para el canal 1
                       for (icont = 4; icont < 147; icont++){
                           buf_osc_ch1[(icont-4)+429]=int(recibida[icont]);
                       }
                  }
                  break;
-            case 'B':                         //Osciloscopio canal 2
-                 if (recibida [2] == '1'){         //Primer vetor de datos
+            case 'B':                                                     //Informacion para Osciloscopio canal 2
+                 if (recibida [2] == '1'){                                //Primer vector de datos para canal 2
                     for (icont = 4; icont < 147; icont++){
                         buf_osc_ch2[icont-4]=int(recibida[icont]);
                     }
                  }
-                 else if (recibida [2] == '2'){             //Segundo vector de datos
+                 else if (recibida [2] == '2'){                           //Segundo vector de datos para canal 2
                       for (icont = 4; icont < 147; icont++){
                           buf_osc_ch2[(icont-4)+143]=int(recibida[icont]);
                       }
                  }
-                 else if (recibida [2] == '3'){            //Tercer vector de datos
+                 else if (recibida [2] == '3'){                           //Tercer vector de datos para canal 2
                       for (icont = 4; icont < 147; icont++){
                           buf_osc_ch2[(icont-4)+286]=int(recibida[icont]);
                       }
                  }
-                 else if (recibida [2] == '4'){            //Cuarto vector de datos
+                 else if (recibida [2] == '4'){                           //Cuarto vector de datos para canal 2
                       for (icont = 4; icont < 147; icont++){
                           buf_osc_ch2[(icont-4)+429]=int(recibida[icont]);
                       }
                  } 
                  break;                  
-            case 'C':                                        //Analizador lógico
+            case 'C':                                                     //Informacion para Analizador lógico
                  if (recibida [2] == 'p'){
                    buf_analizador[0] = recibida[4];
                    buf_analizador[1] = recibida[5];
                  }                                     
                  break;
-            case 'D':                         //Voltimetro AC
+            case 'D':                                                     //Informacion para Voltimetro AC
+                 strcpy(buf_mult,"0000");
+                 for (icont=4;icont<(itamano+4);icont++){
+                     buf_mult[icont-4]=receive_buf[icont];
+                 }
+                 if (itamano < 4){
+                    buf_mult[itamano] = 0x00;                              
+                 }
+                 imult_escala = recibida[2];
+                 break;
+            case 'E':                                                     //Informacion para Voltimetro DC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
                      buf_mult[icont-4]=receive_buf[icont];
@@ -216,7 +204,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  }
                  imult_escala = recibida[2];
                  break;
-            case 'E':                         //Voltimetro DC
+            case 'F':                                                     //Informacion para Amperimetro AC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
                      buf_mult[icont-4]=receive_buf[icont];
@@ -226,7 +214,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  }
                  imult_escala = recibida[2];
                  break;
-            case 'F':                        //Amperimetro AC
+            case 'G':                                                     //Informacion para Amperimetro DC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
                      buf_mult[icont-4]=receive_buf[icont];
@@ -236,17 +224,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  }
                  imult_escala = recibida[2];
                  break;
-            case 'G':                                      //Amperimetro DC
-                 strcpy(buf_mult,"0000");
-                 for (icont=4;icont<(itamano+4);icont++){
-                     buf_mult[icont-4]=receive_buf[icont];
-                 }
-                 if (itamano < 4){
-                    buf_mult[itamano] = 0x00;
-                 }
-                 imult_escala = recibida[2];
-                 break;
-            case 'H':                                        //Ometro
+            case 'H':                                                     //Informacion para Ohmetro
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
                      buf_mult[icont-4]=receive_buf[icont];
@@ -256,35 +234,33 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  }
                  break;
                  imult_escala = recibida[2];
-            case 'I':                                         //Generador de señales
+            case 'I':                                                     //Informacion para Generador de señales
                  break;
-            case 'J':                                         //Pruebas de conectividad de LIV
-                 if (recibida [2]== 0x06){                    //ACK
+            case 'J':                                                     //Pruebas de conectividad de LIV
+                 if (recibida [2]== 0x06){                                //ACK
                     Sethardware(true);
                  }
-                 else if (recibida [2] == 0x15){              //NACK
+                 else if (recibida [2] == 0x15){                          //NACK
                       fl_message("Error de Hardware nack");
                       Sethardware(0);
                  }
                  break;
-            case 'K':                                          //Multimetro
+            case 'K':                                                     //Informacion para el Multimetro
                  break;
-            case 'L':                                          //Osciloscopio
+            case 'L':                                                     //Informacion para el Osciloscopio
                  if (recibida [2] == 'p'){
-                    if (recibida [4]== '1'){                   //Muestreo completo de señal en canal 1 del osciloscopio
+                    if (recibida [4]== '1'){                              //Muestreo completo de señal en canal 1 del osciloscopio
                        ch1_muestreado = 1;         
                     }
-                    else if(recibida [4]== '2'){
+                    else if(recibida [4]== '2'){                          //Muestreo completo de señal en canal 2 del osciloscopio
                         ch2_muestreado = 1; 
                     }
                  }
-                 else if (recibida [2] == '1'){                //Muestreo de la señal dato por dato en canal 1
+                 else if (recibida [2] == '1'){                           //Muestreo de la señal dato por dato en canal 1
                       idato_osc_ch1=(recibida[4]);
-                      icont_muestreo_unico++;
                  }
-                 else if (recibida [2] == '2'){                //Muestreo de la señal dato por dato en canal 2
+                 else if (recibida [2] == '2'){                           //Muestreo de la señal dato por dato en canal 2
                       idato_osc_ch2=int(recibida[5]-'0');
-                      icont_muestreo_unico++;
                  }
                  else if (recibida [2] == '3'){
                  }
