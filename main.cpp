@@ -1,5 +1,6 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Window.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Ask.H>
 #include "osciloscopio.h"
@@ -35,7 +36,8 @@ void *runhilo2(void *threadid)
 int main (int argc, char ** argv)
 {
   Fl_Double_Window *window;
-  Fl_Light_Button *omult_on;
+  Fl_Window *window2;
+//  Fl_Light_Button *omult_on;
 
   int t =0;
   int u =0;
@@ -43,6 +45,7 @@ int main (int argc, char ** argv)
   int rc, rc2, rc3;
   
   window = new Fl_Double_Window (1024, 708);
+//  window2 = new Fl_Window (104, 108, 200,200,"hola");
   ana = new Analizador();
   gene = new Generador();
  
@@ -87,8 +90,14 @@ int main (int argc, char ** argv)
          exit(-1);
       }      
   */ 
+  
+  
+  
   window->end ();
   window->show (argc, argv);
+  
+//  window2->end ();
+//  window2->show (argc, argv);
   
   return(Fl::run());
   

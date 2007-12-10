@@ -10,7 +10,7 @@
 #include <FL/Fl_Repeat_Button.H>
 #include "Fl_7Seg.H"                        //Class's header file
 #include "fl_Knob.h"
-#include <FL/Fl_Simple_Counter.H>
+#include <FL/Fl_Counter.H>
 #include <FL/Fl_Value_Output.H>
 #include <math.h>
 
@@ -110,10 +110,9 @@ class Generador : public Instrumento
 		*/
         Fl_Value_Output *ovalor_frec;
         /**
-		 * Boton de seleccion de rango de frecuencias de la señal seleccionada  
-         * por el ususario para ajuste grueso.
+		 * Selector de frecuencias de la señal seleccionada por el ususario.
 		*/
-        Fl_Counter *oescala_frec;
+        Fl_Counter *ocontador_frec;
         /**
 		 * Boton de ajuste lineal de la amplitud de la señal seleccionada  
          * por el ususario.
@@ -156,6 +155,18 @@ class Generador : public Instrumento
          */
 		inline void cb_frec_gen_in();
 		/**
+		 * Selector ascendente de las escalas de frecuencia   
+		*/
+        Fl_Repeat_Button *ofrec_ascendente;
+        /**
+		 * Selector descendente de las escalas de frecuencia   
+		*/
+        Fl_Repeat_Button *ofrec_descendente;
+        /**
+		 * Indicador de la escala de frecuencia seleccionada por el ususario.
+		*/
+        Fl_Value_Output *ovalor_escala;
+		/**
          * Este método es el callback del boton que selecciona la amplitud de 
          * la señal que va a ser generada.
          */
@@ -175,6 +186,36 @@ class Generador : public Instrumento
          * de offset de la señal que va a ser generada.
          */
 		inline void cb_offset_in();
+		/**
+         * Este método es el callback del selector de frecuancias de la señal 
+         * que va a ser generada.
+         */
+		static void cb_contador_frec(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función  cb_contador_frec para seleccionar 
+         * la frecuencia de la señal que va a ser generada.
+         */
+		inline void cb_contador_frec_in();
+		/**
+         * Este método es el callback del boton que selecciona ascendentemente 
+         * las escalas de  frecuencias de la señal que va a ser generada.
+         */
+		static void cb_frec_ascendente(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función  cb_frec_ascendente para seleccionar 
+         * la escala de frecuencias de la señal que va a ser generada.
+         */
+		inline void cb_frec_ascendente_in();
+		/**
+         * Este método es el callback del boton que selecciona descendentemente 
+         * las escalas de  frecuencias de la señal que va a ser generada.
+         */
+		static void cb_frec_descendente(Fl_Widget*, void *);
+		/**
+         * Esta función acompaña la función  cb_frec_descendente para seleccionar 
+         * la escala de frecuencias de la señal que va a ser generada.
+         */
+		inline void cb_frec_descendente_in();
         
 };
 
