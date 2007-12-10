@@ -12,14 +12,15 @@ int isec_acople;          // Variable global para realizar la secuencia del acop
 // class constructor
 Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento()
 {
-    icolor = ncol;                              //Color de fondo de la pantalla del osciloscopio
-    strcpy(cnombre,"osc.txt");                  //Nombre para el archivo de texto donde se almacenan los datos
+    icolor = ncol;                                     //Color de fondo de la pantalla del osciloscopio
+    strcpy(cnombre,"osc.txt");                         //Nombre para el archivo de texto donde se almacenan los datos
             
-    opantalla = new Fl_Scope(8,8,380, 304,"");  //Instancia de scope
-    opantalla ->TraceColour(FL_WHITE);          //Color de la grafica
+    opantalla = new Fl_Scope(8,8,380, 304,"");         //Instancia de scope
+    opantalla ->TraceColour(FL_WHITE);                 //Color de la grafica
     opantalla->tracetype(FL_SCOPE_TRACE_LOOP);  
     opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     opantalla->linetype(FL_SCOPE_LINE);
+    opantalla->box(FL_DOWN_BOX);
     
     oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
     oosc_on->labelsize(9);
@@ -113,8 +114,9 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opos_y->callback(cb_pos_y, this);
     oosc_on->callback(cb_osc_on, this);
     olog_osc->callback(cb_log_osc, this);
-    canal1->ovolt_div->callback(cb_volt_div, this);
+    canal1->ovolt_div->callback(cb_volt_div1, this);
     canal1->osel_acople->callback(cb_acople, this);
+    canal2->ovolt_div->callback(cb_volt_div2, this);
 }
 
 
@@ -184,9 +186,9 @@ void Osciloscopio::sumar(int idato1[], int idato2[])
  */
 void Osciloscopio::restar(int idato1[], int idato2[])
 {
-     int icont1;
-     for (icont1=0; icont1 < inum_datos; icont1++){
-         idatos[icont1] = idato1[icont1] - idato2[icont1];    //Diferencia de las dos señales para el eje y
+     int icont;
+     for (icont=0; icont < DATA_OSC-1; icont++){
+         idatos[icont] = idato1[icont] - idato2[icont];    //Diferencia de las dos señales para el eje y
      }
 }
 
@@ -213,9 +215,9 @@ void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany)
 }
 
 /**
- * Esta función acompaña la función  cb_osc_on 
- * para realizar los llamados de callback del boton que enciende
- * el osciloscopio 
+ * Esta función acompaña la función  cb_osc_on para realizar los llamados al 
+ * callback del boton que enciende el osciloscopio con los parametros por defecto
+ * Canal 1 activado, 500 uS pos division, Acople AC y 5 Voltios pos division 
 */
 void Osciloscopio::cb_osc_on_in(){
       char t_div;
@@ -233,7 +235,8 @@ void Osciloscopio::cb_osc_on_in(){
             otiempo_div->value(6);
             omenu_t_div->value(6);
             canal1->ovolt_div->value(0);
-            /* TODO (JuanPablo#1#): Configurar el valor por defecto de acople del canal */
+            canal1->oacop_ac->value(1);
+            isec_acople=1;
             muestreo_timer(1);
          }
          else {
@@ -242,6 +245,7 @@ void Osciloscopio::cb_osc_on_in(){
       }
       if (oosc_on->value()== 0){
          Fl::remove_timeout(cb_timer, this);
+         Fl::remove_timeout(cb_timer_vectores, this);
          activar(0);
          ogroup_osc->deactivate(); 
          ogroup_tdiv->deactivate();
@@ -314,6 +318,7 @@ void Osciloscopio::cb_sel_ch_in(){
            och2->value(1);
            canal2->activar(1);
            canal2->ogroup_ch->activate();
+           canal2->oacop_ac->value(1);
            if (otiempo_div->value() >= 6){
               muestreo_timer(1);
            }
@@ -374,6 +379,7 @@ void Osciloscopio::cb_dual_menu_in(){
      if (isec_dual==1){
      osuma->value(0);
      oresta->value(1);
+     
      }
      if (isec_dual==2){
      oresta->value(0);
@@ -456,22 +462,22 @@ void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
 
 /**
  * Este método es el callback del selector de la escala de volt/div
- * del canal del osciloscopio debe ir acompañada de una función 
+ * del canal 1 del osciloscopio debe ir acompañada de una función 
  * inline para poder realizar los callbacks. 
 */
-void Osciloscopio::cb_volt_div(Fl_Widget* psel, void *pany)
+void Osciloscopio::cb_volt_div1(Fl_Widget* psel, void *pany)
 {
      Fl_Knob *pselector = (Fl_Knob *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;          
-     posc->cb_volt_div_in(pselector);
+     posc->cb_volt_div1_in(pselector);
 }
 
 /**
- * Esta función acompaña la función  cb_volt_div  
+ * Esta función acompaña la función  cb_volt_div1  
  * para realizar los llamados de callback del selector de la escala
  * de volt/div del canal en el osciloscopio 
 */
-void Osciloscopio::cb_volt_div_in(Fl_Widget* psel){
+void Osciloscopio::cb_volt_div1_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      pselector->value(floor(pselector->value()));
      canal1->omenu_v_div->value(pselector->value());                
@@ -482,10 +488,6 @@ void Osciloscopio::cb_volt_div_in(Fl_Widget* psel){
      else if (int((pselector->value()))== 11){
         Encapsular('A','c','1','B',0x00,0x00);
          Transmision();
-     }
-     else if (int((pselector->value()))== 12){
-         Encapsular('A','c','1','C',0x00,0x00);
-         Transmision();                            
      }
      else if (int((pselector->value()))== 12){
          Encapsular('A','c','1','C',0x00,0x00);
@@ -525,6 +527,78 @@ void Osciloscopio::cb_volt_div_in(Fl_Widget* psel){
      }
      else if (int((pselector->value()))== 9){
          Encapsular('A','c','1','9',0x00,0x00);
+         Transmision();                            
+     }
+}
+
+
+/**
+ * Este método es el callback del selector de la escala de volt/div
+ * del canal 2 del osciloscopio debe ir acompañada de una función 
+ * inline para poder realizar los callbacks. 
+*/
+void Osciloscopio::cb_volt_div2(Fl_Widget* psel, void *pany)
+{
+     Fl_Knob *pselector = (Fl_Knob *)psel;
+     Osciloscopio* posc=(Osciloscopio*)pany;          
+     posc->cb_volt_div2_in(pselector);
+}
+
+/**
+ * Esta función acompaña la función  cb_volt_div2  
+ * para realizar los llamados de callback del selector de la escala
+ * de volt/div del canal en el osciloscopio 
+*/
+void Osciloscopio::cb_volt_div2_in(Fl_Widget* psel){
+     Fl_Knob *pselector = (Fl_Knob *)psel;
+     pselector->value(floor(pselector->value()));
+     canal2->omenu_v_div->value(pselector->value());                
+     if (int((pselector->value()))== 10){
+         Encapsular('B','c','1','A',0x00,0x00);
+         Transmision();
+     }
+     else if (int((pselector->value()))== 11){
+        Encapsular('B','c','1','B',0x00,0x00);
+         Transmision();
+     }
+     else if (int((pselector->value()))== 12){
+         Encapsular('B','c','1','C',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 1){
+         Encapsular('B','c','1','1',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 2){
+         Encapsular('B','c','1','2',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 3){
+         Encapsular('B','c','1','3',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 4){
+         Encapsular('B','c','1','4',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 5){
+         Encapsular('B','c','1','5',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 6){
+         Encapsular('B','c','1','6',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 7){
+         Encapsular('B','c','1','7',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 8){
+         Encapsular('B','c','1','8',0x00,0x00);
+         Transmision();                            
+     }
+     else if (int((pselector->value()))== 9){
+         Encapsular('B','c','1','9',0x00,0x00);
          Transmision();                            
      }
 }
@@ -682,13 +756,12 @@ void Osciloscopio::cb_timer_vectores_in(){
 void Osciloscopio::recorrer_datos(int num_canal){
      int icont;
      if (num_canal == 1){
+     opantalla->TraceColour(Fl_Color(canal1->ncolor));
         if (omenu_t_div->value()<6){
-           opantalla->TraceColour(Fl_Color(canal1->ncolor));
            idato_graf_ch1 = idato_osc_ch1;
            opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257)); //es
         }
         else{
-             opantalla->TraceColour(Fl_Color(canal1->ncolor));
              for(icont=0;icont < DATA_OSC-1; icont++){
                  idato_graf_ch1 = buf_osc_ch1[icont];
                       opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257)); //es            
@@ -696,13 +769,12 @@ void Osciloscopio::recorrer_datos(int num_canal){
         }                
      }
      if (num_canal == 2){
+     opantalla->TraceColour(Fl_Color(canal2->ncolor));
         if (omenu_t_div->value()<6){
-           opantalla->TraceColour(Fl_Color(canal2->ncolor));
            idato_graf_ch2 = idato_osc_ch2;
            opantalla->Add((canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
         }
         else{
-            opantalla->TraceColour(Fl_Color(canal2->ncolor));
             for(icont=0;icont < DATA_OSC-1; icont++){ 
                 idato_graf_ch2 = buf_osc_ch2[icont];
                 opantalla->Add((canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
@@ -747,13 +819,6 @@ void Osciloscopio::cb_log_osc_in(){
      archivar();
 }
 
-
-/**
- * Rutina para solicitar los cuatro vectores de las muestras de las 
- * señales en el osciloscopio. 
-*/
-/*void Osciloscopio::muestrear(int num_canal){
-}*/
 
 /**
  * Rutina para solicitar una a una las muestras de las 

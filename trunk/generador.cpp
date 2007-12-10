@@ -4,17 +4,20 @@
 #include <math.h>
 
 int isec_generador;
+int isec_escalas;
+char cfrecuencia [9];
 
 // class constructor
-Generador::Generador()
-{
+Generador::Generador(){
+                       
     isec_generador = 0;
+    isec_escalas = 0;
 	ogroup_generador = new Fl_Group (540,370,460,310,"");
 	ogroup_generador->box(FL_ENGRAVED_BOX);
 	ogroup_generador->deactivate();
 	odisp_gen = new Fl_7Seg(555,380,269,100,""); 
     odisp_gen->box(FL_EMBOSSED_FRAME);
-    odisp_gen->value("2.345");
+    odisp_gen->value("0.0");
     omHz = new Fl_Light_Button(830,390,10,10,"mHz");
     omHz->labelsize(10);
     omHz->box(FL_NO_BOX);
@@ -29,35 +32,43 @@ Generador::Generador()
     oMeHz->align(FL_ALIGN_RIGHT);
     ohelp_gen  = new Fl_Button (550,655,40,18,"Help");
     ohelp_gen->labelsize(10);
-    ogroup_senal = new Fl_Group (700,490,125,150,"");
+    ogroup_senal = new Fl_Group (750,490,125,150,"");
     ogroup_senal->box(FL_ENGRAVED_BOX);
 	ogroup_senal->deactivate();
-    osel_gen = new Fl_Repeat_Button(715,610,100,20,"Función");
+    osel_gen = new Fl_Repeat_Button(765,610,100,20,"Función");
     osel_gen->labelsize(12);
-    oseno = new Fl_Light_Button(725,515,10,10,"Seno");
+    oseno = new Fl_Light_Button(775,515,10,10,"Seno");
     oseno->labelsize(12);
     oseno->box(FL_NO_BOX);
     oseno->align(FL_ALIGN_RIGHT);
-    ocuadrada = new Fl_Light_Button(725,545,10,10,"Cuadrada");
+    ocuadrada = new Fl_Light_Button(775,545,10,10,"Cuadrada");
     ocuadrada->labelsize(12);
     ocuadrada->box(FL_NO_BOX);
     ocuadrada->align(FL_ALIGN_RIGHT);
-    otriangulo = new Fl_Light_Button(725,575,10,10,"Triangulo");
+    otriangulo = new Fl_Light_Button(775,575,10,10,"Triangulo");
     otriangulo->labelsize(12);
     otriangulo->box(FL_NO_BOX);
     otriangulo->align(FL_ALIGN_RIGHT);
     ogroup_senal->end();
-    ogroup_frecuencia = new Fl_Group (560,490,120,150,"");
+    ogroup_frecuencia = new Fl_Group (550,490,195,150,"");
     ogroup_frecuencia->box(FL_ENGRAVED_BOX);
 	ogroup_frecuencia->deactivate();
-    ofrec_gen = new Fl_Knob (580,500,80,80,"Frecuencia");
+    ofrec_gen = new Fl_Knob (635,500,100,80,"Frecuencia");
     ofrec_gen->color(147);
     ofrec_gen->type(8);
     ofrec_gen->labelsize(9);
-    ofrec_gen->range(0,50);
-    ovalor_frec = new Fl_Value_Output(590,590,60,20,"");
-    oescala_frec = new Fl_Simple_Counter(570,615,100,20,""); 
-    oescala_frec->step(10);
+    ofrec_gen->range(0,1000);
+    ofrec_ascendente = new Fl_Repeat_Button(600,570,30,20,"");
+    ofrec_ascendente->label("@->");
+    ofrec_descendente = new Fl_Repeat_Button(560,570,30,20,"");
+    ofrec_descendente->label("@<-");
+    ovalor_escala = new Fl_Value_Output(570,530,50,20,"");
+    ovalor_escala->value(10);
+    ovalor_frec = new Fl_Value_Output(655,590,60,20,"");
+    ocontador_frec = new Fl_Counter(628,615,110,20,""); 
+    ocontador_frec->step(0.1);
+    ocontador_frec->range(0.1,20000000);
+    ocontador_frec->value(0.1);
     ogroup_frecuencia->end();
     ogroup_amplitud = new Fl_Group (880,380,110,260,"");
     ogroup_amplitud->box(FL_ENGRAVED_BOX);
@@ -84,6 +95,9 @@ Generador::Generador()
     ofrec_gen->callback(cb_frec_gen, this);
     oamplitud->callback(cb_amplitud, this);
     ooffset->callback(cb_offset, this);
+    ocontador_frec->callback(cb_contador_frec, this);
+    ofrec_ascendente->callback(cb_frec_ascendente, this);
+    ofrec_descendente->callback(cb_frec_descendente, this);
 
 }
 
@@ -198,19 +212,22 @@ void Generador::cb_frec_gen_in(){
      int ilong;
      ovalor_frec->value(ofrec_gen->value()*5.3687);
      sd = int(in*ofrec_gen->value());
+     itoa(ofrec_gen->value(),cfrecuencia,10);
+     odisp_gen->value(cfrecuencia);
      itoa(sd,frec_hexa,16);
      ilong = strlen(frec_hexa);
-     for (icont = 7; icont > 0; icont --){
+     for (icont = 8; icont > 0; icont --){
          if(ilong > 0){
-            if (frec_hexa[icont-ilong]>60){                                                        
-               frec_hexa[ilong-1]=frec_hexa[ilong-1]-32;                                                            
+            if (frec_hexa[ilong-1]>60){                                                        
+               frec_hexa[ilong-1]=frec_hexa[ilong-1]-32;  
+               trama_control[icont-1]=frec_hexa[ilong-1];                                                          
             }
             else{
                  trama_control[icont-1]= frec_hexa[ilong-1];
             }
          }
          else{
-             trama_control[icont] = '0'; 
+             trama_control[icont-1] = '0'; 
          }
          ilong--;
      }
@@ -309,6 +326,133 @@ void Generador::cb_offset_in(){
 //     if (~bhardware)
   //      fl_message("Error de hardware");
 }
+
+
+/*
+ * Este método es el callback del boton que selecciona la frecuencia  
+ * de la señal que va a ser generada.
+*/
+void Generador::cb_contador_frec(Fl_Widget* pboton, void *any){
+     Generador* pgener=(Generador*)any;
+     pgener->cb_contador_frec_in();
+}
+
+
+/**
+ * Esta función acompaña la función  cb_contador_frec para seleccionar la  
+ * frecuencia de la señal que va a ser generada.
+*/
+void Generador::cb_contador_frec_in(){
+     
+}
+
+
+/*
+ * Este método es el callback del boton que selecciona ascendentemente la escala 
+ * de frecuencias de la señal que va a ser generada.
+*/
+void Generador::cb_frec_ascendente(Fl_Widget* pboton, void *any){
+     Generador* pgener=(Generador*)any;
+     pgener->cb_frec_ascendente_in();
+}
+
+
+/**
+ * Esta función acompaña la función  cb_frec_ascendente para seleccionar la escala 
+ * de frecuencias de la señal que va a ser generada.
+*/
+void Generador::cb_frec_ascendente_in(){
+     if (isec_escalas == 0){
+        ovalor_escala->value(10);
+        ofrec_gen->range(0,10);
+     }
+     else if (isec_escalas == 1){
+        ovalor_escala->value(100);
+        ofrec_gen->range(0,100);
+     }
+     else if (isec_escalas == 2){
+        ovalor_escala->value(500);
+         ofrec_gen->range(0,500);  
+     }
+     else if (isec_escalas == 3){
+        ovalor_escala->value(1000);
+        ofrec_gen->range(0,1000);  
+     }
+     else if (isec_escalas == 4){
+         ovalor_escala->value(5000);
+         ofrec_gen->range(0,5000); 
+     }
+     else if (isec_escalas == 5){
+          ovalor_escala->value(10000);
+          ofrec_gen->range(0,10000);
+     }
+     else if (isec_escalas == 6){
+          ovalor_escala->value(50000);
+          ofrec_gen->range(0,50000);
+     }
+     else if (isec_escalas == 7){
+          ovalor_escala->value(100000);
+          ofrec_gen->range(0,100000);
+          isec_escalas=-1;
+     }
+     isec_escalas++;
+}
+
+
+
+/*
+ * Este método es el callback del boton que selecciona descendentemente la escala 
+ * de frecuencias de la señal que va a ser generada.
+*/
+void Generador::cb_frec_descendente(Fl_Widget* pboton, void *any){
+     Generador* pgener=(Generador*)any;
+     pgener->cb_frec_descendente_in();
+}
+
+
+/**
+ * Esta función acompaña la función  cb_frec_descendente para seleccionar la escala 
+ * de frecuencias de la señal que va a ser generada.
+*/
+void Generador::cb_frec_descendente_in(){
+     if (isec_escalas > 0)
+        isec_escalas--;
+     if (isec_escalas == 0){
+        ovalor_escala->value(10);
+        ofrec_gen->range(0,10);
+     }
+     else if (isec_escalas == 1){
+        ovalor_escala->value(100);
+        ofrec_gen->range(0,100);
+     }
+     else if (isec_escalas == 2){
+        ovalor_escala->value(500);
+        ofrec_gen->range(0,500);  
+     }
+     else if (isec_escalas == 3){
+        ovalor_escala->value(1000);  
+        ofrec_gen->range(0,1000);
+     }
+     else if (isec_escalas == 4){
+         ovalor_escala->value(5000); 
+         ofrec_gen->range(0,5000);
+     }
+     else if (isec_escalas == 5){
+          ovalor_escala->value(10000);
+          ofrec_gen->range(0,10000);
+     }
+     else if (isec_escalas == 6){
+          ovalor_escala->value(50000);
+          ofrec_gen->range(0,50000);
+     }
+     else if (isec_escalas == 7){
+          ovalor_escala->value(100000);
+          ofrec_gen->range(0,100000);
+          isec_escalas=-1;
+     }
+     
+}
+
 
 
 // class destructor

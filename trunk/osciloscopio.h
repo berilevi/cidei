@@ -144,21 +144,28 @@ class Osciloscopio : public Instrumento
 		inline void cb_acople_in();
         /**
 		 * Este método es el callback del selector de la escala de volt/div
-		 * del canal del osciloscopio debe ir acompañada de una función 
+		 * del canal 1 del osciloscopio debe ir acompañada de una función 
          * inline para poder realizar los callbacks. 
 		 */
-		static void cb_volt_div(Fl_Widget*, void *);
+		static void cb_volt_div1(Fl_Widget*, void *);
 		/**
-		 * Esta función acompaña la función  cb_volt_div  
+		 * Esta función acompaña la función  cb_volt_div1  
 		 * para realizar los llamados de callback del selector de la escala
 		 * de volt/div del canal en el osciloscopio 
 		 */
-		inline void cb_volt_div_in(Fl_Widget*);  
-        /**
-		 * Rutina para solicitar los cuatro vectores de las muestras de las 
-         * señales en el osciloscopio. 
-		*/
-	//	void muestrear(int);
+		inline void cb_volt_div1_in(Fl_Widget*);  
+		/**
+		 * Este método es el callback del selector de la escala de volt/div
+		 * del canal 2 del osciloscopio debe ir acompañada de una función 
+         * inline para poder realizar los callbacks. 
+		 */
+		static void cb_volt_div2(Fl_Widget*, void *);
+		/**
+		 * Esta función acompaña la función  cb_volt_div2   
+		 * para realizar los llamados de callback del selector de la escala
+		 * de volt/div del canal en el osciloscopio 
+		 */
+		inline void cb_volt_div2_in(Fl_Widget*); 
 		/**
 		 * Rutina para solicitar las muestras de las señales en el osciloscopio. 
 		*/
