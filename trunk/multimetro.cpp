@@ -10,15 +10,14 @@ Multimetro::Multimetro(){
     isec_mult=0;
     strcpy(cvalor,"0.000");
     strcpy(cnombre,"mult.txt"); 
-    omult_on = new Fl_Light_Button(960,340,30,20,"ON");
-    omult_on->labelsize(9);
     ogroup_mult = new Fl_Group (695,5,300,360,"");
     ogroup_mult->box(FL_ENGRAVED_FRAME);
+    ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
     odisp_mult  = new Fl_7Seg (710,15,230,105);
-    odisp_mult->box(FL_EMBOSSED_FRAME);
+    odisp_mult->box(FL_DOWN_FRAME);
     odisp_mult->segment_gap(2);
-    odisp_mult->value("1234");
+    odisp_mult->value("0.0");
     ohelp_mult  = new Fl_Button (705,340,40,18,"Help");
     ohelp_mult->labelsize(10);
     oSel_mult = new Fl_Repeat_Button(768,250,150,25,"Selección de Instrumento");
@@ -49,6 +48,8 @@ Multimetro::Multimetro(){
     ocont->align(FL_ALIGN_RIGHT);      
     ogroup_mult-> end();
      
+    omult_on = new Fl_Light_Button(960,340,30,20,"ON");
+    omult_on->labelsize(9); 
     oSel_mult->callback(cb_sel_instrumento, this);
     omult_on->callback(cb_mult_on, this);
 }

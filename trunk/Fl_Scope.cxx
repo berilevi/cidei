@@ -115,7 +115,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh)
                   else{
                        Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
                        Yval2=(int) (  (float)((int)*Ptr2) * (float)hh/(65535.0/2.0));
-                       fl_line(xx,(yy+(hh/2)) - Yval,xx+1,(yy+(hh/2)) - Yval2 );
+                      // fl_line(xx,(yy+(hh/2)) - Yval,xx+1,(yy+(hh/2)) - Yval2 );
                   }
              break;
              case FL_SCOPE_DOT:

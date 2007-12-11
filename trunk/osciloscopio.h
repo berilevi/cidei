@@ -2,12 +2,11 @@
 #ifndef OSCILOSCOPIO_H
 #define OSCILOSCOPIO_H
 
-#include "instrumento.h"         // Cabecera de la superclase
-#include "Fl_Scope.h"            // Clase para presentar las gráficas
-#include "canal.h"               
 #include <FL/Fl.H>
-#include <FL/Fl_Widget.H>        // inheriting class's header file
-#include <FL/fl_draw.h>          // header file for drawing
+#include "instrumento.h"                    // Cabecera de la superclase
+#include "Fl_Scope.h"                       // Clase graficar las señales
+#include "canal.h"                          // Cabecera de la clase canal
+#include <FL/Fl_Widget.H>                   // inheriting class's header file
 #include <FL/Fl_Group.H>         
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
@@ -28,16 +27,16 @@
 class Osciloscopio : public Instrumento
 {
 	public:
-		// class constructor
+		// Constructor de clase
 		Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
-		// class destructor
+		// Destructor de clase
 		~Osciloscopio();
-		void Setbsuma(bool bx); // sets the value of bsuma
-		void Setbx_y(bool bx); // sets the value of bx_y
-		void Setipos_x(int ix); // sets the value of npos_x
-		void Setit_div(int ix); // sets the value of nt_div
-		void Setifrec_muestreo(int ix); // sets the value of nfrec_muestreo
-		void Setinivel_trigger(int ix); // sets the value of nnivel_trigger
+		void Setbsuma(bool bx);                  // sets the value of bsuma
+		void Setbx_y(bool bx);                   // sets the value of bx_y
+		void Setipos_x(int ix);                  // sets the value of npos_x
+		void Setit_div(int ix);                  // sets the value of nt_div
+		void Setifrec_muestreo(int ix);          // sets the value of nfrec_muestreo
+		void Setinivel_trigger(int ix);          // sets the value of nnivel_trigger
 		/**
 		 * Método para sumar las señales adquiridas por los 2 canales
 		 * del instrumento.

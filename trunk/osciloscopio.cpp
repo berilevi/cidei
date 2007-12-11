@@ -15,18 +15,11 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     icolor = ncol;                                     //Color de fondo de la pantalla del osciloscopio
     strcpy(cnombre,"osc.txt");                         //Nombre para el archivo de texto donde se almacenan los datos
             
-    opantalla = new Fl_Scope(8,8,380, 304,"");         //Instancia de scope
-    opantalla ->TraceColour(FL_WHITE);                 //Color de la grafica
-    opantalla->tracetype(FL_SCOPE_TRACE_LOOP);  
-    opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    opantalla->linetype(FL_SCOPE_LINE);
-    opantalla->box(FL_DOWN_BOX);
-    
-    oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
-    oosc_on->labelsize(9);
+   
                 
     ogroup_osc = new Fl_Group (5,5,680,360,"");    // Agrupa los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME); 
+    ogroup_osc->box(FL_UP_BOX);
     ogroup_osc->deactivate();
     canal1 = new Canal(400,9,130,230,"",255); 
     canal2 = new Canal(545,9,130,230,"",250);
@@ -63,6 +56,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     
     ogroup_tdiv = new Fl_Group (400,243,240,115,"");    //Agrupa los controles de tiempo por división
     ogroup_tdiv->box(FL_ENGRAVED_FRAME);
+    ogroup_tdiv->box(FL_UP_BOX);
     ogroup_tdiv->deactivate();
     otiempo_div = new Fl_Knob (405,250,70,70,"T_DIV");
     otiempo_div->color(147);
@@ -107,6 +101,16 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     otrigger_ch2->align(FL_ALIGN_RIGHT);
     ogroup_tdiv->end();
                 
+    opantalla = new Fl_Scope(8,8,380, 304,"");         //Instancia de scope
+    opantalla ->TraceColour(FL_WHITE);                 //Color de la grafica
+    opantalla->tracetype(FL_SCOPE_TRACE_LOOP);  
+    opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    opantalla->linetype(FL_SCOPE_LINE);
+    opantalla->box(FL_DOWN_BOX);
+    
+    oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
+    oosc_on->labelsize(9);            
+                
     osel_ch->callback(cb_sel_ch, this);
     odual_menu->callback(cb_dual_menu, this);    
     osel_trigger->callback(cb_sel_trigger, this);
@@ -121,50 +125,42 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
 
 
 // class destructor
-Osciloscopio::~Osciloscopio()
-{
+Osciloscopio::~Osciloscopio(){
 	// insert your code here
 }
 
 // sets the value of bsuma
-void Osciloscopio::Setbsuma(bool bx)
-{
+void Osciloscopio::Setbsuma(bool bx){
 	bsuma = bx;
 }
 
 // sets the value of bx_y
-void Osciloscopio::Setbx_y(bool bx)
-{
+void Osciloscopio::Setbx_y(bool bx){
 	bx_y = bx;
 }
 
 // sets the value of ipos_x
-void Osciloscopio::Setipos_x(int ix)
-{
+void Osciloscopio::Setipos_x(int ix){
 	ipos_x = ix;
 }
 
 // sets the value of it_div
-void Osciloscopio::Setit_div(int ix)
-{
+void Osciloscopio::Setit_div(int ix){
 	it_div = ix;
 }
 
 // sets the value of ifrec_muestreo
-void Osciloscopio::Setifrec_muestreo(int ix)
-{
+void Osciloscopio::Setifrec_muestreo(int ix){
 	ifrec_muestreo = ix;
 }
 
 // sets the value of nnivel_trigger
-void Osciloscopio::Setinivel_trigger(int ix)
-{
+void Osciloscopio::Setinivel_trigger(int ix){
 	inivel_trigger = ix;
 }
 
 // sets the value of bdual
-void Osciloscopio::Setbdual(bool bx)
-{
+void Osciloscopio::Setbdual(bool bx){
 	bdual = bx;
 }
 
@@ -172,11 +168,10 @@ void Osciloscopio::Setbdual(bool bx)
  * Método para sumar las señales adquiridas por los 2 canales
  * del instrumento.
  */
-void Osciloscopio::sumar(int idato1[], int idato2[])
-{
+void Osciloscopio::sumar(int idato1[], int idato2[]){
      int icont1;
      for (icont1=0; icont1 < inum_datos; icont1++){
-         idatos[icont1] = idato1[icont1]+idato2[icont1]; // Suma de las dos señales para el eje y
+         idatos[icont1] = idato1[icont1]+idato2[icont1];                      // Suma de las dos señales para el eje y
      }
 }
 
@@ -184,11 +179,10 @@ void Osciloscopio::sumar(int idato1[], int idato2[])
  * Método para restar las señales adquiridas por los 2 canales
  * del instrumento 
  */
-void Osciloscopio::restar(int idato1[], int idato2[])
-{
+void Osciloscopio::restar(int idato1[], int idato2[]){
      int icont;
      for (icont=0; icont < DATA_OSC-1; icont++){
-         idatos[icont] = idato1[icont] - idato2[icont];    //Diferencia de las dos señales para el eje y
+         idatos[icont] = idato1[icont] - idato2[icont];                         //Diferencia de las dos señales para el eje y
      }
 }
 
@@ -196,8 +190,7 @@ void Osciloscopio::restar(int idato1[], int idato2[])
  * Método para realizar gráficas de lissajous con las señales 
  * de los 2 canales.
  */
-void Osciloscopio::lissajous(int idato1[], int idato2[])
-{
+void Osciloscopio::lissajous(int idato1[], int idato2[]){
      int icont1;
      for (icont1=0; icont1 < inum_datos; icont1++){
          idatos[icont1] = idato1[icont1];                     //Datos del canal 1 para el eje y
@@ -208,8 +201,7 @@ void Osciloscopio::lissajous(int idato1[], int idato2[])
  * Este método es el callback del boton que enciende el osciloscopio 
  * debe ir acompañada de una función inline para poder realizar los callbacks. 
 */
-void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany)
-{
+void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;       //
      posc->cb_osc_on_in();
 }
@@ -257,8 +249,7 @@ void Osciloscopio::cb_osc_on_in(){
  * Este método es el callback del boton selector de canales
  * en el osciloscopio
  */
-void Osciloscopio::cb_sel_ch(Fl_Widget* pboton, void *pany)
-{
+void Osciloscopio::cb_sel_ch(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;       
      posc->cb_sel_ch_in();
 }
@@ -373,18 +364,20 @@ void Osciloscopio::cb_dual_menu(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_dual_menu_in(){
      if (isec_dual==0){
-     ox_y->value(0);
-     osuma->value(1);
+        opantalla->bdual = 0;
+        ox_y->value(0);
+        Setbsuma(1);
+        osuma->value(1);
      }
      if (isec_dual==1){
-     osuma->value(0);
-     oresta->value(1);
-     
+        osuma->value(0);
+        oresta->value(1);
      }
      if (isec_dual==2){
-     oresta->value(0);
-     ox_y->value(1);
-     isec_dual=-1;
+        oresta->value(0);
+        ox_y->value(1);
+        opantalla->bdual = 1;
+        isec_dual=-1;
      }
      isec_dual++;
 }
@@ -407,13 +400,13 @@ void Osciloscopio::cb_sel_trigger(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_sel_trigger_in(){
      if (isec_trigger==0){
-     otrigger_ch2->value(0);
-     otrigger_ch1->value(1);
+        otrigger_ch2->value(0);
+        otrigger_ch1->value(1);
      }
      if (isec_trigger==1){
-     otrigger_ch1->value(0);
-     otrigger_ch2->value(1);
-     isec_trigger=-1;
+        otrigger_ch1->value(0);
+        otrigger_ch2->value(1);
+        isec_trigger=-1;
      }
      isec_trigger++;
 }
@@ -757,6 +750,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      int icont;
      if (num_canal == 1){
      opantalla->TraceColour(Fl_Color(canal1->ncolor));
+     free(opantalla->ScopeData2);
         if (omenu_t_div->value()<6){
            idato_graf_ch1 = idato_osc_ch1;
            opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257)); //es
@@ -770,6 +764,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      }
      if (num_canal == 2){
      opantalla->TraceColour(Fl_Color(canal2->ncolor));
+     free(opantalla->ScopeData);
         if (omenu_t_div->value()<6){
            idato_graf_ch2 = idato_osc_ch2;
            opantalla->Add((canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
@@ -783,16 +778,38 @@ void Osciloscopio::recorrer_datos(int num_canal){
      }
      if (num_canal == 3){
         if (omenu_t_div->value()<6){
-           opantalla->TraceColour(Fl_Color(canal2->ncolor));
+           opantalla->TraceColour(Fl_Color(canal2->ncolor));           
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 
-           opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+           if (osuma->value()){
+              opantalla->Add((canal1->opos_x->value()*257)+((idato_graf_ch2*257)+(idato_graf_ch1*257))); //es
+           }
+           else if(oresta->value()){
+              opantalla->Add((canal1->opos_x->value()*257)+((idato_graf_ch2*257)-(idato_graf_ch1*257))); //es  
+           }
+           else if (ox_y->value()){
+                opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+           }
+           else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
+                opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+           }
         }
         else{
             for(icont=0;icont < DATA_OSC-1; icont++){
                 idato_graf_ch1 = buf_osc_ch1[icont];
                 idato_graf_ch2 = buf_osc_ch2[icont];
-                opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+                if (osuma->value()){
+                   opantalla->Add((canal1->opos_x->value()*257)+((idato_graf_ch2*257)+(idato_graf_ch1*257))); //es                
+                }
+                else if (oresta->value()){
+                   opantalla->Add((canal1->opos_x->value()*257)+((idato_graf_ch2*257)-(idato_graf_ch1*257))); //es                
+                }
+                else if (ox_y->value()){
+                   opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es               
+                }
+                else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
+                     opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+                }
             }              
         }                   
      }

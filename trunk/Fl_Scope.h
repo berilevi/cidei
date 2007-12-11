@@ -57,8 +57,7 @@ class FL_EXPORT Fl_Scope : public Fl_Widget
 {
   int       _x,_y,_w,_h;     /* Screen Possition and Size */
 
-  int *ScopeData;            /* Pointer to dynamic array of track info in channel 1*/
-  int *ScopeData2;           /* Pointer to dynamic array of track info in channel 2*/
+  
   
   int ScopeDataSize;         /* */
   int ScopeDataPos;
@@ -70,7 +69,7 @@ class FL_EXPORT Fl_Scope : public Fl_Widget
   int RedrawMode;
   int LineType;
   int DataType;
-  bool bdual;
+
   int ivez;
   
 protected:
@@ -93,7 +92,12 @@ protected:
   
 public:
 
+  int *ScopeData;            /* Pointer to dynamic array of track info in channel 1*/
+  
+  int *ScopeData2;           /* Pointer to dynamic array of track info in channel 2*/     
 
+  bool bdual;
+  
   int x(){return _x;};
 
   int y(){return _y;};
