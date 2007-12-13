@@ -71,6 +71,13 @@ Analizador::Analizador() {
     otiempo_muestreo->scaleticks(10);
     otiempo_muestreo->range(0,100);
     
+    caja = new Fl_Box(425,590,50,50,"");
+    caja->box(FL_ENGRAVED_FRAME);
+    
+    //fl_register_images();
+    //Fl_JPEG_Image jpg("continuidad.jpg");
+    //caja->image(jpg);
+    
     ogroup_ana->end();
     oana_on->callback(cb_ana_on, this);
 }

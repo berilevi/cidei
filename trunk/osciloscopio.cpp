@@ -9,52 +9,50 @@ int isec_trigger;         // Variable global para realizar la secuencia del menu
 int isec_acople;          // Variable global para realizar la secuencia del acople
 
 
-// class constructor
+// Constructor de clase
 Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento()
 {
-    icolor = ncol;                                     //Color de fondo de la pantalla del osciloscopio
-    strcpy(cnombre,"osc.txt");                         //Nombre para el archivo de texto donde se almacenan los datos
-            
-   
+    icolor = ncol;                                                //Color de fondo de la pantalla del osciloscopio
+    strcpy(cnombre,"osc.txt");                                    //Nombre para el archivo de texto donde se almacenan los datos
                 
-    ogroup_osc = new Fl_Group (5,5,680,360,"");    // Agrupa los elementos del osciloscopio
-    ogroup_osc->box(FL_ENGRAVED_FRAME); 
+    ogroup_osc = new Fl_Group (5,5,680,360,"");                   // Agrupa los elementos del osciloscopio
+    ogroup_osc->box(FL_ENGRAVED_FRAME);                 
     ogroup_osc->box(FL_UP_BOX);
-    ogroup_osc->deactivate();
-    canal1 = new Canal(400,9,130,230,"",255); 
-    canal2 = new Canal(545,9,130,230,"",250);
-    osel_ch = new Fl_Repeat_Button(110,335,40,18,"Canal");
+    ogroup_osc->deactivate();                           
+    canal1 = new Canal(400,9,130,230,"",255);                     // Instancia de canal para crear el objeto canal 1
+    canal2 = new Canal(545,9,130,230,"",250);                     // Instancia de canal para crear el objeto canal 2
+    osel_ch = new Fl_Repeat_Button(110,335,40,18,"Canal");        // Boton para seleccionar el canal o canales activos
     osel_ch->labelsize(10);
-    och1 = new Fl_Light_Button(160,340,10,10,"CH1");
+    och1 = new Fl_Light_Button(160,340,10,10,"CH1");              // Indicador luminoso para el canal 1
     och1->labelsize(10);
     och1->box(FL_NO_BOX);
     och1->align(FL_ALIGN_TOP);
-    och2 = new Fl_Light_Button(185,340,10,10,"CH2");
+    och2 = new Fl_Light_Button(185,340,10,10,"CH2");              // Indicador luminoso para el canal 2
     och2->labelsize(10);
     och2->box(FL_NO_BOX);
     och2->align(FL_ALIGN_TOP);
-    odual_menu = new Fl_Repeat_Button(230,335,40,18,"Dual");
+    odual_menu = new Fl_Repeat_Button(230,335,40,18,"Dual");      // Boton para seleccionar la operacion dual suma resta o lissajous 
     odual_menu->labelsize(10);
     odual_menu->deactivate();
-    osuma = new Fl_Light_Button(290,340,10,10,"Suma");
+    osuma = new Fl_Light_Button(290,340,10,10,"Suma");            // Indicador luminoso para la operacion de suma de las dos señales
     osuma->labelsize(10);
     osuma->box(FL_NO_BOX);
     osuma->align(FL_ALIGN_TOP);
-    oresta = new Fl_Light_Button(325,340,10,10,"Resta");
+    oresta = new Fl_Light_Button(325,340,10,10,"Resta");          // Indicador luminoso para la operacion de resta de las dos señales
     oresta->labelsize(10);
     oresta->box(FL_NO_BOX);
     oresta->align(FL_ALIGN_TOP);
-    ox_y = new Fl_Light_Button(355,340,10,10,"X_Y");
+    ox_y = new Fl_Light_Button(355,340,10,10,"X_Y");              // Indicador luminoso para la operacion lissajous 
     ox_y->labelsize(10);
     ox_y->box(FL_NO_BOX);
     ox_y->align(FL_ALIGN_TOP);
-    olog_osc  = new Fl_Button (15,320,40,18,"Log");
+    olog_osc  = new Fl_Button (15,320,40,18,"Log");               // Boton para activar el almacenamiento en archivo de texto los datos
     olog_osc->labelsize(10);
     ohelp_osc  = new Fl_Button (15,342,40,18,"Help");
     ohelp_osc->labelsize(10);
     ogroup_osc->end();  
     
-    ogroup_tdiv = new Fl_Group (400,243,240,115,"");    //Agrupa los controles de tiempo por división
+    ogroup_tdiv = new Fl_Group (400,243,240,115,"");              //Agrupa los controles de tiempo por división
     ogroup_tdiv->box(FL_ENGRAVED_FRAME);
     ogroup_tdiv->box(FL_UP_BOX);
     ogroup_tdiv->deactivate();
@@ -124,7 +122,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
 }
 
 
-// class destructor
+// Destructor de clase
 Osciloscopio::~Osciloscopio(){
 	// insert your code here
 }
@@ -213,7 +211,7 @@ void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany){
 */
 void Osciloscopio::cb_osc_on_in(){
       char t_div;
-      if (oosc_on->value()== 1){
+      if (oosc_on->value()== 1){                                
          activar(1);
          Encapsular('A','a','1','0',0x00,0x00);
          Transmision();

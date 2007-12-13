@@ -14,6 +14,9 @@
 #include "Fl_Scope.h"
 #include "fl_Knob.h"
 #include <FL/Fl_Group.H>
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_JPEG_Image.H>
+#include <FL/Fl_Box.H>
 #include <iostream>
 #include <string>
 
@@ -104,6 +107,8 @@ class Analizador : public Instrumento
 		 * valor lsb recibido en binario. 
 	     */
 		char  recibido_lsb[5], recibido_lsb2[5];
+		
+		 Fl_Box *caja;
          
 };
 

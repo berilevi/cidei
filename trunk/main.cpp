@@ -3,6 +3,8 @@
 #include <FL/Fl_Window.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Ask.H>
+#include <FL/Fl_JPEG_Image.H>
+#include <FL/Fl_Box.H>
 #include "osciloscopio.h"
 #include "multimetro.h"
 #include "analizador.h"
@@ -37,7 +39,9 @@ int main (int argc, char ** argv)
 {
   Fl_Double_Window *window;
   Fl_Window *window2;
-//  Fl_Light_Button *omult_on;
+ 
+  
+  //Fl_Light_Button *omult_on;
 
   int t =0;
   int u =0;
@@ -45,10 +49,10 @@ int main (int argc, char ** argv)
   int rc, rc2, rc3;
   
   window = new Fl_Double_Window (1024, 708);
-//  window2 = new Fl_Window (104, 108, 200,200,"hola");
+  //window2 = new Fl_Window (104, 108, 200,200,"hola");
   ana = new Analizador();
   gene = new Generador();
- 
+  
   
   rc=pthread_create(&thread, NULL, runhilo, (void *)t);
         if (rc){
