@@ -246,21 +246,22 @@ void Osciloscopio::cb_osc_on_in(){
 /*
  * Este método es el callback del boton selector de canales
  * en el osciloscopio
- */
+*/
 void Osciloscopio::cb_sel_ch(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;       
      posc->cb_sel_ch_in();
 }
 
 /**
-* Esta función acompaña la función  cb_sel_ch 
-* para realizar los llamados de callback del selector de canales
-* en el osciloscopio 
+ * Esta función acompaña la función  cb_sel_ch 
+ * para realizar los llamados de callback del selector de canales
+ * en el osciloscopio 
 */
 void Osciloscopio::cb_sel_ch_in(){
      if (isec_ch==0){
         Fl::remove_timeout(cb_timer,this);
         Fl::remove_timeout(cb_timer_vectores,this);
+        opantalla->bch2 = 0;
         Encapsular('B','b','1','0',0x00,0x00);         //Desactivar canal 2
         Transmision();
         if (bhardware){
@@ -276,6 +277,7 @@ void Osciloscopio::cb_sel_ch_in(){
         if (bhardware){
            och1->value(1);
            canal1->activar(1);
+           opantalla->bch1 = 1;
            canal1->ogroup_ch->activate();
            if (otiempo_div->value() >= 6){
               muestreo_timer(1);
@@ -289,9 +291,11 @@ void Osciloscopio::cb_sel_ch_in(){
         }
      }
      if (isec_ch==1){
+        fl_message("entro canal 2");
         Encapsular('A','b','1','0',0x00,0x00);         //Desactivar canal 1
         Fl::remove_timeout(cb_timer,this);
         Fl::remove_timeout(cb_timer_vectores,this);
+        opantalla->bch1 = 0;
         Transmision();
         if (bhardware){
            och1->value(0);
@@ -308,6 +312,7 @@ void Osciloscopio::cb_sel_ch_in(){
            canal2->activar(1);
            canal2->ogroup_ch->activate();
            canal2->oacop_ac->value(1);
+           opantalla->bch2 = 1;
            if (otiempo_div->value() >= 6){
               muestreo_timer(1);
            }
@@ -789,6 +794,8 @@ void Osciloscopio::recorrer_datos(int num_canal){
                 opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
            }
            else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
+                opantalla->bch1 = 1;
+                opantalla->bch2 = 1;
                 opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
            }
         }
@@ -810,7 +817,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
                 }
             }              
         }                   
-     }
+     }      
 }
 
 
@@ -836,8 +843,7 @@ void Osciloscopio::cb_log_osc_in(){
 
 
 /**
- * Rutina para solicitar una a una las muestras de las 
- * señales en el osciloscopio. 
+ * Rutina para solicitar las muestras de las señales en el osciloscopio. 
 */
 void Osciloscopio::muestreo_timer(int isel){
      if (isel==1){
