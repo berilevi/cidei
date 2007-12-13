@@ -55,34 +55,33 @@
 
 class FL_EXPORT Fl_Scope : public Fl_Widget
 {
-  int       _x,_y,_w,_h;     /* Screen Possition and Size */
+  int       _x,_y,_w,_h;               /* Posicion y tamaño del Screen */
 
   
   
-  int ScopeDataSize;         /* */
-  int ScopeDataPos;
+  int ScopeDataSize;                   /* Tamaño de los arreglos de datos que se van a graficar*/
+  int ScopeDataPos;                    /* Contador para recorrer los datos que se van a graficar*/
   
-  Fl_Color _TraceColour;     /* Trace Colour */
-  Fl_Color _BackColour;      /* Background Colour */
+  Fl_Color _TraceColour;               /* Color de la traza */
+  Fl_Color _BackColour;                /* Color de fondo del screen*/
 
-  int TraceType;
-  int RedrawMode;
-  int LineType;
-  int DataType;
+  int TraceType;                       /* Modo de colocar los datos de las señales en el screen*/
+  int RedrawMode;                      /* Modo de actualizar la grafica de las señales*/
+  int LineType;                        /* Tipo de linea con la que se grafican las señales*/
+  int DataType;                        /* Tipo de datos que se le envian para graficar*/
 
-  int ivez;
+  int ivez;                            /* Contador de veces que entra a graficar en modo dual*/
   
 protected:
 
-  void draw(int,int,int,int);
+  void draw(int,int,int,int);          /* Metodo para graficar*/
 
-  int handle(int,int,int,int,int);
+  int handle(int,int,int,int,int);     
     
   void draw();
-
   
   /* These are protected because changing the size screws up the buffer */
-  /* May Fix this problem later                                         */
+
   void x(int X){ _x=X;};
   void y(int Y){ _y=Y;};
   void w(int W){ _w=W;};
@@ -92,23 +91,22 @@ protected:
   
 public:
 
-  int *ScopeData;            /* Pointer to dynamic array of track info in channel 1*/
+  int *ScopeData;                             /* Apuntador al arreglo dinamico del canal 1 */
   
-  int *ScopeData2;           /* Pointer to dynamic array of track info in channel 2*/     
+  int *ScopeData2;                            /* Apuntador al arreglo dinamico del canal 2 */     
 
-  bool bdual;
+  bool bdual;                                 /* Variable para saber si se va a graficar en modo dual */
   
-  int x(){return _x;};
+  int x(){return _x;};                        /* Posicion horizontal del Screen */
 
-  int y(){return _y;};
+  int y(){return _y;};                        /* Posicion vertical del Screen */
 
-  int w(){return _w;};
+  int w(){return _w;};                        /* Ancho del Screen*/ 
 
-  int h(){return _h;};
+  int h(){return _h;};                        /* Altura del Screen*/
 
-  char cnombre[10];
   
-  int tracetype(){return TraceType;};
+  int tracetype(){return TraceType;};         
   void tracetype(int t){TraceType=t;};
   
   int redrawmode(){return RedrawMode;};
@@ -122,9 +120,9 @@ public:
   void datatype(int t){DataType=t;};
   
 
-  int Add(int);          /* Add Data to Scope */ 
+  int Add(int);                               /* Adicionar un dato a la grafica */ 
   
-  int Add(int, int);     /* Overload function Add */
+  int Add(int, int);                          /* Adicionar datos cuando se usan los dos canales para graficar */
    
   Fl_Color TraceColour(){return _TraceColour;};
   void     TraceColour(Fl_Color c){_TraceColour=c;};

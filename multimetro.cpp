@@ -55,8 +55,7 @@ Multimetro::Multimetro(){
 }
 
 // class destructor
-Multimetro::~Multimetro()
-{
+Multimetro::~Multimetro(){
 	// insert your code here
 }
 
@@ -64,8 +63,7 @@ Multimetro::~Multimetro()
  * Este método es el callback del boton selector de instrumentos
  * en el multímetro
  */
-void Multimetro::cb_sel_instrumento(Fl_Widget* pboton, void *any)
-{
+void Multimetro::cb_sel_instrumento(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_sel_instrumento_in();
 }
@@ -173,8 +171,8 @@ void Multimetro::cb_timer_mult(void *pany)
 }
 
 /**
- * Esta función acompaña la función cb_timer_ch1
- * para realizar los llamados de callback del timer 
+ * Esta función acompaña la función cb_timer_ch1 para realizar los llamados de 
+ * callback del timer 
 */
 void Multimetro::cb_timer_mult_in(){
      Encapsular('K','p','1','0',0x00,0x00);
@@ -231,9 +229,6 @@ void Multimetro::config_instrumento(int instrumento){
 void Multimetro::escalar_valor(int escala){
      double fvalor_escalado = 0.0;
      ivalor_conversion = atoi(buf_mult);
-    // fl_message("valor conversion : %d", ivalor_conversion);
      fvalor_escalado = ivalor_conversion/20;
-    // fl_message("valor escalado : %f", fvalor_escalado);
      sprintf(cvalor,"%.4g",fvalor_escalado);
-    // fl_message("cvalor es : %s", cvalor);
 }
