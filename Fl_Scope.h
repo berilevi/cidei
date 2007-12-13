@@ -97,6 +97,10 @@ public:
 
   bool bdual;                                 /* Variable para saber si se va a graficar en modo dual */
   
+  bool bch1;                                  /* Variable que indica si el canal 1 del osciloscopio esta activo*/
+  
+  bool bch2;                                  /* Variable que indica si el canal 2 del osciloscopio esta activo*/
+  
   int x(){return _x;};                        /* Posicion horizontal del Screen */
 
   int y(){return _y;};                        /* Posicion vertical del Screen */
