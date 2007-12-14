@@ -62,6 +62,8 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     otiempo_div->labelsize(9);
     otiempo_div->scaleticks(17);
     otiempo_div->range(0,17);
+    otiempo_div->step(1);
+    otiempo_div->round(1);
     omenu_t_div = new Fl_Choice(415,335,50,20,"");
     omenu_t_div->add("0.5 s",FL_ALT,(Fl_Callback *)cb_tdiv05s,this);
     omenu_t_div->add("0.2 s",FL_ALT,(Fl_Callback *)cb_tdiv02s,this);
@@ -222,8 +224,8 @@ void Osciloscopio::cb_osc_on_in(){
             och1->value(1);
             canal1->activar(1);
             canal1->ogroup_ch->activate();
-            otiempo_div->value(6);
-            omenu_t_div->value(6);
+            otiempo_div->value(8);
+            omenu_t_div->value(8);
             canal1->ovolt_div->value(0);
             canal1->oacop_ac->value(1);
             isec_acople=1;
@@ -291,7 +293,6 @@ void Osciloscopio::cb_sel_ch_in(){
         }
      }
      if (isec_ch==1){
-        fl_message("entro canal 2");
         Encapsular('A','b','1','0',0x00,0x00);         //Desactivar canal 1
         Fl::remove_timeout(cb_timer,this);
         Fl::remove_timeout(cb_timer_vectores,this);
@@ -427,24 +428,55 @@ void Osciloscopio::cb_tiempo_div(Fl_Widget* psel, void *pany)
 }
 
 /**
- * Esta función acompaña la función  cb_tiempo_div 
- * para realizar los llamados de callback del boton selector de la
- * escala de tiempo por división en el osciloscopio 
+ * Esta función acompaña la función  cb_tiempo_div para realizar los llamados de 
+ * callback del boton selector de la escala de tiempo por división en el 
+ * osciloscopio. 
 */
 void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
      char t_div;
      Fl_Knob *pselector = (Fl_Knob *)psel;
      pselector->value(floor(pselector->value()));
      omenu_t_div->value(pselector->value());
-     if (pselector->value()>=6){
-        t_div = pselector->value()+48;                      //Convertir a caracter la escala de tiempo por division
+     if (pselector->value()>=8){
+        if (pselector->value()== 8){
+           t_div = '1';                                     //Convertir a caracter la escala de tiempo por division
+        } 
+        else if (pselector->value() == 9){
+            t_div = '2';                                    //Convertir a caracter la escala de tiempo por division 
+        } 
+        else if (pselector->value() == 10){
+            t_div = '3';                                    //Convertir a caracter la escala de tiempo por division 
+        } 
+        else if (pselector->value() == 11){
+            t_div = '4';                                    //Convertir a caracter la escala de tiempo por division 
+        } 
+        else if (pselector->value() == 12){
+            t_div = '5';                                    //Convertir a caracter la escala de tiempo por division 
+        } 
+        else if (pselector->value() == 13){
+            t_div = '6';                                    //Convertir a caracter la escala de tiempo por division 
+        }   
+        else if (pselector->value() == 14){
+            t_div = '7';                                    //Convertir a caracter la escala de tiempo por division 
+        }
+        else if (pselector->value() == 15){
+            t_div = '8';                                    //Convertir a caracter la escala de tiempo por division 
+        }
+        else if (pselector->value() == 16){
+            t_div = '9';                                    //Convertir a caracter la escala de tiempo por division 
+        }
+        else if (pselector->value() == 17){
+            t_div = 'A';                                    //Convertir a caracter la escala de tiempo por division 
+        }    
         Encapsular('L','d','1',t_div,0x00,0x00);            //Configurar Tiempo por division 
         Fl::remove_timeout(cb_timer,this);
-        Fl::remove_timeout(cb_timer_vectores,this);
+        Fl::remove_timeout(cb_timer_vectores,this); 
         Transmision();
-        muestreo_timer(1);
-        if (~bhardware)
-           fl_message("Error de hardware");
+        if (bhardware){
+           muestreo_timer(1);
+        }
+        else
+             fl_message("Error de hardware");
      }
      else {
           Encapsular('L','d','1','B',0x00,0x00);
@@ -643,28 +675,28 @@ void Osciloscopio::cb_timer_in(){
      recorrer_datos(isec_ch);
      switch (omenu_t_div->value()){
             case 0:
-                 Fl::repeat_timeout(0.002, cb_timer, this);
+                 Fl::repeat_timeout(0.5, cb_timer, this);
                  break;
             case 1:
-                 Fl::repeat_timeout(0.005, cb_timer, this);
+                 Fl::repeat_timeout(0.2, cb_timer, this);
                  break; 
             case 2:
-                 Fl::repeat_timeout(0.01, cb_timer, this); 
+                 Fl::repeat_timeout(0.1, cb_timer, this); 
                  break;
             case 3:
-                 Fl::repeat_timeout(0.02, cb_timer, this); 
-                 break;
-            case 4:
                  Fl::repeat_timeout(0.05, cb_timer, this); 
                  break;
+            case 4:
+                 Fl::repeat_timeout(0.02, cb_timer, this); 
+                 break;
             case 5:
-                 Fl::repeat_timeout(0.1, cb_timer, this);
+                 Fl::repeat_timeout(0.01, cb_timer, this);
                  break; 
             case 6:      
-                 Fl::repeat_timeout(0.2, cb_timer, this); 
+                 Fl::repeat_timeout(0.005, cb_timer, this); 
                  break;
             case 7:
-                 Fl::repeat_timeout(0.5, cb_timer, this); 
+                 Fl::repeat_timeout(0.002, cb_timer, this); 
                  break;
      }
    
@@ -740,7 +772,7 @@ void Osciloscopio::cb_timer_vectores_in(){
            recorrer_datos(3);
         }
      }
-    Fl::repeat_timeout(0.0005, cb_timer_vectores, this); 
+    Fl::repeat_timeout(0.005, cb_timer_vectores, this); 
 }
 
 
@@ -754,7 +786,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      if (num_canal == 1){
      opantalla->TraceColour(Fl_Color(canal1->ncolor));
      free(opantalla->ScopeData2);
-        if (omenu_t_div->value()<6){
+        if (omenu_t_div->value()<8){
            idato_graf_ch1 = idato_osc_ch1;
            opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257)); //es
         }
@@ -768,7 +800,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      if (num_canal == 2){
      opantalla->TraceColour(Fl_Color(canal2->ncolor));
      free(opantalla->ScopeData);
-        if (omenu_t_div->value()<6){
+        if (omenu_t_div->value()<8){
            idato_graf_ch2 = idato_osc_ch2;
            opantalla->Add((canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
         }
@@ -780,7 +812,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
         }                 
      }
      if (num_canal == 3){
-        if (omenu_t_div->value()<6){
+        if (omenu_t_div->value()<8){
            opantalla->TraceColour(Fl_Color(canal2->ncolor));           
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 

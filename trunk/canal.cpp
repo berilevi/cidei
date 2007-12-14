@@ -23,6 +23,8 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
      opos_x->scaleticks(0);
      opos_x->cursor(50);
      opos_x->range(1,100);
+     opos_x->step(1);
+     opos_x->round(1);
      ov_posy = new Fl_Value_Output((x+40),(y+71),50,16,"");
      omenu_v_div = new Fl_Choice((x+39),(y+181),50,18,"");
      omenu_v_div->add("5");

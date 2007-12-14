@@ -26,8 +26,7 @@ using namespace std;
  * Esta clase representa las funcionees del instrumento
  * multimetro
  */
-class Analizador : public Instrumento
-{
+class Analizador : public Instrumento {
 	public:
         // class constructor
 		Analizador();

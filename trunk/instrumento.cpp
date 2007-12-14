@@ -257,7 +257,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                     }
                  }
                  else if (recibida [2] == '1'){                           //Muestreo de la señal dato por dato en canal 1
-                      idato_osc_ch1=(recibida[4]);
+                      idato_osc_ch1=(recibida[4]-'0');
                  }
                  else if (recibida [2] == '2'){                           //Muestreo de la señal dato por dato en canal 2
                       idato_osc_ch2=int(recibida[5]-'0');
@@ -265,7 +265,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  else if (recibida [2] == '3'){
                  }
                  break;
-     ;}
+     }
 }
 
 
