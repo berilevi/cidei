@@ -129,7 +129,7 @@ void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char
 */
 void Instrumento::Desencapsular(BYTE recibida [])
 {
-      //fl_message("trama recibida %s", recibida);
+     // fl_message("trama recibida %s", recibida);
      int icont = 0;                                                      //Contador auxiliar para los ciclos
      int itamano;
      itamano = int (recibida [3]);                                       //Tamano de la informacion enviada
@@ -241,8 +241,10 @@ void Instrumento::Desencapsular(BYTE recibida [])
                     Sethardware(true);
                  }
                  else if (recibida [2] == 0x15){                          //NACK
+                      fl_message("trama recibida nack %s", recibida);
+                      fl_message("trama antes del nack %s", trama_control);
                       fl_message("Error de Hardware nack");
-                      Sethardware(0);
+                      Sethardware(false);
                  }
                  break;
             case 'K':                                                     //Informacion para el Multimetro
@@ -255,14 +257,20 @@ void Instrumento::Desencapsular(BYTE recibida [])
                     else if(recibida [4]== '2'){                          //Muestreo completo de señal en canal 2 del osciloscopio
                         ch2_muestreado = 1; 
                     }
+                    else if(recibida [4]== '3'){                          //Muestreo completo de señal en canal 2 del osciloscopio
+                        ch2_muestreado = 1;
+                        ch1_muestreado = 1; 
+                    }
                  }
                  else if (recibida [2] == '1'){                           //Muestreo de la señal dato por dato en canal 1
-                      idato_osc_ch1=(recibida[4]-'0');
+                      idato_osc_ch1=int(recibida[4]);
                  }
                  else if (recibida [2] == '2'){                           //Muestreo de la señal dato por dato en canal 2
-                      idato_osc_ch2=int(recibida[5]-'0');
+                      idato_osc_ch2=int(recibida[5]);
                  }
                  else if (recibida [2] == '3'){
+                      /* TODO (JuanPablo#1#): muestreo dato por dato con los dos canales 
+                                              habilitados */
                  }
                  break;
      }

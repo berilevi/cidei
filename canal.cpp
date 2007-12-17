@@ -22,7 +22,7 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
      opos_x->color(180);
      opos_x->scaleticks(0);
      opos_x->cursor(50);
-     opos_x->range(1,100);
+     opos_x->range(-100,100);
      opos_x->step(1);
      opos_x->round(1);
      ov_posy = new Fl_Value_Output((x+40),(y+71),50,16,"");
@@ -154,7 +154,7 @@ void Canal::cb_posx(Fl_Widget* psel, void *pany)
 void Canal::cb_posx_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      ov_posy->value(pselector->value());
-     Setnpos_y((pselector->value())+47500);
+     Setnpos_y((pselector->value())+37500);
 }
 
 
