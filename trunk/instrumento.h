@@ -96,7 +96,7 @@ class Instrumento
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el osciloscopio al canal 2.
 	    */
-	    char buf_osc_ch2[DATA_OSC];
+	    int buf_osc_ch2[DATA_OSC];
 	    /**
 		 * Buffer donde se almacena la información desencapsulada 
          * enviada desde el hardware por el multimetro.

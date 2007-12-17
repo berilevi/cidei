@@ -109,8 +109,8 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
  fl_line_style(FL_DOT);                                         /* Tipo de linea punteada para las divisones del screen*/
  fl_line(xx,(hh/2),ww+9,(hh/2));                                /* Eje x del Screen del osciloscopio*/
  fl_line((ww/2),yy,(ww/2),hh+9);                                /* Eje y del Screen del osciloscopio*/
- fl_line(xx,(hh/8),ww+9,(hh/8));
- fl_line(xx,(hh/4),ww+9,(hh/4));
+ //fl_line(xx,(hh/8),ww+9,(hh/8));
+ //fl_line(xx,(hh/4),ww+9,(hh/4));
 
  fl_line_style(0);                                              /* Retornar al tipo de linea continuo*/
  fl_color(_TraceColour);                                        /* Retornar al color de linea para las graficas del osciloscopio*/
@@ -170,9 +170,8 @@ else if (bdual){                                                 /* Si el oscilo
       }
    }
 }
- 
- /* pop the clip */
- fl_pop_clip();                                                  /* Cerrar el area donde se va a graficar*/
+   /* pop the clip */
+   fl_pop_clip();                                                  /* Cerrar el area donde se va a graficar*/
 }
 
 

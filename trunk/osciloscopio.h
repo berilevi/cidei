@@ -127,20 +127,40 @@ class Osciloscopio : public Instrumento
 		 * a la gráfica del canal 2 en el método recorrer datos.
 		*/
 		int idato_graf_ch2;
+		/**
+         * Este método es el callback del timer para realizar la solicitud 
+         * de los vectores de datos de los canales del osciloscopio.  
+         */   
+         static void cb_timer_vectores(void *);
+         /**
+         * Esta función acompaña la función cb_timer_vectores
+         * para realizar los llamados de callback del timer. 
+         */
+         inline void cb_timer_vectores_in();
+         /**
+         * Este método es el callback del timer para realizar la solicitud 
+         * de datos uno a uno en el osciloscopio.  
+         */   
+         static void cb_timer(void *);
+         /**
+         * Esta función acompaña la función cb_timer para realizar los llamados 
+         * de callback del timer de solicitud de muestras una a una 
+         */
+         inline void cb_timer_in();         
     	
-	    private: 
+   private: 
         /**
 		 * Este método es el callback del boton selector de acople
 		 * del canal del osciloscopio debe ir acompañada de una función 
          * inline para poder realizar los callbacks. 
 		 */
-		static void cb_acople(Fl_Widget*, void *);
+		static void cb_acople1(Fl_Widget*, void *);
 		/**
 		 * Esta función acompaña la función  cb_acople  
 		 * para realizar los llamados de callback del selector de acople
 		 * del canal en el osciloscopio 
 		 */
-		inline void cb_acople_in();
+		inline void cb_acople1_in();
         /**
 		 * Este método es el callback del selector de la escala de volt/div
 		 * del canal 1 del osciloscopio debe ir acompañada de una función 
@@ -341,26 +361,6 @@ class Osciloscopio : public Instrumento
          * por punto los datos para graficar.
 		*/
 		void config_canal();
-		/**
-         * Este método es el callback del timer para realizar la solicitud 
-         * de los vectores de datos de los canales del osciloscopio.  
-         */   
-         static void cb_timer_vectores(void *);
-         /**
-         * Esta función acompaña la función cb_timer_vectores
-         * para realizar los llamados de callback del timer. 
-         */
-         inline void cb_timer_vectores_in();
-         /**
-         * Este método es el callback del timer para realizar la solicitud 
-         * de datos uno a uno en el osciloscopio.  
-         */   
-         static void cb_timer(void *);
-         /**
-         * Esta función acompaña la función cb_timer para realizar los llamados 
-         * de callback del timer de solicitud de muestras una a una 
-         */
-         inline void cb_timer_in();
         /**
 		 * Este método es el callback del boton selector de canal
 		 * en el osciloscopio debe ir acompañada de una función inline para
@@ -372,7 +372,7 @@ class Osciloscopio : public Instrumento
 		 * para realizar los llamados de callback del selector de canal
 		 * en el osciloscopio 
 		 */
-		inline void cb_sel_ch_in();
+		inline void cb_sel_ch_in(void *);
 		/**
 		 * Este método es el callback del boton del menu de las funciones
 		 * duales de graficas en el osciloscopio, debe ir acompañada de una 
@@ -534,6 +534,10 @@ class Osciloscopio : public Instrumento
 		 * canal 2  
 		 */
         Fl_Light_Button *otrigger_ch2;
+        /**
+		 * Vriable que almacena el caracter de la escala de tiempo por division  
+		 */
+        char ct_div;
         
 };
 
