@@ -151,16 +151,28 @@ class Osciloscopio : public Instrumento
    private: 
         /**
 		 * Este método es el callback del boton selector de acople
-		 * del canal del osciloscopio debe ir acompañada de una función 
+		 * del canal 1 del osciloscopio debe ir acompañada de una función 
          * inline para poder realizar los callbacks. 
 		 */
 		static void cb_acople1(Fl_Widget*, void *);
 		/**
-		 * Esta función acompaña la función  cb_acople  
+		 * Esta función acompaña la función  cb_acople1  
 		 * para realizar los llamados de callback del selector de acople
-		 * del canal en el osciloscopio 
+		 * del canal 1 en el osciloscopio 
 		 */
 		inline void cb_acople1_in();
+		/**
+		 * Este método es el callback del boton selector de acople
+		 * del canal 2 del osciloscopio debe ir acompañada de una función 
+         * inline para poder realizar los callbacks. 
+		 */
+		static void cb_acople2(Fl_Widget*, void *);
+		/**
+		 * Esta función acompaña la función  cb_acople2  
+		 * para realizar los llamados de callback del selector de acople
+		 * del canal 2 en el osciloscopio 
+		 */
+		inline void cb_acople2_in();
         /**
 		 * Este método es el callback del selector de la escala de volt/div
 		 * del canal 1 del osciloscopio debe ir acompañada de una función 

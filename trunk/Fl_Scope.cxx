@@ -109,8 +109,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
  fl_line_style(FL_DOT);                                         /* Tipo de linea punteada para las divisones del screen*/
  fl_line(xx,(hh/2),ww+9,(hh/2));                                /* Eje x del Screen del osciloscopio*/
  fl_line((ww/2),yy,(ww/2),hh+9);                                /* Eje y del Screen del osciloscopio*/
- //fl_line(xx,(hh/8),ww+9,(hh/8));
- //fl_line(xx,(hh/4),ww+9,(hh/4));
+
 
  fl_line_style(0);                                              /* Retornar al tipo de linea continuo*/
  fl_color(_TraceColour);                                        /* Retornar al color de linea para las graficas del osciloscopio*/
@@ -140,7 +139,11 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                      else if (bch2 && ~bch1){
                           fl_color( FL_GREEN);
                          fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
-                     }    
+                     }
+                /*     else{
+                          fl_color(_TraceColour);
+                          fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
+                     }  */
                   }
                   else{
                        Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
@@ -163,6 +166,8 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
       Ptr++;
       ptrjp2++;
       ptrjp++;
+      
+      //fl_color(_TraceColour);  
     }
 }
 else if (bdual){                                                 /* Si el oscilocpio esta en modo de operación dual*/
