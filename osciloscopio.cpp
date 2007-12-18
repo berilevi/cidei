@@ -232,6 +232,7 @@ void Osciloscopio::cb_osc_on_in(){
             canal1->ovolt_div->value(0);
             canal1->oacop_ac->value(1);
             isec_acople=1;
+            opantalla->bch1 = 1;
             muestreo_timer(1);
          }
          else {
@@ -417,19 +418,26 @@ void Osciloscopio::cb_dual_menu(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_dual_menu_in(){
      if (isec_dual==0){
-        opantalla->bdual = 0;
         ox_y->value(0);
         Setbsuma(1);
         osuma->value(1);
+        opantalla->bdual = 1;
      }
      if (isec_dual==1){
         osuma->value(0);
         oresta->value(1);
+        opantalla->bdual = 1;
      }
      if (isec_dual==2){
         oresta->value(0);
         ox_y->value(1);
         opantalla->bdual = 1;
+        opantalla->blissajous = 1;
+     }
+     if (isec_dual==3){
+        ox_y->value(0);
+        opantalla->bdual = 0;
+        opantalla->blissajous = 0;
         isec_dual=-1;
      }
      isec_dual++;
@@ -720,7 +728,12 @@ void Osciloscopio::cb_timer(void *pany)
 void Osciloscopio::cb_timer_in(){
      Encapsular('L','y','1','0',0x00,0x00);
      Transmision();
-     recorrer_datos(isec_ch);
+     if (canal1->bestado && canal2->bestado){     
+        recorrer_datos(3);
+     }
+     else{
+          recorrer_datos(isec_ch);
+     }
      if(omenu_t_div->value()== 0){
         Fl::repeat_timeout(0.5, cb_timer, this);
      }
@@ -833,26 +846,25 @@ void Osciloscopio::recorrer_datos(int num_canal){
      free(opantalla->ScopeData2);
         if (omenu_t_div->value()<8){
            idato_graf_ch1 = idato_osc_ch1;
-           opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255)); //es
+           opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); //es
         }
         else{
              for(icont=0;icont < DATA_OSC-1; icont++){
                  idato_graf_ch1 = buf_osc_ch1[icont];
-                 opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255)); //es            
+                 opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); //es            
              }   
         }                
      }
      if (num_canal == 2){
         opantalla->TraceColour(Fl_Color(canal2->ncolor));
-        free(opantalla->ScopeData);
         if (omenu_t_div->value()<8){
            idato_graf_ch2 = idato_osc_ch2;
-           opantalla->Add((canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
+           opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
         }
         else{
             for(icont=0;icont < DATA_OSC-1; icont++){ 
                 idato_graf_ch2 = buf_osc_ch2[icont];
-                opantalla->Add((canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
+                opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
             }
         }                 
      }
@@ -862,18 +874,21 @@ void Osciloscopio::recorrer_datos(int num_canal){
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 
            if (osuma->value()){
-              opantalla->Add((canal1->opos_x->value()*257)+((idato_graf_ch2*257)+(idato_graf_ch1*257))); //es
+              //opantalla->bdual = 1;
+              opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es
            }
            else if(oresta->value()){
-              opantalla->Add((canal1->opos_x->value()*257)+((idato_graf_ch2*257)-(idato_graf_ch1*257))); //es  
+               //opantalla->bdual = 1; 
+               opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es  
            }
            else if (ox_y->value()){
-                opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+                //opantalla->bdual = 1;
+                //opantalla->blissajous = 1;
+                opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
            }
            else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
-                opantalla->bch1 = 1;
-                opantalla->bch2 = 1;
-                opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+                //opantalla->bdual = 0;
+                opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
            }
         }
         else{
@@ -881,16 +896,21 @@ void Osciloscopio::recorrer_datos(int num_canal){
                 idato_graf_ch1 = buf_osc_ch1[icont];
                 idato_graf_ch2 = buf_osc_ch2[icont];
                 if (osuma->value()){
-                   opantalla->Add((canal1->opos_x->value()*257)+((idato_graf_ch2*257)+(idato_graf_ch1*257))); //es                
+                   //opantalla->bdual = 1;
+                   opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es                
                 }
                 else if (oresta->value()){
-                   opantalla->Add((canal1->opos_x->value()*257)+((idato_graf_ch2*257)-(idato_graf_ch1*257))); //es                
+                   //opantalla->bdual = 1;  
+                   opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es                
                 }
                 else if (ox_y->value()){
-                   opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es               
+                   //opantalla->bdual = 1;
+                   //opantalla->blissajous = 1;
+                   opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es               
                 }
                 else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
-                     opantalla->Add((canal1->opos_x->value()*257)+(idato_graf_ch1*257),(canal2->opos_x->value()*257)+(idato_graf_ch2*257)); //es
+                     //opantalla->bdual = 0;
+                     opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
                 }
             }              
         }                   
