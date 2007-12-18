@@ -70,11 +70,11 @@ void Instrumento::archivar()
 
 void Instrumento::Transmision(){
    
-   if (bestado){                     // Se ejecuta si el instrumento esta activo
+   if (bestado){                                                                      // Se ejecuta si el instrumento esta activo
 
-      DWORD selection;               // Pipe para la transmision 
-      fflush(stdin);                 // Limpiar Buffers
-      selection = 0;                 // El pipe para la comunicacion va a ser siempre el cero
+      DWORD selection;                                                                // Pipe para la transmision 
+      fflush(stdin);                                                                  // Limpiar Buffers
+      selection = 0;                                                                  // El pipe para la comunicacion va a ser siempre el cero
 
       myOutPipe = MPUSBOpen(selection,vid_pid,out_pipe,MP_WRITE,0);                   //Abrir el pipe de salida para escritura
       myInPipe = MPUSBOpen(selection,vid_pid,out_pipe,MP_READ,0);                     //Abrir el pipe de entrada para lectura
@@ -127,9 +127,8 @@ void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char
  * La función Desencapsular organiza los datos enviados desde el hardware
  * a los instrumentos de software a traves de USB.
 */
-void Instrumento::Desencapsular(BYTE recibida [])
-{
-     // fl_message("trama recibida %s", recibida);
+void Instrumento::Desencapsular(BYTE recibida []){
+     
      int icont = 0;                                                      //Contador auxiliar para los ciclos
      int itamano;
      itamano = int (recibida [3]);                                       //Tamano de la informacion enviada
@@ -155,7 +154,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                           buf_osc_ch1[(icont-4)+429]=int(recibida[icont]);
                       }
                  }
-                 break;
+            break;
             case 'B':                                                     //Informacion para Osciloscopio canal 2
                  if (recibida [2] == '1'){                                //Primer vector de datos para canal 2
                     for (icont = 4; icont < 147; icont++){
@@ -177,13 +176,13 @@ void Instrumento::Desencapsular(BYTE recibida [])
                           buf_osc_ch2[(icont-4)+429]=int(recibida[icont]);
                       }
                  } 
-                 break;                  
+            break;                  
             case 'C':                                                     //Informacion para Analizador lógico
                  if (recibida [2] == 'p'){
                    buf_analizador[0] = recibida[4];
                    buf_analizador[1] = recibida[5];
                  }                                     
-                 break;
+            break;
             case 'D':                                                     //Informacion para Voltimetro AC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -193,7 +192,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                     buf_mult[itamano] = 0x00;                              
                  }
                  imult_escala = recibida[2];
-                 break;
+            break;
             case 'E':                                                     //Informacion para Voltimetro DC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -203,7 +202,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                     buf_mult[itamano] = 0x00;
                  }
                  imult_escala = recibida[2];
-                 break;
+            break;
             case 'F':                                                     //Informacion para Amperimetro AC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -213,7 +212,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                     buf_mult[itamano] = 0x00;
                  }
                  imult_escala = recibida[2];
-                 break;
+            break;
             case 'G':                                                     //Informacion para Amperimetro DC
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -223,7 +222,7 @@ void Instrumento::Desencapsular(BYTE recibida [])
                     buf_mult[itamano] = 0x00;
                  }
                  imult_escala = recibida[2];
-                 break;
+            break;
             case 'H':                                                     //Informacion para Ohmetro
                  strcpy(buf_mult,"0000");
                  for (icont=4;icont<(itamano+4);icont++){
@@ -232,23 +231,20 @@ void Instrumento::Desencapsular(BYTE recibida [])
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
-                 break;
                  imult_escala = recibida[2];
+            break;
             case 'I':                                                     //Informacion para Generador de señales
-                 break;
+            break;
             case 'J':                                                     //Pruebas de conectividad de LIV
                  if (recibida [2]== 0x06){                                //ACK
                     Sethardware(true);
                  }
                  else if (recibida [2] == 0x15){                          //NACK
-                      fl_message("trama recibida nack %s", recibida);
-                      fl_message("trama antes del nack %s", trama_control);
-                      fl_message("Error de Hardware nack");
                       Sethardware(false);
                  }
-                 break;
+            break;
             case 'K':                                                     //Informacion para el Multimetro
-                 break;
+            break;
             case 'L':                                                     //Informacion para el Osciloscopio
                  if (recibida [2] == 'p'){
                     if (recibida [4]== '1'){                              //Muestreo completo de señal en canal 1 del osciloscopio
@@ -262,17 +258,20 @@ void Instrumento::Desencapsular(BYTE recibida [])
                         ch1_muestreado = 1; 
                     }
                  }
-                 else if (recibida [2] == '1'){                           //Muestreo de la señal dato por dato en canal 1
+                 else if (recibida [2] == '1'){                           // Muestreo de la señal dato por dato en canal 1
+                      //fl_message("recibio dato en canal uno"); 
                       idato_osc_ch1=int(recibida[4]);
                  }
-                 else if (recibida [2] == '2'){                           //Muestreo de la señal dato por dato en canal 2
+                 else if (recibida [2] == '2'){                            // Muestreo de la señal dato por dato en canal 2
+                      //fl_message("recibio dato en canal dos");                            
                       idato_osc_ch2=int(recibida[5]);
                  }
-                 else if (recibida [2] == '3'){
-                      /* TODO (JuanPablo#1#): muestreo dato por dato con los dos canales 
-                                              habilitados */
+                 else if (recibida [2] == '3'){                           // Muestreo de las señales dato por dato con los dos canales
+                      //fl_message("recibio 2 canales uno a uno");
+                      idato_osc_ch1=int(recibida[4]);
+                      idato_osc_ch2=int(recibida[5]);
                  }
-                 break;
+            break;
      }
 }
 

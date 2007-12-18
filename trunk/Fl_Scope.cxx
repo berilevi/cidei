@@ -126,14 +126,21 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
        switch(LineType){
              default:
              case FL_SCOPE_LINE:  
-                  if(DataType==FL_SCOPE_UNSIGNED){      
-                     if (bch1 && bch2){                                                              
+                  if(DataType==FL_SCOPE_UNSIGNED){ 
+                     if (bch1 && bch2){
+                        fl_color( FL_WHITE);                                                      
                         fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
+                        fl_color( FL_GREEN);
                         fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
-                     }
-                     else{
+                     }                                                    
+                     else if (bch1 && ~bch2){
+                          fl_color( FL_WHITE);
                          fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
                      }
+                     else if (bch2 && ~bch1){
+                          fl_color( FL_GREEN);
+                         fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
+                     }    
                   }
                   else{
                        Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
@@ -160,8 +167,9 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
 }
 else if (bdual){                                                 /* Si el oscilocpio esta en modo de operación dual*/
    if (ivez >0){                                                 /* Para que se grafique despues de la primera operacion entre los datos de las señales*/
-      for(count=0;count<89;count++){
-          fl_line(((int)(float)*ptrjp)+100,(190-(int)(float)*Ptr), ((int)(float)*ptrjp2)+100,(190-(int)(float)*Ptr2)); 
+      for(count=0;count<ScopeDataSize-1;count++){
+          fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
+          //fl_line(((int)(float)*ptrjp)+100,(190-(int)(float)*Ptr), ((int)(float)*ptrjp2)+100,(190-(int)(float)*Ptr2)); 
           
           Ptr2++;                                                /* Incrementar en 1 la direccion de los apuntadores*/
           Ptr++;
@@ -170,6 +178,7 @@ else if (bdual){                                                 /* Si el oscilo
       }
    }
 }
+
    /* pop the clip */
    fl_pop_clip();                                                  /* Cerrar el area donde se va a graficar*/
 }
@@ -277,9 +286,9 @@ int Fl_Scope::Add(int data, int data2){
     ScopeDataPos++;
     ivez++;
 
-    if(ScopeDataPos == ScopeDataSize) {             
-       redraw(); 
-    }
+           
+    redraw(); 
+
     return(1);   
 }
 
@@ -376,6 +385,8 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  ScopeDataPos=0;
  
  bdual = 0;
+ 
+ blissajous = 0;
  
  bch1 = 0;
  

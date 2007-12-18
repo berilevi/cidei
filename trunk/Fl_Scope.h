@@ -97,6 +97,8 @@ public:
 
   bool bdual;                                 /* Variable para saber si se va a graficar en modo dual */
   
+  bool blissajous;                            /* Variable para saber si se va a graficar figuras de lissajous*/
+  
   bool bch1;                                  /* Variable que indica si el canal 1 del osciloscopio esta activo*/
   
   bool bch2;                                  /* Variable que indica si el canal 2 del osciloscopio esta activo*/
