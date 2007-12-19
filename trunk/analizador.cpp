@@ -12,7 +12,7 @@ Analizador::Analizador() {
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->deactivate();  
    
-    apantalla_ch1 = new Fl_Scope(8,373,380,32,"");  // Instancia de canal 1
+    apantalla_ch1 = new Fl_Scope(8,373,380,30,"");  // Instancia de canal 1
     apantalla_ch2 = new Fl_Scope(8,407,380,30,"");  // Instancia de canal 2
     apantalla_ch3 = new Fl_Scope(8,439,380,30,"");  // Instancia de canal 3
     apantalla_ch4 = new Fl_Scope(8,471,380,30,"");  // Instancia de canal 4
