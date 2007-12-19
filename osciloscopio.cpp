@@ -27,6 +27,12 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     ogroup_osc->deactivate();                           
     canal1 = new Canal(400,9,130,230,"",255);                     // Instancia de canal para crear el objeto canal 1
     canal2 = new Canal(545,9,130,230,"",250);                     // Instancia de canal para crear el objeto canal 2
+    och1_on = new Fl_Light_Button(70,335,10,10,"1");
+    och1_on->labelsize(10);
+    och1_on->align(FL_ALIGN_TOP);
+    och2_on = new Fl_Light_Button(90,335,10,10,"2");
+    och2_on->labelsize(10);
+    och2_on->align(FL_ALIGN_TOP);
     osel_ch = new Fl_Repeat_Button(110,335,40,18,"Canal");        // Boton para seleccionar el canal o canales activos
     osel_ch->labelsize(10);
     och1 = new Fl_Light_Button(160,340,10,10,"CH1");              // Indicador luminoso para el canal 1
@@ -118,6 +124,8 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     oosc_on->labelsize(9);            
                 
     osel_ch->callback(cb_sel_ch, this);
+    och1_on->callback(cb_ch1_on,this);
+    och2_on->callback(cb_ch2_on,this);
     odual_menu->callback(cb_dual_menu, this);    
     osel_trigger->callback(cb_sel_trigger, this);
     otiempo_div->callback(cb_tiempo_div, this);
@@ -128,7 +136,6 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     canal1->osel_acople->callback(cb_acople1, this);
     canal2->ovolt_div->callback(cb_volt_div2, this);
     canal2->osel_acople->callback(cb_acople2, this);
-
 }
 
 
@@ -229,7 +236,7 @@ void Osciloscopio::cb_osc_on_in(){
             activar(1);
             ogroup_osc->activate(); 
             ogroup_tdiv->activate();     
-            och1->value(1);
+            och1_on->value(1);
             canal1->activar(1);
             canal1->ogroup_ch->activate();
             canal1->ogroup_ch->box(FL_UP_BOX);
@@ -240,11 +247,12 @@ void Osciloscopio::cb_osc_on_in(){
             isec_acople=1;
             opantalla->bch1 = 1;
             muestreo_timer(1);
-            isec_ch++;
+            //isec_ch++;
          }
          else {
               fl_message("Error de hardware");
          }
+         
       }
       if (oosc_on->value()== 0){
          Fl::remove_timeout(cb_timer, this);
@@ -253,10 +261,11 @@ void Osciloscopio::cb_osc_on_in(){
          opantalla->bch1 = 0;
          Transmision();
          if (bhardware){
-           och1->value(0);
-           canal1->activar(0);
-           canal1->ogroup_ch->box(FL_ENGRAVED_BOX);
-           canal1->ogroup_ch->deactivate();
+            och1_on->value(0);
+            och1->value(0);
+            canal1->activar(0);
+            canal1->ogroup_ch->box(FL_ENGRAVED_BOX);
+            canal1->ogroup_ch->deactivate();
         }
         else {
              fl_message("Error de hardware");
@@ -265,7 +274,9 @@ void Osciloscopio::cb_osc_on_in(){
         opantalla->bch2 = 0;
         Transmision();
         if (bhardware){
+           och2_on->value(0);
            och2->value(0);
+           canal2->activar(0);
            canal2->ogroup_ch->box(FL_ENGRAVED_BOX);
            canal2->ogroup_ch->deactivate();
            odual_menu->deactivate();
@@ -274,7 +285,7 @@ void Osciloscopio::cb_osc_on_in(){
              fl_message("Error de hardware");
         }
          activar(0);
-         isec_ch=0;
+         //isec_ch=0;
          opantalla->bch2 = 0;
          opantalla->bch1 = 0;
          ogroup_osc->deactivate(); 
@@ -292,16 +303,15 @@ void Osciloscopio::cb_sel_ch(Fl_Widget* pboton, void *pany){
 }
 
 /**
- * Esta función acompaña la función  cb_sel_ch 
- * para realizar los llamados de callback del selector de canales
- * en el osciloscopio 
+ * Esta función acompaña la función  cb_sel_ch para realizar los llamados de 
+ * callback del selector de canales en el osciloscopio 
 */
 void Osciloscopio::cb_sel_ch_in(void *pany){
      if (isec_ch==0){        
         Fl::remove_timeout(cb_timer,this);
         Fl::remove_timeout(cb_timer_vectores,this);
         opantalla->bch2 = 0;
-        Encapsular('B','b','1','0',0x00,0x00);         //Desactivar canal 2
+        Encapsular('B','b','1','0',0x00,0x00);                          //Desactivar canal 2
         Transmision();
         if (bhardware){
            fl_message("desactivo canal 2");
@@ -313,42 +323,11 @@ void Osciloscopio::cb_sel_ch_in(void *pany){
         else {
              fl_message("Error de hardware");
         }
- /*       Encapsular('A','a','1','0',0x00,0x00);           //Activar canal 1
-        Transmision();
-        if (bhardware){
-           och1->value(1);
-           canal1->activar(1);
-           opantalla->bch1 = 1;
-           canal1->ogroup_ch->activate();
-           if (otiempo_div->value() >= 8){
-              Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
-              Transmision();
-              if (bhardware){
-                 muestreo_timer(1);
-              }
-              else{
-                   fl_message("Error de hardware");
-              }
-           }
-           else {
-                Encapsular('L','d','1','B',0x00,0x00);               //Configurar escala de Tiempo por division muestreo muestra por muestra 
-                Transmision();
-                if (bhardware){
-                   muestreo_timer(2);
-                }
-                else{
-                   fl_message("Error de hardware");
-                }
-           }
-        }
-        else {
-             fl_message("Error de hardware");
-        }*/
      }
-     else if (isec_ch==1){     
+     if (isec_ch==1){     
         Fl::remove_timeout(cb_timer,this);
         Fl::remove_timeout(cb_timer_vectores,this);
-        Encapsular('A','b','1','0',0x00,0x00);         //Desactivar canal 1
+        Encapsular('A','b','1','0',0x00,0x00);                         //Desactivar canal 1
         opantalla->bch1 = 0;
         Transmision();
         if (bhardware){
@@ -396,10 +375,10 @@ void Osciloscopio::cb_sel_ch_in(void *pany){
              fl_message("Error de hardware");
         }
      }
-     else if (isec_ch==2){
+     if (isec_ch==2){
         Fl::remove_timeout(cb_timer,this);
         Fl::remove_timeout(cb_timer_vectores,this);             
-        Encapsular('A','a','1','0',0x00,0x00);           //Activar canal 1
+        Encapsular('A','a','1','0',0x00,0x00);                  //Activar canal 1
         Transmision();
         if (bhardware){
            och1->value(1);
@@ -432,10 +411,154 @@ void Osciloscopio::cb_sel_ch_in(void *pany){
         else {
              fl_message("Error de hardware");
         }       
-        isec_ch=-1;
+     isec_ch = -1;
      }
-     isec_ch++;
+isec_ch++;
 }
+
+
+/**
+ * 
+ *  
+*/
+void Osciloscopio::cb_ch1_on(Fl_Widget* pboton, void *pany){
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cb_ch1_on_in();
+}
+
+
+/**
+ *  
+ *  
+*/
+void Osciloscopio::cb_ch1_on_in(){
+     if (och1_on->value()== 1){
+        Fl::remove_timeout(cb_timer,this);
+        Fl::remove_timeout(cb_timer_vectores,this);             
+        Encapsular('A','a','1','0',0x00,0x00);                  //Activar canal 1
+        Transmision();
+        if (bhardware){
+           canal1->activar(1);
+           canal1->ogroup_ch->activate();
+           canal1->ogroup_ch->box(FL_UP_BOX);
+           odual_menu->activate();
+           opantalla->bch1 = 1;
+           if (otiempo_div->value() >= 8){
+              Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
+              Transmision();
+              if (bhardware){
+                 muestreo_timer(1);
+              }
+              else{
+                   fl_message("Error de hardware");
+              }
+           }
+           else {
+                Encapsular('L','d','1','B',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
+                Transmision();
+                if (bhardware){
+                   muestreo_timer(2);
+                }
+                else{
+                   fl_message("Error de hardware");
+                }
+           }
+        }
+        else {
+             fl_message("Error de hardware");
+        }    
+     }
+     else{
+        if (~canal2->bestado){                                         // no se si funcione, toca ver que pasa cuando el otro canal llama el timer  
+           Fl::remove_timeout(cb_timer,this);
+           Fl::remove_timeout(cb_timer_vectores,this);
+        }
+        Encapsular('A','b','1','0',0x00,0x00);                         //Desactivar canal 1
+        opantalla->bch1 = 0;
+        Transmision();
+        if (bhardware){
+           och1->value(0);
+           canal1->activar(0);
+           canal1->ogroup_ch->box(FL_ENGRAVED_BOX);
+           canal1->ogroup_ch->deactivate();
+        }
+        else {
+             fl_message("Error de hardware");
+        }   
+     }
+}
+
+
+/**
+ * 
+ *  
+*/
+void Osciloscopio::cb_ch2_on(Fl_Widget* pboton, void *pany){
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cb_ch2_on_in();
+}
+
+/**
+ *  
+ *  
+*/
+void Osciloscopio::cb_ch2_on_in(){
+     if (och2_on->value()== 1){
+        Encapsular('B','a','1','0',0x00,0x00);         //Activar canal 2
+        Transmision();
+        if (bhardware){
+           //och2->value(1);
+           canal2->activar(1);
+           canal2->ogroup_ch->activate();
+           canal2->ogroup_ch->box(FL_UP_BOX);
+           canal2->oacop_ac->value(1);
+           opantalla->bch2 = 1;
+           if (otiempo_div->value() >= 8){                     
+              Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
+              Transmision();
+              if (bhardware){
+                 muestreo_timer(1);
+              }
+              else{
+                   fl_message("Error de hardware");
+              }
+           }
+           else {
+                Fl::remove_timeout(cb_timer,this);
+                Fl::remove_timeout(cb_timer_vectores,this);
+                Encapsular('L','d','1','B',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
+                Transmision();
+                if (bhardware){
+                   muestreo_timer(2);
+                }
+                else{
+                   fl_message("Error de hardware");
+                }
+           }
+        }
+        else {
+             fl_message("Error de hardware");
+        }
+     }
+     else{
+        Fl::remove_timeout(cb_timer,this);
+        Fl::remove_timeout(cb_timer_vectores,this);
+        Encapsular('B','b','1','0',0x00,0x00);                          //Desactivar canal 2
+        opantalla->bch2 = 0;
+        Transmision();
+        if (bhardware){
+           och2->value(0);
+           canal2->activar(0);
+           canal2->ogroup_ch->box(FL_ENGRAVED_BOX);
+           canal2->ogroup_ch->deactivate();
+           odual_menu->deactivate();
+        }
+        else {
+             fl_message("Error de hardware");
+        } 
+     }
+}
+
 
 /**
  * Este método es el callback del boton del menu de las funciones
@@ -449,9 +572,8 @@ void Osciloscopio::cb_dual_menu(Fl_Widget* pboton, void *pany)
 }
 
 /**
- * Esta función acompaña la función  cb_menu_dual 
- * para realizar los llamados de callback del menu de funciones duales
- * de graficas en el osciloscopio 
+ * Esta función acompaña la función  cb_menu_dual para realizar los llamados de 
+ * callback del menu de funciones duales de graficas en el osciloscopio. 
 */
 void Osciloscopio::cb_dual_menu_in(){
      if (isec_dual==0){

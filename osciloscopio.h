@@ -386,6 +386,26 @@ class Osciloscopio : public Instrumento
 		 */
 		inline void cb_sel_ch_in(void *);
 		/**
+		 * 
+         *  
+		 */
+		static void cb_ch1_on(Fl_Widget*, void *);
+		/**
+		 * 
+		 *  
+		 */
+		inline void cb_ch1_on_in();
+		/**
+		 * 
+         *  
+		 */
+		static void cb_ch2_on(Fl_Widget*, void *);
+		/**
+		 * 
+		 *  
+		 */
+		inline void cb_ch2_on_in();
+		/**
 		 * Este método es el callback del boton del menu de las funciones
 		 * duales de graficas en el osciloscopio, debe ir acompañada de una 
          * función inline para poder realizar los callbacks. 
@@ -501,6 +521,14 @@ class Osciloscopio : public Instrumento
 		 * osciloscopio
 		 */
 		int icolor;
+		/**
+		 * Botón indicador luminoso para activar el canal 1 del osciloscopio
+		 */
+		Fl_Light_Button *och1_on;
+		/**
+		 * Botón indicador luminoso para activar el canal 2 del osciloscopio
+		 */
+		Fl_Light_Button *och2_on;
 		/**
 		 * Este indicador luminoso indica que está activado el canal 1
 		 * del osciloscopio
