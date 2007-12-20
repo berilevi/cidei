@@ -21,12 +21,12 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     isec_acople2 = 0;
     isec_ch = 0;
                 
-    ogroup_osc = new Fl_Group (5,5,680,360,"");                   // Agrupa los elementos del osciloscopio
+    ogroup_osc = new Fl_Group (5,5,720,360,"");                   // Agrupa los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME);                 
     ogroup_osc->box(FL_UP_BOX);
     ogroup_osc->deactivate();                           
-    canal1 = new Canal(400,9,130,230,"",255);                     // Instancia de canal para crear el objeto canal 1
-    canal2 = new Canal(545,9,130,230,"",250);                     // Instancia de canal para crear el objeto canal 2
+    canal1 = new Canal(400,9,150,230,"",255);                     // Instancia de canal para crear el objeto canal 1
+    canal2 = new Canal(560,9,150,230,"",250);                     // Instancia de canal para crear el objeto canal 2
     och1_on = new Fl_Light_Button(70,335,10,10,"1");
     och1_on->labelsize(10);
     och1_on->align(FL_ALIGN_TOP);
@@ -64,9 +64,9 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     ohelp_osc->labelsize(10);
     ogroup_osc->end();  
     
-    ogroup_tdiv = new Fl_Group (400,243,240,115,"");              //Agrupa los controles de tiempo por división
+    ogroup_tdiv = new Fl_Group (400,243,280,115,"");              //Agrupa los controles de tiempo por división
     ogroup_tdiv->box(FL_ENGRAVED_FRAME);
-    ogroup_tdiv->box(FL_UP_BOX);
+    //ogroup_tdiv->box(FL_UP_BOX);
     ogroup_tdiv->deactivate();
     otiempo_div = new Fl_Knob (405,250,70,70,"T_DIV");
     otiempo_div->color(147);
@@ -100,7 +100,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opos_y->scaleticks(0);
     opos_y->cursor(40);
     opos_y->range(0,10);
-    ov_posx = new Fl_Value_Output(500,335,50,20,"");
+    //ov_posx = new Fl_Value_Output(500,335,50,20,"");
     osel_trigger = new Fl_Repeat_Button(580,310,40,18,"Trigger");  
     osel_trigger->labelsize(10);
     otrigger_ch1 = new Fl_Light_Button(580,275,10,10,"Ch1");
@@ -113,14 +113,14 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     otrigger_ch2->align(FL_ALIGN_RIGHT);
     ogroup_tdiv->end();
                 
-    opantalla = new Fl_Scope(8,8,380, 304,"");         //Instancia de scope
+    opantalla = new Fl_Scope(12,12,380, 304,"");         //Instancia de scope
     opantalla ->TraceColour(FL_WHITE);                 //Color de la grafica
     opantalla->tracetype(FL_SCOPE_TRACE_LOOP);  
     opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     opantalla->linetype(FL_SCOPE_LINE);
     opantalla->box(FL_DOWN_BOX);
     
-    oosc_on = new Fl_Light_Button(650,340,30,20,"ON");
+    oosc_on = new Fl_Light_Button(690,340,30,20,"ON");
     oosc_on->labelsize(9);            
                 
     osel_ch->callback(cb_sel_ch, this);
@@ -240,6 +240,7 @@ void Osciloscopio::cb_osc_on_in(){
             canal1->activar(1);
             canal1->ogroup_ch->activate();
             canal1->ogroup_ch->box(FL_UP_BOX);
+            ogroup_tdiv->box(FL_UP_BOX);
             otiempo_div->value(8);
             omenu_t_div->value(8);
             canal1->ovolt_div->value(0);
@@ -257,6 +258,7 @@ void Osciloscopio::cb_osc_on_in(){
       if (oosc_on->value()== 0){
          Fl::remove_timeout(cb_timer, this);
          Fl::remove_timeout(cb_timer_vectores, this);
+         ogroup_tdiv->box(FL_ENGRAVED_BOX);
          Encapsular('A','b','1','0',0x00,0x00);         //Desactivar canal 1
          opantalla->bch1 = 0;
          Transmision();

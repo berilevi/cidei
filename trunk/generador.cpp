@@ -17,7 +17,11 @@ Generador::Generador(){
 	ogroup_generador->deactivate();
 	odisp_gen = new Fl_7Seg(555,380,269,100,""); 
     odisp_gen->box(FL_EMBOSSED_FRAME);
-    odisp_gen->value("0.0");
+    odisp_gen->color(FL_BLACK);
+    odisp_gen->thickness(5);
+    odisp_gen->dot_len(7);
+    odisp_gen->align_text(FL_ALIGN_RIGHT);
+    odisp_gen->value("000.0");
     omHz = new Fl_Light_Button(830,390,10,10,"mHz");
     omHz->labelsize(10);
     omHz->box(FL_NO_BOX);
