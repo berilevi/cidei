@@ -57,7 +57,8 @@ Fl_7Seg::Fl_7Seg(int x, int y, int w, int h, const char *l) : Fl_Widget(x, y, w,
 	unit_h_ = (int)(Fl_7Seg::h() * (7.00 / 10.00));
 	unit_w_ = (int)(unit_h_ * (3.00 / 5.00));
 
-	seg_color_ = FL_BLACK;
+	//seg_color_ = FL_BLACK;
+	seg_color_ = FL_WHITE;
 	align_ = FL_ALIGN_CENTER;
 
 	thickness((int)(unit_w_ * (3.00 / 10.00)));
