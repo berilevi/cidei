@@ -6,12 +6,10 @@
 #include "instrumento.h" // inheriting class's header file
 #include "Fl_7Seg.H"     // inheriting class's header file
 #include <FL/Fl.H>
-#include <FL/fl_draw.h>
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
 #include <FL/fl_ask.H>
-#include <FL/Fl_Text_Display.H>
 #include <iostream>
 #include <string>
 

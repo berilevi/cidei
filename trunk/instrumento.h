@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <FL/Fl_Ask.H>
+#include <FL/Fl_Tooltip.H>
 
 #pragma hdrstop
 #include <stdio.h>

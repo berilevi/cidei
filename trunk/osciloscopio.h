@@ -14,6 +14,7 @@
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Value_Output.H>
 #include <FL/Fl_Ask.H>
+#include <FL/Fl_Check_Button.H>
 #include <math.h>
 #include <pthread.h>
 #include <string.h>
@@ -21,7 +22,6 @@
 /**
  * La clase Osciloscopio representa las funcionalidades del instrumento
  * oscilscopio.
- * Esta clase hereda tambien de la clase Fl_Widget para poder realizar gráficas. 
 */
 
 class Osciloscopio : public Instrumento
@@ -63,15 +63,30 @@ class Osciloscopio : public Instrumento
 		 */
         Fl_Group *ogroup_osc;
         /**
-		 * Objeto que agrupa los controles de tiempo por división y posición 
-		 * de la grafica rescpecto del eje y en el osciloscopio.
+		 * Objeto que agrupa los controles de tiempo por división en el 
+         * osciloscopio.
 		 */
         Fl_Group *ogroup_tdiv;
         /**
-		 * Botón para seleccionar el (los) canal(es) activo(s)  
-		 * en el osciloscopio.
-	    */
-        Fl_Repeat_Button *osel_ch;
+		 * Objeto que agrupa los controles de seleccion de fuente y posición 
+		 * del trigger en el osciloscopio.
+		 */
+        Fl_Group *ogroup_trigger;
+        /**
+		 * Objeto que agrupa el control de la posición de las graficas respecto 
+		 * al eje x en el osciloscopio.
+		 */
+        Fl_Group *ogroup_pos;
+        /**
+		 * Objeto que agrupa el control de detencion de la grafica en el 
+         * osciloscopio.
+		 */
+        Fl_Group *ogroup_stop;
+        /**
+		 * Objeto que agrupa las opciones de operaciones entre las graficas en el 
+         * osciloscopio cuando se encuantran activos los dos canales.
+		 */
+        Fl_Group *ogroup_dual;
         /**
 		 * Canal 1 del osciloscopio
 	    */
@@ -93,7 +108,17 @@ class Osciloscopio : public Instrumento
 		 * Boton de repetición para seleccionar la operación del osciloscopio
 		 * en modo dual.
 	    */
-        Fl_Repeat_Button *odual_menu;  
+        Fl_Repeat_Button *odual_menu;
+        /**
+		 * Boton que reanuda la solicitud de datos al hardware para continuar las
+         * graficas que se presentan en la pantalla del osciloscopio.
+	    */
+        Fl_Button *orun;  
+        /**
+		 * Boton que detiene la solicitud de datos al hardware para detener las
+         * graficas que se presentan en la pantalla del osciloscopio.
+	    */
+        Fl_Button *ostop;
         /**
 		 * Boton que habilita el almacenamiento de datos en archivos planos de 
 		 * texto.
@@ -104,6 +129,11 @@ class Osciloscopio : public Instrumento
 	    */
         Fl_Button *ohelp_osc;
         /**
+		 * Boton que habilita la ayuda flotante para el uso de los botones del
+         * instrumento. 
+	    */
+        Fl_Check_Button *oayuda_osc;
+        /**
 		 * Selector de la escala de tiempo por división para la visualización 
 		 * de la(s) señal(es) adquirida(s).
 	    */
@@ -112,6 +142,10 @@ class Osciloscopio : public Instrumento
 		 * Perilla de desplazamiento de la señal de forma horizontal.
 	    */
         Fl_Knob *opos_y;
+        /**
+		 * Perilla de seleccion del nivel de disparo del trigger.
+	    */
+        Fl_Knob *onivel_trigger;
         /**
 		 * Objeto de la calse scope que representa la pantalla del osciloscopio 
 		 * donde se grafica la señal digitalizada por el canal.
@@ -146,7 +180,17 @@ class Osciloscopio : public Instrumento
          * Esta función acompaña la función cb_timer para realizar los llamados 
          * de callback del timer de solicitud de muestras una a una 
          */
-         inline void cb_timer_in();         
+         inline void cb_timer_in();  
+         /**
+         * Este método es el callback del boton de ayuda flotante de los botones 
+         * del instrumento en el osciloscopio.  
+         */   
+         static void cb_ayuda(Fl_Widget*, void *);
+         /**
+         * Esta función acompaña la función cb_ayuda para realizar los llamados 
+         * de callback del boton de ayuda flotante. 
+         */
+         inline void cb_ayuda_in();       
     	
    private: 
         /**
@@ -373,36 +417,22 @@ class Osciloscopio : public Instrumento
          * por punto los datos para graficar.
 		*/
 		void config_canal();
-        /**
-		 * Este método es el callback del boton selector de canal
-		 * en el osciloscopio debe ir acompañada de una función inline para
-         * poder realizar los callbacks. 
-		 */
-		static void cb_sel_ch(Fl_Widget*, void *);
 		/**
-		 * Esta función acompaña la función  cb_sel_ch 
-		 * para realizar los llamados de callback del selector de canal
-		 * en el osciloscopio 
-		 */
-		inline void cb_sel_ch_in(void *);
-		/**
-		 * 
-         *  
+		 * Callback del boton para encender el canal 1 del osciloscopio 
 		 */
 		static void cb_ch1_on(Fl_Widget*, void *);
 		/**
-		 * 
-		 *  
+		 * Funcion que acompaña a la funcion cb_ch1_on para realizar los
+		 * llamados de callback para encender el canal 1 del osciloscopio
 		 */
 		inline void cb_ch1_on_in();
 		/**
-		 * 
-         *  
+		 * Callback del boton para encender el canal 2 del osciloscopio
 		 */
 		static void cb_ch2_on(Fl_Widget*, void *);
 		/**
-		 * 
-		 *  
+		 * Funcion que acompaña a la funcion cb_ch2_on para realizar los
+		 * llamados de callback para encender el canal 2 del osciloscopio 
 		 */
 		inline void cb_ch2_on_in();
 		/**
@@ -477,47 +507,47 @@ class Osciloscopio : public Instrumento
 	    */
 		inline void cb_pos_y_in(Fl_Widget*);
          /**
-		 * Esta variable representa la activación de la suma de las 
+		 * Variable que representa la activación de la suma de las 
 		 * señales de los dos canales.
 		 */
 		bool bsuma;
 		 /**
-		 * Esta variable representa la activación de la diferencia de las 
+		 * Variable que representa la activación de la diferencia de las 
 		 * señales de los dos canales.
 		 */
 		bool bresta;
 		/**
-		 * Esta variable representa la activación de la gráfica de las
+		 * Variable que representa la activación de la gráfica de las
 		 * figuras de lissajous
 		 */
 		bool bx_y;
 		/**
-		 * Esta variable representa la posición de las gráficas respecto 
+		 * Variable que representa la posición de las gráficas respecto 
 		 * del eje y
 		 */
 		int ipos_x;
 		/**
-		 * Esta variable representa la escala de tiempo por división
+		 * Variable que representa la escala de tiempo por división
 		 * que el ususario ha seleccionado.
 		 */
 		int it_div;
 		/**
-		 * Esta variable representa la frecuencia a la que se están
+		 * Variable que representa la frecuencia a la que se están
 		 * digitalizando las señales.
 		 */
 		int ifrec_muestreo;
 		/**
-		 * Esta variable representa el nivel de voltaje en el cual se 
+		 * Variable que representa el nivel de voltaje en el cual se 
 		 * produce el disparo para la digitalización de las señales.
 		 */
 		int inivel_trigger;
 		/**
-		 * Esta variable representa la activación del modo dual del
+		 * Variable que representa la activación del modo dual del
 		 * osciloscopio
 		 */
 		bool bdual;
 		/**
-		 * Esta variable representa el color de fondo de la pantalla del
+		 * Variable que representa el color de fondo de la pantalla del
 		 * osciloscopio
 		 */
 		int icolor;
@@ -529,28 +559,18 @@ class Osciloscopio : public Instrumento
 		 * Botón indicador luminoso para activar el canal 2 del osciloscopio
 		 */
 		Fl_Light_Button *och2_on;
-		/**
-		 * Este indicador luminoso indica que está activado el canal 1
-		 * del osciloscopio
-		 */
-		Fl_Light_Button *och1;
-		/**
-		 * Este indicador luminoso indica que está activado el canal 2
-		 * del osciloscopio
-		 */
-        Fl_Light_Button *och2;
         /**
-		 * Este indicador luminoso indica que está activado el modo dual
+		 * Indicador luminoso que indica que está activado el modo dual
 		 * de suma de señales de los dos canales  
 		 */
         Fl_Light_Button *osuma;
         /**
-		 * Este indicador luminoso indica que está activado el modo dual
+		 * Indicador luminoso que indica que está activado el modo dual
 		 * de diferencia de señales de los dos canales  
 		 */
         Fl_Light_Button *oresta;
         /**
-		 * Este indicador luminoso indica que está activado el modo dual
+		 * Indicador luminoso quqe indica que está activado el modo dual
 		 * de gráfica de señales de lissajous  
 		 */
         Fl_Light_Button *ox_y;
@@ -560,17 +580,12 @@ class Osciloscopio : public Instrumento
 	     */
         Fl_Choice *omenu_t_div;
         /**
-		 * Panel para visualizar la posición de la señal respecto al eje y 
-		 * de la señal.   
-	     */
-        Fl_Value_Output *ov_posx;
-        /**
-		 * Este indicador luminoso indica que está activado el trigger del
+		 * Indicador luminoso que indica que está activado el trigger del
 		 * canal 1  
 		 */
         Fl_Light_Button *otrigger_ch1;
         /**
-		 * Este indicador luminoso indica que está activado el trigger del
+		 * Indicador luminoso que indica que está activado el trigger del
 		 * canal 2  
 		 */
         Fl_Light_Button *otrigger_ch2;

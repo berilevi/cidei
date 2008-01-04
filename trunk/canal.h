@@ -55,6 +55,18 @@ class Canal : public Instrumento
         */
 		Fl_Group *ogroup_ch;
 		/**
+		 * Grupo del selector de posicion de la grafica del canal.
+        */
+		Fl_Group *ogroup_pos;
+		/**
+		 * Grupo de los selectores de la escala de votios por division del canal.
+        */
+		Fl_Group *ogroup_v_div;
+		/**
+		 * Grupo de los selectores del tipo de acople del canal.
+        */
+		Fl_Group *ogroup_acople;
+		/**
 		 * Esta variable representa el color de la gráfica de la señal
 		 * adquirida por el canal
 	    */
