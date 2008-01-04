@@ -6,6 +6,7 @@ int isec_mult;
 
 // class constructor
 Multimetro::Multimetro(){
+    Fl_Tooltip::disable();
     Fl_Repeat_Button *oSel_mult;
     isec_mult=0;
     strcpy(cvalor,"0.000");
@@ -24,6 +25,7 @@ Multimetro::Multimetro(){
     odisp_mult->value("00.0");
     ohelp_mult  = new Fl_Button (745,340,40,18,"Help");
     ohelp_mult->labelsize(10);
+    ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
     oSel_mult = new Fl_Repeat_Button(788,250,150,25,"Selección de Instrumento");
     oSel_mult->labelsize(12);
     ov_ac = new Fl_Light_Button(765,160,10,10,"V_ac");
@@ -145,6 +147,7 @@ void Multimetro::cb_mult_on_in(){
         Transmision();
         if (bhardware){
            ogroup_mult->activate();
+           Fl_Tooltip::enable();
         }
         else {
              fl_message("Error de hardware");
@@ -152,7 +155,8 @@ void Multimetro::cb_mult_on_in(){
      }
      if (omult_on->value()== 0){
         activar(0);
-        ogroup_mult->deactivate(); 
+        ogroup_mult->deactivate();
+        Fl_Tooltip::disable(); 
      } 
 }
 

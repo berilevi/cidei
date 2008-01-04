@@ -126,17 +126,17 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
              default:
              case FL_SCOPE_LINE:  
                   if(DataType==FL_SCOPE_UNSIGNED){ 
-                     if (bch1 && bch2){
+                     if (bch1== 1 && bch2== 1){
                         fl_color( FL_WHITE);                                                      
                         fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
                         fl_color( FL_GREEN);
                         fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
                      }                                                    
-                     else if (bch1 && ~bch2){
+                     else if (bch1== 1 && bch2 == 0){
                           fl_color( FL_WHITE);
                          fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
                      }
-                     else if (bch2 && ~bch1){
+                     else if (bch2 == 1 && bch1== 0){
                           fl_color( FL_GREEN);
                          fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
                      }

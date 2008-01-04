@@ -3,7 +3,6 @@
 #include "osciloscopio.h" // class's header file
 #include <FL/Fl.H>
 
-int isec_ch;              // Variable global para realizar la secuencia de la selección de canales 
 int isec_dual;            // Variable global para realizar la secuencia del menu dual 
 int isec_trigger;         // Variable global para realizar la secuencia del menu dual
 int isec_acople;          // Variable global para realizar la secuencia del acople del canal 1
@@ -13,39 +12,31 @@ int isec_acople2;         // Variable global para realizar la secuencia del acop
 // Constructor de clase
 Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento()
 {
+    Fl_Tooltip::disable();
     icolor = ncol;                                                // Color de fondo de la pantalla del osciloscopio
     strcpy(cnombre,"osc.txt");                                    // Nombre para el archivo de texto donde se almacenan los datos
     ct_div = '1';                                                 // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
     isec_trigger = 0;         
     isec_acople = 0;          
     isec_acople2 = 0;
-    isec_ch = 0;
                 
     ogroup_osc = new Fl_Group (5,5,720,360,"");                   // Agrupa los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME);                 
     ogroup_osc->box(FL_UP_BOX);
     ogroup_osc->deactivate();                           
-    canal1 = new Canal(400,9,150,230,"",255);                     // Instancia de canal para crear el objeto canal 1
-    canal2 = new Canal(560,9,150,230,"",250);                     // Instancia de canal para crear el objeto canal 2
-    och1_on = new Fl_Light_Button(70,335,10,10,"1");
+    canal1 = new Canal(400,9,152,230,"",255);                     // Instancia de canal para crear el objeto canal 1
+    canal2 = new Canal(562,9,152,230,"",250);                     // Instancia de canal para crear el objeto canal 2
+    och1_on = new Fl_Light_Button(405,219,35,15,"ON");
     och1_on->labelsize(10);
-    och1_on->align(FL_ALIGN_TOP);
-    och2_on = new Fl_Light_Button(90,335,10,10,"2");
+    och2_on = new Fl_Light_Button(565,219,35,15,"ON");
     och2_on->labelsize(10);
-    och2_on->align(FL_ALIGN_TOP);
-    osel_ch = new Fl_Repeat_Button(110,335,40,18,"Canal");        // Boton para seleccionar el canal o canales activos
-    osel_ch->labelsize(10);
-    och1 = new Fl_Light_Button(160,340,10,10,"CH1");              // Indicador luminoso para el canal 1
-    och1->labelsize(10);
-    och1->box(FL_NO_BOX);
-    och1->align(FL_ALIGN_TOP);
-    och2 = new Fl_Light_Button(185,340,10,10,"CH2");              // Indicador luminoso para el canal 2
-    och2->labelsize(10);
-    och2->box(FL_NO_BOX);
-    och2->align(FL_ALIGN_TOP);
-    odual_menu = new Fl_Repeat_Button(230,335,40,18,"Dual");      // Boton para seleccionar la operacion dual suma resta o lissajous 
+    ogroup_dual = new Fl_Group (220,320,170,38,"");              //Agrupa los controles de las operaciones en modo dual
+    ogroup_dual->box(FL_ENGRAVED_FRAME);
+    ogroup_dual->deactivate();
+    odual_menu = new Fl_Repeat_Button(230,332,40,18,"Dual");      // Boton para seleccionar la operacion dual suma resta o lissajous 
     odual_menu->labelsize(10);
     odual_menu->deactivate();
+    odual_menu->tooltip("Boton para seleccionar la operacion dual de las graficas");
     osuma = new Fl_Light_Button(290,340,10,10,"Suma");            // Indicador luminoso para la operacion de suma de las dos señales
     osuma->labelsize(10);
     osuma->box(FL_NO_BOX);
@@ -58,17 +49,20 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     ox_y->labelsize(10);
     ox_y->box(FL_NO_BOX);
     ox_y->align(FL_ALIGN_TOP);
-    olog_osc  = new Fl_Button (15,320,40,18,"Log");               // Boton para activar el almacenamiento en archivo de texto los datos
+    ogroup_dual->end();
+    olog_osc  = new Fl_Button (60,322,40,16,"Log");               // Boton para activar el almacenamiento en archivo de texto los datos
     olog_osc->labelsize(10);
-    ohelp_osc  = new Fl_Button (15,342,40,18,"Help");
-    ohelp_osc->labelsize(10);
-    ogroup_osc->end();  
-    
-    ogroup_tdiv = new Fl_Group (400,243,280,115,"");              //Agrupa los controles de tiempo por división
+    olog_osc->tooltip("Boton para iniciar a archivar los datos de las graficas");
+    ohelp_osc  = new Fl_Button (60,340,40,16,"Help");
+    ohelp_osc->labelsize(10); 
+    ohelp_osc->tooltip("Boton para iniciar el archivo de ayuda de uso del instrumento ");
+    oayuda_osc  = new Fl_Check_Button (110,340,20,16,"?");
+    oayuda_osc->labelsize(12);
+    oayuda_osc->tooltip("Boton para iniciar las ayudas flotantes del uso del los botones del instrumento");
+    ogroup_tdiv = new Fl_Group (620,243,95,115,"");              //Agrupa los controles de tiempo por división
     ogroup_tdiv->box(FL_ENGRAVED_FRAME);
-    //ogroup_tdiv->box(FL_UP_BOX);
     ogroup_tdiv->deactivate();
-    otiempo_div = new Fl_Knob (405,250,70,70,"T_DIV");
+    otiempo_div = new Fl_Knob (630,250,70,70,"T_DIV");
     otiempo_div->color(147);
     otiempo_div->type(8);
     otiempo_div->labelsize(9);
@@ -76,7 +70,8 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     otiempo_div->range(0,17);
     otiempo_div->step(1);
     otiempo_div->round(1);
-    omenu_t_div = new Fl_Choice(415,335,50,20,"");
+    otiempo_div->tooltip("Selector de las escalas de tiempo por división del instrumento");
+    omenu_t_div = new Fl_Choice(638,335,50,20,"");
     omenu_t_div->add("0.5 s",FL_ALT,(Fl_Callback *)cb_tdiv05s,this);
     omenu_t_div->add("0.2 s",FL_ALT,(Fl_Callback *)cb_tdiv02s,this);
     omenu_t_div->add("0.1 s",FL_ALT,(Fl_Callback *)cb_tdiv01s,this);
@@ -94,36 +89,60 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     omenu_t_div->add("10 u",FL_ALT,(Fl_Callback *)cb_tdiv10us,this);
     omenu_t_div->add("5 u",FL_ALT,(Fl_Callback *)cb_tdiv5us,this);
     omenu_t_div->add("2 u",FL_ALT,(Fl_Callback *)cb_tdiv2us,this);
-    omenu_t_div->add("1 u",FL_ALT,(Fl_Callback *)cb_tdiv1us,this);            
-    opos_y = new Fl_Knob (495,255,50,50,"X-Pos");
+    omenu_t_div->add("1 u",FL_ALT,(Fl_Callback *)cb_tdiv1us,this); 
+    ogroup_tdiv->end();
+    ogroup_pos = new Fl_Group (400,243,105,70,"");
+    ogroup_pos->box(FL_ENGRAVED_FRAME);
+    ogroup_pos->deactivate();           
+    opos_y = new Fl_Knob (428,245,50,50,"X-Pos");
     opos_y->color(180);
     opos_y->scaleticks(0);
     opos_y->cursor(40);
+    opos_y->labelsize(10);
     opos_y->range(0,10);
-    //ov_posx = new Fl_Value_Output(500,335,50,20,"");
-    osel_trigger = new Fl_Repeat_Button(580,310,40,18,"Trigger");  
+    opos_y->tooltip("Boton de posicionamiento horizontal de las gráficas");
+    ogroup_pos->end();
+    ogroup_stop = new Fl_Group (400,315,105,43,"");
+    ogroup_stop->box(FL_ENGRAVED_FRAME);
+    ogroup_stop->deactivate();
+    orun = new Fl_Button(458,322,40,30,"");
+    orun->label("@|>");
+    ostop = new Fl_Button(408,322,40,30,"");
+    ostop->label("@square");
+    ogroup_stop->end();
+    ogroup_trigger = new Fl_Group (515,243,95,115,"");
+    ogroup_trigger->box(FL_ENGRAVED_FRAME);
+    ogroup_trigger->deactivate();
+    osel_trigger = new Fl_Repeat_Button(523,260,40,18,"Trigger");  
     osel_trigger->labelsize(10);
-    otrigger_ch1 = new Fl_Light_Button(580,275,10,10,"Ch1");
+    otrigger_ch1 = new Fl_Light_Button(572,255,10,10,"Ch1");
     otrigger_ch1->labelsize(10);
     otrigger_ch1->box(FL_NO_BOX);
     otrigger_ch1->align(FL_ALIGN_RIGHT);
-    otrigger_ch2 = new Fl_Light_Button(580,295,10,10,"Ch2");
+    otrigger_ch2 = new Fl_Light_Button(572,275,10,10,"Ch2");
     otrigger_ch2->labelsize(10);
     otrigger_ch2->box(FL_NO_BOX);
     otrigger_ch2->align(FL_ALIGN_RIGHT);
-    ogroup_tdiv->end();
+    onivel_trigger = new Fl_Knob (535,290,50,50,"Nivel");
+    onivel_trigger->color(180);
+    onivel_trigger->scaleticks(0);
+    onivel_trigger->cursor(40);
+    onivel_trigger->labelsize(10);
+    onivel_trigger->range(0,10);
+    ogroup_trigger->end();
+    
                 
-    opantalla = new Fl_Scope(12,12,380, 304,"");         //Instancia de scope
-    opantalla ->TraceColour(FL_WHITE);                 //Color de la grafica
+    opantalla = new Fl_Scope(12,12,380, 304,"");         //Instancia de scope para la pantalla del osciloscopio
+    opantalla ->TraceColour(FL_WHITE);                   //Color de la grafica inicial por defecto
     opantalla->tracetype(FL_SCOPE_TRACE_LOOP);  
     opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     opantalla->linetype(FL_SCOPE_LINE);
     opantalla->box(FL_DOWN_BOX);
+    ogroup_osc->end();
     
-    oosc_on = new Fl_Light_Button(690,340,30,20,"ON");
-    oosc_on->labelsize(9);            
+    oosc_on = new Fl_Light_Button(15,325,38,30,"ON");
+    oosc_on->labelsize(10);            
                 
-    osel_ch->callback(cb_sel_ch, this);
     och1_on->callback(cb_ch1_on,this);
     och2_on->callback(cb_ch2_on,this);
     odual_menu->callback(cb_dual_menu, this);    
@@ -132,6 +151,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opos_y->callback(cb_pos_y, this);
     oosc_on->callback(cb_osc_on, this);
     olog_osc->callback(cb_log_osc, this);
+    oayuda_osc->callback(cb_ayuda, this);
     canal1->ovolt_div->callback(cb_volt_div1, this);
     canal1->osel_acople->callback(cb_acople1, this);
     canal2->ovolt_div->callback(cb_volt_div2, this);
@@ -235,12 +255,20 @@ void Osciloscopio::cb_osc_on_in(){
          if (bhardware){
             activar(1);
             ogroup_osc->activate(); 
-            ogroup_tdiv->activate();     
+            ogroup_tdiv->activate();
+            ogroup_trigger->activate();
+            ogroup_pos->activate(); 
+            ogroup_stop->activate();
+            ogroup_dual->activate();    
             och1_on->value(1);
             canal1->activar(1);
             canal1->ogroup_ch->activate();
             canal1->ogroup_ch->box(FL_UP_BOX);
             ogroup_tdiv->box(FL_UP_BOX);
+            ogroup_trigger->box(FL_UP_BOX);
+            ogroup_pos->box(FL_UP_BOX);
+            ogroup_stop->box(FL_UP_BOX);
+            ogroup_dual->box(FL_UP_BOX);
             otiempo_div->value(8);
             omenu_t_div->value(8);
             canal1->ovolt_div->value(0);
@@ -248,180 +276,59 @@ void Osciloscopio::cb_osc_on_in(){
             isec_acople=1;
             opantalla->bch1 = 1;
             muestreo_timer(1);
-            //isec_ch++;
          }
          else {
               fl_message("Error de hardware");
-         }
-         
+         }  
       }
+      oosc_on->box(FL_DOWN_BOX);
       if (oosc_on->value()== 0){
          Fl::remove_timeout(cb_timer, this);
          Fl::remove_timeout(cb_timer_vectores, this);
          ogroup_tdiv->box(FL_ENGRAVED_BOX);
+         ogroup_trigger->box(FL_ENGRAVED_BOX);
+         ogroup_pos->box(FL_ENGRAVED_BOX);
+         ogroup_stop->box(FL_ENGRAVED_BOX);
+         ogroup_dual->box(FL_ENGRAVED_BOX);
+         oayuda_osc->value(0);
          Encapsular('A','b','1','0',0x00,0x00);         //Desactivar canal 1
          opantalla->bch1 = 0;
          Transmision();
          if (bhardware){
             och1_on->value(0);
-            och1->value(0);
             canal1->activar(0);
             canal1->ogroup_ch->box(FL_ENGRAVED_BOX);
             canal1->ogroup_ch->deactivate();
-        }
-        else {
+         }
+         else {
              fl_message("Error de hardware");
-        }
-        Encapsular('B','b','1','0',0x00,0x00);         //Desactivar canal 2
-        opantalla->bch2 = 0;
-        Transmision();
-        if (bhardware){
+         }
+         Encapsular('B','b','1','0',0x00,0x00);         //Desactivar canal 2
+         opantalla->bch2 = 0;
+         Transmision();
+         if (bhardware){
            och2_on->value(0);
-           och2->value(0);
            canal2->activar(0);
            canal2->ogroup_ch->box(FL_ENGRAVED_BOX);
            canal2->ogroup_ch->deactivate();
            odual_menu->deactivate();
-        }
-        else {
+         }
+         else {
              fl_message("Error de hardware");
-        }
+         }
          activar(0);
-         //isec_ch=0;
          opantalla->bch2 = 0;
          opantalla->bch1 = 0;
          ogroup_osc->deactivate(); 
          ogroup_tdiv->deactivate();
+         oosc_on->box(FL_UP_BOX);
       }
 }
 
-/*
- * Este método es el callback del boton selector de canales
- * en el osciloscopio
-*/
-void Osciloscopio::cb_sel_ch(Fl_Widget* pboton, void *pany){
-     Osciloscopio* posc=(Osciloscopio*)pany;       
-     posc->cb_sel_ch_in(posc);
-}
-
-/**
- * Esta función acompaña la función  cb_sel_ch para realizar los llamados de 
- * callback del selector de canales en el osciloscopio 
-*/
-void Osciloscopio::cb_sel_ch_in(void *pany){
-     if (isec_ch==0){        
-        Fl::remove_timeout(cb_timer,this);
-        Fl::remove_timeout(cb_timer_vectores,this);
-        opantalla->bch2 = 0;
-        Encapsular('B','b','1','0',0x00,0x00);                          //Desactivar canal 2
-        Transmision();
-        if (bhardware){
-           fl_message("desactivo canal 2");
-           och2->value(0);
-           canal2->ogroup_ch->box(FL_ENGRAVED_BOX);
-           canal2->ogroup_ch->deactivate();
-           odual_menu->deactivate();
-        }
-        else {
-             fl_message("Error de hardware");
-        }
-     }
-     if (isec_ch==1){     
-        Fl::remove_timeout(cb_timer,this);
-        Fl::remove_timeout(cb_timer_vectores,this);
-        Encapsular('A','b','1','0',0x00,0x00);                         //Desactivar canal 1
-        opantalla->bch1 = 0;
-        Transmision();
-        if (bhardware){
-           och1->value(0);
-           canal1->activar(0);
-           canal1->ogroup_ch->box(FL_ENGRAVED_BOX);
-           canal1->ogroup_ch->deactivate();
-        }
-        else {
-             fl_message("Error de hardware");
-        }
-        Encapsular('B','a','1','0',0x00,0x00);         //Activar canal 2
-        Transmision();
-        if (bhardware){
-           och2->value(1);
-           canal2->activar(1);
-           canal2->ogroup_ch->activate();
-           canal2->ogroup_ch->box(FL_UP_BOX);
-           canal2->oacop_ac->value(1);
-           opantalla->bch2 = 1;
-           if (otiempo_div->value() >= 8){                     
-              Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
-              Transmision();
-              if (bhardware){
-                 muestreo_timer(1);
-              }
-              else{
-                   fl_message("Error de hardware");
-              }
-           }
-           else {
-                Fl::remove_timeout(cb_timer,this);
-                Fl::remove_timeout(cb_timer_vectores,this);
-                Encapsular('L','d','1','B',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
-                Transmision();
-                if (bhardware){
-                   muestreo_timer(2);
-                }
-                else{
-                   fl_message("Error de hardware");
-                }
-           }
-        }
-        else {
-             fl_message("Error de hardware");
-        }
-     }
-     if (isec_ch==2){
-        Fl::remove_timeout(cb_timer,this);
-        Fl::remove_timeout(cb_timer_vectores,this);             
-        Encapsular('A','a','1','0',0x00,0x00);                  //Activar canal 1
-        Transmision();
-        if (bhardware){
-           och1->value(1);
-           canal1->activar(1);
-           canal1->ogroup_ch->activate();
-           canal1->ogroup_ch->box(FL_UP_BOX);
-           odual_menu->activate();
-           opantalla->bch1 = 1;
-           if (otiempo_div->value() >= 8){
-              Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
-              Transmision();
-              if (bhardware){
-                 muestreo_timer(1);
-              }
-              else{
-                   fl_message("Error de hardware");
-              }
-           }
-           else {
-                Encapsular('L','d','1','B',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
-                Transmision();
-                if (bhardware){
-                   muestreo_timer(2);
-                }
-                else{
-                   fl_message("Error de hardware");
-                }
-           }
-        }
-        else {
-             fl_message("Error de hardware");
-        }       
-     isec_ch = -1;
-     }
-isec_ch++;
-}
 
 
 /**
- * 
- *  
+ * Callback del boton para encender el canal 1 del osciloscopio 
 */
 void Osciloscopio::cb_ch1_on(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
@@ -430,21 +337,23 @@ void Osciloscopio::cb_ch1_on(Fl_Widget* pboton, void *pany){
 
 
 /**
- *  
- *  
+ * Funcion que acompaña a la funcion cb_ch1_on para realizar los
+ * llamados de callback para encender el canal 1 del osciloscopio 
 */
 void Osciloscopio::cb_ch1_on_in(){
      if (och1_on->value()== 1){
         Fl::remove_timeout(cb_timer,this);
         Fl::remove_timeout(cb_timer_vectores,this);             
-        Encapsular('A','a','1','0',0x00,0x00);                  //Activar canal 1
+        Encapsular('A','a','1','0',0x00,0x00);                    //Activar canal 1
         Transmision();
         if (bhardware){
            canal1->activar(1);
            canal1->ogroup_ch->activate();
            canal1->ogroup_ch->box(FL_UP_BOX);
-           odual_menu->activate();
            opantalla->bch1 = 1;
+           if (canal2->bestado== 1){
+              odual_menu->activate();
+           }
            if (otiempo_div->value() >= 8){
               Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
@@ -471,7 +380,7 @@ void Osciloscopio::cb_ch1_on_in(){
         }    
      }
      else{
-        if (~canal2->bestado){                                         // no se si funcione, toca ver que pasa cuando el otro canal llama el timer  
+        if (canal2->bestado== 0){                                      // no se si funcione, toca ver que pasa cuando el otro canal llama el timer  
            Fl::remove_timeout(cb_timer,this);
            Fl::remove_timeout(cb_timer_vectores,this);
         }
@@ -479,10 +388,10 @@ void Osciloscopio::cb_ch1_on_in(){
         opantalla->bch1 = 0;
         Transmision();
         if (bhardware){
-           och1->value(0);
            canal1->activar(0);
            canal1->ogroup_ch->box(FL_ENGRAVED_BOX);
            canal1->ogroup_ch->deactivate();
+           odual_menu->deactivate();
         }
         else {
              fl_message("Error de hardware");
@@ -492,8 +401,7 @@ void Osciloscopio::cb_ch1_on_in(){
 
 
 /**
- * 
- *  
+ * Callback del boton para encender el canal 2 del osciloscopio 
 */
 void Osciloscopio::cb_ch2_on(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
@@ -501,20 +409,24 @@ void Osciloscopio::cb_ch2_on(Fl_Widget* pboton, void *pany){
 }
 
 /**
- *  
- *  
+ * Funcion que acompaña a la funcion cb_ch2_on para realizar los
+ * llamados de callback para encender el canal 2 del osciloscopio 
 */
 void Osciloscopio::cb_ch2_on_in(){
      if (och2_on->value()== 1){
+        Fl::remove_timeout(cb_timer,this);
+        Fl::remove_timeout(cb_timer_vectores,this);
         Encapsular('B','a','1','0',0x00,0x00);         //Activar canal 2
         Transmision();
         if (bhardware){
-           //och2->value(1);
            canal2->activar(1);
            canal2->ogroup_ch->activate();
            canal2->ogroup_ch->box(FL_UP_BOX);
            canal2->oacop_ac->value(1);
            opantalla->bch2 = 1;
+           if (canal1->bestado== 1){
+              odual_menu->activate();
+           }
            if (otiempo_div->value() >= 8){                     
               Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
@@ -543,13 +455,14 @@ void Osciloscopio::cb_ch2_on_in(){
         }
      }
      else{
-        Fl::remove_timeout(cb_timer,this);
-        Fl::remove_timeout(cb_timer_vectores,this);
+        if (canal1->bestado == 0){
+           Fl::remove_timeout(cb_timer,this);
+           Fl::remove_timeout(cb_timer_vectores,this);
+        }
         Encapsular('B','b','1','0',0x00,0x00);                          //Desactivar canal 2
         opantalla->bch2 = 0;
         Transmision();
         if (bhardware){
-           och2->value(0);
            canal2->activar(0);
            canal2->ogroup_ch->box(FL_ENGRAVED_BOX);
            canal2->ogroup_ch->deactivate();
@@ -869,7 +782,6 @@ void Osciloscopio::cb_pos_y(Fl_Widget* psel, void *pany)
 void Osciloscopio::cb_pos_y_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      pselector->value(floor(pselector->value()));
-     ov_posx->value(pselector->value());
 }
 
 /**
@@ -892,8 +804,11 @@ void Osciloscopio::cb_timer_in(){
      if (canal1->bestado && canal2->bestado){     
         recorrer_datos(3);
      }
-     else{
-          recorrer_datos(isec_ch);
+     else if (canal1->bestado== 1 && canal2->bestado== 0){
+          recorrer_datos(1);
+     }
+     else if (canal1->bestado== 0 && canal2->bestado== 1){
+          recorrer_datos(2);
      }
      if(omenu_t_div->value()== 0){
         Fl::repeat_timeout(0.5, cb_timer, this);
@@ -935,7 +850,7 @@ void Osciloscopio::cb_timer_vectores(void *pany)
 
 /**
  * Esta función acompaña la función cb_timer para realizar los llamados 
- * de callback del timer de solicitud de muestras una a una 
+ * de callback del timer de solicitud de muestras por vectores de datos 
 */
 void Osciloscopio::cb_timer_vectores_in(){
      if (canal1->bestado && ~canal2->bestado){
@@ -1096,7 +1011,7 @@ void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany)
  * planos de texto de los datos capturados para el osciloscopio. 
 */
 void Osciloscopio::cb_log_osc_in(){
-     archivar();
+     //archivar();
 }
 
 
@@ -1222,6 +1137,29 @@ void Osciloscopio::cb_acople2_in(){
      isec_acople2=-1;
   }
      isec_acople2++;  
+}
+
+
+/**
+ * 
+ * 
+*/
+void Osciloscopio::cb_ayuda(Fl_Widget* pboton, void *pany){
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cb_ayuda_in();
+}
+
+/**
+ * 
+ *  
+*/
+void Osciloscopio::cb_ayuda_in(){
+     if (oayuda_osc->value() == 1){
+        Fl_Tooltip::enable();
+     }
+     else{
+         Fl_Tooltip::disable(); 
+     }
 }
 
 
