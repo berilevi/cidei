@@ -138,7 +138,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                      }
                      else if (bch2 == 1 && bch1== 0){
                           fl_color( FL_GREEN);
-                         fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
+                          fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
                      }
                 /*     else{
                           fl_color(_TraceColour);
@@ -170,11 +170,17 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
       //fl_color(_TraceColour);  
     }
 }
+
 else if (bdual){                                                 /* Si el oscilocpio esta en modo de operación dual*/
    if (ivez >0){                                                 /* Para que se grafique despues de la primera operacion entre los datos de las señales*/
       for(count=0;count<ScopeDataSize-1;count++){
-          fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
-          //fl_line(((int)(float)*ptrjp)+100,(190-(int)(float)*Ptr), ((int)(float)*ptrjp2)+100,(190-(int)(float)*Ptr2)); 
+          if (blissajous){
+             fl_color(FL_RED);
+             fl_line(((int)(float)*ptrjp)+100,(190-(int)(float)*Ptr), ((int)(float)*ptrjp2)+100,(190-(int)(float)*Ptr2));
+          }
+          else{
+               fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
+          }
           
           Ptr2++;                                                /* Incrementar en 1 la direccion de los apuntadores*/
           Ptr++;
@@ -183,6 +189,7 @@ else if (bdual){                                                 /* Si el oscilo
       }
    }
 }
+
 
    /* pop the clip */
    fl_pop_clip();                                                  /* Cerrar el area donde se va a graficar*/
@@ -280,18 +287,17 @@ int Fl_Scope::Add(int data, int data2){
        ScopeDataPos = 0;
     } 
 
-    Ptr=ScopeData;
-    Ptr+=ScopeDataPos;
-    *Ptr=data;
+    Ptr = ScopeData;
+    Ptr += ScopeDataPos;
+    *Ptr = data;
    
-    ptrjp=ScopeData2;
+    ptrjp = ScopeData2;
     ptrjp+=ScopeDataPos;
     *ptrjp=data2;
 
     ScopeDataPos++;
     ivez++;
-
-           
+       
     redraw(); 
 
     return(1);   

@@ -19,6 +19,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     isec_trigger = 0;         
     isec_acople = 0;          
     isec_acople2 = 0;
+    isec_dual = 0;
                 
     ogroup_osc = new Fl_Group (5,5,720,360,"");                   // Agrupa los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME);                 
@@ -28,15 +29,17 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     canal2 = new Canal(562,9,152,230,"",250);                     // Instancia de canal para crear el objeto canal 2
     och1_on = new Fl_Light_Button(405,219,35,15,"ON");
     och1_on->labelsize(10);
+    och1_on->tooltip("Botón para activar o desactivar el uso del canal 1");
     och2_on = new Fl_Light_Button(565,219,35,15,"ON");
     och2_on->labelsize(10);
+    och2_on->tooltip("Botón para activar o desactivar el uso del canal 2");
     ogroup_dual = new Fl_Group (220,320,170,38,"");              //Agrupa los controles de las operaciones en modo dual
     ogroup_dual->box(FL_ENGRAVED_FRAME);
     ogroup_dual->deactivate();
     odual_menu = new Fl_Repeat_Button(230,332,40,18,"Dual");      // Boton para seleccionar la operacion dual suma resta o lissajous 
     odual_menu->labelsize(10);
     odual_menu->deactivate();
-    odual_menu->tooltip("Boton para seleccionar la operacion dual de las graficas");
+    odual_menu->tooltip("Botón para seleccionar la operación dual de las gráficas");
     osuma = new Fl_Light_Button(290,340,10,10,"Suma");            // Indicador luminoso para la operacion de suma de las dos señales
     osuma->labelsize(10);
     osuma->box(FL_NO_BOX);
@@ -52,13 +55,13 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     ogroup_dual->end();
     olog_osc  = new Fl_Button (60,322,40,16,"Log");               // Boton para activar el almacenamiento en archivo de texto los datos
     olog_osc->labelsize(10);
-    olog_osc->tooltip("Boton para iniciar a archivar los datos de las graficas");
+    olog_osc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
     ohelp_osc  = new Fl_Button (60,340,40,16,"Help");
     ohelp_osc->labelsize(10); 
-    ohelp_osc->tooltip("Boton para iniciar el archivo de ayuda de uso del instrumento ");
+    ohelp_osc->tooltip("Botón para iniciar el archivo de ayuda de uso del instrumento ");
     oayuda_osc  = new Fl_Check_Button (110,340,20,16,"?");
     oayuda_osc->labelsize(12);
-    oayuda_osc->tooltip("Boton para iniciar las ayudas flotantes del uso del los botones del instrumento");
+    oayuda_osc->tooltip("CheckBox para iniciar las ayudas flotantes del uso del los botones del instrumento");
     ogroup_tdiv = new Fl_Group (620,243,95,115,"");              //Agrupa los controles de tiempo por división
     ogroup_tdiv->box(FL_ENGRAVED_FRAME);
     ogroup_tdiv->deactivate();
@@ -70,7 +73,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     otiempo_div->range(0,17);
     otiempo_div->step(1);
     otiempo_div->round(1);
-    otiempo_div->tooltip("Selector de las escalas de tiempo por división del instrumento");
+    //otiempo_div->tooltip("Selector de las escalas de tiempo por división del instrumento");
     omenu_t_div = new Fl_Choice(638,335,50,20,"");
     omenu_t_div->add("0.5 s",FL_ALT,(Fl_Callback *)cb_tdiv05s,this);
     omenu_t_div->add("0.2 s",FL_ALT,(Fl_Callback *)cb_tdiv02s,this);
@@ -100,21 +103,24 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opos_y->cursor(40);
     opos_y->labelsize(10);
     opos_y->range(0,10);
-    opos_y->tooltip("Boton de posicionamiento horizontal de las gráficas");
+    //opos_y->tooltip("Boton de posicionamiento horizontal de las gráficas");
     ogroup_pos->end();
     ogroup_stop = new Fl_Group (400,315,105,43,"");
     ogroup_stop->box(FL_ENGRAVED_FRAME);
     ogroup_stop->deactivate();
     orun = new Fl_Button(458,322,40,30,"");
     orun->label("@|>");
+    orun->tooltip("Botón para reanudar la ejecucion de las graficas del osciloscopio");
     ostop = new Fl_Button(408,322,40,30,"");
     ostop->label("@square");
+    ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
     ogroup_stop->end();
     ogroup_trigger = new Fl_Group (515,243,95,115,"");
     ogroup_trigger->box(FL_ENGRAVED_FRAME);
     ogroup_trigger->deactivate();
     osel_trigger = new Fl_Repeat_Button(523,260,40,18,"Trigger");  
     osel_trigger->labelsize(10);
+    osel_trigger->tooltip("Botón para seleccionar el canal fuente del trigger");
     otrigger_ch1 = new Fl_Light_Button(572,255,10,10,"Ch1");
     otrigger_ch1->labelsize(10);
     otrigger_ch1->box(FL_NO_BOX);
@@ -141,6 +147,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     ogroup_osc->end();
     
     oosc_on = new Fl_Light_Button(15,325,38,30,"ON");
+    oosc_on->tooltip("Botón para encender o apagar el osciloscopio");
     oosc_on->labelsize(10);            
                 
     och1_on->callback(cb_ch1_on,this);
@@ -950,16 +957,14 @@ void Osciloscopio::recorrer_datos(int num_canal){
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 
            if (osuma->value()){
-              //opantalla->bdual = 1;
               opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es
            }
            else if(oresta->value()){
-               //opantalla->bdual = 1; 
                opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es  
            }
            else if (ox_y->value()){
-                //opantalla->bdual = 1;
-                //opantalla->blissajous = 1;
+                opantalla->bdual = 1;
+                opantalla->blissajous = 1;
                 opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
            }
            else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
@@ -980,8 +985,8 @@ void Osciloscopio::recorrer_datos(int num_canal){
                    opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es                
                 }
                 else if (ox_y->value()){
-                   //opantalla->bdual = 1;
-                   //opantalla->blissajous = 1;
+                   opantalla->bdual = 1;
+                   opantalla->blissajous = 1;
                    opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es               
                 }
                 else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){

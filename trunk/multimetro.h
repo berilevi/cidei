@@ -9,6 +9,7 @@
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
+#include <FL/Fl_Box.H>
 #include <FL/fl_ask.H>
 #include <iostream>
 #include <string>
@@ -29,8 +30,7 @@ using namespace std;
 class Multimetro : public Instrumento
 {
 	public:
-	enum inst
-		{
+	enum inst {
              volt_ac,
              volt_dc,
              amp_ac, 
@@ -126,39 +126,86 @@ private:
 	    */
         Fl_Button *ohelp_mult;
 		/**
-		 * Indicador luminoso de activación del medidor
-		 * de voltaje en ac.
+		 * Botón de activación del medidor de voltaje en ac.
 		 */
-		Fl_Light_Button *ov_ac; 
+		Fl_Button *ovolt_ac;
 		/**
-		 * Indicador luminoso de activación del medidor
-		 * de voltaje en dc.
+		 * Botón de activación del medidor de voltaje en dc.
 		 */
-	    Fl_Light_Button *ov_dc;
+	    Fl_Button *ovolt_dc;
 	    /**
-		 * Indicador luminoso de activación del medidor
-		 * de corriente en ac.
+		 * Botón de activación del medidor de corriente en ac.
 		 */
-	    Fl_Light_Button *oa_ac;
+	    Fl_Button *oamp_ac;
 	    /**
-		 * Indicador luminoso de activación del medidor
-		 * de corriente en dc.
+		 * Botón de activación del medidor de corriente en dc.
 		 */
-	    Fl_Light_Button *oa_dc;
+	    Fl_Button *oamp_dc;
 	    /**
-		 * Indicador luminoso de activación del medidor
-		 * de resistencia
+		 * Botón de activación del medidor de resistencia.
 		 */
-	    Fl_Light_Button *oohmetro;
+	    Fl_Button *oohm;
 	    /**
-		 * Indicador luminoso de activación del medidor
-		 * de continuidad
+		 * Botón de activación del medidor de continuidad.
 		 */
-	    Fl_Light_Button *ocont;
+	    Fl_Button *ocontinuidad;
+	    /**
+         *   
+         */   
+         static void cb_volt_ac(Fl_Widget*, void *);
+         /**
+         * 
+         */
+         inline void cb_volt_ac_in();
+         /**
+         *  
+         */   
+         static void cb_volt_dc(Fl_Widget*, void *);
+         /**
+         * 
+         */
+         inline void cb_volt_dc_in();
+         /**
+         *  
+         */   
+         static void cb_amp_ac(Fl_Widget*, void *);
+         /**
+         * 
+         */
+         inline void cb_amp_ac_in();
+         /**
+         *  
+         */   
+         static void cb_amp_dc(Fl_Widget*, void *);
+         /**
+         * 
+         */
+         inline void cb_amp_dc_in();
+         /**
+         *  
+         */   
+         static void cb_ohm(Fl_Widget*, void *);
+         /**
+         * 
+         */
+         inline void cb_ohm_in();
+         /**
+         *  
+         */   
+         static void cb_cont(Fl_Widget*, void *);
+         /**
+         * 
+         */
+         inline void cb_cont_in();
 	    /**
 		 * Boton para encender el instrumento multimetro.
 		 */
         Fl_Light_Button *omult_on;
+        /**
+		 * Widget para colocar en texto las unidades de medida de la medición 
+		 * realizada con el multímetro.
+		 */
+        Fl_Box *ounidades;
 };
 
 #endif // MULTIMETRO_H
