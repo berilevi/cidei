@@ -7,15 +7,13 @@ int isec_mult;
 // class constructor
 Multimetro::Multimetro(){
     Fl_Tooltip::disable();
-    Fl_Repeat_Button *oSel_mult;
-    isec_mult=0;
     strcpy(cvalor,"0.000");
     strcpy(cnombre,"mult.txt"); 
-    ogroup_mult = new Fl_Group (735,5,280,360,"");
+    ogroup_mult = new Fl_Group (730,5,285,360,"");
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
-    odisp_mult  = new Fl_7Seg (760,15,230,105);
+    odisp_mult  = new Fl_7Seg (735,15,230,105);
     odisp_mult->box(FL_DOWN_FRAME);
     odisp_mult->color(FL_BLACK);
     odisp_mult->thickness(5);
@@ -23,41 +21,38 @@ Multimetro::Multimetro(){
     odisp_mult->align_text(FL_ALIGN_RIGHT);
     odisp_mult->segment_gap(2);
     odisp_mult->value("00.0");
+    ounidades = new Fl_Box (963,17,43,101,"");
+    ounidades->labelsize(20);
+    ounidades->labelcolor(FL_WHITE);
+    ounidades->box(FL_FLAT_BOX);
+    ounidades->color(FL_BLACK);
     ohelp_mult  = new Fl_Button (745,340,40,18,"Help");
     ohelp_mult->labelsize(10);
-    ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
-    oSel_mult = new Fl_Repeat_Button(788,250,150,25,"Selección de Instrumento");
-    oSel_mult->labelsize(12);
-    ov_ac = new Fl_Light_Button(765,160,10,10,"V_ac");
-    ov_ac->labelsize(12);
-    ov_ac->box(FL_NO_BOX);
-    ov_ac->align(FL_ALIGN_RIGHT);
-    ov_dc = new Fl_Light_Button(845,160,10,10,"V_dc");
-    ov_dc->labelsize(12);
-    ov_dc->box(FL_NO_BOX);
-    ov_dc->align(FL_ALIGN_RIGHT);
-    oa_ac = new Fl_Light_Button(925,160,10,10,"A_ac");
-    oa_ac->labelsize(12);
-    oa_ac->box(FL_NO_BOX);
-    oa_ac->align(FL_ALIGN_RIGHT);
-    oa_dc = new Fl_Light_Button(765,200,10,10,"A_dc");
-    oa_dc->labelsize(12);
-    oa_dc->box(FL_NO_BOX);
-    oa_dc->align(FL_ALIGN_RIGHT);
-    oohmetro = new Fl_Light_Button(845,200,10,10,"R");
-    oohmetro->labelsize(12);
-    oohmetro->box(FL_NO_BOX);
-    oohmetro->align(FL_ALIGN_RIGHT);
-    ocont = new Fl_Light_Button(925,200,10,10,"Cont");
-    ocont->labelsize(12);
-    ocont->box(FL_NO_BOX);
-    ocont->align(FL_ALIGN_RIGHT);      
+    //ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
+    ovolt_ac = new Fl_Button(765,170,60,40,"V_ac");
+    ovolt_ac->clear();
+    ovolt_ac->box(FL_UP_BOX);
+    ovolt_dc = new Fl_Button(845,170,60,40,"V_dc");
+    ovolt_dc->box(FL_UP_BOX);
+    oamp_ac = new Fl_Button(925,170,60,40,"A_ac");
+    oamp_ac->box(FL_UP_BOX);
+    oamp_dc = new Fl_Button(765,240,60,40,"A_dc");
+    oamp_dc->box(FL_UP_BOX);
+    oohm = new Fl_Button(845,240,60,40,"R");
+    oohm->box(FL_UP_BOX);
+    ocontinuidad = new Fl_Button(925,240,60,40,"Cont");
+    ocontinuidad->box(FL_UP_BOX);
     ogroup_mult-> end();
      
     omult_on = new Fl_Light_Button(980,340,30,20,"ON");
     omult_on->labelsize(9); 
-    oSel_mult->callback(cb_sel_instrumento, this);
     omult_on->callback(cb_mult_on, this);
+    ovolt_ac->callback(cb_volt_ac, this);
+    ovolt_dc->callback(cb_volt_dc, this);
+    oamp_ac->callback(cb_amp_ac, this);
+    oamp_dc->callback(cb_amp_dc, this);
+    oohm->callback(cb_ohm, this);
+    ocontinuidad->callback(cb_cont, this);
 }
 
 // class destructor
@@ -65,67 +60,6 @@ Multimetro::~Multimetro(){
 	// insert your code here
 }
 
-/*
- * Este método es el callback del boton selector de instrumentos
- * en el multímetro
- */
-void Multimetro::cb_sel_instrumento(Fl_Widget* pboton, void *any){
-     Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_sel_instrumento_in();
-}
-
-/**
-* Esta función acompaña la función  cb_sel_instrumento 
-* para realizar los llamados de callback del selector de instrumento
-* en el multimetro 
-*/
-void Multimetro::cb_sel_instrumento_in(){
-     if (isec_mult==0){
-     Fl::remove_timeout(cb_timer_mult, this);
-     ocont->value(0);
-     ov_ac->value(1);
-     instrument = volt_ac;
-     config_instrumento(volt_ac);
-     }
-     if (isec_mult==1){
-     Fl::remove_timeout(cb_timer_mult, this);
-     ov_ac->value(0);
-     ov_dc->value(1);
-     instrument = volt_dc;
-     config_instrumento(volt_dc);
-     }
-     if (isec_mult==2){
-     Fl::remove_timeout(cb_timer_mult, this);
-     fl_alert("Verifique las puntas de prueba");
-     ov_dc->value(0);
-     oa_ac->value(1);
-     instrument = amp_ac;
-     config_instrumento(amp_ac);
-     }
-     if (isec_mult==3){
-     Fl::remove_timeout(cb_timer_mult, this);
-     oa_ac->value(0);
-     oa_dc->value(1);
-     instrument = amp_dc;
-     config_instrumento(amp_dc);
-     }
-     if (isec_mult==4){
-     Fl::remove_timeout(cb_timer_mult, this);
-     oa_dc->value(0);
-     oohmetro->value(1);
-     instrument = ohm;
-     config_instrumento(ohm);
-     }
-     if (isec_mult==5){
-     Fl::remove_timeout(cb_timer_mult, this);
-     oohmetro->value(0);
-     ocont->value(1);
-     instrument = continuidad;
-     config_instrumento(ohm);
-     isec_mult=-1;
-     }
-     isec_mult++;
-}
 
 /*
  * Este método es el callback del boton que activa el multimetro
@@ -239,4 +173,230 @@ void Multimetro::escalar_valor(int escala){
      ivalor_conversion = atoi(buf_mult);
      fvalor_escalado = ivalor_conversion/20;
      sprintf(cvalor,"%.4g",fvalor_escalado);
+}
+
+
+
+/**
+ * Callback del botón que activa el medidor de voltaje en ac
+*/
+void Multimetro::cb_volt_ac(Fl_Widget* pboton, void *any){
+     Multimetro* pmult=(Multimetro*)any;
+     pmult->cb_volt_ac_in();
+}
+
+/**
+ * Callback del botón que activa el medidor de voltaje en ac
+*/
+void Multimetro::cb_volt_ac_in(){
+     if (ovolt_ac->value()== 0){
+        Fl::remove_timeout(cb_timer_mult, this);
+        ovolt_dc->box(FL_UP_BOX);
+        ovolt_dc->clear();
+        oamp_ac->box(FL_UP_BOX);
+        oamp_ac->clear();
+        oamp_dc->box(FL_UP_BOX);
+        oamp_dc->clear();
+        oohm->box(FL_UP_BOX);
+        oohm->clear();
+        ocontinuidad->box(FL_UP_BOX);
+        ocontinuidad->clear();                     
+        ovolt_ac->box(FL_DOWN_BOX);
+        ovolt_ac->set();
+        instrument = volt_ac;
+        ounidades->label("VAC");
+        config_instrumento(volt_ac);
+     }
+     else{
+          ovolt_ac->box(FL_UP_BOX);
+          ovolt_ac->clear();
+     }
+}
+
+
+/**
+ * Callback del botón que activa el medidor de voltaje en dc
+*/
+void Multimetro::cb_volt_dc(Fl_Widget* pboton, void *any){
+     Multimetro* pmult=(Multimetro*)any;
+     pmult->cb_volt_dc_in();
+}
+
+/**
+ * Callback del botón que activa el medidor de voltaje en dc
+*/
+void Multimetro::cb_volt_dc_in(){
+     if (ovolt_dc->value()== 0){
+        Fl::remove_timeout(cb_timer_mult, this);
+        ovolt_ac->box(FL_UP_BOX);
+        ovolt_ac->clear();
+        oamp_ac->box(FL_UP_BOX);
+        oamp_ac->clear();
+        oamp_dc->box(FL_UP_BOX);
+        oamp_dc->clear();
+        oohm->box(FL_UP_BOX);
+        oohm->clear();
+        ocontinuidad->box(FL_UP_BOX);
+        ocontinuidad->clear();                     
+        ovolt_dc->box(FL_DOWN_BOX);
+        ovolt_dc->set();
+        instrument = volt_dc;
+        ounidades->label("VDC");
+        config_instrumento(volt_dc);
+     }
+     else{
+          ovolt_dc->box(FL_UP_BOX);
+          ovolt_dc->clear();
+     }
+}
+
+
+/**
+ * Callback del botón que activa el medidor de corriente en ac
+*/
+void Multimetro::cb_amp_ac(Fl_Widget* pboton, void *any){
+     Multimetro* pmult=(Multimetro*)any;
+     pmult->cb_amp_ac_in();
+}
+
+/**
+ * Callback del botón que activa el medidor de corriente en ac
+*/
+void Multimetro::cb_amp_ac_in(){
+    if (oamp_ac->value()== 0){
+        Fl::remove_timeout(cb_timer_mult, this);
+        fl_alert("Verifique las puntas de prueba");
+        ovolt_ac->box(FL_UP_BOX);
+        ovolt_ac->clear();
+        ovolt_dc->box(FL_UP_BOX);
+        ovolt_dc->clear();
+        oamp_dc->box(FL_UP_BOX);
+        oamp_dc->clear();
+        oohm->box(FL_UP_BOX);
+        oohm->clear();
+        ocontinuidad->box(FL_UP_BOX);
+        ocontinuidad->clear();                     
+        oamp_ac->box(FL_DOWN_BOX);
+        oamp_ac->set();
+        instrument = amp_ac;
+        ounidades->label("AAC");
+        config_instrumento(amp_ac);
+     }
+     else{
+          oamp_ac->box(FL_UP_BOX);
+          oamp_ac->clear();
+     } 
+}
+
+
+
+/**
+ * Callback del botón que activa el medidor de corriente en dc
+*/
+void Multimetro::cb_amp_dc(Fl_Widget* pboton, void *any){
+     Multimetro* pmult=(Multimetro*)any;
+     pmult->cb_amp_dc_in();
+}
+
+/**
+ * Callback del botón que activa el medidor de corriente en dc
+*/
+void Multimetro::cb_amp_dc_in(){
+    if (oamp_dc->value()== 0){
+        Fl::remove_timeout(cb_timer_mult, this);
+        fl_alert("Verifique las puntas de prueba");
+        ovolt_ac->box(FL_UP_BOX);
+        ovolt_ac->clear();
+        ovolt_dc->box(FL_UP_BOX);
+        ovolt_dc->clear();
+        oamp_ac->box(FL_UP_BOX);
+        oamp_ac->clear();
+        oohm->box(FL_UP_BOX);
+        oohm->clear();
+        ocontinuidad->box(FL_UP_BOX);
+        ocontinuidad->clear();                     
+        oamp_dc->box(FL_DOWN_BOX);
+        oamp_dc->set();
+        instrument = amp_dc;
+        ounidades->label("ADC");
+        config_instrumento(amp_dc);
+     }
+     else{
+          oamp_dc->box(FL_UP_BOX);
+          oamp_dc->clear();
+     } 
+}
+
+
+/**
+ * Callback del botón que activa el medidor de resistencia
+*/
+void Multimetro::cb_ohm(Fl_Widget* pboton, void *any){
+     Multimetro* pmult=(Multimetro*)any;
+     pmult->cb_ohm_in();
+}
+
+/**
+ * Callback del botón que activa el medidor de resistencia
+*/
+void Multimetro::cb_ohm_in(){
+     if (oohm->value()== 0){
+        Fl::remove_timeout(cb_timer_mult, this);
+        ovolt_ac->box(FL_UP_BOX);
+        ovolt_ac->clear();
+        ovolt_dc->box(FL_UP_BOX);
+        ovolt_dc->clear();
+        oamp_dc->box(FL_UP_BOX);
+        oamp_dc->clear();
+        oamp_ac->box(FL_UP_BOX);
+        oamp_ac->clear();
+        ocontinuidad->box(FL_UP_BOX);
+        ocontinuidad->clear();                     
+        oohm->box(FL_DOWN_BOX);
+        oohm->set();
+        instrument = ohm;
+        ounidades->label("R");
+        config_instrumento(ohm);
+     }
+     else{
+          oohm->box(FL_UP_BOX);
+          oohm->clear();
+     }
+}
+
+
+/**
+ * Callback del botón que activa el medidor de continuidad
+*/
+void Multimetro::cb_cont(Fl_Widget* pboton, void *any){
+     Multimetro* pmult=(Multimetro*)any;
+     pmult->cb_cont_in();
+}
+
+/**
+ * Callback del botón que activa el medidor de continuidad
+*/
+void Multimetro::cb_cont_in(){
+     if (ocontinuidad->value()== 0){
+        Fl::remove_timeout(cb_timer_mult, this);
+        ovolt_ac->box(FL_UP_BOX);
+        ovolt_ac->clear();
+        ovolt_dc->box(FL_UP_BOX);
+        ovolt_dc->clear();
+        oamp_dc->box(FL_UP_BOX);
+        oamp_dc->clear();
+        oamp_ac->box(FL_UP_BOX);
+        oamp_ac->clear();
+        oohm->box(FL_UP_BOX);
+        oohm->clear();                     
+        ocontinuidad->box(FL_DOWN_BOX);
+        ocontinuidad->set();
+        instrument = continuidad;
+        ounidades->label("Cont");
+        config_instrumento(ohm);
+     }
+     else{
+          ocontinuidad->box(FL_UP_BOX);
+          ocontinuidad->clear();
+     }
 }
