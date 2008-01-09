@@ -12,11 +12,15 @@
 #include <FL/fl_ask.H>
 #include <FL/Fl_Value_Output.H>
 #include "Fl_Scope.h"
-#include "fl_Knob.h"
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_JPEG_Image.H>
+#include <FL/Fl_Text_Display.H>
+#include <FL/Fl_Output.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Value_Slider.H>
+#include <FL/Fl_Choice.H>
 #include <iostream>
 #include <string>
 
@@ -55,6 +59,14 @@ class Analizador : public Instrumento {
 		 * Boton que habilita la ayuda para el uso del instrumento. 
 	    */
         Fl_Button *ohelp_ana;
+        /**
+		 * Boton que habilita la ayuda flotante para el uso de los botones. 
+	    */
+        Fl_Check_Button *oayuda_ana;
+        /**
+		 * Selector del tipo de representación del dato graficado.    
+	    */  
+        Fl_Choice *orep_dato;
 	    /**
         * Agrupa las herramientas e indicadores del analizador
         */
@@ -78,11 +90,7 @@ class Analizador : public Instrumento {
 		void graficar_datos();
 		
   private:
-        /**
-		 * Boton para seleccionar el tiempo de muestreo del instrumento
-		 * analizador logico.
-		*/
-        Fl_Knob *otiempo_muestreo;
+
         /**
          * Este método es el callback del timer para realizar la solicitud 
          * de datos del analizador logico al hardware.  
@@ -107,37 +115,49 @@ class Analizador : public Instrumento {
 	     */
 		char  recibido_lsb[5], recibido_lsb2[5];
 		/**
+		 * Control de tiempo de muestreo. 
+	     */
+		Fl_Value_Slider *omuestreo;
+		/**
 		 * Valor del dato binario de 8 bits en el 1er tiempo de muestreo 
 	     */
-		Fl_Box *dato1;
+		Fl_Output *odato1;
 		/**
 		 * Valor del dato binario de 8 bits en el 2do tiempo de muestreo 
 	     */
-		Fl_Box *dato2;
+		Fl_Output *odato2;
 		/**
 		 * Valor del dato binario de 8 bits en el 3er tiempo de muestreo 
 	     */
-		Fl_Box *dato3;
+		Fl_Output *odato3;
 		/**
 		 * Valor del dato binario de 8 bits en el 4to tiempo de muestreo 
 	     */
-		Fl_Box *dato4;
+		Fl_Output *odato4;
 		/**
 		 * Valor del dato binario de 8 bits en el 5to tiempo de muestreo 
 	     */
-		Fl_Box *dato5;
+		Fl_Output *odato5;
 		/**
 		 * Valor del dato binario de 8 bits en el 6to tiempo de muestreo 
 	     */
-		Fl_Box *dato6;
+		Fl_Output *odato6;
 		/**
 		 * Valor del dato binario de 8 bits en el 7mo tiempo de muestreo 
 	     */
-		Fl_Box *dato7;
+		Fl_Output *odato7;
 		/**
 		 * Valor del dato binario de 8 bits en el 8o tiempo de muestreo 
 	     */
-		Fl_Box *dato8;
+		Fl_Output *odato8;
+		/**
+		 * Valor del dato binario de 8 bits en el 9o tiempo de muestreo 
+	     */
+		Fl_Output *odato9;
+		/**
+		 * Valor del dato binario de 8 bits en el 10o tiempo de muestreo 
+	     */
+		Fl_Output *odato10;
          
 };
 

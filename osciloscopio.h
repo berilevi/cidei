@@ -590,6 +590,10 @@ class Osciloscopio : public Instrumento
 		 */
         Fl_Light_Button *otrigger_ch2;
         /**
+		 * Botón para activar o desactivar la grilla de la pantalla del osciloscopio
+		 */
+        Fl_Button *ogrilla;
+        /**
 		 * Vriable que almacena el caracter de la escala de tiempo por division  
 		 */
         char ct_div;
