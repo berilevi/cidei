@@ -106,8 +106,38 @@ class Analizador : public Instrumento {
 		 * valor lsb recibido en binario. 
 	     */
 		char  recibido_lsb[5], recibido_lsb2[5];
-		
-		 Fl_Box *caja;
+		/**
+		 * Valor del dato binario de 8 bits en el 1er tiempo de muestreo 
+	     */
+		Fl_Box *dato1;
+		/**
+		 * Valor del dato binario de 8 bits en el 2do tiempo de muestreo 
+	     */
+		Fl_Box *dato2;
+		/**
+		 * Valor del dato binario de 8 bits en el 3er tiempo de muestreo 
+	     */
+		Fl_Box *dato3;
+		/**
+		 * Valor del dato binario de 8 bits en el 4to tiempo de muestreo 
+	     */
+		Fl_Box *dato4;
+		/**
+		 * Valor del dato binario de 8 bits en el 5to tiempo de muestreo 
+	     */
+		Fl_Box *dato5;
+		/**
+		 * Valor del dato binario de 8 bits en el 6to tiempo de muestreo 
+	     */
+		Fl_Box *dato6;
+		/**
+		 * Valor del dato binario de 8 bits en el 7mo tiempo de muestreo 
+	     */
+		Fl_Box *dato7;
+		/**
+		 * Valor del dato binario de 8 bits en el 8o tiempo de muestreo 
+	     */
+		Fl_Box *dato8;
          
 };
 

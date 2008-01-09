@@ -8,11 +8,11 @@ Analizador::Analizador() {
     oana_on = new Fl_Light_Button(500,655,30,20,"ON");
     oana_on->labelsize(9);
     
-    ogroup_ana = new Fl_Group(5,370,530,309,"");
+    ogroup_ana = new Fl_Group(5,370,530,319,"");
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->deactivate();  
    
-    apantalla_ch1 = new Fl_Scope(8,373,380,30,"");  // Instancia de canal 1
+    apantalla_ch1 = new Fl_Scope(8,375,380,30,"");  // Instancia de canal 1
     apantalla_ch2 = new Fl_Scope(8,407,380,30,"");  // Instancia de canal 2
     apantalla_ch3 = new Fl_Scope(8,439,380,30,"");  // Instancia de canal 3
     apantalla_ch4 = new Fl_Scope(8,471,380,30,"");  // Instancia de canal 4
@@ -21,10 +21,10 @@ Analizador::Analizador() {
     apantalla_ch7 = new Fl_Scope(8,567,380,30,"");  // Instancia de canal 7
     apantalla_ch8 = new Fl_Scope(8,599,380,30,"");  // Instancia de canal 8
     
-    olog_ana = new Fl_Button(15,635,40,18,"Log");
+    olog_ana = new Fl_Button(470,600,40,18,"Log");
     olog_ana->labelsize(10);
     
-    ohelp_ana = new Fl_Button(15,656,40,18,"Help");
+    ohelp_ana = new Fl_Button(470,630,40,18,"Help");
     ohelp_ana->labelsize(10);
     
     apantalla_ch1->TraceColour(FL_RED);
@@ -71,12 +71,6 @@ Analizador::Analizador() {
     otiempo_muestreo->scaleticks(10);
     otiempo_muestreo->range(0,100);
     
-    caja = new Fl_Box(425,590,50,50,"");
-    caja->box(FL_ENGRAVED_FRAME);
-    
-    //fl_register_images();
-    //Fl_JPEG_Image jpg("continuidad.jpg");
-    //caja->image(jpg);
     
     ogroup_ana->end();
     oana_on->callback(cb_ana_on, this);
