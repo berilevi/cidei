@@ -12,10 +12,10 @@ Generador::Generador(){
                        
     isec_generador = 0;
     isec_escalas = 0;
-	ogroup_generador = new Fl_Group (540,370,460,310,"");
-	ogroup_generador->box(FL_ENGRAVED_BOX);
+	ogroup_generador = new Fl_Group (515,370,500,330,"");
+	ogroup_generador->box(FL_UP_BOX);
 	ogroup_generador->deactivate();
-	odisp_gen = new Fl_7Seg(555,380,269,100,""); 
+	odisp_gen = new Fl_7Seg(525,380,289,100,""); 
     odisp_gen->box(FL_EMBOSSED_FRAME);
     odisp_gen->color(FL_BLACK);
     odisp_gen->thickness(5);
@@ -54,14 +54,15 @@ Generador::Generador(){
     otriangulo->box(FL_NO_BOX);
     otriangulo->align(FL_ALIGN_RIGHT);
     ogroup_senal->end();
-    ogroup_frecuencia = new Fl_Group (550,490,195,150,"");
+    ogroup_frecuencia = new Fl_Group (525,490,215,150,"");
     ogroup_frecuencia->box(FL_ENGRAVED_BOX);
 	ogroup_frecuencia->deactivate();
     ofrec_gen = new Fl_Knob (635,500,100,80,"Frecuencia");
     ofrec_gen->color(147);
     ofrec_gen->type(8);
     ofrec_gen->labelsize(9);
-    ofrec_gen->range(0,1000);
+    ofrec_gen->step(0.01);
+    ofrec_gen->range(0,1);
     ofrec_ascendente = new Fl_Repeat_Button(600,570,30,20,"");
     ofrec_ascendente->label("@->");
     ofrec_descendente = new Fl_Repeat_Button(560,570,30,20,"");
@@ -214,10 +215,13 @@ void Generador::cb_frec_gen_in(){
      int sd;
      int icont;
      int ilong;
+     char pruebafrec[10];
      ovalor_frec->value(ofrec_gen->value()*5.3687);
      sd = int(in*ofrec_gen->value());
      itoa(ofrec_gen->value(),cfrecuencia,10);
-     odisp_gen->value(cfrecuencia);
+     //odisp_gen->value(cfrecuencia);
+     sprintf(pruebafrec, "%.4g", ofrec_gen->value());
+     odisp_gen->value(pruebafrec);
      itoa(sd,frec_hexa,16);
      ilong = strlen(frec_hexa);
      for (icont = 8; icont > 0; icont --){

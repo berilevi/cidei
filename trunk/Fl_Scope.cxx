@@ -140,10 +140,10 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                           fl_color( FL_GREEN);
                           fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
                      }
-                /*     else{
+                     else{
                           fl_color(_TraceColour);
                           fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
-                     }  */
+                     }  
                   }
                   else{
                        Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
@@ -174,8 +174,10 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
 else if (bdual){                                                 /* Si el oscilocpio esta en modo de operación dual*/
    if (ivez >0){                                                 /* Para que se grafique despues de la primera operacion entre los datos de las señales*/
       for(count=0;count<ScopeDataSize-1;count++){
-          if (blissajous){
+          if (blissajous == 1){
+             BackColour(Fl_Color(110));
              fl_color(FL_RED);
+             fl_line(90,150,290,38);
              fl_line(((int)(float)*ptrjp)+100,(190-(int)(float)*Ptr), ((int)(float)*ptrjp2)+100,(190-(int)(float)*Ptr2));
           }
           else{
