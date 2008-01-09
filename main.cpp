@@ -12,6 +12,9 @@
 #include <string>
 #include <pthread.h>
 
+#include <iostream>
+#include <windows.h> 
+
 Multimetro *mult =0;
 //Osciloscopio *osc = 0;
 Analizador *ana = 0;
@@ -57,10 +60,12 @@ int main (int argc, char ** argv)
   int f =0;
   int rc, rc2, rc3, rc4;
   
-  window = new Fl_Double_Window (1024, 708);
+  window = new Fl_Double_Window (0,0,1024, 708);
   ana = new Analizador();
   gene = new Generador();
   osc = new Osciloscopio(8,8,380,304,"",150);
+  
+  //Beep(5200,1500);
   
   //window->position(0,0);
   

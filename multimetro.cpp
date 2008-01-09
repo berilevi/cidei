@@ -26,25 +26,25 @@ Multimetro::Multimetro(){
     ounidades->labelcolor(FL_WHITE);
     ounidades->box(FL_FLAT_BOX);
     ounidades->color(FL_BLACK);
-    ohelp_mult  = new Fl_Button (745,340,40,18,"Help");
+    ohelp_mult  = new Fl_Button (785,340,40,16,"Help");
     ohelp_mult->labelsize(10);
     //ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
-    ovolt_ac = new Fl_Button(765,170,60,40,"V_ac");
+    ovolt_ac = new Fl_Button(755,170,65,45,"V_ac");
     ovolt_ac->clear();
     ovolt_ac->box(FL_UP_BOX);
-    ovolt_dc = new Fl_Button(845,170,60,40,"V_dc");
+    ovolt_dc = new Fl_Button(837,170,65,45,"V_dc");
     ovolt_dc->box(FL_UP_BOX);
-    oamp_ac = new Fl_Button(925,170,60,40,"A_ac");
+    oamp_ac = new Fl_Button(917,170,65,45,"A_ac");
     oamp_ac->box(FL_UP_BOX);
-    oamp_dc = new Fl_Button(765,240,60,40,"A_dc");
+    oamp_dc = new Fl_Button(755,240,65,45,"A_dc");
     oamp_dc->box(FL_UP_BOX);
-    oohm = new Fl_Button(845,240,60,40,"R");
+    oohm = new Fl_Button(837,240,65,45,"R");
     oohm->box(FL_UP_BOX);
-    ocontinuidad = new Fl_Button(925,240,60,40,"Cont");
+    ocontinuidad = new Fl_Button(917,240,65,45,"Cont");
     ocontinuidad->box(FL_UP_BOX);
     ogroup_mult-> end();
      
-    omult_on = new Fl_Light_Button(980,340,30,20,"ON");
+    omult_on = new Fl_Light_Button(740,325,38,30,"ON");
     omult_on->labelsize(9); 
     omult_on->callback(cb_mult_on, this);
     ovolt_ac->callback(cb_volt_ac, this);
@@ -85,6 +85,7 @@ void Multimetro::cb_mult_on_in(){
         }
         else {
              fl_message("Error de hardware");
+             omult_on->value(0);
         }
      }
      if (omult_on->value()== 0){
