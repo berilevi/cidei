@@ -9,17 +9,18 @@
 class grid : public Fl_Scope
 {
 	public:
+   
 		// class constructor
 		grid(int,int,int,int,const char * = 0);
 		// class destructor
 		~grid();
+		// actibar grilla o ejes
+		bool bgrid;
 		
 protected:
 
   void draw(int,int,int,int);
-
-    
-  void draw();		
+  void draw();	
 		
 };
 

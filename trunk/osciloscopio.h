@@ -119,7 +119,7 @@ class Osciloscopio : public Instrumento
 		 * Boton que detiene la solicitud de datos al hardware para detener las
          * graficas que se presentan en la pantalla del osciloscopio.
 	    */
-        Fl_Button *ostop;
+        Fl_Light_Button *ostop;
         /**
 		 * Boton que habilita el almacenamiento de datos en archivos planos de 
 		 * texto.
@@ -442,6 +442,26 @@ class Osciloscopio : public Instrumento
 		 */
 		inline void cb_ch2_on_in();
 		/**
+		 * Callback del boton para activar o desactivar la grilla en la 
+         * pantalla del osciloscopio
+		 */
+		static void cb_grilla(Fl_Widget*, void *);
+		/**
+		 * Funcion que acompaña a la funcion cb_grilla para realizar los
+		 * llamados de callback para activar o desactivar la grilla en la 
+         * pantalla del osciloscopio 
+		 */
+		inline void cb_grilla_in();
+		/**
+		 * Callback del boton para detener la grafica en la pantalla del osciloscopio
+		 */
+		static void cb_stop(Fl_Widget*, void *);
+		/**
+		 * Funcion que acompaña a la funcion cb_stop para realizar los
+		 * llamados de callback para detener en la pantalla del osciloscopio 
+		 */
+		inline void cb_stop_in();
+		/**
 		 * Este método es el callback del boton del menu de las funciones
 		 * duales de graficas en el osciloscopio, debe ir acompañada de una 
          * función inline para poder realizar los callbacks. 
@@ -598,7 +618,7 @@ class Osciloscopio : public Instrumento
         /**
 		 * Botón para activar o desactivar la grilla de la pantalla del osciloscopio
 		 */
-        Fl_Button *ogrilla_on;
+        Fl_Light_Button *ogrilla_on;
         /**
 		 * Vriable que almacena el caracter de la escala de tiempo por division  
 		 */
