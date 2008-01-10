@@ -146,6 +146,8 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opantalla->box(FL_DOWN_BOX);
     ogroup_osc->end();
     
+    ogrilla = new grid(14,14,390,318,"");
+    
     oosc_on = new Fl_Light_Button(15,323,38,30,"ON");
     oosc_on->tooltip("Botón para encender o apagar el osciloscopio");
     oosc_on->labelsize(10);            
@@ -990,7 +992,8 @@ void Osciloscopio::recorrer_datos(int num_canal){
                    opantalla->blissajous = 1;
                    //ox_y->value(0);
                    //opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es 
-                   opantalla->Add((idato_graf_ch1*25050),(idato_graf_ch2*25050));              
+                   //opantalla->Add((idato_graf_ch1*25050),(idato_graf_ch2*25050)); 
+                  opantalla->Add(2505,2505);             
                 }
                 else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
                      //opantalla->bdual = 0;
