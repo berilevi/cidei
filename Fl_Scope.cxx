@@ -103,13 +103,10 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
  int valor_y;
  
  fl_push_clip(xx,yy,ww,hh);                                     /* Establece el área de la gráfica */
- fl_draw_box(FL_DOWN_BOX,xx,yy,ww,hh,_BackColour);              /* Dibijo del Cuadro de grafica Screen */
+ fl_draw_box(FL_DOWN_BOX,xx,yy,ww,hh,_BackColour);              /* Dibujo del Cuadro de grafica Screen */
  
  fl_color( FL_WHITE);                                           /* Ajustar el color para dibujar las divisiones del Screen*/
  fl_line_style(FL_DOT);                                         /* Tipo de linea punteada para las divisones del screen*/
- fl_line(xx,(hh/2),ww+9,(hh/2));                                /* Eje x del Screen del osciloscopio*/
- fl_line((ww/2),yy,(ww/2),hh+9);                                /* Eje y del Screen del osciloscopio*/
-
 
  fl_line_style(0);                                              /* Retornar al tipo de linea continuo*/
  fl_color(_TraceColour);                                        /* Retornar al color de linea para las graficas del osciloscopio*/
@@ -119,8 +116,10 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
  
  ptrjp2=ptrjp=ScopeData2;                                       /* Inicializar los apuntadores al inicio del arreglo dinamico del canal 2*/ 
  ptrjp2++;                                                      /* Apuntar al segundo dato del arreglo dinamico del canal 2*/
+
+//if (bstop == 0){
  
- if (~bdual){                                                   /* Si el osciloscopio no esta en modo dual*/
+ if (bdual== 0){                                                   /* Si el osciloscopio no esta en modo dual*/
     for(count=0;count<ScopeDataSize-1;count++){                 /* Ciclo para recorrer los arreglos dinamicos y graficarlos*/
        switch(LineType){
              default:
@@ -160,30 +159,31 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                   }
              break;  
       }
+   //   if (bstop == 0){
       xx++;                                                      /* Se incrementa en 1 el valor para la coordenada x de la grafica*/
-      
       Ptr2++;                                                    /* Se incrementa en 1 la direccion de los apuntadores*/
       Ptr++;
       ptrjp2++;
       ptrjp++;
-      
-      //fl_color(_TraceColour);  
+    //  }
+      fl_color(_TraceColour);  
     }
 }
 
-else if (bdual){                                                 /* Si el oscilocpio esta en modo de operación dual*/
+else if (bdual==1){                                                 /* Si el oscilocpio esta en modo de operación dual*/
    if (ivez >0){                                                 /* Para que se grafique despues de la primera operacion entre los datos de las señales*/
       for(count=0;count<ScopeDataSize-1;count++){
           if (blissajous == 1){
-             BackColour(Fl_Color(110));
              fl_color(FL_RED);
-             fl_line(90,150,290,38);
-             fl_line(((int)(float)*ptrjp)+100,(190-(int)(float)*Ptr), ((int)(float)*ptrjp2)+100,(190-(int)(float)*Ptr2));
+             fl_line((xx+ww)-(int)((float)*Ptr*((float)ww/65535.0)), (yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)), 
+                     (xx+ww)-(int)((float)*Ptr2*((float)ww/65535.0)),(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
           }
           else{
+               fl_color(_TraceColour);
                fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
+               xx++;
           }
-          
+
           Ptr2++;                                                /* Incrementar en 1 la direccion de los apuntadores*/
           Ptr++;
           ptrjp2++;
@@ -191,10 +191,13 @@ else if (bdual){                                                 /* Si el oscilo
       }
    }
 }
-
+//}
+//else if (bstop == 1){
+     
+//}
 
    /* pop the clip */
-   fl_pop_clip();                                                  /* Cerrar el area donde se va a graficar*/
+   fl_pop_clip();                                                 /* Cerrar el area donde se va a graficar*/
 }
 
 
@@ -404,6 +407,8 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  bch1 = 0;
  
  bch1 = 0;
+ 
+ bstop = 0;
  
  ivez = 0;
  

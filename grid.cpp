@@ -5,39 +5,58 @@
 #include <FL/fl_draw.H>
 
 // class constructor
-grid::grid(int x,int y,int w,int h,const char *l): Fl_Scope(x,y,w,h,l)
-{
-	// insert your code here
+grid::grid(int X,int Y,int W,int H,const char *l): Fl_Scope(X,Y,W,H,l){
+               
+	x(X);y(Y);w(W);h(H);
+    bgrid = 0; 
 }
 
 
-void grid::draw()
-{
+void grid::draw(){
  draw(x(),y(),w(),h());
 }
 
-void grid::draw(int xx, int yy, int ww, int hh)
-{
+void grid::draw(int xx, int yy, int ww, int hh){
+    
+   fl_push_clip(12,12,391,315); 
+    
+   fl_color(FL_WHITE);  
    fl_line_style(FL_DOT);
-   fl_line(xx, hh/2, ww, hh/2);
-   fl_line(xx, hh/8, ww, hh/8);
-   fl_line(xx, hh/4, ww, hh/4);
-   fl_line(xx, hh/2.666, ww, hh/2.666);
-   fl_line(xx, hh/1.6, ww, hh/1.6);
-   fl_line(xx, hh/1.3333, ww, hh/1.3333);
-   fl_line(xx, hh/1.1428, ww, hh/1.1428);
    
-   fl_line(ww/2, yy, ww/2, hh);
-   fl_line(ww/10, yy, ww/10, hh);
-   fl_line(ww/5, yy, ww/5, hh);
-   fl_line(ww/3.33, yy, ww/3.33, hh);
-   fl_line(ww/2.5, yy, ww/2.5, hh);
-   fl_line(ww/1.666, yy, ww/1.666, hh);
-   fl_line(ww/1.428, yy, ww/1.428, hh);
-   fl_line(ww/1.25, yy, ww/1.25, hh);
-   fl_line(ww/1.1111, yy, ww/1.1111, hh);
+   if (bgrid){
+   
+     // fl_line(12, 315, 391, 315);
+     // fl_line(12, 12, 391, 12);
+   
+      fl_line(12, 50, 391, 50);
+      fl_line(12, 88, 391, 88);
+      fl_line(12, 126, 391, 126);
+      fl_line(12, 164, 391, 164);
+      fl_line(12, 202, 391, 202);
+      fl_line(12, 240, 391, 240);
+      fl_line(12, 278, 391, 278);
+   
+    //  fl_line(12, 12, 12, 315);                        // borde izquierdo
+    //  fl_line(391, 12, 391, 315);                      // borde derecho
+   
+      fl_line(50, 12, 50, 315);
+      fl_line(88, 12, 88, 315);
+      fl_line(126, 12, 126, 315);
+      fl_line(164, 12, 164, 315);
+      fl_line(202, 12, 202, 315);
+      fl_line(240, 12, 240, 315);
+      fl_line(278, 12, 278, 315);
+      fl_line(316, 12, 316, 315);
+      fl_line(354, 12, 354, 315);
+   }
+   
+   else {
+        fl_line(202, 12, 202, 315);
+        fl_line(12, 164, 391, 164);
+   }
+     
+   fl_pop_clip();      
         
-
 }
 
 // class destructor

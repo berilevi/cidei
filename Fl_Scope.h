@@ -103,6 +103,8 @@ public:
   
   bool bch2;                                  /* Variable que indica si el canal 2 del osciloscopio esta activo*/
   
+  bool bstop;
+  
   int x(){return _x;};                        /* Posicion horizontal del Screen */
 
   int y(){return _y;};                        /* Posicion vertical del Screen */
