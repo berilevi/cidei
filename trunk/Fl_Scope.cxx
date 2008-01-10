@@ -127,21 +127,21 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                   if(DataType==FL_SCOPE_UNSIGNED){ 
                      if (bch1== 1 && bch2== 1){
                         fl_color( FL_WHITE);                                                      
-                        fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
+                        fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
                         fl_color( FL_GREEN);
-                        fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
+                        fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
                      }                                                    
                      else if (bch1== 1 && bch2 == 0){
                           fl_color( FL_WHITE);
-                         fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
+                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
                      }
                      else if (bch2 == 1 && bch1== 0){
                           fl_color( FL_GREEN);
-                          fl_line(xx,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
+                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
                      }
                      else{
                           fl_color(_TraceColour);
-                          fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
+                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
                      }  
                   }
                   else{
@@ -180,7 +180,7 @@ else if (bdual==1){                                                 /* Si el osc
           }
           else{
                fl_color(_TraceColour);
-               fl_line(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
+               fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
                xx++;
           }
 
@@ -411,6 +411,8 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  bstop = 0;
  
  ivez = 0;
+ 
+ ipos_x = 0;
  
                            /*Configuraciones por defecto de la clase*/
  
