@@ -109,12 +109,7 @@ class Osciloscopio : public Instrumento
 		 * Boton de repetición para seleccionar la operación del osciloscopio
 		 * en modo dual.
 	    */
-        Fl_Repeat_Button *odual_menu;
-        /**
-		 * Boton que reanuda la solicitud de datos al hardware para continuar las
-         * graficas que se presentan en la pantalla del osciloscopio.
-	    */
-        Fl_Button *orun;  
+        Fl_Repeat_Button *odual_menu;  
         /**
 		 * Boton que detiene la solicitud de datos al hardware para detener las
          * graficas que se presentan en la pantalla del osciloscopio.
