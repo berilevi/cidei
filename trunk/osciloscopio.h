@@ -5,6 +5,7 @@
 #include <FL/Fl.H>
 #include "instrumento.h"                    // Cabecera de la superclase
 #include "Fl_Scope.h"                       // Clase graficar las señales
+#include "grid.h"
 #include "canal.h"                          // Cabecera de la clase canal
 #include <FL/Fl_Widget.H>                   // inheriting class's header file
 #include <FL/Fl_Group.H>         
@@ -151,6 +152,11 @@ class Osciloscopio : public Instrumento
 		 * donde se grafica la señal digitalizada por el canal.
 		*/
 		Fl_Scope*  opantalla;
+		/**
+		 * Objeto de la calse scope que representa la pantalla del osciloscopio 
+		 * donde se grafica la señal digitalizada por el canal.
+		*/
+		grid*  ogrilla;
 		/**
 		 * Variable que contiene el valor del dato que se envia para adicionar 
 		 * a la gráfica del canal 1 en el método recorrer datos.
@@ -592,7 +598,7 @@ class Osciloscopio : public Instrumento
         /**
 		 * Botón para activar o desactivar la grilla de la pantalla del osciloscopio
 		 */
-        Fl_Button *ogrilla;
+        Fl_Button *ogrilla_on;
         /**
 		 * Vriable que almacena el caracter de la escala de tiempo por division  
 		 */
