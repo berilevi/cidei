@@ -104,17 +104,14 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opos_y->scaleticks(0);
     opos_y->cursor(40);
     opos_y->labelsize(10);
-    opos_y->range(0,10);
+    opos_y->range(-100,100);
     //opos_y->tooltip("Boton de posicionamiento horizontal de las gráficas");
     ogroup_pos->end();
     ogroup_stop = new Fl_Group (400,315,105,43,"");
     ogroup_stop->box(FL_ENGRAVED_FRAME);
     ogroup_stop->deactivate();
-    orun = new Fl_Button(458,322,40,30,"");
-    orun->label("@|>");
-    orun->tooltip("Botón para reanudar la ejecucion de las graficas del osciloscopio");
-    ostop = new Fl_Light_Button(408,322,40,30,"");
-    ostop->label("@square");
+    ostop = new Fl_Light_Button(425,322,50,30,"");
+    ostop->label("@+8|>");
     ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
     ogroup_stop->end();
     ogroup_trigger = new Fl_Group (515,243,95,115,"");
@@ -362,6 +359,7 @@ void Osciloscopio::cb_grilla_in(){
      else{
          ogrilla->bgrid = 0; 
      }
+     ogrilla->redraw();
 }
 
 
@@ -844,7 +842,10 @@ void Osciloscopio::cb_pos_y(Fl_Widget* psel, void *pany)
 */
 void Osciloscopio::cb_pos_y_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
-     pselector->value(floor(pselector->value()));     
+     pselector->value(floor(pselector->value()));
+     opantalla->ipos_x =  pselector->value();
+     ogrilla->redraw(); 
+     opantalla->redraw();  
 }
 
 /**
