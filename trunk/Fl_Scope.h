@@ -103,7 +103,9 @@ public:
   
   bool bch2;                                  /* Variable que indica si el canal 2 del osciloscopio esta activo*/
   
-  bool bstop;
+  bool bstop;                                 /* Variable que indica si se activa la detención de la gráfica*/
+  
+  int ipos_x;
   
   int x(){return _x;};                        /* Posicion horizontal del Screen */
 
