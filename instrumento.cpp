@@ -19,7 +19,7 @@ Instrumento::Instrumento()
     ch2_muestreado = 0;                         // Inicializar el estado del muestreo del canal 2 del osciloscopio
     idato_osc_ch1 =0;                           // Dato muestreado uno a uno por el canal 1 del osciloscopio
     idato_osc_ch2 =0;                           // Dato muestreado uno a uno por el canal 2 del osciloscopio
-    inum_datos = 0;                             // inicializado el numero de datos almacenados
+
 }
 
 // Destructor de clase
@@ -56,7 +56,7 @@ void Instrumento::archivar()
      FILE * log;
      log = fopen(cnombre,"w+");                           // Nombre y permisos de acceso al archivo de texto
      if (log != NULL) {
-        fwrite(idatos,sizeof(int),inum_datos,log);        // Escritura de los datos en el archivo de texto
+        fwrite(idatos,sizeof(int),200,log);        // Escritura de los datos en el archivo de texto
      }
      else {
           fl_alert("No se pudo abrir el archivo");        // Error de apertura del archivo 
@@ -87,7 +87,6 @@ void Instrumento::Transmision(){
       DWORD RecvLength=190;                                                           //Longitud maxima del buffer que recibe los datos de transmision        
       DWORD SentDataLength;                                                           
       
-      //fl_message("envio al hw es: %s", trama_control);
     
       MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,100);                     //Transmitir la trama al hardware
       fflush(stdin);                                                                  //Limpiar el buffer de salida
@@ -112,14 +111,15 @@ void Instrumento::Transmision(){
 /*
  * La función Encapsular organiza la trama que se envía al hardware a traves de USB.
 */
-void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char cfin, char cfin2)
-{
+void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char cfin, char cfin2){
+     
      trama_control[1] = cnom;           //Dispositivo de hardware 
      trama_control[2] = coper;          //Operacion que se va a realizar 
      trama_control[3] = clong;          //Longitud de datos que se van a enviar
      trama_control[4] = cdato;          //Dato que se va a configurar en el hardware
      trama_control[7] = cfin;           //Dato que se va a configurar en el hardware
      trama_control[8] = cfin2;          //Dato que se va a configurar en el hardware
+     
 }
 
 

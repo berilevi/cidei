@@ -135,7 +135,6 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     onivel_trigger->labelsize(10);
     onivel_trigger->range(0,10);
     ogroup_trigger->end();
-    
                 
     opantalla = new Fl_Scope(12,12,380,304,"");                  // Instancia de scope para la pantalla del osciloscopio
     opantalla ->TraceColour(FL_WHITE);                            // Color de la gráfica inicial por defecto
@@ -169,79 +168,11 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     canal2->osel_acople->callback(cb_acople2, this);
 }
 
-
 // Destructor de clase
 Osciloscopio::~Osciloscopio(){
 	// insert your code here
 }
 
-// sets the value of bsuma
-void Osciloscopio::Setbsuma(bool bx){
-	bsuma = bx;
-}
-
-// sets the value of bx_y
-void Osciloscopio::Setbx_y(bool bx){
-	bx_y = bx;
-}
-
-// sets the value of ipos_x
-void Osciloscopio::Setipos_x(int ix){
-	ipos_x = ix;
-}
-
-// sets the value of it_div
-void Osciloscopio::Setit_div(int ix){
-	it_div = ix;
-}
-
-// sets the value of ifrec_muestreo
-void Osciloscopio::Setifrec_muestreo(int ix){
-	ifrec_muestreo = ix;
-}
-
-// sets the value of nnivel_trigger
-void Osciloscopio::Setinivel_trigger(int ix){
-	inivel_trigger = ix;
-}
-
-// sets the value of bdual
-void Osciloscopio::Setbdual(bool bx){
-	bdual = bx;
-}
-
-/*
- * Método para sumar las señales adquiridas por los 2 canales
- * del instrumento.
- */
-void Osciloscopio::sumar(int idato1[], int idato2[]){
-     int icont1;
-     for (icont1=0; icont1 < inum_datos; icont1++){
-         idatos[icont1] = idato1[icont1]+idato2[icont1];                      // Suma de las dos señales para el eje y
-     }
-}
-
-/*
- * Método para restar las señales adquiridas por los 2 canales
- * del instrumento 
- */
-void Osciloscopio::restar(int idato1[], int idato2[]){
-     int icont;
-     for (icont=0; icont < DATA_OSC-1; icont++){
-         idatos[icont] = idato1[icont] - idato2[icont];                         //Diferencia de las dos señales para el eje y
-     }
-}
-
-/*
- * Método para realizar gráficas de lissajous con las señales 
- * de los 2 canales.
- */
-void Osciloscopio::lissajous(int idato1[], int idato2[]){
-     int icont1;
-     for (icont1=0; icont1 < inum_datos; icont1++){
-         idatos[icont1] = idato1[icont1];                     //Datos del canal 1 para el eje y
-     }
-}
 
 /**
  * Este método es el callback del boton que enciende el osciloscopio 
@@ -282,7 +213,7 @@ void Osciloscopio::cb_osc_on_in(){
             ogroup_dual->box(FL_UP_BOX);
             otiempo_div->value(8);
             omenu_t_div->value(8);
-            canal1->ovolt_div->value(0);
+            canal1->ovolt_div->value(1);
             canal1->oacop_ac->value(1);
             isec_acople=1;
             opantalla->bch1 = 1;
@@ -554,7 +485,6 @@ void Osciloscopio::cb_dual_menu(Fl_Widget* pboton, void *pany)
 void Osciloscopio::cb_dual_menu_in(){
      if (isec_dual==0){
         ox_y->value(0);
-        Setbsuma(1);
         osuma->value(1);
         opantalla->bdual = 1;
      }
@@ -698,8 +628,8 @@ void Osciloscopio::cb_volt_div1(Fl_Widget* psel, void *pany)
 */
 void Osciloscopio::cb_volt_div1_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
-     pselector->value(floor(pselector->value()));
-     canal1->omenu_v_div->value(pselector->value());                
+     //pselector->value(floor(pselector->value()));
+     canal1->omenu_v_div->value(pselector->value()-1);                
      if (int((pselector->value()))== 10){
          Encapsular('A','c','1','A',0x00,0x00);
          Transmision();

@@ -41,18 +41,12 @@ Generador::Generador(){
 	ogroup_senal->deactivate();
     osel_gen = new Fl_Repeat_Button(765,610,100,20,"Función");
     osel_gen->labelsize(12);
-    oseno = new Fl_Light_Button(775,515,10,10,"Seno");
+    oseno = new Fl_Button(775,515,70,25,"Seno");
     oseno->labelsize(12);
-    oseno->box(FL_NO_BOX);
-    oseno->align(FL_ALIGN_RIGHT);
-    ocuadrada = new Fl_Light_Button(775,545,10,10,"Cuadrada");
+    ocuadrada = new Fl_Button(775,545,70,25,"Cuadrada");
     ocuadrada->labelsize(12);
-    ocuadrada->box(FL_NO_BOX);
-    ocuadrada->align(FL_ALIGN_RIGHT);
-    otriangulo = new Fl_Light_Button(775,575,10,10,"Triangulo");
+    otriangulo = new Fl_Button(775,575,70,25,"Triangulo");
     otriangulo->labelsize(12);
-    otriangulo->box(FL_NO_BOX);
-    otriangulo->align(FL_ALIGN_RIGHT);
     ogroup_senal->end();
     ogroup_frecuencia = new Fl_Group (525,490,215,150,"");
     ogroup_frecuencia->box(FL_ENGRAVED_BOX);
@@ -97,6 +91,9 @@ Generador::Generador(){
     
     ogen_on->callback(cb_generador_on, this);
     osel_gen->callback(cb_sel_gen, this);
+    oseno->callback(cb_seno,this);
+    ocuadrada->callback(cb_cuadrada,this);
+    otriangulo->callback(cb_triangulo,this);
     ofrec_gen->callback(cb_frec_gen, this);
     oamplitud->callback(cb_amplitud, this);
     ooffset->callback(cb_offset, this);
@@ -142,6 +139,56 @@ void Generador::cb_generador_on_in(){
      } 
      isec_generador++;
 }
+
+
+
+/*
+ * 
+*/
+void Generador::cb_seno(Fl_Widget* pboton, void *any){
+     Generador* pgener=(Generador*)any;
+     pgener->cb_seno_in();
+}
+
+/**
+ * 
+*/
+void Generador::cb_seno_in(){
+     
+}
+
+
+/*
+ * 
+*/
+void Generador::cb_cuadrada(Fl_Widget* pboton, void *any){
+     Generador* pgener=(Generador*)any;
+     pgener->cb_cuadrada_in();
+}
+
+/**
+ * 
+*/
+void Generador::cb_cuadrada_in(){
+     
+}
+
+/*
+ * 
+*/
+void Generador::cb_triangulo(Fl_Widget* pboton, void *any){
+     Generador* pgener=(Generador*)any;
+     pgener->cb_triangulo_in();
+}
+
+/**
+ * 
+*/
+void Generador::cb_triangulo_in(){
+     
+}
+
+
 
 /*
  * Este método es el callback del boton que selecciona el tipo de señal que va a 
@@ -250,8 +297,7 @@ void Generador::cb_frec_gen_in(){
  * Este método es el callback del boton que selecciona la amplitud de la señal 
  * que va a ser generada.
 */
-void Generador::cb_amplitud(Fl_Widget* pboton, void *any)
-{
+void Generador::cb_amplitud(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_amplitud_in();
 }

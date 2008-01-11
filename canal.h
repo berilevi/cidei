@@ -4,16 +4,13 @@
 #define CANAL_H
 
 #include "instrumento.h"         // inheriting class's header file
-#include <FL/Fl_Widget.H>        // inheriting class's header file
-#include <FL/fl_draw.h>          // header file for drawing
-#include <FL/Fl_Group.H>         //          
+#include <FL/Fl_Group.H>                   
 #include "fl_Knob.h"
-#include <FL/Fl_Value_Output.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Repeat_Button.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Ask.H>
-#include <math.h>
+
 
 /**
  * Esta clase representa las funcionalidades de los canales
@@ -26,11 +23,6 @@ class Canal : public Instrumento
 		Canal(int x, int y, int w, int h, const char *l, int ncolo);
 		// class destructor
 		~Canal();
-		void Setnv_div(int x); // sets the value of nv_div
-		void Setnpos_y(int x); // sets the value of npos_y
-		void Setbgnd(bool x); // sets the value of bgnd
-		void Setbac(bool x); // sets the value of bac
-		void Setbdc(bool x); // sets the value of bdc
 		/**
 		 * Selector de la escala de voltios por division
 		 */
@@ -72,33 +64,10 @@ class Canal : public Instrumento
 	    */
 		int ncolor;
 		/**
-		 * Esta varible representa el valor de voltios por división
-		 * seleccionado por el usuario. 
-		 */
-		int nv_div;
-		/**
-		 * Esta variable representa la posición de la gráfica del canal
-		 * respecto al eje x 
-		 */
-		int npos_y;
-		/**
 		 * Menu desplegable para seleccionar la escala de voltios por división 
 		 * del canal  
 	     */
         Fl_Choice *omenu_v_div;
-
-		/**
-		 * Este método es el callback del selector de posición de la señal
-		 * del canal del osciloscopio debe ir acompañada de una función 
-         * inline para poder realizar los callbacks. 
-		 */
-		static void cb_posx(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_posx  
-		 * para realizar los llamados de callback del selector de posicion
-		 * de la señal del canal en el osciloscopio 
-		 */
-		inline void cb_posx_in(Fl_Widget*);
 		/**
 		 * Esta variable representa el valor pico a pico de la señal 
 		 * analizada con el osciloscopio
@@ -109,21 +78,6 @@ class Canal : public Instrumento
 		 * analizada.  
 		 */
 		float dv_frecuencia;
-		/**
-		 * Esta variable representa el estado de aterrizado del canal 
-		 * del osciloscopio
-		 */
-		bool bgnd;
-		/**
-		 * Esta variable representa el estado del acople ac del 
-		 * canal del osciloscopio
-		 */
-		bool bac;
-		/**
-		 * Esta variable representa el estado del acople dc del 
-		 * canal del osciloscopio
-		 */
-		bool bdc;
 		/**
 		 * Este indicador luminoso indica que está activado el acople
 		 * gnd del canal  
@@ -139,11 +93,6 @@ class Canal : public Instrumento
 		 * dc del canal  
 		 */
         Fl_Light_Button *oacop_dc;
-        /**
-		 * Panel para visualizar la posición de la señal respecto al eje x 
-		 * de la señal.   
-	     */
-        Fl_Value_Output *ov_posy;
         /**
 		 * Perilla para ajustar la posición de la señal respecto al eje x 
 		 * de la señal.   
