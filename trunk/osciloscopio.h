@@ -32,32 +32,6 @@ class Osciloscopio : public Instrumento
 		Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
 		// Destructor de clase
 		~Osciloscopio();
-		void Setbsuma(bool bx);                  // sets the value of bsuma
-		void Setbx_y(bool bx);                   // sets the value of bx_y
-		void Setipos_x(int ix);                  // sets the value of npos_x
-		void Setit_div(int ix);                  // sets the value of nt_div
-		void Setifrec_muestreo(int ix);          // sets the value of nfrec_muestreo
-		void Setinivel_trigger(int ix);          // sets the value of nnivel_trigger
-		/**
-		 * Método para sumar las señales adquiridas por los 2 canales
-		 * del instrumento.
-		 */
-		void sumar(int [], int[]);
-		/**
-		 * Método para restar las señales adquiridas por los 2 canales
-		 * del instrumento 
-		 */
-		void restar(int[], int[]);
-		/**
-		 * Método para realizar gráficas de lissajous con las señales 
-		 * de los 2 canales.
-		 */
-		void lissajous(int[], int[]);
-		/**
-		 * Método para asignar el valor de la variable 
-		 * bdual
-		 */
-		void Setbdual(bool x); // sets the value of bdual
 		/**
 		 * Objeto que agrupa la pantalla, los canales y controles
 		 * que componen el osciloscopio.
@@ -527,46 +501,6 @@ class Osciloscopio : public Instrumento
 		 * posición de la señal respecto al eje y en el osciloscopio 
 	    */
 		inline void cb_pos_y_in(Fl_Widget*);
-         /**
-		 * Variable que representa la activación de la suma de las 
-		 * señales de los dos canales.
-		 */
-		bool bsuma;
-		 /**
-		 * Variable que representa la activación de la diferencia de las 
-		 * señales de los dos canales.
-		 */
-		bool bresta;
-		/**
-		 * Variable que representa la activación de la gráfica de las
-		 * figuras de lissajous
-		 */
-		bool bx_y;
-		/**
-		 * Variable que representa la posición de las gráficas respecto 
-		 * del eje y
-		 */
-		int ipos_x;
-		/**
-		 * Variable que representa la escala de tiempo por división
-		 * que el ususario ha seleccionado.
-		 */
-		int it_div;
-		/**
-		 * Variable que representa la frecuencia a la que se están
-		 * digitalizando las señales.
-		 */
-		int ifrec_muestreo;
-		/**
-		 * Variable que representa el nivel de voltaje en el cual se 
-		 * produce el disparo para la digitalización de las señales.
-		 */
-		int inivel_trigger;
-		/**
-		 * Variable que representa la activación del modo dual del
-		 * osciloscopio
-		 */
-		bool bdual;
 		/**
 		 * Variable que representa el color de fondo de la pantalla del
 		 * osciloscopio

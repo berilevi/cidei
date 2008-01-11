@@ -2,10 +2,12 @@
 
 #include "multimetro.h" // class's header file
 
-int isec_mult;
 
 // class constructor
 Multimetro::Multimetro(){
+    
+    Fl_Box *box_mult;
+                         
     Fl_Tooltip::disable();
     strcpy(cvalor,"0.000");
     strcpy(cnombre,"mult.txt"); 
@@ -13,7 +15,8 @@ Multimetro::Multimetro(){
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
-    odisp_mult  = new Fl_7Seg (735,15,230,105);
+    box_mult = new Fl_Box(730,5,285,360,"");
+    odisp_mult  = new Fl_7Seg (735,50,230,105);
     odisp_mult->box(FL_DOWN_FRAME);
     odisp_mult->color(FL_BLACK);
     odisp_mult->thickness(5);
@@ -21,7 +24,7 @@ Multimetro::Multimetro(){
     odisp_mult->align_text(FL_ALIGN_RIGHT);
     odisp_mult->segment_gap(2);
     odisp_mult->value("00.0");
-    ounidades = new Fl_Box (963,17,43,101,"");
+    ounidades = new Fl_Box (963,52,43,101,"");
     ounidades->labelsize(20);
     ounidades->labelcolor(FL_WHITE);
     ounidades->box(FL_FLAT_BOX);
@@ -29,20 +32,31 @@ Multimetro::Multimetro(){
     ohelp_mult  = new Fl_Button (785,340,40,16,"Help");
     ohelp_mult->labelsize(10);
     //ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
-    ovolt_ac = new Fl_Button(755,170,65,45,"V_ac");
+    ovolt_ac = new Fl_Button(755,190,65,45,"V_ac");
     ovolt_ac->clear();
     ovolt_ac->box(FL_UP_BOX);
-    ovolt_dc = new Fl_Button(837,170,65,45,"V_dc");
+    ovolt_dc = new Fl_Button(837,190,65,45,"V_dc");
     ovolt_dc->box(FL_UP_BOX);
-    oamp_ac = new Fl_Button(917,170,65,45,"A_ac");
+    oamp_ac = new Fl_Button(917,190,65,45,"A_ac");
     oamp_ac->box(FL_UP_BOX);
-    oamp_dc = new Fl_Button(755,240,65,45,"A_dc");
+    oamp_dc = new Fl_Button(755,260,65,45,"A_dc");
     oamp_dc->box(FL_UP_BOX);
-    oohm = new Fl_Button(837,240,65,45,"R");
+    oohm = new Fl_Button(837,260,65,45,"R");
     oohm->box(FL_UP_BOX);
-    ocontinuidad = new Fl_Button(917,240,65,45,"Cont");
+    ocontinuidad = new Fl_Button(917,260,65,45,"Cont");
     ocontinuidad->box(FL_UP_BOX);
+    
+    
+   /* fl_register_images();
+    Fl_PNG_Image jpg("multimetro.PNG");      // load jpeg image into ram
+    box_mult->image(jpg);
+    */
+    
     ogroup_mult-> end();
+     
+     
+     
+       
      
     omult_on = new Fl_Light_Button(740,325,38,30,"ON");
     omult_on->labelsize(9); 
@@ -64,8 +78,7 @@ Multimetro::~Multimetro(){
 /*
  * Este método es el callback del boton que activa el multimetro
 */
-void Multimetro::cb_mult_on(Fl_Widget* pboton, void *any)
-{
+void Multimetro::cb_mult_on(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_mult_on_in();
 }
@@ -107,8 +120,7 @@ void Multimetro::set_disp_mult(char svalor [4]){
  * Este método es el callback del timer para realizar la solicitud 
  * de datos del canal 1 del osciloscopio al hardware.  
 */
-void Multimetro::cb_timer_mult(void *pany)
-{
+void Multimetro::cb_timer_mult(void *pany){
      Multimetro* pmult=(Multimetro*)pany;
      pmult->cb_timer_mult_in();
 }
@@ -175,7 +187,6 @@ void Multimetro::escalar_valor(int escala){
      fvalor_escalado = ivalor_conversion/20;
      sprintf(cvalor,"%.4g",fvalor_escalado);
 }
-
 
 
 /**
@@ -288,7 +299,6 @@ void Multimetro::cb_amp_ac_in(){
           oamp_ac->clear();
      } 
 }
-
 
 
 /**

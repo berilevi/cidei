@@ -14,6 +14,10 @@
 #include <iostream>
 #include <string>
 
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Box.H>
+
 #define FACTOR_VDC_1 2560
 #define FACTOR_VDC_2 256
 #define FACTOR_VDC_3 25,6
@@ -30,7 +34,7 @@ using namespace std;
 class Multimetro : public Instrumento
 {
 	public:
-	enum inst {
+        enum inst {
              volt_ac,
              volt_dc,
              amp_ac, 
@@ -38,11 +42,6 @@ class Multimetro : public Instrumento
              ohm,
              continuidad
         };
-		/**
-		 * Esta variable representa la escala con la que se realizo 
-		 * la medicion con algun instrumento del multimetro
-	    */
-		int iescala;
 		/**
 		 * Esta variable almacena el valor entero de la medicion realizada con  
 		 * el hardware.
@@ -150,61 +149,61 @@ private:
 		 */
 	    Fl_Button *ocontinuidad;
 	    /**
-         *   
+         * Callback del botón que activa el medidor de voltaje en ac 
          */   
          static void cb_volt_ac(Fl_Widget*, void *);
          /**
-         * 
+         * Callback del botón que activa el medidor de voltaje en ac 
          */
          inline void cb_volt_ac_in();
          /**
-         *  
+         * Callback del botón que activa el medidor de voltaje en dc   
          */   
          static void cb_volt_dc(Fl_Widget*, void *);
          /**
-         * 
+         * Callback del botón que activa el medidor de voltaje en dc 
          */
          inline void cb_volt_dc_in();
          /**
-         *  
+         * Callback del botón que activa el medidor de corriente en ac  
          */   
          static void cb_amp_ac(Fl_Widget*, void *);
          /**
-         * 
+         * Callback del botón que activa el medidor de corriente en ac 
          */
          inline void cb_amp_ac_in();
          /**
-         *  
+         * Callback del botón que activa el medidor de corriente en dc  
          */   
          static void cb_amp_dc(Fl_Widget*, void *);
          /**
-         * 
+         * Callback del botón que activa el medidor de corriente en dc 
          */
          inline void cb_amp_dc_in();
          /**
-         *  
+         * Callback del botón que activa el medidor de resistencia 
          */   
          static void cb_ohm(Fl_Widget*, void *);
          /**
-         * 
+         * Callback del botón que activa el medidor de resistencia
          */
          inline void cb_ohm_in();
          /**
-         *  
+         * Callback del botón que activa el medidor de continuidad  
          */   
          static void cb_cont(Fl_Widget*, void *);
          /**
-         * 
+         * Callback del botón que activa el medidor de continuidad 
          */
          inline void cb_cont_in();
 	    /**
 		 * Boton para encender el instrumento multimetro.
-		 */
+		*/
         Fl_Light_Button *omult_on;
         /**
 		 * Widget para colocar en texto las unidades de medida de la medición 
 		 * realizada con el multímetro.
-		 */
+		*/
         Fl_Box *ounidades;
 };
 

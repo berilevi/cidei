@@ -123,11 +123,6 @@ class Instrumento
 		*/
 		bool bestado;
 		/**
-		 * Esta variable representa el numero de datos que se han
-		 * almacenado provenientes del hardware del instrumento.
-		*/
-		int inum_datos;
-		/**
 		 * La función archivar genera un archivo plano con los datos 
 		 * enviados por el hardware del intrumento.
 		*/

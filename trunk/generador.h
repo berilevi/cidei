@@ -77,17 +77,17 @@ class Generador : public Instrumento
 		 * Indicador luminoso de seleccion de generar señal de tipo  
          * sinusoidal
 		*/
-        Fl_Light_Button *oseno;
+        Fl_Button *oseno;
         /**
 		 * Indicador luminoso de seleccion de generar señal de tipo  
          * cuadrada
 		*/
-        Fl_Light_Button *ocuadrada;
+        Fl_Button *ocuadrada;
         /**
 		 * Indicador luminoso de seleccion de generar señal de tipo  
          * triangular.
 		*/
-        Fl_Light_Button *otriangulo;
+        Fl_Button *otriangulo;
         /**
 		 * Indicador luminoso del valor de la frecuencia en la escala de mili-Hertz  
 		*/
@@ -134,6 +134,30 @@ class Generador : public Instrumento
 		 * del generador.
 		 */
 		inline void cb_generador_on_in();
+		/**
+		 * 
+		 */
+		static void cb_seno(Fl_Widget*, void *);
+		/**
+		 * 
+		 */
+		inline void cb_seno_in();
+		/**
+		 * 
+		 */
+		static void cb_cuadrada(Fl_Widget*, void *);
+		/**
+		 * 
+		 */
+		inline void cb_cuadrada_in();
+		/**
+		 * 
+		 */
+		static void cb_triangulo(Fl_Widget*, void *);
+		/**
+		 * 
+		 */
+		inline void cb_triangulo_in();
 		/**
          * Este método es el callback del boton que selecciona el tipo de señal que va a 
          * ser generada.

@@ -3,7 +3,8 @@
 #include <FL/Fl_Window.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Ask.H>
-#include <FL/Fl_JPEG_Image.H>
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Box.H>
 #include "osciloscopio.h"
 #include "multimetro.h"
@@ -53,6 +54,9 @@ int main (int argc, char ** argv)
   Analizador *ana;
   Generador *gene;
   Osciloscopio *osc;
+  
+ // Fl_Box *box_mult;
+  
 
   int t =0;
   int u =0;
@@ -64,6 +68,8 @@ int main (int argc, char ** argv)
   ana = new Analizador();
   gene = new Generador();
   osc = new Osciloscopio(8,8,380,304,"",150);
+  
+ // box_mult = new Fl_Box(730,5,285,360,"");
   
   //Beep(5200,1500);
   
@@ -121,7 +127,11 @@ int main (int argc, char ** argv)
          exit(-1);
       } */
   
-  
+ /* 
+  fl_register_images();
+  Fl_PNG_Image jpg("multimetro.png");      // load jpeg image into ram
+  box_mult->image(jpg);
+  */
   window->end ();
   window->show (argc, argv);
   
