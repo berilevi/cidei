@@ -25,7 +25,7 @@
 #define FACTOR_VDC_5 0,256
 
 
-using namespace std;
+//using namespace std;
 
 /**
  * Esta clase representa las funcionees del instrumento

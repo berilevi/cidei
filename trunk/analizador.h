@@ -24,7 +24,7 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
+//using namespace std;
 
 /**
  * Esta clase representa las funcionees del instrumento

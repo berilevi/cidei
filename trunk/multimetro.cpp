@@ -277,7 +277,7 @@ void Multimetro::cb_amp_ac(Fl_Widget* pboton, void *any){
 void Multimetro::cb_amp_ac_in(){
     if (oamp_ac->value()== 0){
         Fl::remove_timeout(cb_timer_mult, this);
-        fl_alert("Verifique las puntas de prueba");
+        //fl_alert("Verifique las puntas de prueba");
         ovolt_ac->box(FL_UP_BOX);
         ovolt_ac->clear();
         ovolt_dc->box(FL_UP_BOX);
@@ -292,6 +292,7 @@ void Multimetro::cb_amp_ac_in(){
         oamp_ac->set();
         instrument = amp_ac;
         ounidades->label("AAC");
+        fl_alert("Verifique las puntas de prueba");
         config_instrumento(amp_ac);
      }
      else{
