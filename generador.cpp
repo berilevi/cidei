@@ -3,14 +3,13 @@
 #include "generador.h" // class's header file
 #include <math.h>
 
-int isec_generador;
+
 int isec_escalas;
 char cfrecuencia [9];
 
 // class constructor
 Generador::Generador(){
-                       
-    isec_generador = 0;
+
     isec_escalas = 0;
 	ogroup_generador = new Fl_Group (515,370,500,330,"");
 	ogroup_generador->box(FL_UP_BOX);
@@ -39,13 +38,12 @@ Generador::Generador(){
     ogroup_senal = new Fl_Group (750,490,125,150,"");
     ogroup_senal->box(FL_ENGRAVED_BOX);
 	ogroup_senal->deactivate();
-    osel_gen = new Fl_Repeat_Button(765,610,100,20,"Función");
-    osel_gen->labelsize(12);
-    oseno = new Fl_Button(775,515,70,25,"Seno");
+    oseno = new Fl_Button(775,500,70,35,"Seno");
     oseno->labelsize(12);
-    ocuadrada = new Fl_Button(775,545,70,25,"Cuadrada");
+    oseno->box(FL_ROUND_UP_BOX);
+    ocuadrada = new Fl_Button(775,545,70,35,"Cuadrada");
     ocuadrada->labelsize(12);
-    otriangulo = new Fl_Button(775,575,70,25,"Triangulo");
+    otriangulo = new Fl_Button(775,595,70,35,"Triangulo");
     otriangulo->labelsize(12);
     ogroup_senal->end();
     ogroup_frecuencia = new Fl_Group (525,490,215,150,"");
@@ -90,7 +88,6 @@ Generador::Generador(){
     ogen_on->labelsize(9);     
     
     ogen_on->callback(cb_generador_on, this);
-    osel_gen->callback(cb_sel_gen, this);
     oseno->callback(cb_seno,this);
     ocuadrada->callback(cb_cuadrada,this);
     otriangulo->callback(cb_triangulo,this);
@@ -134,10 +131,15 @@ void Generador::cb_generador_on_in(){
         }
      }
      if (ogen_on->value()== 0){
+        ocuadrada->box(FL_UP_BOX);                      
+        ocuadrada->value(0);
+        otriangulo->box(FL_UP_BOX);                      
+        otriangulo->value(0);
         activar(0);
+        oseno->box(FL_UP_BOX);                      
+        oseno->value(0);
         ogroup_generador->deactivate(); 
      } 
-     isec_generador++;
 }
 
 
@@ -154,7 +156,26 @@ void Generador::cb_seno(Fl_Widget* pboton, void *any){
  * 
 */
 void Generador::cb_seno_in(){
-     
+     if (oseno->value()== 0){
+        ocuadrada->box(FL_UP_BOX);                      
+        ocuadrada->value(0);
+        otriangulo->box(FL_UP_BOX);                      
+        otriangulo->value(0);
+        Encapsular('I','i','1','1',0x00,0x00);
+        Transmision();
+        if (bhardware){
+           otriangulo->value(0);
+           oseno->value(1);
+           oseno->box(FL_DOWN_BOX);
+        }
+        else {
+             fl_message("Error de hardware");
+        }
+     }
+     else{
+        oseno->box(FL_UP_BOX);                      
+        oseno->value(0);
+     }
 }
 
 
@@ -170,7 +191,25 @@ void Generador::cb_cuadrada(Fl_Widget* pboton, void *any){
  * 
 */
 void Generador::cb_cuadrada_in(){
-     
+     if (ocuadrada->value()== 0){
+        oseno->box(FL_UP_BOX);                      
+        oseno->value(0);
+        otriangulo->box(FL_UP_BOX);                      
+        otriangulo->value(0);
+        Encapsular('I','i','1','3',0x00,0x00);
+        Transmision();
+        if (bhardware){                   
+           ocuadrada->value(1);
+           ocuadrada->box(FL_DOWN_BOX);
+        }
+        else {
+             fl_message("Error de hardware");
+        }
+     }
+     else{
+        ocuadrada->box(FL_UP_BOX);                      
+        ocuadrada->value(0); 
+     }
 }
 
 /*
@@ -185,62 +224,28 @@ void Generador::cb_triangulo(Fl_Widget* pboton, void *any){
  * 
 */
 void Generador::cb_triangulo_in(){
-     
-}
-
-
-
-/*
- * Este método es el callback del boton que selecciona el tipo de señal que va a 
- * ser generada.
-*/
-void Generador::cb_sel_gen(Fl_Widget* pboton, void *any)
-{
-     Generador* pgener=(Generador*)any;
-     pgener->cb_sel_gen_in();
-}
-
-/**
- * Esta función acompaña la función  cb_sel_gen para seleccionar el tipo de señal 
- * que va a ser generada.
-*/
-void Generador::cb_sel_gen_in(){
-     if (isec_generador==0){
-        Encapsular('I','i','1','1',0x00,0x00);
-        Transmision();
-        if (bhardware){
-           otriangulo->value(0);
-           oseno->value(1);
-        }
-        else {
-             fl_message("Error de hardware");
-        }
-     }
-     if (isec_generador==1){
-        Encapsular('I','i','1','3',0x00,0x00);
-        Transmision();
-        if (bhardware){
-           oseno->value(0);                    
-           ocuadrada->value(1);
-        }
-        else {
-             fl_message("Error de hardware");
-        }
-     }
-     if (isec_generador==2){
+     if (otriangulo->value()== 0){
+        oseno->box(FL_UP_BOX);                      
+        oseno->value(0);
+        ocuadrada->box(FL_UP_BOX);                      
+        ocuadrada->value(0);
         Encapsular('I','i','1','2',0x00,0x00);
         Transmision();
-        if (bhardware){
-           ocuadrada->value(0);
+        if (bhardware){                   
            otriangulo->value(1);
+           otriangulo->box(FL_DOWN_BOX);
         }
         else {
              fl_message("Error de hardware");
         }
-        isec_generador=-1;
      }
-     isec_generador++;
+     else{
+        otriangulo->box(FL_UP_BOX);                      
+        otriangulo->value(0); 
+     }
 }
+
+
 
 
 /*
@@ -419,34 +424,42 @@ void Generador::cb_frec_ascendente_in(){
      if (isec_escalas == 0){
         ovalor_escala->value(10);
         ofrec_gen->range(0,10);
+        ofrec_gen->value(0);
      }
      else if (isec_escalas == 1){
         ovalor_escala->value(100);
         ofrec_gen->range(0,100);
+        ofrec_gen->value(0);
      }
      else if (isec_escalas == 2){
         ovalor_escala->value(500);
          ofrec_gen->range(0,500);  
+         ofrec_gen->value(0);
      }
      else if (isec_escalas == 3){
         ovalor_escala->value(1000);
-        ofrec_gen->range(0,1000);  
+        ofrec_gen->range(0,1000); 
+        ofrec_gen->value(0); 
      }
      else if (isec_escalas == 4){
          ovalor_escala->value(5000);
-         ofrec_gen->range(0,5000); 
+         ofrec_gen->range(0,5000);
+         ofrec_gen->value(0); 
      }
      else if (isec_escalas == 5){
           ovalor_escala->value(10000);
           ofrec_gen->range(0,10000);
+          ofrec_gen->value(0);
      }
      else if (isec_escalas == 6){
           ovalor_escala->value(50000);
           ofrec_gen->range(0,50000);
+          ofrec_gen->value(0);
      }
      else if (isec_escalas == 7){
           ovalor_escala->value(100000);
           ofrec_gen->range(0,100000);
+          ofrec_gen->value(0);
           isec_escalas=-1;
      }
      isec_escalas++;

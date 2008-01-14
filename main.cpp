@@ -24,16 +24,16 @@ pthread_t thread, thread1, thread2, thread3;
 
 int status, status2, status3;
 
-void *runhilo(void *threadid)
+/*void *runhilo(void *threadid)
 {
    mult = new Multimetro();
-}
+}*/
 
 
-void *runhilo2(void *threadid)
+/*void *runhilo2(void *threadid)
 {
-   osc = new Osciloscopio(8,8,380,304,"",150);
-}
+  // osc = new Osciloscopio(8,8,380,304,"",150);
+}*/
 
 
 /*void *runhilo3(void *threadid)
@@ -55,7 +55,7 @@ int main (int argc, char ** argv)
   Generador *gene;
   //Osciloscopio *osc;
   
- // Fl_Box *box_mult;
+  Fl_Box *box_mult;
   
 
   int t =0;
@@ -67,22 +67,22 @@ int main (int argc, char ** argv)
   window = new Fl_Double_Window (0,0,1024, 708);
   ana = new Analizador();
   gene = new Generador();
-  //osc = new Osciloscopio(8,8,380,304,"",150);
+  osc = new Osciloscopio(8,8,380,304,"",150);
+  mult = new Multimetro();
   
- // box_mult = new Fl_Box(730,5,285,360,"");
   
   
-  rc=pthread_create(&thread, NULL, runhilo, (void *)t);
+  /*rc=pthread_create(&thread, NULL, runhilo, (void *)t);
         if (rc){
            fl_message("ERROR; return code from pthread_create() is %d\n", rc);
            exit(-1);
-  }
+  }*/
         
-  rc2=pthread_create(&thread1, NULL, runhilo2, (void *)u);
+ /* rc2=pthread_create(&thread1, NULL, runhilo2, (void *)u);
         if (rc2){
            fl_message("ERROR; return code from pthread_create() is %d\n", rc2);
            exit(-1);
-  }
+  }*/
   
  /* rc3=pthread_create(&thread2, NULL, runhilo3, (void *)y);
         if (rc3){
@@ -100,17 +100,17 @@ int main (int argc, char ** argv)
    
    
    
-  rc = pthread_join(thread, NULL);
+  /*rc = pthread_join(thread, NULL);
       if (rc){
          printf("ERROR; return code from pthread_join() is %d\n", rc);
          exit(-1);
       } 
-      
-  rc2 = pthread_join(thread1, NULL);
+    */  
+  /*rc2 = pthread_join(thread1, NULL);
       if (rc2){
          printf("ERROR; return code from pthread_join() is %d\n", rc2);
          exit(-1);
-      }
+      }*/
       
  /* rc3= pthread_join(thread2, NULL);
       if (rc3){
@@ -124,11 +124,13 @@ int main (int argc, char ** argv)
          exit(-1);
       } */
   
- /* 
+  box_mult = new Fl_Box(730,12,285,360,"");
+  
   fl_register_images();
-  Fl_PNG_Image jpg("multimetro.png");      // load jpeg image into ram
+  Fl_PNG_Image jpg("mult.png");      // load jpeg image into ram
   box_mult->image(jpg);
-  */
+ 
+  
   window->end ();
   window->show (argc, argv);
   
