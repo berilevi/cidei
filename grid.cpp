@@ -25,25 +25,25 @@ void grid::draw(int xx, int yy, int ww, int hh){
    
    if (bgrid){
    
-     // fl_line(12, 315, 391, 315);
-     // fl_line(12, 12, 391, 12);
    
       fl_line(12, 50, 391, 50);
       fl_line(12, 88, 391, 88);
       fl_line(12, 126, 391, 126);
+      fl_line_style(0);
       fl_line(12, 164, 391, 164);
+      fl_line_style(FL_DOT);
       fl_line(12, 202, 391, 202);
       fl_line(12, 240, 391, 240);
       fl_line(12, 278, 391, 278);
    
-    //  fl_line(12, 12, 12, 315);                        // borde izquierdo
-    //  fl_line(391, 12, 391, 315);                      // borde derecho
    
       fl_line(50, 12, 50, 315);
       fl_line(88, 12, 88, 315);
       fl_line(126, 12, 126, 315);
       fl_line(164, 12, 164, 315);
+      fl_line_style(0);
       fl_line(202, 12, 202, 315);
+      fl_line_style(FL_DOT);
       fl_line(240, 12, 240, 315);
       fl_line(278, 12, 278, 315);
       fl_line(316, 12, 316, 315);
@@ -51,6 +51,7 @@ void grid::draw(int xx, int yy, int ww, int hh){
    }
    
    else {
+        fl_line_style(0);
         fl_line(202, 12, 202, 315);
         fl_line(12, 164, 391, 164);
    }

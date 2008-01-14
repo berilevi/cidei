@@ -13,11 +13,10 @@
 #include <FL/Fl_Repeat_Button.H>
 #include "fl_Knob.h"
 #include <FL/Fl_Choice.H>
-#include <FL/Fl_Value_Output.H>
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Check_Button.H>
 #include <math.h>
-#include <pthread.h>
+#include <iostream>
 #include <string.h>
 
 /**
