@@ -6,7 +6,6 @@
 // class constructor
 Multimetro::Multimetro(){
     
-    Fl_Box *box_mult;
                          
     Fl_Tooltip::disable();
     strcpy(cvalor,"0.000");
@@ -15,16 +14,16 @@ Multimetro::Multimetro(){
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
-    box_mult = new Fl_Box(730,5,285,360,"");
-    odisp_mult  = new Fl_7Seg (735,50,230,105);
-    odisp_mult->box(FL_DOWN_FRAME);
+   // box_mult = new Fl_Box(730,12,285,360,"");
+  //  Fl_PNG_Image * pngImagen = new Fl_PNG_Image("mult.png");
+    odisp_mult  = new Fl_7Seg (735,53,230,99);
     odisp_mult->color(FL_BLACK);
     odisp_mult->thickness(5);
     odisp_mult->dot_len(7);
     odisp_mult->align_text(FL_ALIGN_RIGHT);
     odisp_mult->segment_gap(2);
     odisp_mult->value("00.0");
-    ounidades = new Fl_Box (963,52,43,101,"");
+    ounidades = new Fl_Box (963,53,43,99,"");
     ounidades->labelsize(20);
     ounidades->labelcolor(FL_WHITE);
     ounidades->box(FL_FLAT_BOX);
@@ -32,7 +31,7 @@ Multimetro::Multimetro(){
     ohelp_mult  = new Fl_Button (785,340,40,16,"Help");
     ohelp_mult->labelsize(10);
     //ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
-    ovolt_ac = new Fl_Button(755,190,65,45,"V_ac");
+    ovolt_ac = new Fl_Button(760,189,63,35,"V_ac");
     ovolt_ac->clear();
     ovolt_ac->box(FL_UP_BOX);
     ovolt_dc = new Fl_Button(837,190,65,45,"V_dc");
@@ -47,16 +46,13 @@ Multimetro::Multimetro(){
     ocontinuidad->box(FL_UP_BOX);
     
     
-   /* fl_register_images();
-    Fl_PNG_Image jpg("multimetro.PNG");      // load jpeg image into ram
-    box_mult->image(jpg);
-    */
+    //fl_register_images();
+    //Fl_PNG_Image bot("mult.png");      // load jpeg image into ram
+   // box_mult->image(pngImagen);
+    
     
     ogroup_mult-> end();
      
-     
-     
-       
      
     omult_on = new Fl_Light_Button(740,325,38,30,"ON");
     omult_on->labelsize(9); 
@@ -292,7 +288,7 @@ void Multimetro::cb_amp_ac_in(){
         oamp_ac->set();
         instrument = amp_ac;
         ounidades->label("AAC");
-        fl_alert("Verifique las puntas de prueba");
+        //fl_message("Verifique las puntas de prueba");
         config_instrumento(amp_ac);
      }
      else{

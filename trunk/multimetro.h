@@ -3,6 +3,12 @@
 #ifndef MULTIMETRO_H
 #define MULTIMETRO_H
 
+
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Box.H>
+
+#include <FL/Fl_Window.H>
 #include "instrumento.h" // inheriting class's header file
 #include "Fl_7Seg.H"     // inheriting class's header file
 #include <FL/Fl.H>
@@ -14,9 +20,7 @@
 #include <iostream>
 #include <string>
 
-#include <FL/Fl_Shared_Image.H>
-#include <FL/Fl_PNG_Image.H>
-#include <FL/Fl_Box.H>
+
 
 #define FACTOR_VDC_1 2560
 #define FACTOR_VDC_2 256
@@ -205,6 +209,8 @@ private:
 		 * realizada con el multímetro.
 		*/
         Fl_Box *ounidades;
+        
+        Fl_Box *box_mult;
 };
 
 #endif // MULTIMETRO_H

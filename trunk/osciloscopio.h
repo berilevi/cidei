@@ -7,7 +7,6 @@
 #include "Fl_Scope.h"                       // Clase graficar las señales
 #include "grid.h"
 #include "canal.h"                          // Cabecera de la clase canal
-#include <FL/Fl_Widget.H>                   // inheriting class's header file
 #include <FL/Fl_Group.H>         
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>

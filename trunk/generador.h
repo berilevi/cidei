@@ -69,11 +69,6 @@ class Generador : public Instrumento
 		*/
         Fl_Button *ohelp_gen;
         /**
-		 * Boton para seleccionar el tipo de señal que se debe generar con el 
-         * instrumento.
-		*/
-        Fl_Repeat_Button *osel_gen;
-        /**
 		 * Indicador luminoso de seleccion de generar señal de tipo  
          * sinusoidal
 		*/
@@ -158,16 +153,6 @@ class Generador : public Instrumento
 		 * 
 		 */
 		inline void cb_triangulo_in();
-		/**
-         * Este método es el callback del boton que selecciona el tipo de señal que va a 
-         * ser generada.
-         */
-		static void cb_sel_gen(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función  cb_sel_gen para seleccionar el tipo de señal 
-         * que va a ser generada.
-         */
-		inline void cb_sel_gen_in();
 		/**
          * Este método es el callback del boton que selecciona la frecuencia de 
          * la señal que va a ser generada.

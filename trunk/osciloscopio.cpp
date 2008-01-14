@@ -11,7 +11,7 @@ int isec_acople2;         // Variable global para realizar la secuencia del acop
 // Constructor de clase
 Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento(){
                                
-    //Fl_Tooltip::disable();
+    Fl_Tooltip::disable();
     icolor = ncol;                                                // Color de fondo de la pantalla del osciloscopio
     strcpy(cnombre,"osc.txt");                                    // Nombre para el archivo de texto donde se almacenan los datos
     ct_div = '1';                                                 // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
@@ -182,7 +182,6 @@ void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany){
  * Canal 1 activado, 500 uS pos division, Acople AC y 5 Voltios pos division 
 */
 void Osciloscopio::cb_osc_on_in(){
-      char t_div;
       if (oosc_on->value()== 1){                                
          activar(1);
          Encapsular('A','a','1','0',0x00,0x00);
@@ -852,7 +851,7 @@ void Osciloscopio::cb_timer_vectores_in(){
            Transmision();
            Encapsular('A', 'p', '1', '4',0x00,0x00);             //Trama Osc16
            Transmision();
-           if (ostop->value() == 0)
+           if (ostop->value() == 0)                              // Si esta presionado el boton de stop, no grafique
               recorrer_datos(1);
         }
      }
