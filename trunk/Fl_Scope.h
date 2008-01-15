@@ -63,6 +63,7 @@ class FL_EXPORT Fl_Scope : public Fl_Widget
   int ScopeDataPos;                    /* Contador para recorrer los datos que se van a graficar*/
   
   Fl_Color _TraceColour;               /* Color de la traza */
+  Fl_Color _TraceColour2;              /* Color de la traza */
   Fl_Color _BackColour;                /* Color de fondo del screen*/
 
   int TraceType;                       /* Modo de colocar los datos de las señales en el screen*/
@@ -136,6 +137,9 @@ public:
    
   Fl_Color TraceColour(){return _TraceColour;};
   void     TraceColour(Fl_Color c){_TraceColour=c;};
+  
+  Fl_Color TraceColour2(){return _TraceColour2;};
+  void     TraceColour2(Fl_Color c2){_TraceColour2= c2;};
 
   Fl_Color BackColour(){return _BackColour;};
   void     BackColour(Fl_Color c){_BackColour=c;};

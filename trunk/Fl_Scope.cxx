@@ -117,7 +117,6 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
  ptrjp2=ptrjp=ScopeData2;                                       /* Inicializar los apuntadores al inicio del arreglo dinamico del canal 2*/ 
  ptrjp2++;                                                      /* Apuntar al segundo dato del arreglo dinamico del canal 2*/
 
-//if (bstop == 0){
  
  if (bdual== 0){                                                   /* Si el osciloscopio no esta en modo dual*/
     for(count=0;count<ScopeDataSize-1;count++){                 /* Ciclo para recorrer los arreglos dinamicos y graficarlos*/
@@ -127,7 +126,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                   if(DataType==FL_SCOPE_UNSIGNED){ 
                      if (bch1== 1 && bch2== 1){
                         fl_color( FL_WHITE);                                                      
-                        fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
+                        fl_line(4+xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),4+xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
                         fl_color( FL_GREEN);
                         fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
                      }                                                    
@@ -159,13 +158,13 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                   }
              break;  
       }
-   //   if (bstop == 0){
+
       xx++;                                                      /* Se incrementa en 1 el valor para la coordenada x de la grafica*/
       Ptr2++;                                                    /* Se incrementa en 1 la direccion de los apuntadores*/
       Ptr++;
       ptrjp2++;
       ptrjp++;
-    //  }
+      
       fl_color(_TraceColour);  
     }
 }
@@ -191,10 +190,7 @@ else if (bdual==1){                                                 /* Si el osc
       }
    }
 }
-//}
-//else if (bstop == 1){
-     
-//}
+
 
    /* pop the clip */
    fl_pop_clip();                                                 /* Cerrar el area donde se va a graficar*/
@@ -392,6 +388,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  box(FL_DOWN_BOX);                                     /* Tipo de bordes del Screen*/
  BackColour(Fl_Color(0));                              /* Color de fondo Negro*/
  TraceColour(FL_WHITE);                                /* Color de grafica Blanco*/
+ TraceColour2(FL_GREEN);                                /* Color de grafica Verde*/
  
  Ptr=ScopeData=(int*)calloc(W,sizeof(int));            /* Crear el arreglo de datos para graficar canal 1*/
  ptrjp=ScopeData2=(int*)calloc(W,sizeof(int));         /* Crear el arreglo de datos para graficar canal 2*/

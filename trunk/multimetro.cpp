@@ -14,8 +14,6 @@ Multimetro::Multimetro(){
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
-   // box_mult = new Fl_Box(730,12,285,360,"");
-  //  Fl_PNG_Image * pngImagen = new Fl_PNG_Image("mult.png");
     odisp_mult  = new Fl_7Seg (735,53,230,99);
     odisp_mult->color(FL_BLACK);
     odisp_mult->thickness(5);
@@ -34,21 +32,18 @@ Multimetro::Multimetro(){
     ovolt_ac = new Fl_Button(760,189,63,35,"V_ac");
     ovolt_ac->clear();
     ovolt_ac->box(FL_UP_BOX);
-    ovolt_dc = new Fl_Button(837,190,65,45,"V_dc");
+    ovolt_dc = new Fl_Button(837,189,63,35,"V_dc");
     ovolt_dc->box(FL_UP_BOX);
-    oamp_ac = new Fl_Button(917,190,65,45,"A_ac");
+    oamp_ac = new Fl_Button(917,190,63,35,"A_ac");
     oamp_ac->box(FL_UP_BOX);
-    oamp_dc = new Fl_Button(755,260,65,45,"A_dc");
+    oamp_dc = new Fl_Button(760,273,63,35,"A_dc");
     oamp_dc->box(FL_UP_BOX);
-    oohm = new Fl_Button(837,260,65,45,"R");
+    oohm = new Fl_Button(837,273,63,35,"R");
     oohm->box(FL_UP_BOX);
-    ocontinuidad = new Fl_Button(917,260,65,45,"Cont");
+    ocontinuidad = new Fl_Button(917,273,63,35,"Cont");
     ocontinuidad->box(FL_UP_BOX);
     
-    
-    //fl_register_images();
-    //Fl_PNG_Image bot("mult.png");      // load jpeg image into ram
-   // box_mult->image(pngImagen);
+
     
     
     ogroup_mult-> end();
