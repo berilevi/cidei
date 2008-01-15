@@ -18,42 +18,42 @@ void grid::draw(){
 
 void grid::draw(int xx, int yy, int ww, int hh){
     
-   fl_push_clip(12,12,391,315); 
+   fl_push_clip(xx,yy,ww,hh); 
     
    fl_color(FL_WHITE);  
    fl_line_style(FL_DOT);
    
    if (bgrid){
    
-   
-      fl_line(12, 50, 391, 50);
-      fl_line(12, 88, 391, 88);
-      fl_line(12, 126, 391, 126);
+      fl_line(xx, (hh/8)+38, ww+12, (hh/8)+38);
+      fl_line(xx, (hh/4)+38, ww+12, (hh/4)+38);
+      fl_line(xx, (hh/2.6667)+38, ww+12, (hh/2.6667)+38);
       fl_line_style(0);
-      fl_line(12, 164, 391, 164);
+      fl_line(xx, (hh/2)+38, ww+12, (hh/2)+38);
       fl_line_style(FL_DOT);
-      fl_line(12, 202, 391, 202);
-      fl_line(12, 240, 391, 240);
-      fl_line(12, 278, 391, 278);
+      fl_line(xx, (hh/1.6)+38, ww+12, (hh/1.6)+38);
+      fl_line(xx, (hh/1.3333)+38, ww+12, (hh/1.3333)+38);
+      fl_line(xx, (hh/1.142857)+38, ww+12, (hh/1.142857)+38);
    
-   
-      fl_line(50, 12, 50, 315);
-      fl_line(88, 12, 88, 315);
-      fl_line(126, 12, 126, 315);
-      fl_line(164, 12, 164, 315);
+
+      fl_line((ww/10)+12, yy, (ww/10)+12, hh+38);
+      fl_line((ww/5)+12, yy, (ww/5)+12, hh+38);
+      fl_line((ww/3.3333)+12, yy, (ww/3.333)+12, hh+38);
+      fl_line((ww/2.5)+12, yy, (ww/2.5)+12, hh+38);
       fl_line_style(0);
-      fl_line(202, 12, 202, 315);
+      fl_line((ww/2)+12, yy, (ww/2)+12, hh+38);
       fl_line_style(FL_DOT);
-      fl_line(240, 12, 240, 315);
-      fl_line(278, 12, 278, 315);
-      fl_line(316, 12, 316, 315);
-      fl_line(354, 12, 354, 315);
+      fl_line((ww/1.66667)+12, yy, (ww/1.66667)+12, hh+38);
+      fl_line((ww/1.42857)+12, yy, (ww/1.42857)+12, hh+38);
+      fl_line((ww/1.25)+12, yy, (ww/1.25)+12, hh+38);
+      fl_line((ww/1.1111)+12, yy, (ww/1.1111)+12, hh+38);
+
    }
    
    else {
         fl_line_style(0);
-        fl_line(202, 12, 202, 315);
-        fl_line(12, 164, 391, 164);
+        fl_line((ww/2)+12, yy, (ww/2)+12, hh+38);
+        fl_line(xx, (hh/2)+38, ww+12, (hh/2)+38);
    }
      
    fl_pop_clip();      

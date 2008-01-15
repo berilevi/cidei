@@ -40,7 +40,6 @@ Generador::Generador(){
 	ogroup_senal->deactivate();
     oseno = new Fl_Button(775,500,70,35,"Seno");
     oseno->labelsize(12);
-    oseno->box(FL_ROUND_UP_BOX);
     ocuadrada = new Fl_Button(775,545,70,35,"Cuadrada");
     ocuadrada->labelsize(12);
     otriangulo = new Fl_Button(775,595,70,35,"Triangulo");

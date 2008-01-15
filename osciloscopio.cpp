@@ -78,7 +78,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     omenu_t_div = new Fl_Choice(638,335,50,20,"");
     omenu_t_div->add("0.5 s",FL_ALT,(Fl_Callback *)cb_tdiv05s,this);
     omenu_t_div->add("0.2 s",FL_ALT,(Fl_Callback *)cb_tdiv02s,this);
-    omenu_t_div->add("0.1 s",FL_ALT,(Fl_Callback *)cb_tdiv01s,this);
+    omenu_t_div->add("0.1 s",FL_ALT,(Fl_Callback *)cb_tdiv01s,this);           //
     omenu_t_div->add("50 m",FL_ALT,(Fl_Callback *)cb_tdiv50ms,this);
     omenu_t_div->add("20 m",FL_ALT,(Fl_Callback *)cb_tdiv20ms,this);
     omenu_t_div->add("10 m",FL_ALT,(Fl_Callback *)cb_tdiv10ms,this);
@@ -135,7 +135,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     onivel_trigger->range(0,10);
     ogroup_trigger->end();
                 
-    opantalla = new Fl_Scope(12,12,380,304,"");                  // Instancia de scope para la pantalla del osciloscopio
+    opantalla = new Fl_Scope(12,38,400,320,"");                  // Instancia de scope para la pantalla del osciloscopio
     opantalla ->TraceColour(FL_WHITE);                           // Color de la gráfica inicial por defecto
     opantalla->tracetype(FL_SCOPE_TRACE_LOOP);  
     opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
@@ -143,9 +143,9 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opantalla->box(FL_FLAT_BOX);
     ogroup_osc->end();
     
-    ogrilla = new grid(12,12,391,315,"");
+    ogrilla = new grid(12,38,400,320,"");
 
-    oosc_on = new Fl_Light_Button(15,323,38,30,"ON");
+    oosc_on = new Fl_Light_Button(15,8,38,27,"ON");
     oosc_on->tooltip("Botón para encender o apagar el osciloscopio");
     oosc_on->labelsize(10);            
                 
@@ -338,8 +338,8 @@ void Osciloscopio::cb_ch1_on_in(){
            if (canal2->bestado== 1){
               odual_menu->activate();
            }
-           if (otiempo_div->value() >= 8){
-              Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
+           if (otiempo_div->value() >= 8){                         // !!!! Toca cambiarlo a >= 2 
+              Encapsular('L','d','1',ct_div,0x00,0x00);            // Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
               if (bhardware){
                  muestreo_timer(1);
@@ -364,7 +364,7 @@ void Osciloscopio::cb_ch1_on_in(){
         }    
      }
      else{
-        if (canal2->bestado== 0){                                      // no se si funcione, toca ver que pasa cuando el otro canal llama el timer  
+        if (canal2->bestado== 0){                                        
            Fl::remove_timeout(cb_timer,this);
            Fl::remove_timeout(cb_timer_vectores,this);
         }
@@ -411,7 +411,7 @@ void Osciloscopio::cb_ch2_on_in(){
            if (canal1->bestado== 1){
               odual_menu->activate();
            }
-           if (otiempo_div->value() >= 8){                     
+           if (otiempo_div->value() >= 8){                          // !!!!  Toca cambiarlo a >= 2                
               Encapsular('L','d','1',ct_div,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
               if (bhardware){
@@ -550,7 +550,9 @@ void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      //pselector->value(floor(pselector->value()));
      omenu_t_div->value(pselector->value());
-     if (pselector->value()>=8){
+     if (pselector->value()>=8){                                   // !!!!! Toca cambiarlo a >= 2 
+                                                                   // !!! agregar las tramas de protocolo faltantes   
+     
         if (pselector->value()== 8){
            ct_div = '1';                                     //Convertir a caracter la escala de tiempo por division
         } 
@@ -592,7 +594,7 @@ void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
              fl_message("Error de hardware");
      }
      else {
-          Encapsular('L','d','1','B',0x00,0x00);
+          Encapsular('L','d','1','B',0x00,0x00);                          // !!!!!cambiar 'B' por 'F'
           Fl::remove_timeout(cb_timer,this);
           Fl::remove_timeout(cb_timer_vectores,this);        
           Transmision();
@@ -909,7 +911,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      if (num_canal == 1){
      opantalla->TraceColour(Fl_Color(canal1->ncolor));
      free(opantalla->ScopeData2);
-        if (omenu_t_div->value()<8){
+        if (omenu_t_div->value()<8){                           // !!!!!!!!!Toca cambiarlo a < 2 
            idato_graf_ch1 = idato_osc_ch1;
            opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); //es
            ogrilla->redraw();
@@ -924,7 +926,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      }
      if (num_canal == 2){
         opantalla->TraceColour(Fl_Color(canal2->ncolor));
-        if (omenu_t_div->value()<8){
+        if (omenu_t_div->value()<8){                                // !!!!!!!!!Toca cambiarlo a < 2 
            idato_graf_ch2 = idato_osc_ch2;
            opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
            ogrilla->redraw();
@@ -938,7 +940,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
         }                 
      }
      if (num_canal == 3){
-        if (omenu_t_div->value()<8){
+        if (omenu_t_div->value()<8){                                  // !!!!!!!!!Toca cambiarlo a < 2 
            opantalla->TraceColour(Fl_Color(canal2->ncolor));           
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 
