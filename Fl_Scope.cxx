@@ -126,21 +126,25 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                   if(DataType==FL_SCOPE_UNSIGNED){ 
                      if (bch1== 1 && bch2== 1){
                         fl_color( FL_WHITE);                                                      
-                        fl_line(4+xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),4+xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
+                        fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
                         fl_color( FL_GREEN);
-                        fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
+                        fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
+                        xx= xx+4;
                      }                                                    
                      else if (bch1== 1 && bch2 == 0){
                           fl_color( FL_WHITE);
-                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
+                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
+                          xx= xx+4;
                      }
                      else if (bch2 == 1 && bch1== 0){
                           fl_color( FL_GREEN);
-                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
+                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
+                          xx= xx+4;
                      }
                      else{
                           fl_color(_TraceColour);
                           fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
+                          xx++;
                      }  
                   }
                   else{
@@ -159,7 +163,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
              break;  
       }
 
-      xx++;                                                      /* Se incrementa en 1 el valor para la coordenada x de la grafica*/
+      //xx= xx+4;                                                      /* !!!!  Se incrementa en 4 el valor para la coordenada x de la grafica*/
       Ptr2++;                                                    /* Se incrementa en 1 la direccion de los apuntadores*/
       Ptr++;
       ptrjp2++;

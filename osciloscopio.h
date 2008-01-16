@@ -13,6 +13,7 @@
 #include "fl_Knob.h"
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Ask.H>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Check_Button.H>
 #include <math.h>
 #include <iostream>
@@ -51,10 +52,15 @@ class Osciloscopio : public Instrumento
 		 */
         Fl_Group *ogroup_pos;
         /**
+		 * Caja para colocoar el nombre del instrumento 
+		 */
+        Fl_Box *obox_nombre;
+        /**
 		 * Objeto que agrupa el control de detencion de la grafica en el 
          * osciloscopio.
 		 */
-        Fl_Group *ogroup_stop;
+		 
+       // Fl_Group *ogroup_stop;
         /**
 		 * Objeto que agrupa las opciones de operaciones entre las graficas en el 
          * osciloscopio cuando se encuantran activos los dos canales.

@@ -5,21 +5,26 @@
 // class constructor
 Analizador::Analizador() {                 
     
-    ogroup_ana = new Fl_Group(5,370,500,330,"");
+    ogroup_ana = new Fl_Group(5,370,505,330,"");
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->box(FL_UP_BOX);
     ogroup_ana->deactivate();  
    
-    apantalla_ch1 = new Fl_Scope(12,375,380,34,"");  // Instancia de canal 1
-    apantalla_ch2 = new Fl_Scope(12,407,380,34,"");  // Instancia de canal 2
-    apantalla_ch3 = new Fl_Scope(12,439,380,34,"");  // Instancia de canal 3
-    apantalla_ch4 = new Fl_Scope(12,471,380,34,"");  // Instancia de canal 4
-    apantalla_ch5 = new Fl_Scope(12,503,380,34,"");  // Instancia de canal 5
-    apantalla_ch6 = new Fl_Scope(12,535,380,34,"");  // Instancia de canal 6
-    apantalla_ch7 = new Fl_Scope(12,567,380,34,"");  // Instancia de canal 7
-    apantalla_ch8 = new Fl_Scope(12,599,380,34,"");  // Instancia de canal 8
+    apantalla_ch1 = new Fl_Scope(12,410,400,34,"");  // Instancia de canal 1
+    apantalla_ch2 = new Fl_Scope(12,442,400,34,"");  // Instancia de canal 2
+    apantalla_ch3 = new Fl_Scope(12,474,400,34,"");  // Instancia de canal 3
+    apantalla_ch4 = new Fl_Scope(12,506,400,34,"");  // Instancia de canal 4
+    apantalla_ch5 = new Fl_Scope(12,538,400,34,"");  // Instancia de canal 5
+    apantalla_ch6 = new Fl_Scope(12,570,400,34,"");  // Instancia de canal 6
+    apantalla_ch7 = new Fl_Scope(12,602,400,34,"");  // Instancia de canal 7
+    apantalla_ch8 = new Fl_Scope(12,634,400,34,"");  // Instancia de canal 8
     
-    odato1 = new Fl_Output(16,638,36,20,"");
+    oscroll = new Fl_Scrollbar(12,670,400,15,"");
+    oscroll->type(FL_HORIZONTAL);
+    oscroll->range(1,100);
+    oscroll->step(1);
+    
+ /*   odato1 = new Fl_Output(16,638,36,20,"");
     odato1->textsize(9);
     odato2 = new Fl_Output(54,638,36,20,"");
     odato3 = new Fl_Output(90,638,36,20,"");
@@ -30,15 +35,18 @@ Analizador::Analizador() {
     odato8 = new Fl_Output(275,638,36,20,"");
     odato9 = new Fl_Output(312,638,36,20,"");
     odato10 = new Fl_Output(349,638,36,20,"");
-    
-    olog_ana = new Fl_Button(60,660,40,16,"Log");
+  */  
+  
+    olog_ana = new Fl_Button(290,382,40,16,"Log");
     olog_ana->labelsize(10);
     
-    ohelp_ana = new Fl_Button(60,678,40,16,"Help");
+    ohelp_ana = new Fl_Button(340,382,40,16,"Help");
     ohelp_ana->labelsize(10);
     
-    oayuda_ana = new Fl_Check_Button(110,678,20,16,"?");
+    oayuda_ana = new Fl_Check_Button(385,382,20,16,"?");
     oayuda_ana->labelsize(12);
+    
+    
     
     apantalla_ch1->TraceColour(FL_RED);
     apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
@@ -73,7 +81,7 @@ Analizador::Analizador() {
     apantalla_ch8->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch8->linetype(FL_SCOPE_LINE);
             
-    ogroup_ana_botones = new Fl_Group(400,375,95,250,"");  // Agrupa los elementos del analizador
+    ogroup_ana_botones = new Fl_Group(415,375,90,250,"");  // Agrupa los elementos del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
     
@@ -84,16 +92,21 @@ Analizador::Analizador() {
     
     ogroup_ana_botones->end();
     
-    orep_dato = new Fl_Choice(398,638,100,20,"");
+    orep_dato = new Fl_Choice(420,638,80,20,"");
     orep_dato->add("Decimal");
     orep_dato->add("Binario");
     orep_dato->add("Hexadecimal");
     //orep_dato->labelsize(10);
     //orep_dato->align(FL_ALIGN_TOP);
-    
-        
+            
     ogroup_ana->end();
-    oana_on = new Fl_Light_Button(15,662,38,30,"ON");
+    
+    obox_nombre = new Fl_Box(12,375,223,30,"ANALIZADOR LÓGICO");
+    obox_nombre->box(FL_ENGRAVED_FRAME);
+    obox_nombre->labelfont(FL_HELVETICA_BOLD);
+    obox_nombre->labelsize(20);
+    
+    oana_on = new Fl_Light_Button(240,375,38,30,"ON");
     oana_on->labelsize(9);
     
     oana_on->callback(cb_ana_on, this);
@@ -183,7 +196,7 @@ void Analizador::separar_canales() {
      }
      //fl_message("entero es %d", atoi(buf_analizador));
      itoa(atoi(buf_analizador),cdato_1,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
-     odato1->value(cdato_1);
+    // odato1->value(cdato_1);
      itoa(ipos_msb,recibido_msb,2);
      ilong = strlen(recibido_msb);
      for (int i= 4; i > 0; i-- ){
@@ -209,89 +222,89 @@ void Analizador::separar_canales() {
      strcat(recibido_msb2,recibido_lsb2);
      //Canal 1
      if (recibido_msb2[0]=='1'){
-        for (int i=0; i<38;i++){                   
+        for (int i=0; i<40;i++){                   
             apantalla_ch1->Add(50000);
         }
      }
      else if (recibido_msb2[0]=='0'){
-          for (int i=0; i<38;i++){                   
+          for (int i=0; i<40;i++){                   
               apantalla_ch1->Add(10000);
           }
      }
      //Canal 2
      if (recibido_msb2[1]=='1'){
-        for (int i=0; i<38;i++){                   
+        for (int i=0; i<40;i++){                   
             apantalla_ch2->Add(50000);
         }
      }
      else if (recibido_msb2[1]=='0'){
-          for (int i=0; i<38;i++){                   
+          for (int i=0; i<40;i++){                   
               apantalla_ch2->Add(10000);
           }
      }
      //Canal 3
      if (recibido_msb2[2]=='1'){
-        for (int i=0; i<38;i++){                   
+        for (int i=0; i<40;i++){                   
             apantalla_ch3->Add(50000);
         }
      }
      else if (recibido_msb2[2]=='0'){
-          for (int i=0; i<38;i++){                   
+          for (int i=0; i<40;i++){                   
               apantalla_ch3->Add(10000);
           }
      }
      //Canal 4
      if (recibido_msb2[3]=='1'){
-        for (int i=0; i<38;i++){                   
+        for (int i=0; i<40;i++){                   
             apantalla_ch4->Add(50000);
         }
      }
      else if (recibido_msb2[3]=='0'){
-          for (int i=0; i<38;i++){                   
+          for (int i=0; i<40;i++){                   
               apantalla_ch4->Add(10000);
           }
      }
      //Canal 5
      if (recibido_msb2[4]=='1'){
-        for (int i=0; i<38;i++){                   
+        for (int i=0; i<40;i++){                   
             apantalla_ch5->Add(50000);
         }
      }
      else if (recibido_msb2[4]=='0'){
-          for (int i=0; i<38;i++){                   
+          for (int i=0; i<40;i++){                   
               apantalla_ch5->Add(10000);
           }
      }
      //Canal 6
      if (recibido_msb2[5]=='1'){
-        for (int i=0; i<38;i++){                   
+        for (int i=0; i<40;i++){                   
             apantalla_ch6->Add(50000);
         }
      }
      else if (recibido_msb2[5]=='0'){
-          for (int i=0; i<38;i++){                   
+          for (int i=0; i<40;i++){                   
               apantalla_ch6->Add(10000);
           }
      }
      //Canal 7
      if (recibido_msb2[6]=='1'){
-        for (int i=0; i<38;i++){                   
+        for (int i=0; i<40;i++){                   
             apantalla_ch7->Add(50000);
         }
      }
      else if (recibido_msb2[6]=='0'){
-          for (int i=0; i<38;i++){                   
+          for (int i=0; i<40;i++){                   
               apantalla_ch7->Add(10000);
           }
      }
      //Canal 8
      if (recibido_msb2[7]=='1'){
-        for (int i=0; i<38;i++){                   
+        for (int i=0; i<40;i++){                   
             apantalla_ch8->Add(50000);
         }
      }
      else if (recibido_msb2[7]=='0'){
-          for (int i=0; i<38;i++){                   
+          for (int i=0; i<40;i++){                   
               apantalla_ch8->Add(10000);
           }
      } 

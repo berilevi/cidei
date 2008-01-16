@@ -10,18 +10,18 @@ Multimetro::Multimetro(){
     Fl_Tooltip::disable();
     strcpy(cvalor,"0.000");
     strcpy(cnombre,"mult.txt"); 
-    ogroup_mult = new Fl_Group (730,5,285,360,"");
+    ogroup_mult = new Fl_Group (735,5,285,360,"");
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
-    odisp_mult  = new Fl_7Seg (735,53,230,99);
+    odisp_mult  = new Fl_7Seg (740,53,230,99);
     odisp_mult->color(FL_BLACK);
     odisp_mult->thickness(5);
     odisp_mult->dot_len(7);
     odisp_mult->align_text(FL_ALIGN_RIGHT);
     odisp_mult->segment_gap(2);
     odisp_mult->value("00.0");
-    ounidades = new Fl_Box (963,53,43,99,"");
+    ounidades = new Fl_Box (968,53,43,99,"");
     ounidades->labelsize(20);
     ounidades->labelcolor(FL_WHITE);
     ounidades->box(FL_FLAT_BOX);
@@ -29,18 +29,18 @@ Multimetro::Multimetro(){
     ohelp_mult  = new Fl_Button (785,340,40,16,"Help");
     ohelp_mult->labelsize(10);
     //ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
-    ovolt_ac = new Fl_Button(760,189,63,35,"V_ac");
+    ovolt_ac = new Fl_Button(765,189,63,35,"V_ac");
     ovolt_ac->clear();
     ovolt_ac->box(FL_UP_BOX);
-    ovolt_dc = new Fl_Button(837,189,63,35,"V_dc");
+    ovolt_dc = new Fl_Button(842,189,63,35,"V_dc");
     ovolt_dc->box(FL_UP_BOX);
-    oamp_ac = new Fl_Button(917,190,63,35,"A_ac");
+    oamp_ac = new Fl_Button(922,190,63,35,"A_ac");
     oamp_ac->box(FL_UP_BOX);
-    oamp_dc = new Fl_Button(760,273,63,35,"A_dc");
+    oamp_dc = new Fl_Button(765,273,63,35,"A_dc");
     oamp_dc->box(FL_UP_BOX);
-    oohm = new Fl_Button(837,273,63,35,"R");
+    oohm = new Fl_Button(842,273,63,35,"R");
     oohm->box(FL_UP_BOX);
-    ocontinuidad = new Fl_Button(917,273,63,35,"Cont");
+    ocontinuidad = new Fl_Button(922,273,63,35,"Cont");
     ocontinuidad->box(FL_UP_BOX);
     
 
@@ -49,7 +49,7 @@ Multimetro::Multimetro(){
     ogroup_mult-> end();
      
      
-    omult_on = new Fl_Light_Button(740,325,38,30,"ON");
+    omult_on = new Fl_Light_Button(745,325,38,30,"ON");
     omult_on->labelsize(9); 
     omult_on->callback(cb_mult_on, this);
     ovolt_ac->callback(cb_volt_ac, this);

@@ -124,7 +124,7 @@ int main (int argc, char ** argv)
          exit(-1);
       } */
   
-  box_mult = new Fl_Box(730,12,285,360,"");
+  box_mult = new Fl_Box(735,12,285,360,"");
   
   fl_register_images();
   Fl_PNG_Image jpg("mult.png");      // load jpeg image into ram

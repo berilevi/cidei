@@ -9,9 +9,7 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
      ogroup_ch = new Fl_Group (x,y,w,h,"");
      ogroup_ch->box(FL_ENGRAVED_FRAME);
      ogroup_ch->deactivate();
-     ogroup_pos = new Fl_Group ((x+5),(y+7),140,70,"");
-     ogroup_pos->box(FL_ENGRAVED_FRAME);
-     opos_x = new Fl_Knob ((x+45),(y+11),50,50,"Y-Pos");
+     opos_x = new Fl_Knob ((x+85),(y+9),60,60,"Y-Pos");
      opos_x->labelsize(9);
      opos_x->color(180);
      opos_x->scaleticks(0);
@@ -19,17 +17,14 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
      opos_x->range(-100,100);
      opos_x->step(1);
      opos_x->round(1);
-     ogroup_pos->end();
-     ogroup_v_div = new Fl_Group ((x+5),(y+79),140,90,"");
-     ogroup_v_div->box(FL_ENGRAVED_FRAME);
-     ovolt_div = new Fl_Knob ((x+15),(y+85),70,70,"Vol/Div");
+     ovolt_div = new Fl_Knob ((x+10),(y+75),75,75,"Vol/Div");
      ovolt_div->step(1);
      ovolt_div->labelsize(9);
      ovolt_div->color(147);
      ovolt_div->type(8);
      ovolt_div->scaleticks(10);
      ovolt_div->range(1,10);
-     omenu_v_div = new Fl_Choice((x+90),(y+110),50,18,"");
+     omenu_v_div = new Fl_Choice((x+93),(y+105),50,18,"");
      omenu_v_div->add("5");
      omenu_v_div->add("2");
      omenu_v_div->add("1");
@@ -42,10 +37,7 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
      omenu_v_div->add("5 m");
      omenu_v_div->add("2 m");
      omenu_v_div->add("1 m");
-     ogroup_v_div->end();
-     ogroup_acople = new Fl_Group ((x+5),(y+172),140,33,"");
-     ogroup_acople->box(FL_ENGRAVED_FRAME);
-     osel_acople = new Fl_Repeat_Button((x+20),(y+180),45,18,"Acople");
+     osel_acople = new Fl_Repeat_Button((x+15),(y+180),45,18,"Acople");
      osel_acople->labelsize(10);
      oacop_gnd = new Fl_Light_Button((x+120),(y+188),10,10,"Gnd");
      oacop_gnd->labelsize(10);
@@ -58,8 +50,7 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
      oacop_ac  = new Fl_Light_Button((x+78),(y+188),10,10,"Ac");
      oacop_ac->labelsize(10);
      oacop_ac->box(FL_NO_BOX);
-     oacop_ac->align(FL_ALIGN_TOP);
-     ogroup_acople->end();     
+     oacop_ac->align(FL_ALIGN_TOP);    
      ogroup_ch->end();
 }
  
