@@ -25,35 +25,34 @@ void grid::draw(int xx, int yy, int ww, int hh){
    
    if (bgrid){
    
-      fl_line(xx, (hh/8)+38, ww+12, (hh/8)+38);
-      fl_line(xx, (hh/4)+38, ww+12, (hh/4)+38);
-      fl_line(xx, (hh/2.6667)+38, ww+12, (hh/2.6667)+38);
+      fl_line(xx, (hh/8)+yy, ww+xx, (hh/8)+yy);
+      fl_line(xx, (hh/4)+yy, ww+xx, (hh/4)+yy);
+      fl_line(xx, (hh/2.6667)+yy, ww+xx, (hh/2.6667)+yy);
       fl_line_style(0);
-      fl_line(xx, (hh/2)+38, ww+12, (hh/2)+38);
+      fl_line(xx, (hh/2)+yy, ww+xx, (hh/2)+yy);
       fl_line_style(FL_DOT);
-      fl_line(xx, (hh/1.6)+38, ww+12, (hh/1.6)+38);
-      fl_line(xx, (hh/1.3333)+38, ww+12, (hh/1.3333)+38);
-      fl_line(xx, (hh/1.142857)+38, ww+12, (hh/1.142857)+38);
+      fl_line(xx, (hh/1.6)+yy, ww+xx, (hh/1.6)+yy);
+      fl_line(xx, (hh/1.3333)+yy, ww+xx, (hh/1.3333)+yy);
+      fl_line(xx, (hh/1.142857)+yy, ww+xx, (hh/1.142857)+yy);
    
-
-      fl_line((ww/10)+12, yy, (ww/10)+12, hh+38);
-      fl_line((ww/5)+12, yy, (ww/5)+12, hh+38);
-      fl_line((ww/3.3333)+12, yy, (ww/3.333)+12, hh+38);
-      fl_line((ww/2.5)+12, yy, (ww/2.5)+12, hh+38);
+      fl_line((ww/10)+xx, yy, (ww/10)+xx, hh+yy);
+      fl_line((ww/5)+xx, yy, (ww/5)+xx, hh+yy);
+      fl_line((ww/3.3333)+xx, yy, (ww/3.333)+xx, hh+yy);
+      fl_line((ww/2.5)+xx, yy, (ww/2.5)+xx, hh+yy);
       fl_line_style(0);
-      fl_line((ww/2)+12, yy, (ww/2)+12, hh+38);
+      fl_line((ww/2)+xx, yy, (ww/2)+xx, hh+yy);
       fl_line_style(FL_DOT);
-      fl_line((ww/1.66667)+12, yy, (ww/1.66667)+12, hh+38);
-      fl_line((ww/1.42857)+12, yy, (ww/1.42857)+12, hh+38);
-      fl_line((ww/1.25)+12, yy, (ww/1.25)+12, hh+38);
-      fl_line((ww/1.1111)+12, yy, (ww/1.1111)+12, hh+38);
+      fl_line((ww/1.66667)+xx, yy, (ww/1.66667)+xx, hh+yy);
+      fl_line((ww/1.42857)+xx, yy, (ww/1.42857)+xx, hh+yy);
+      fl_line((ww/1.25)+xx, yy, (ww/1.25)+xx, hh+yy);
+      fl_line((ww/1.1111)+xx, yy, (ww/1.1111)+xx, hh+yy);
 
    }
    
    else {
         fl_line_style(0);
-        fl_line((ww/2)+12, yy, (ww/2)+12, hh+38);
-        fl_line(xx, (hh/2)+38, ww+12, (hh/2)+38);
+        fl_line((ww/2)+12, yy, (ww/2)+12, hh+yy);
+        fl_line(xx, (hh/2)+yy, ww+12, (hh/2)+yy);
    }
      
    fl_pop_clip();      

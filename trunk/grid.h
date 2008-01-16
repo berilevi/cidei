@@ -14,7 +14,7 @@ class grid : public Fl_Scope
 		grid(int,int,int,int,const char * = 0);
 		// class destructor
 		~grid();
-		// actibar grilla o ejes
+		// activar grilla o ejes
 		bool bgrid;
 		
 protected:

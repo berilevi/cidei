@@ -11,6 +11,7 @@
 #include <FL/Fl_Repeat_Button.H>
 #include <FL/fl_ask.H>
 #include <FL/Fl_Value_Output.H>
+#include <FL/Fl_Scrollbar.H>
 #include "Fl_Scope.h"
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Shared_Image.H>
@@ -46,6 +47,10 @@ class Analizador : public Instrumento {
 		 * Agrupa los botones e indicadores del analizador
 		 */
 	    Fl_Group *ogroup_ana;
+	    /**
+		 * Contiene el nombre del instrumento
+		 */
+	    Fl_Box *obox_nombre;
         /**
 		 * Boton para iniciar el instrumento analizador
 	    */
@@ -67,6 +72,10 @@ class Analizador : public Instrumento {
 		 * Selector del tipo de representación del dato graficado.    
 	    */  
         Fl_Choice *orep_dato;
+        /**
+		 * Scroll para desplazar los datos graficados.    
+	    */
+        Fl_Scrollbar *oscroll;
 	    /**
         * Agrupa las herramientas e indicadores del analizador
         */
