@@ -13,6 +13,7 @@
 #include <FL/Fl_Value_Output.H>
 #include <FL/Fl_Scrollbar.H>
 #include "Fl_Scope.h"
+#include "cursores.h"
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_JPEG_Image.H>
@@ -43,6 +44,11 @@ class Analizador : public Instrumento {
 		*/
 		Fl_Scope *apantalla_ch1, *apantalla_ch2, *apantalla_ch3, *apantalla_ch4, *apantalla_ch5,
                  *apantalla_ch6, *apantalla_ch7, *apantalla_ch8;
+         /**
+		 * Agrupa los botones e indicadores del analizador
+		 */
+	    Cursores *ocursor;        
+ 
         /**
 		 * Agrupa los botones e indicadores del analizador
 		 */
@@ -64,6 +70,14 @@ class Analizador : public Instrumento {
 		 * Boton que habilita la ayuda para el uso del instrumento. 
 	    */
         Fl_Button *ohelp_ana;
+        /**
+		 * Botón para aumentar el numero de datos visibles en la pantalla. 
+	    */
+      //  Fl_Repeat_Button *omas_datos;
+        /**
+		 * Botón para disminuir el numero de datos visibles en la pantalla. 
+	    */
+     //   Fl_Repeat_Button *omenos_datos;
         /**
 		 * Boton que habilita la ayuda flotante para el uso de los botones. 
 	    */
@@ -93,10 +107,20 @@ class Analizador : public Instrumento {
 		 */
 		inline void cb_ana_on_in();
 		/**
+		 * 
+         *  
+		 */
+		static void cb_mas_datos(Fl_Widget*, void *);
+		/**
+		 *  
+		 *  
+		 */
+		inline void cb_mas_datos_in();
+		/**
 		 * Esta funcion recorre los buffers de los diferentes canales del
 		 * analizador logico y grafica sus datos en los canales en pantalla
 		 */
-		void graficar_datos();
+		//void graficar_datos();
 		
   private:
 
@@ -115,6 +139,10 @@ class Analizador : public Instrumento {
 		 * canal del analizador logico.
 		 */
 		void separar_canales();
+		/**
+		 * Número de datos representados en la pantalla. 
+	     */
+		int  idatos;
 		/**
 		 * valor msb recibido en binario. 
 	     */

@@ -2,20 +2,23 @@
 #ifndef OSCILOSCOPIO_H
 #define OSCILOSCOPIO_H
 
-#include <FL/Fl.H>
 #include "instrumento.h"                    // Cabecera de la superclase
 #include "Fl_Scope.h"                       // Clase graficar las señales
 #include "grid.h"
 #include "canal.h"                          // Cabecera de la clase canal
-#include <FL/Fl_Group.H>         
+#include <FL/Fl.H>
+#include <FL/Fl_Group.H>  
+#include <FL/Fl_Menu_Item.H> 
+#include <FL/Fl_Choice.H>      
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
 #include "fl_Knob.h"
-#include <FL/Fl_Choice.H>
+
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Check_Button.H>
 #include <math.h>
+
 #include <iostream>
 #include <string.h>
 
@@ -395,7 +398,7 @@ class Osciloscopio : public Instrumento
 		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
          * por punto los datos para graficar.
 		*/
-		void config_canal();
+		//void config_canal();
 		/**
 		 * Callback del boton para encender el canal 1 del osciloscopio 
 		 */
@@ -538,6 +541,7 @@ class Osciloscopio : public Instrumento
 		 * del osciloscopio
 	     */
         Fl_Choice *omenu_t_div;
+        Fl_Choice *oiv;
         /**
 		 * Indicador luminoso que indica que está activado el trigger del
 		 * canal 1  

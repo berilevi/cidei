@@ -2,14 +2,31 @@
 
 #include "analizador.h" // class's header file
 
+int isec_numdatos = 0;
+
+Fl_Menu_Item me[] = {
+  {"Red",	FL_ALT+'r'},
+  {"Green",	FL_ALT+'g'},
+  {"Blue",	FL_ALT+'b'},
+  {"Strange",	FL_ALT+'s', 0, 0, FL_MENU_INACTIVE},
+  {"&Charm",	FL_ALT+'c'},
+  {"Truth",	FL_ALT+'t'},
+  {"Beauty",	FL_ALT+'b'},
+  {0}
+};
+
 // class constructor
 Analizador::Analizador() {                 
+    
+    idatos = 40;
     
     ogroup_ana = new Fl_Group(5,370,505,330,"");
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->box(FL_UP_BOX);
-    ogroup_ana->deactivate();  
-   
+    ogroup_ana->deactivate(); 
+     
+     
+     
     apantalla_ch1 = new Fl_Scope(12,410,400,34,"");  // Instancia de canal 1
     apantalla_ch2 = new Fl_Scope(12,442,400,34,"");  // Instancia de canal 2
     apantalla_ch3 = new Fl_Scope(12,474,400,34,"");  // Instancia de canal 3
@@ -21,10 +38,11 @@ Analizador::Analizador() {
     
     oscroll = new Fl_Scrollbar(12,670,400,15,"");
     oscroll->type(FL_HORIZONTAL);
-    oscroll->range(1,100);
-    oscroll->step(1);
+    oscroll->range(0,400);
+    oscroll->linesize(2);
+    oscroll->step(2);
     
- /*   odato1 = new Fl_Output(16,638,36,20,"");
+ /* odato1 = new Fl_Output(16,638,36,20,"");
     odato1->textsize(9);
     odato2 = new Fl_Output(54,638,36,20,"");
     odato3 = new Fl_Output(90,638,36,20,"");
@@ -81,7 +99,7 @@ Analizador::Analizador() {
     apantalla_ch8->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch8->linetype(FL_SCOPE_LINE);
             
-    ogroup_ana_botones = new Fl_Group(415,375,90,250,"");  // Agrupa los elementos del analizador
+    ogroup_ana_botones = new Fl_Group(415,375,90,250,"");   // Agrupa los elementos del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
     
@@ -93,12 +111,11 @@ Analizador::Analizador() {
     ogroup_ana_botones->end();
     
     orep_dato = new Fl_Choice(420,638,80,20,"");
+    //orep_dato->menu(me);
     orep_dato->add("Decimal");
     orep_dato->add("Binario");
     orep_dato->add("Hexadecimal");
-    //orep_dato->labelsize(10);
-    //orep_dato->align(FL_ALIGN_TOP);
-            
+          
     ogroup_ana->end();
     
     obox_nombre = new Fl_Box(12,375,223,30,"ANALIZADOR LÓGICO");
@@ -109,7 +126,10 @@ Analizador::Analizador() {
     oana_on = new Fl_Light_Button(240,375,38,30,"ON");
     oana_on->labelsize(9);
     
+    ocursor = new Cursores(12,410,400,668);
+    
     oana_on->callback(cb_ana_on, this);
+    oscroll->callback(cb_mas_datos, this);
 }
 
 // class destructor
@@ -137,6 +157,7 @@ void Analizador::cb_ana_on_in() {
         if (bhardware){
            ogroup_ana->activate();
            ogroup_ana_botones->activate();
+           isec_numdatos = 0;
            Fl::add_timeout(0.5, cb_timer_ana, this);
         }
         else {
@@ -150,6 +171,28 @@ void Analizador::cb_ana_on_in() {
         ogroup_ana_botones->deactivate(); 
      }
 }
+
+
+
+/**
+ * 
+ * 
+*/
+void Analizador::cb_mas_datos(Fl_Widget* pboton, void *pany) {
+     Analizador* pana=(Analizador*)pany;
+     pana->cb_mas_datos_in();
+}
+
+/**
+ * 
+ * 
+*/
+void Analizador::cb_mas_datos_in() {
+    //idatos= 40 - oscroll->value();  
+    ocursor->iposx = oscroll->value();
+    ocursor->redraw();  
+}
+
 
 /**
  * Este método es el callback del timer para realizar la solicitud 
@@ -168,7 +211,7 @@ void Analizador::cb_timer_ana_in() {
      Encapsular('C','p','1','0',0x00,0x00);
      Transmision();
      separar_canales();
-     Fl::repeat_timeout(1, cb_timer_ana, this);
+     Fl::repeat_timeout(0.1, cb_timer_ana, this);
 }
 
 
@@ -196,7 +239,7 @@ void Analizador::separar_canales() {
      }
      //fl_message("entero es %d", atoi(buf_analizador));
      itoa(atoi(buf_analizador),cdato_1,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
-    // odato1->value(cdato_1);
+     // odato1->value(cdato_1);
      itoa(ipos_msb,recibido_msb,2);
      ilong = strlen(recibido_msb);
      for (int i= 4; i > 0; i-- ){
@@ -222,67 +265,67 @@ void Analizador::separar_canales() {
      strcat(recibido_msb2,recibido_lsb2);
      //Canal 1
      if (recibido_msb2[0]=='1'){
-        for (int i=0; i<40;i++){                   
+        for (int i=0; i<idatos;i++){                   
             apantalla_ch1->Add(50000);
         }
      }
      else if (recibido_msb2[0]=='0'){
-          for (int i=0; i<40;i++){                   
+          for (int i=0; i<idatos;i++){                   
               apantalla_ch1->Add(10000);
           }
      }
      //Canal 2
      if (recibido_msb2[1]=='1'){
-        for (int i=0; i<40;i++){                   
+        for (int i=0; i<idatos;i++){                   
             apantalla_ch2->Add(50000);
         }
      }
      else if (recibido_msb2[1]=='0'){
-          for (int i=0; i<40;i++){                   
+          for (int i=0; i<idatos;i++){                   
               apantalla_ch2->Add(10000);
           }
      }
      //Canal 3
      if (recibido_msb2[2]=='1'){
-        for (int i=0; i<40;i++){                   
+        for (int i=0; i<idatos;i++){                   
             apantalla_ch3->Add(50000);
         }
      }
      else if (recibido_msb2[2]=='0'){
-          for (int i=0; i<40;i++){                   
+          for (int i=0; i<idatos;i++){                   
               apantalla_ch3->Add(10000);
           }
      }
      //Canal 4
      if (recibido_msb2[3]=='1'){
-        for (int i=0; i<40;i++){                   
+        for (int i=0; i<idatos;i++){                   
             apantalla_ch4->Add(50000);
         }
      }
      else if (recibido_msb2[3]=='0'){
-          for (int i=0; i<40;i++){                   
+          for (int i=0; i<idatos;i++){                   
               apantalla_ch4->Add(10000);
           }
      }
      //Canal 5
      if (recibido_msb2[4]=='1'){
-        for (int i=0; i<40;i++){                   
+        for (int i=0; i<idatos;i++){                   
             apantalla_ch5->Add(50000);
         }
      }
      else if (recibido_msb2[4]=='0'){
-          for (int i=0; i<40;i++){                   
+          for (int i=0; i<idatos;i++){                   
               apantalla_ch5->Add(10000);
           }
      }
      //Canal 6
      if (recibido_msb2[5]=='1'){
-        for (int i=0; i<40;i++){                   
+        for (int i=0; i<idatos;i++){                   
             apantalla_ch6->Add(50000);
         }
      }
      else if (recibido_msb2[5]=='0'){
-          for (int i=0; i<40;i++){                   
+          for (int i=0; i<idatos;i++){                   
               apantalla_ch6->Add(10000);
           }
      }
@@ -293,21 +336,22 @@ void Analizador::separar_canales() {
         }
      }
      else if (recibido_msb2[6]=='0'){
-          for (int i=0; i<40;i++){                   
+          for (int i=0; i<idatos;i++){                   
               apantalla_ch7->Add(10000);
           }
      }
      //Canal 8
      if (recibido_msb2[7]=='1'){
-        for (int i=0; i<40;i++){                   
+        for (int i=0; i<idatos;i++){                   
             apantalla_ch8->Add(50000);
         }
      }
      else if (recibido_msb2[7]=='0'){
-          for (int i=0; i<40;i++){                   
+          for (int i=0; i<idatos;i++){                   
               apantalla_ch8->Add(10000);
           }
-     } 
+     }
+     ocursor->redraw();
 }
 
 
@@ -315,6 +359,6 @@ void Analizador::separar_canales() {
 /**
  * Funcion para recorrer los buffers y graficar la informacion
 */
-void Analizador::graficar_datos() {
+//void Analizador::graficar_datos() {
 /* TODO: hacer */
-}
+//}

@@ -3,6 +3,7 @@
 #ifndef INSTRUMENTO_H
 #define INSTRUMENTO_H
 #include <string.h>
+#include <fstream>
 #include <stdlib.h>
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Tooltip.H>
@@ -16,6 +17,8 @@
 
 #define SIZE_DATA 150          // Maximo tamaño del vector recibido desde el hardawre 
 #define DATA_OSC  572          // Tamaño del vector de datos para las graficas del osciloscopio 
+
+using namespace std;
 
 
 /**

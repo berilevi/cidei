@@ -7,6 +7,7 @@
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <Fl/fl_Button.h>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Repeat_Button.H>
 #include "Fl_7Seg.H"                        //Class's header file
 #include "fl_Knob.h"
@@ -51,10 +52,18 @@ class Generador : public Instrumento
 	     */
 		Fl_Group *ogroup_senal;
 		/**
-		 * Agrupa los botones para seleccionar la amplitud y nivel de offset de 
-		 * la señal generada.
+		 * Agrupa los botones para seleccionar la amplitud de la señal generada.
 	     */
 		Fl_Group *ogroup_amplitud;
+		/**
+		 * Agrupa los botones para seleccionar el nivel de offset de la señal 
+         * generada.
+	     */
+		Fl_Group *ogroup_offset;
+		/**
+		 * Contiene el nombre del instrumento
+		 */
+	    Fl_Box *obox_nombre;
 		/**
 		 * Boton para prender el instrumento generador de señales
 	     */
