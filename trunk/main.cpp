@@ -16,8 +16,8 @@
 #include <iostream>
 #include <windows.h> 
 
-Multimetro *mult =0;
-Osciloscopio *osc = 0;
+//Multimetro *mult =0;
+//Osciloscopio *osc = 0;
 //Analizador *ana = 0;
 //Generador *gene = 0;
 pthread_t thread, thread1, thread2, thread3;
@@ -51,9 +51,11 @@ void *runhilo4(void *threadid)
 int main (int argc, char ** argv)
 {
   Fl_Double_Window *window;
+  Osciloscopio *osc;
   Analizador *ana;
   Generador *gene;
-  //Osciloscopio *osc;
+  
+  Multimetro *mult;
   
   Fl_Box *box_mult;
   
@@ -131,8 +133,11 @@ int main (int argc, char ** argv)
   box_mult->image(jpg);
  
   
+  
+  
   window->end ();
   window->show (argc, argv);
+  
   
   return(Fl::run());
   

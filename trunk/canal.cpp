@@ -22,8 +22,8 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
      ovolt_div->labelsize(9);
      ovolt_div->color(147);
      ovolt_div->type(8);
-     ovolt_div->scaleticks(10);
-     ovolt_div->range(1,10);
+     ovolt_div->scaleticks(11);
+     ovolt_div->range(1,12);
      omenu_v_div = new Fl_Choice((x+93),(y+105),50,18,"");
      omenu_v_div->add("5");
      omenu_v_div->add("2");

@@ -125,14 +125,14 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
              case FL_SCOPE_LINE:  
                   if(DataType==FL_SCOPE_UNSIGNED){ 
                      if (bch1== 1 && bch2== 1){
-                        fl_color( FL_WHITE);                                                      
+                        fl_color( FL_YELLOW);                                                      
                         fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
                         fl_color( FL_GREEN);
                         fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
                         xx= xx+4;
                      }                                                    
                      else if (bch1== 1 && bch2 == 0){
-                          fl_color( FL_WHITE);
+                          fl_color( FL_YELLOW);
                           fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
                           xx= xx+4;
                      }
@@ -143,7 +143,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                      }
                      else{
                           fl_color(_TraceColour);
-                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
+                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
                           xx++;
                      }  
                   }
@@ -391,7 +391,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  x(X);y(Y);w(W);h(H);                                  /* Tamaño del Screen*/
  box(FL_DOWN_BOX);                                     /* Tipo de bordes del Screen*/
  BackColour(Fl_Color(0));                              /* Color de fondo Negro*/
- TraceColour(FL_WHITE);                                /* Color de grafica Blanco*/
+ TraceColour(FL_YELLOW);                                /* Color de grafica Blanco*/
  TraceColour2(FL_GREEN);                                /* Color de grafica Verde*/
  
  Ptr=ScopeData=(int*)calloc(W,sizeof(int));            /* Crear el arreglo de datos para graficar canal 1*/
