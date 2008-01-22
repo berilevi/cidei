@@ -18,14 +18,19 @@ Fl_Menu_Item me[] = {
 // class constructor
 Analizador::Analizador() {                 
     
-    idatos = 40;
+    idatapos = 0;
+    inum_muestras = 9;
+    idatos_graficados = 40;
+    pdata_analizador = new char *[inum_muestras];
+    
+    for (int i = 0; i< inum_muestras; i++){
+        pdata_analizador[i] = new char [9];
+    }
     
     ogroup_ana = new Fl_Group(5,370,505,330,"");
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->box(FL_UP_BOX);
     ogroup_ana->deactivate(); 
-     
-     
      
     apantalla_ch1 = new Fl_Scope(12,410,400,34,"");  // Instancia de canal 1
     apantalla_ch2 = new Fl_Scope(12,442,400,34,"");  // Instancia de canal 2
@@ -36,13 +41,13 @@ Analizador::Analizador() {
     apantalla_ch7 = new Fl_Scope(12,602,400,34,"");  // Instancia de canal 7
     apantalla_ch8 = new Fl_Scope(12,634,400,34,"");  // Instancia de canal 8
     
-    oscroll = new Fl_Scrollbar(12,670,400,15,"");
+    oscroll = new Fl_Scrollbar(8,670,410,10,"");
     oscroll->type(FL_HORIZONTAL);
-    oscroll->range(0,400);
+    oscroll->range(0,40);
     oscroll->linesize(2);
-    oscroll->step(2);
+    oscroll->step(1);
     
- /* odato1 = new Fl_Output(16,638,36,20,"");
+/*  odato1 = new Fl_Output(16,638,36,20,"");
     odato1->textsize(9);
     odato2 = new Fl_Output(54,638,36,20,"");
     odato3 = new Fl_Output(90,638,36,20,"");
@@ -53,7 +58,7 @@ Analizador::Analizador() {
     odato8 = new Fl_Output(275,638,36,20,"");
     odato9 = new Fl_Output(312,638,36,20,"");
     odato10 = new Fl_Output(349,638,36,20,"");
-  */  
+*/  
   
     olog_ana = new Fl_Button(290,382,40,16,"Log");
     olog_ana->labelsize(10);
@@ -63,8 +68,6 @@ Analizador::Analizador() {
     
     oayuda_ana = new Fl_Check_Button(385,382,20,16,"?");
     oayuda_ana->labelsize(12);
-    
-    
     
     apantalla_ch1->TraceColour(FL_RED);
     apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
@@ -99,22 +102,28 @@ Analizador::Analizador() {
     apantalla_ch8->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch8->linetype(FL_SCOPE_LINE);
             
-    ogroup_ana_botones = new Fl_Group(415,375,90,250,"");   // Agrupa los elementos del analizador
+    ogroup_ana_botones = new Fl_Group(415,375,90,225,"");   // Agrupa los elementos del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
     
-    omuestreo = new Fl_Value_Slider(420,390,30,220,"");
+    omuestreo = new Fl_Value_Slider(420,390,30,200,"");
     omuestreo->range(1,10);
     omuestreo->step(1);
     omuestreo->round(1); 
     
     ogroup_ana_botones->end();
     
-    orep_dato = new Fl_Choice(420,638,80,20,"");
+    orep_dato = new Fl_Choice(420,670,80,20,"");
     //orep_dato->menu(me);
     orep_dato->add("Decimal");
     orep_dato->add("Binario");
     orep_dato->add("Hexadecimal");
+    
+    oflancosubida = new Fl_Button(420,610,20,20,"");
+    oflancobajada = new Fl_Button(445,610,20,20,"");
+      
+    oselector = new Fl_Spinner(470,610,30,20,""); 
+    oselector->range(1,8); 
           
     ogroup_ana->end();
     
@@ -134,8 +143,12 @@ Analizador::Analizador() {
 
 // class destructor
 Analizador::~Analizador() {
-
+   for(int i = 0; i < inum_muestras; i++) 
+       delete[] pdata_analizador[i]; 
+   delete[] pdata_analizador;                                              
 }
+
+
 /**
  * Este callback es llamado cuando se inicializa el analizador
  * logico.
@@ -189,7 +202,7 @@ void Analizador::cb_mas_datos(Fl_Widget* pboton, void *pany) {
 */
 void Analizador::cb_mas_datos_in() {
     //idatos= 40 - oscroll->value();  
-    ocursor->iposx = oscroll->value();
+    ocursor->iposx = oscroll->value()*10;
     ocursor->redraw();  
 }
 
@@ -211,7 +224,7 @@ void Analizador::cb_timer_ana_in() {
      Encapsular('C','p','1','0',0x00,0x00);
      Transmision();
      separar_canales();
-     Fl::repeat_timeout(0.1, cb_timer_ana, this);
+     Fl::repeat_timeout(5, cb_timer_ana, this);
 }
 
 
@@ -237,8 +250,7 @@ void Analizador::separar_canales() {
      else{
          ipos_lsb = int(buf_analizador[1]-48); 
      }
-     //fl_message("entero es %d", atoi(buf_analizador));
-     itoa(atoi(buf_analizador),cdato_1,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
+     //itoa(atoi(buf_analizador),cdato_1,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
      // odato1->value(cdato_1);
      itoa(ipos_msb,recibido_msb,2);
      ilong = strlen(recibido_msb);
@@ -262,96 +274,117 @@ void Analizador::separar_canales() {
          }
          ilong --;
      }
-     strcat(recibido_msb2,recibido_lsb2);
+
+     cbyte_recibido[0]= recibido_msb2[0];
+     cbyte_recibido[1]= recibido_msb2[1];
+     cbyte_recibido[2]= recibido_msb2[2];
+     cbyte_recibido[3]= recibido_msb2[3];
+     cbyte_recibido[4]= recibido_lsb2[0];
+     cbyte_recibido[5]= recibido_lsb2[1];
+     cbyte_recibido[6]= recibido_lsb2[2];
+     cbyte_recibido[7]= recibido_lsb2[3];
+     
+     fl_message("dato todo es %s: ",cbyte_recibido);
+     
+     if (idatapos > inum_muestras) {
+        idatapos = 0;
+    }
+     
+     strcat(pdata_analizador [idatapos], cbyte_recibido);
+     fl_message("dato arreglo es %s en i: %d: ", pdata_analizador [idatapos], idatapos);
+     idatapos++;
+     graficar_datos();
+     
+     //Llenar los arreglos dinamicos con los datos y mandar  a la funcion recorrer datos.
      //Canal 1
-     if (recibido_msb2[0]=='1'){
-        for (int i=0; i<idatos;i++){                   
+  /*   if (recibido_msb2[0]=='1'){
+        for (int i=0; i<idatos_graficados;i++){                   
             apantalla_ch1->Add(50000);
         }
      }
      else if (recibido_msb2[0]=='0'){
-          for (int i=0; i<idatos;i++){                   
+          for (int i=0; i<idatos_graficados;i++){                   
               apantalla_ch1->Add(10000);
           }
      }
      //Canal 2
      if (recibido_msb2[1]=='1'){
-        for (int i=0; i<idatos;i++){                   
+        for (int i=0; i<idatos_graficados;i++){                   
             apantalla_ch2->Add(50000);
         }
      }
      else if (recibido_msb2[1]=='0'){
-          for (int i=0; i<idatos;i++){                   
+          for (int i=0; i<idatos_graficados;i++){                   
               apantalla_ch2->Add(10000);
           }
      }
      //Canal 3
      if (recibido_msb2[2]=='1'){
-        for (int i=0; i<idatos;i++){                   
+        for (int i=0; i<idatos_graficados;i++){                   
             apantalla_ch3->Add(50000);
         }
      }
      else if (recibido_msb2[2]=='0'){
-          for (int i=0; i<idatos;i++){                   
+          for (int i=0; i<idatos_graficados;i++){                   
               apantalla_ch3->Add(10000);
           }
      }
      //Canal 4
      if (recibido_msb2[3]=='1'){
-        for (int i=0; i<idatos;i++){                   
+        for (int i=0; i<idatos_graficados;i++){                   
             apantalla_ch4->Add(50000);
         }
      }
      else if (recibido_msb2[3]=='0'){
-          for (int i=0; i<idatos;i++){                   
+          for (int i=0; i<idatos_graficados;i++){                   
               apantalla_ch4->Add(10000);
           }
      }
      //Canal 5
      if (recibido_msb2[4]=='1'){
-        for (int i=0; i<idatos;i++){                   
+        for (int i=0; i<idatos_graficados;i++){                   
             apantalla_ch5->Add(50000);
         }
      }
      else if (recibido_msb2[4]=='0'){
-          for (int i=0; i<idatos;i++){                   
+          for (int i=0; i<idatos_graficados;i++){                   
               apantalla_ch5->Add(10000);
           }
      }
      //Canal 6
      if (recibido_msb2[5]=='1'){
-        for (int i=0; i<idatos;i++){                   
+        for (int i=0; i<idatos_graficados;i++){                   
             apantalla_ch6->Add(50000);
         }
      }
      else if (recibido_msb2[5]=='0'){
-          for (int i=0; i<idatos;i++){                   
+          for (int i=0; i<idatos_graficados;i++){                   
               apantalla_ch6->Add(10000);
           }
      }
      //Canal 7
      if (recibido_msb2[6]=='1'){
-        for (int i=0; i<40;i++){                   
+        for (int i=0; i<idatos_graficados;i++){                   
             apantalla_ch7->Add(50000);
         }
      }
      else if (recibido_msb2[6]=='0'){
-          for (int i=0; i<idatos;i++){                   
+          for (int i=0; i<idatos_graficados;i++){                   
               apantalla_ch7->Add(10000);
           }
      }
      //Canal 8
      if (recibido_msb2[7]=='1'){
-        for (int i=0; i<idatos;i++){                   
+        for (int i=0; i<idatos_graficados;i++){                   
             apantalla_ch8->Add(50000);
         }
      }
      else if (recibido_msb2[7]=='0'){
-          for (int i=0; i<idatos;i++){                   
+          for (int i=0; i<idatos_graficados;i++){                   
               apantalla_ch8->Add(10000);
           }
      }
-     ocursor->redraw();
+     ocursor->redraw();   */
 }
 
 
@@ -359,6 +392,99 @@ void Analizador::separar_canales() {
 /**
  * Funcion para recorrer los buffers y graficar la informacion
 */
-//void Analizador::graficar_datos() {
-/* TODO: hacer */
-//}
+void Analizador::graficar_datos() {
+     
+     for (int i=0; i<inum_muestras; i++){
+         
+         //Canal 1
+         if (pdata_analizador[i][0]=='1'){
+            for (int i=0; i<idatos_graficados;i++){                   
+                apantalla_ch1->Add(50000);
+            }
+         }
+         else if (pdata_analizador[i][0]=='0'){
+              for (int i=0; i<idatos_graficados;i++){                   
+                  apantalla_ch1->Add(10000);
+              }
+         }
+         //Canal 2
+         if (pdata_analizador[i][1]=='1'){
+            for (int i=0; i<idatos_graficados;i++){                   
+                apantalla_ch2->Add(50000);
+            }
+         }
+         else if (pdata_analizador[i][1]=='0'){
+              for (int i=0; i<idatos_graficados;i++){                   
+                  apantalla_ch2->Add(10000);
+              }
+         }
+         //Canal 3
+         if (pdata_analizador[i][2]=='1'){
+            for (int i=0; i<idatos_graficados;i++){                   
+                apantalla_ch3->Add(50000);
+            }
+         }
+         else if (pdata_analizador[i][2]=='0'){
+              for (int i=0; i<idatos_graficados;i++){                   
+                  apantalla_ch3->Add(10000);
+              }
+         }
+         //Canal 4
+         if (pdata_analizador[i][3]=='1'){
+            for (int i=0; i<idatos_graficados;i++){                   
+                apantalla_ch4->Add(50000);
+            }
+         }
+         else if (pdata_analizador[i][3]=='0'){
+              for (int i=0; i<idatos_graficados;i++){                   
+                  apantalla_ch4->Add(10000);
+              }
+         }
+         //Canal 5
+         if (pdata_analizador[i][4]=='1'){
+            for (int i=0; i<idatos_graficados;i++){                   
+                apantalla_ch5->Add(50000);
+            }
+         }
+         else if (pdata_analizador[i][4]=='0'){
+              for (int i=0; i<idatos_graficados;i++){                   
+                  apantalla_ch5->Add(10000);
+              }
+         }
+         //Canal 6
+         if (pdata_analizador[i][5]=='1'){
+            for (int i=0; i<idatos_graficados;i++){                   
+                apantalla_ch6->Add(50000);
+            }
+         }
+         else if (pdata_analizador[i][5]=='0'){
+              for (int i=0; i<idatos_graficados;i++){                   
+                  apantalla_ch6->Add(10000);
+              }
+         }
+         //Canal 7
+         if (pdata_analizador[i][6]=='1'){
+            for (int i=0; i<idatos_graficados;i++){                   
+                apantalla_ch7->Add(50000);
+            }
+         }
+         else if (pdata_analizador[i][6]=='0'){
+              for (int i=0; i<idatos_graficados;i++){                   
+                  apantalla_ch7->Add(10000);
+              }
+         }
+         //Canal 8
+         if (pdata_analizador[i][7]=='1'){
+            for (int i=0; i<idatos_graficados;i++){                   
+                apantalla_ch8->Add(50000);
+            }
+         }
+         else if (pdata_analizador[i][7]=='0'){
+              for (int i=0; i<idatos_graficados;i++){                   
+                  apantalla_ch8->Add(10000);
+              }
+         }
+         ocursor->redraw();
+     }
+
+}

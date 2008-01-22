@@ -8,10 +8,12 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
+#include <Fl/fl_Button.h>
 #include <FL/Fl_Repeat_Button.H>
 #include <FL/fl_ask.H>
 #include <FL/Fl_Value_Output.H>
 #include <FL/Fl_Scrollbar.H>
+#include <FL/Fl_Spinner.H>
 #include "Fl_Scope.h"
 #include "cursores.h"
 #include <FL/Fl_Group.H>
@@ -38,6 +40,18 @@ class Analizador : public Instrumento {
 		Analizador();
 		// class destructor
 		~Analizador();
+		/**
+		 * Número de muestras que se van a almacenar 
+		*/
+	    int inum_muestras;
+		/**
+		 * Contador de datos almacenados en el arreglo dinámico 
+		*/
+	    int idatapos;
+		/**
+		 * Matriz dinámica para almacenar los datos del analizador
+		 */
+	    char **pdata_analizador;
         /**
 		 * Objeto de la clase scope que representa la pantalla del analizador 
 		 * donde se grafica la señal digitalizada por el canal.
@@ -48,7 +62,19 @@ class Analizador : public Instrumento {
 		 * Agrupa los botones e indicadores del analizador
 		 */
 	    Cursores *ocursor;        
- 
+        /**
+		 * Botón para activar el disparo por flanco de subida
+		 */
+	    Fl_Button *oflancosubida;
+	    /**
+		 * Botón para activar el disparo por flanco de bajada
+		 */
+	    Fl_Button *oflancobajada;
+        /**
+		 * Botón para seleccionar el canal con el que se activa el disparo por flancos
+		*/
+        Fl_Spinner *oselector;
+        
         /**
 		 * Agrupa los botones e indicadores del analizador
 		 */
@@ -70,14 +96,7 @@ class Analizador : public Instrumento {
 		 * Boton que habilita la ayuda para el uso del instrumento. 
 	    */
         Fl_Button *ohelp_ana;
-        /**
-		 * Botón para aumentar el numero de datos visibles en la pantalla. 
-	    */
-      //  Fl_Repeat_Button *omas_datos;
-        /**
-		 * Botón para disminuir el numero de datos visibles en la pantalla. 
-	    */
-     //   Fl_Repeat_Button *omenos_datos;
+ 
         /**
 		 * Boton que habilita la ayuda flotante para el uso de los botones. 
 	    */
@@ -120,7 +139,7 @@ class Analizador : public Instrumento {
 		 * Esta funcion recorre los buffers de los diferentes canales del
 		 * analizador logico y grafica sus datos en los canales en pantalla
 		 */
-		//void graficar_datos();
+		void graficar_datos();
 		
   private:
 
@@ -142,15 +161,19 @@ class Analizador : public Instrumento {
 		/**
 		 * Número de datos representados en la pantalla. 
 	     */
-		int  idatos;
+		int  idatos_graficados;
 		/**
 		 * valor msb recibido en binario. 
 	     */
-		char  recibido_msb[9],recibido_msb2[9];
+		char  recibido_msb[5],recibido_msb2[5];
 		/**
 		 * valor lsb recibido en binario. 
 	     */
 		char  recibido_lsb[5], recibido_lsb2[5];
+		/**
+		 * Valor de 8 bits recibido en binario. 
+	     */
+		char  cbyte_recibido[9];
 		/**
 		 * Control de tiempo de muestreo. 
 	     */
