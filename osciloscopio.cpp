@@ -109,6 +109,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     omenu_t_div->menu(menu_tdiv);
      
     ogroup_tdiv->end();
+    
     ogroup_pos = new Fl_Group (415,218,100,110,"");
     ogroup_pos->box(FL_ENGRAVED_FRAME);
     ogroup_pos->deactivate();           
@@ -120,9 +121,11 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opos_y->range(-100,100);
     //opos_y->tooltip("Boton de posicionamiento horizontal de las gráficas");
     ogroup_pos->end();
+    
     ostop = new Fl_Light_Button(420,222,35,30,"");
     ostop->label("@|>");
     ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
+    
     ogroup_trigger = new Fl_Group (520,218,95,110,"");
     ogroup_trigger->box(FL_ENGRAVED_FRAME);
     ogroup_trigger->deactivate();
@@ -143,6 +146,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     onivel_trigger->cursor(40);
     onivel_trigger->labelsize(10);
     onivel_trigger->range(0,10);
+    
     ogroup_trigger->end();
                 
     opantalla = new Fl_Scope(12,40,400,320,"");                  // Instancia de scope para la pantalla del osciloscopio
@@ -151,6 +155,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     opantalla->linetype(FL_SCOPE_LINE);
     opantalla->box(FL_FLAT_BOX);
+    
     ogroup_osc->end();
     
     ogrilla = new grid(12,40,400,320,"");

@@ -437,8 +437,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
 /*******************************************************************************
 *               Fl_Scope::~Fl_Scope
 *******************************************************************************/
-Fl_Scope::~Fl_Scope()
-{
+Fl_Scope::~Fl_Scope(){
  free(ScopeData);                                        /* Liberar la memoria de los arreglos*/
  free(ScopeData2);
 }
