@@ -29,6 +29,7 @@
 #include <string>
 
 #define TAM_ALMACENADO 4
+#define ESPERA_TRIGGER 10
 
 using namespace std;
 
@@ -91,6 +92,10 @@ class Analizador : public Instrumento {
 	    */
         Fl_Light_Button *oana_on;
         /**
+		 * Boton para iniciar el muestreo en el instrumento analizador
+	    */
+        Fl_Light_Button *omuestrear_on;
+        /**
 		 * Boton que habilita el almacenamiento de datos en archivos planos de 
 		 * texto.
 	    */
@@ -129,6 +134,30 @@ class Analizador : public Instrumento {
 		 */
 		inline void cb_ana_on_in();
 		/**
+		 * Callback del boton que habilita el muestreo en el analizador
+		 */
+		static void cb_muestrear(Fl_Widget*, void *);
+		/**
+		 * Callback del boton que habilita el muestreo en el analizador
+		 */
+		inline void cb_muestrear_in();
+		/**
+		 * 
+		 */
+		static void cb_subida(Fl_Widget*, void *);
+		/**
+		 * 
+		 */
+		inline void cb_subida_in();
+		/**
+		 * 
+		 */
+		static void cb_bajada(Fl_Widget*, void *);
+		/**
+		 * 
+		 */
+		inline void cb_bajada_in();
+		/**
 		 * 
          *  
 		 */
@@ -157,6 +186,14 @@ class Analizador : public Instrumento {
          */
          inline void cb_timer_ana_in();
          /**
+         *  Timer máximo de espera del trigger
+         */   
+         static void cb_timer_trigger(void *);
+         /**
+         *  Timer máximo de espera del trigger
+         */
+         inline void cb_timer_trigger_in();
+         /**
 		 * Esta funcion separa los datos enviados desde el hardware para cada
 		 * canal del analizador logico.
 		 */
@@ -174,16 +211,36 @@ class Analizador : public Instrumento {
 	     */
 		char  recibido_lsb[5], recibido_lsb2[5];
 		/**
-		 * Valor de 8 bits recibido en binario. 
+		 * Valor de 8 bits actual recibido en binario. 
 	     */
-		char  cbyte_recibido[9];
+		char  cbyte_actual[9];
+		/**
+		 * Estado del trigger del dispositivo. 
+	    */
+		bool btrigger;
+		/**
+		 * Estado del muestreo del analizador. 
+	    */
+		bool bmuestreando;
+		/**
+		 * Estado del timer que espera el trigger del dispositivo. 
+	    */
+		bool btimer_trigger;
+		/**
+		 * Función para determinar si ocurrio el evento que dispara el muestreo
+	    */
+		bool trigger(int, char, char);
+		/**
+		 * Función para almacenar muestras.
+	    */
+		void almacenar();
 		/**
 		 * Control de tiempo de muestreo. 
-	     */
+	    */
 		Fl_Value_Slider *omuestreo;
 		/**
 		 * Valor del dato binario de 8 bits en el 1er tiempo de muestreo 
-	     */
+	    */
 		Fl_Output *odato1;
 		/**
 		 * Valor del dato binario de 8 bits en el 2do tiempo de muestreo 

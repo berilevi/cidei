@@ -5,8 +5,7 @@
 //#include <FL/Fl_Ask.H>
 
 // Constructor de la clase
-Instrumento::Instrumento()
-{
+Instrumento::Instrumento(){
 
     strcpy(vid_pid, "vid_04d8&pid_000a");       // Product & Vendor ID
     strcpy(out_pipe, "\\MCHP_EP3");             // End Point de salida 
@@ -19,7 +18,6 @@ Instrumento::Instrumento()
     ch2_muestreado = 0;                         // Inicializar el estado del muestreo del canal 2 del osciloscopio
     idato_osc_ch1 =0;                           // Dato muestreado uno a uno por el canal 1 del osciloscopio
     idato_osc_ch2 =0;                           // Dato muestreado uno a uno por el canal 2 del osciloscopio
-
 }
 
 // Destructor de clase
@@ -29,20 +27,17 @@ Instrumento::~Instrumento()
 }
 
 // Activar el instrumento
-void Instrumento::activar(bool bx)
-{
+void Instrumento::activar(bool bx){
 	bestado = bx;
 }
 
 // Verificacion del estado de conexión con el hardware
-void Instrumento::Sethardware(bool x)
-{
+void Instrumento::Sethardware(bool x){
 	bhardware = x;
 }
 
 // Activar el almacenamiento de datos en archivoa planos
-void Instrumento::Setarchivo(bool x)
-{
+void Instrumento::Setarchivo(bool x){
 	barchivo = x;
 }
 
