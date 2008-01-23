@@ -19,13 +19,13 @@ Fl_Menu_Item me[] = {
 Analizador::Analizador() {                 
     
     idatapos = 0;
-    inum_muestras = 9;
+    inum_muestras = TAM_ALMACENADO;
     idatos_graficados = 40;
-    pdata_analizador = new char *[inum_muestras];
+  //  pdata_analizador = new char *[inum_muestras];
     
-    for (int i = 0; i< inum_muestras; i++){
-        pdata_analizador[i] = new char [9];
-    }
+ //   for (int i = 0; i< inum_muestras; i++){
+ //       pdata_analizador[i] = new char [9];
+ //   }
     
     ogroup_ana = new Fl_Group(5,370,505,330,"");
     ogroup_ana->box(FL_ENGRAVED_FRAME);
@@ -143,9 +143,7 @@ Analizador::Analizador() {
 
 // class destructor
 Analizador::~Analizador() {
-   for(int i = 0; i < inum_muestras; i++) 
-       delete[] pdata_analizador[i]; 
-   delete[] pdata_analizador;                                              
+                                          
 }
 
 
@@ -171,6 +169,7 @@ void Analizador::cb_ana_on_in() {
            ogroup_ana->activate();
            ogroup_ana_botones->activate();
            isec_numdatos = 0;
+           //pdata_analizador = new char *[inum_muestras];
            Fl::add_timeout(0.5, cb_timer_ana, this);
         }
         else {
@@ -224,7 +223,7 @@ void Analizador::cb_timer_ana_in() {
      Encapsular('C','p','1','0',0x00,0x00);
      Transmision();
      separar_canales();
-     Fl::repeat_timeout(5, cb_timer_ana, this);
+     Fl::repeat_timeout(0.1, cb_timer_ana, this);
 }
 
 
@@ -283,108 +282,15 @@ void Analizador::separar_canales() {
      cbyte_recibido[5]= recibido_lsb2[1];
      cbyte_recibido[6]= recibido_lsb2[2];
      cbyte_recibido[7]= recibido_lsb2[3];
-     
-     fl_message("dato todo es %s: ",cbyte_recibido);
-     
-     if (idatapos > inum_muestras) {
+
+     if (idatapos > inum_muestras-1) {
+        graficar_datos();
         idatapos = 0;
     }
      
      strcat(pdata_analizador [idatapos], cbyte_recibido);
-     fl_message("dato arreglo es %s en i: %d: ", pdata_analizador [idatapos], idatapos);
      idatapos++;
-     graficar_datos();
-     
-     //Llenar los arreglos dinamicos con los datos y mandar  a la funcion recorrer datos.
-     //Canal 1
-  /*   if (recibido_msb2[0]=='1'){
-        for (int i=0; i<idatos_graficados;i++){                   
-            apantalla_ch1->Add(50000);
-        }
-     }
-     else if (recibido_msb2[0]=='0'){
-          for (int i=0; i<idatos_graficados;i++){                   
-              apantalla_ch1->Add(10000);
-          }
-     }
-     //Canal 2
-     if (recibido_msb2[1]=='1'){
-        for (int i=0; i<idatos_graficados;i++){                   
-            apantalla_ch2->Add(50000);
-        }
-     }
-     else if (recibido_msb2[1]=='0'){
-          for (int i=0; i<idatos_graficados;i++){                   
-              apantalla_ch2->Add(10000);
-          }
-     }
-     //Canal 3
-     if (recibido_msb2[2]=='1'){
-        for (int i=0; i<idatos_graficados;i++){                   
-            apantalla_ch3->Add(50000);
-        }
-     }
-     else if (recibido_msb2[2]=='0'){
-          for (int i=0; i<idatos_graficados;i++){                   
-              apantalla_ch3->Add(10000);
-          }
-     }
-     //Canal 4
-     if (recibido_msb2[3]=='1'){
-        for (int i=0; i<idatos_graficados;i++){                   
-            apantalla_ch4->Add(50000);
-        }
-     }
-     else if (recibido_msb2[3]=='0'){
-          for (int i=0; i<idatos_graficados;i++){                   
-              apantalla_ch4->Add(10000);
-          }
-     }
-     //Canal 5
-     if (recibido_msb2[4]=='1'){
-        for (int i=0; i<idatos_graficados;i++){                   
-            apantalla_ch5->Add(50000);
-        }
-     }
-     else if (recibido_msb2[4]=='0'){
-          for (int i=0; i<idatos_graficados;i++){                   
-              apantalla_ch5->Add(10000);
-          }
-     }
-     //Canal 6
-     if (recibido_msb2[5]=='1'){
-        for (int i=0; i<idatos_graficados;i++){                   
-            apantalla_ch6->Add(50000);
-        }
-     }
-     else if (recibido_msb2[5]=='0'){
-          for (int i=0; i<idatos_graficados;i++){                   
-              apantalla_ch6->Add(10000);
-          }
-     }
-     //Canal 7
-     if (recibido_msb2[6]=='1'){
-        for (int i=0; i<idatos_graficados;i++){                   
-            apantalla_ch7->Add(50000);
-        }
-     }
-     else if (recibido_msb2[6]=='0'){
-          for (int i=0; i<idatos_graficados;i++){                   
-              apantalla_ch7->Add(10000);
-          }
-     }
-     //Canal 8
-     if (recibido_msb2[7]=='1'){
-        for (int i=0; i<idatos_graficados;i++){                   
-            apantalla_ch8->Add(50000);
-        }
-     }
-     else if (recibido_msb2[7]=='0'){
-          for (int i=0; i<idatos_graficados;i++){                   
-              apantalla_ch8->Add(10000);
-          }
-     }
-     ocursor->redraw();   */
+
 }
 
 

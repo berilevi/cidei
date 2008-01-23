@@ -28,7 +28,9 @@
 #include <iostream>
 #include <string>
 
-//using namespace std;
+#define TAM_ALMACENADO 4
+
+using namespace std;
 
 /**
  * Esta clase representa las funcionees del instrumento
@@ -51,7 +53,8 @@ class Analizador : public Instrumento {
 		/**
 		 * Matriz dinámica para almacenar los datos del analizador
 		 */
-	    char **pdata_analizador;
+	    //char **pdata_analizador;
+	    char pdata_analizador [TAM_ALMACENADO][9];
         /**
 		 * Objeto de la clase scope que representa la pantalla del analizador 
 		 * donde se grafica la señal digitalizada por el canal.
