@@ -5,6 +5,7 @@
 int isec_numdatos = 0;
 int iespera_trigger = 0;
 char  cbyte_anterior[] = "00000000";
+bool bconf_trigger = 0;
 
 // class constructor
 Analizador::Analizador() {                 
@@ -16,41 +17,27 @@ Analizador::Analizador() {
     btrigger = 0;
     bmuestreando = 0;
      
-
-
     ogroup_ana = new Fl_Group(5,370,505,330,"");
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->box(FL_UP_BOX);
     ogroup_ana->deactivate(); 
      
-    apantalla_ch1 = new Fl_Scope(12,410,400,34,"");  // Instancia de canal 1
-    apantalla_ch2 = new Fl_Scope(12,442,400,34,"");  // Instancia de canal 2
-    apantalla_ch3 = new Fl_Scope(12,474,400,34,"");  // Instancia de canal 3
-    apantalla_ch4 = new Fl_Scope(12,506,400,34,"");  // Instancia de canal 4
-    apantalla_ch5 = new Fl_Scope(12,538,400,34,"");  // Instancia de canal 5
-    apantalla_ch6 = new Fl_Scope(12,570,400,34,"");  // Instancia de canal 6
-    apantalla_ch7 = new Fl_Scope(12,602,400,34,"");  // Instancia de canal 7
-    apantalla_ch8 = new Fl_Scope(12,634,400,34,"");  // Instancia de canal 8
+    apantalla_ch1 = new Fl_Scope(20,410,400,34,"");  // Instancia de canal 1
+    apantalla_ch2 = new Fl_Scope(20,442,400,34,"");  // Instancia de canal 2
+    apantalla_ch3 = new Fl_Scope(20,474,400,34,"");  // Instancia de canal 3
+    apantalla_ch4 = new Fl_Scope(20,506,400,34,"");  // Instancia de canal 4
+    apantalla_ch5 = new Fl_Scope(20,538,400,34,"");  // Instancia de canal 5
+    apantalla_ch6 = new Fl_Scope(20,570,400,34,"");  // Instancia de canal 6
+    apantalla_ch7 = new Fl_Scope(20,602,400,34,"");  // Instancia de canal 7
+    apantalla_ch8 = new Fl_Scope(20,634,400,34,"");  // Instancia de canal 8
     
-    oscroll = new Fl_Scrollbar(8,670,410,10,"");
+    oscroll = new Fl_Scrollbar(12,670,415,10,"");
     oscroll->type(FL_HORIZONTAL);
     oscroll->range(0,40);
     oscroll->linesize(2);
     oscroll->step(1);
-    
-/*  odato1 = new Fl_Output(16,638,36,20,"");
-    odato1->textsize(9);
-    odato2 = new Fl_Output(54,638,36,20,"");
-    odato3 = new Fl_Output(90,638,36,20,"");
-    odato4 = new Fl_Output(127,638,36,20,"");
-    odato5 = new Fl_Output(164,638,36,20,"");
-    odato6 = new Fl_Output(201,638,36,20,"");
-    odato7 = new Fl_Output(238,638,36,20,"");
-    odato8 = new Fl_Output(275,638,36,20,"");
-    odato9 = new Fl_Output(312,638,36,20,"");
-    odato10 = new Fl_Output(349,638,36,20,"");
-*/  
-  
+    oscroll->deactivate();
+      
     olog_ana = new Fl_Button(290,382,40,16,"Log");
     olog_ana->labelsize(10);
     
@@ -92,32 +79,50 @@ Analizador::Analizador() {
     apantalla_ch8->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch8->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch8->linetype(FL_SCOPE_LINE);
+    
             
-    ogroup_ana_botones = new Fl_Group(415,375,90,225,"");   // Agrupa los elementos del analizador
+    ogroup_ana_botones = new Fl_Group(425,375,80,175,"");          // Agrupa los elementos del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
-    
-    omuestrear_on = new Fl_Light_Button(460,390,30,20,"M");
-    
-    omuestreo = new Fl_Value_Slider(420,390,30,200,"");
+           
+    omuestreo = new Fl_Value_Slider(430,390,30,150,"");
     omuestreo->range(1,10);
     omuestreo->step(1);
     omuestreo->round(1); 
     
     ogroup_ana_botones->end();
     
-    orep_dato = new Fl_Choice(420,670,80,20,"");
+    omuestrear_on = new Fl_Light_Button(430,560,70,30,"Capturar");
+    omuestrear_on->labelsize(13);
+    
+    orep_dato = new Fl_Choice(430,620,70,20,"");
     orep_dato->add("Decimal");
     orep_dato->add("Binario");
     orep_dato->add("Hexadecimal");
     
-    oflancosubida = new Fl_Button(420,610,20,20,"s");
-    oflancobajada = new Fl_Button(445,610,20,20,"b");
-      
-    oselector = new Fl_Spinner(470,610,30,20,""); 
-    oselector->range(1,8); 
+    odato1 = new Fl_Output(430,645,70,20,"");
+    odato1->textsize(9);
+    
+    otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger"); 
+    otrigger_on->labelsize(12);
           
     ogroup_ana->end();
+    
+    obox_trigger = new Fl_Box(415,520,92,70,"");
+    obox_trigger->box(FL_UP_BOX);
+    obox_trigger->hide();
+    
+    ogroup_trigger = new Fl_Group(415,520,92,70,"");
+    ogroup_trigger->hide();
+    oflancosubida = new Fl_Button(420,530,20,20,"s");
+    oflancobajada = new Fl_Button(445,530,20,20,"b");  
+    oselector = new Fl_Spinner(470,530,30,20,""); 
+    oselector->range(1,8);
+    ocerrar_trigger = new Fl_Button(460,565,40,16,"Cerrar");
+    ocerrar_trigger->labelsize(9);
+    
+    ogroup_trigger->end();
+    
     
     obox_nombre = new Fl_Box(12,375,223,30,"ANALIZADOR LÓGICO");
     obox_nombre->box(FL_ENGRAVED_FRAME);
@@ -127,11 +132,13 @@ Analizador::Analizador() {
     oana_on = new Fl_Light_Button(240,375,38,30,"ON");
     oana_on->labelsize(9);
     
-    ocursor = new Cursores(12,410,400,668);
+    ocursor = new Cursores(20,410,400,668);
     
     oana_on->callback(cb_ana_on, this);
     omuestrear_on->callback(cb_muestrear,this);
     oscroll->callback(cb_mas_datos, this);
+    otrigger_on->callback(cb_trigger_on,this);
+    ocerrar_trigger->callback(cb_cerrar_trigger,this);
     oflancosubida->callback(cb_subida,this);
     oflancobajada->callback(cb_bajada,this);
 }
@@ -143,17 +150,15 @@ Analizador::~Analizador() {
 
 
 /**
- * Este callback es llamado cuando se inicializa el analizador
- * logico.
+ * Iniciar el analizador lógico
 */
 void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_ana_on_in();
 }
 
-/**
- * Esta es la funcion inline que es llamada desde el callback
- * cb_ana_on.
+/** 
+ * Iniciar el analizador lógico
 */
 void Analizador::cb_ana_on_in() {
       if(oana_on->value()== 1) {
@@ -164,8 +169,8 @@ void Analizador::cb_ana_on_in() {
            ogroup_ana->activate();
            ogroup_ana_botones->activate();
            isec_numdatos = 0;
-           oflancosubida->value(1);
-           oflancosubida->box(FL_DOWN_BOX);
+           //oflancosubida->value(1);
+           //oflancosubida->box(FL_DOWN_BOX);
            oselector->value(1);
            //Fl::add_timeout(0.1, cb_timer_ana, this);
         }
@@ -187,6 +192,50 @@ void Analizador::cb_ana_on_in() {
 
 
 /**
+ * Callback para seleccionar la configuración del sistema de trigger del
+ * analizador lógico.
+*/
+void Analizador::cb_trigger_on(Fl_Widget* pboton, void *pany) {
+     Analizador* pana=(Analizador*)pany;
+     pana->cb_trigger_on_in();
+}
+
+/**
+ * Mostrar el panel de configuración del sistema de trigger del instrumento
+*/
+void Analizador::cb_trigger_on_in() {
+     if(otrigger_on->value()== 1) {
+        obox_trigger->show();
+        ogroup_trigger->show();
+        bconf_trigger = 1;
+        oflancosubida->value(1);
+        oflancosubida->box(FL_DOWN_BOX);
+     }
+     else{
+         bconf_trigger = 0; 
+     }
+}
+
+
+/**
+ * CallbackBotón para cerrar el panel de configuración del sistema de trigger
+*/
+void Analizador::cb_cerrar_trigger(Fl_Widget* pboton, void *pany) {
+     Analizador* pana=(Analizador*)pany;
+     pana->cb_cerrar_trigger_in();
+}
+
+/**
+ *  Cerrar el panel de configuración del sistema de trigger
+*/
+void Analizador::cb_cerrar_trigger_in() {
+     obox_trigger->hide();
+     ogroup_trigger->hide();
+}
+
+
+
+/**
  * Callback del boton que habilita el muestreo en el analizador
 */
 void Analizador::cb_muestrear(Fl_Widget* pboton, void *pany) {
@@ -199,7 +248,9 @@ void Analizador::cb_muestrear(Fl_Widget* pboton, void *pany) {
 */
 void Analizador::cb_muestrear_in() {
      if(omuestrear_on->value()== 1) {
-       Fl::add_timeout(0.1, cb_timer_ana, this);
+       Fl::add_timeout(0.001, cb_timer_ana, this);
+       omuestrear_on->value(0);
+       omuestrear_on->box(FL_DOWN_BOX);
      }  
 }
 
@@ -267,7 +318,7 @@ void Analizador::cb_mas_datos(Fl_Widget* pboton, void *pany) {
 void Analizador::cb_mas_datos_in() {
     //idatos= 40 - oscroll->value();  
     ocursor->iposx = oscroll->value()*10;
-    ocursor->redraw();  
+   // ocursor->redraw();  
 }
 
 
@@ -285,11 +336,10 @@ void Analizador::cb_timer_ana(void *pany) {
  * para realizar los llamados de callback del timer 
 */
 void Analizador::cb_timer_ana_in() {
-     omuestrear_on->value(0);
      Encapsular('C','p','1','0',0x00,0x00);
      Transmision();
      separar_canales();
-     Fl::repeat_timeout(0.01, cb_timer_ana, this);
+     Fl::repeat_timeout(0.001, cb_timer_ana, this);
 }
 
 
@@ -303,6 +353,8 @@ void Analizador::separar_canales() {
      int ipos_msb;
      int ipos_lsb;
      char cdato_1[9];
+     
+     // Convertir los carácteres a datos hexadecimales
      
      if (buf_analizador[0] > 64){
         ipos_msb = int(buf_analizador[0]-55);
@@ -318,8 +370,11 @@ void Analizador::separar_canales() {
      }
      //itoa(atoi(buf_analizador),cdato_1,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
      // odato1->value(cdato_1);
+     
+     // Guardar el número hexadecimal más significativo convertido a binario en caracteres   
      itoa(ipos_msb,recibido_msb,2);
      ilong = strlen(recibido_msb);
+     
      for (int i= 4; i > 0; i-- ){
          if (ilong > 0){
             recibido_msb2[i-1] = recibido_msb[ilong-1];
@@ -340,7 +395,6 @@ void Analizador::separar_canales() {
          }
          ilong --;
      }
-
      cbyte_actual[0]= recibido_msb2[0];
      cbyte_actual[1]= recibido_msb2[1];
      cbyte_actual[2]= recibido_msb2[2];
@@ -351,10 +405,18 @@ void Analizador::separar_canales() {
      cbyte_actual[7]= recibido_lsb2[3];  
      
      if (bmuestreando == 0){
-     
-        for (int n=0; n< 8; n++){
-            btrigger = trigger(n,cbyte_actual[n],cbyte_anterior[n]);     
-        }
+         if (bconf_trigger == 1){
+             btrigger = trigger();
+             if (btrigger == 0){
+                Fl::add_timeout(1, cb_timer_trigger, this);
+                if (iespera_trigger == 10 ){
+                   
+                }
+             } 
+         }             
+         
+              
+
      }
      
      if (btrigger == 1){
@@ -370,11 +432,9 @@ void Analizador::separar_canales() {
              bmuestreando = 1;
              almacenar();
           }
-     }
-     
+     } 
      strcpy(cbyte_anterior,cbyte_actual);                              //convertir la cadena actual a la anterior 
 
-     
 }
 
 
@@ -388,7 +448,7 @@ bool Analizador::trigger(int i, char cactual, char canterior) {
              btrigger = 1;
              btimer_trigger = 0;
              Fl::remove_timeout(cb_timer_trigger, this);
-             Fl::remove_timeout(cb_timer_ana, this);
+            // Fl::remove_timeout(cb_timer_ana, this);
           }
        }
        else{
