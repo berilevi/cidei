@@ -121,11 +121,27 @@ class Analizador : public Instrumento {
         * Agrupa las herramientas e indicadores del analizador
         */
         Fl_Group *ogroup_ana_botones;
+        /**
+		 *  Ventana de opciones de trigger.
+		 */
+	    Fl_Box *obox_trigger;
+	    /**
+        * Agrupa las herramientas e indicadores del analizador
+        */
+        Fl_Group *ogroup_trigger;
+        /**
+		 * Boton para cerrar la ventana de opciones de trigger. 
+	    */
+        Fl_Button *ocerrar_trigger;
+	    /**
+		 * Boton para activar el muestreo en el instrumento con o sin trigger
+	    */
+        Fl_Light_Button *otrigger_on;
 		/**
 		 * Este método es el callback del boton de encendido
 		 * del analizador debe ir acompañada de una función inline para
          * poder realizar los callbacks. 
-		 */
+		*/		 		 
 		static void cb_ana_on(Fl_Widget*, void *);
 		/**
 		 * Esta función acompaña la función cb_ana_on 
@@ -133,6 +149,22 @@ class Analizador : public Instrumento {
 		 * del analizador 
 		 */
 		inline void cb_ana_on_in();
+		/**
+		 * Callback para el boton que despliega las opciones del trigger 
+		*/		 		 
+		static void cb_trigger_on(Fl_Widget*, void *);
+		/**
+		 *  Callback para el boton que despliega las opciones del trigger 
+		 */
+		inline void cb_trigger_on_in();
+		/**
+		 * Callback para el boton que 
+		*/		 		 
+		static void cb_cerrar_trigger(Fl_Widget*, void *);
+		/**
+		 *  Callback para el boton que 
+		*/
+		inline void cb_cerrar_trigger_in();
 		/**
 		 * Callback del boton que habilita el muestreo en el analizador
 		 */
@@ -242,42 +274,7 @@ class Analizador : public Instrumento {
 		 * Valor del dato binario de 8 bits en el 1er tiempo de muestreo 
 	    */
 		Fl_Output *odato1;
-		/**
-		 * Valor del dato binario de 8 bits en el 2do tiempo de muestreo 
-	     */
-		Fl_Output *odato2;
-		/**
-		 * Valor del dato binario de 8 bits en el 3er tiempo de muestreo 
-	     */
-		Fl_Output *odato3;
-		/**
-		 * Valor del dato binario de 8 bits en el 4to tiempo de muestreo 
-	     */
-		Fl_Output *odato4;
-		/**
-		 * Valor del dato binario de 8 bits en el 5to tiempo de muestreo 
-	     */
-		Fl_Output *odato5;
-		/**
-		 * Valor del dato binario de 8 bits en el 6to tiempo de muestreo 
-	     */
-		Fl_Output *odato6;
-		/**
-		 * Valor del dato binario de 8 bits en el 7mo tiempo de muestreo 
-	     */
-		Fl_Output *odato7;
-		/**
-		 * Valor del dato binario de 8 bits en el 8o tiempo de muestreo 
-	     */
-		Fl_Output *odato8;
-		/**
-		 * Valor del dato binario de 8 bits en el 9o tiempo de muestreo 
-	     */
-		Fl_Output *odato9;
-		/**
-		 * Valor del dato binario de 8 bits en el 10o tiempo de muestreo 
-	     */
-		Fl_Output *odato10;
+	
          
 };
 

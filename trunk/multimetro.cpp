@@ -5,8 +5,7 @@
 
 // class constructor
 Multimetro::Multimetro(){
-    
-                         
+                            
     Fl_Tooltip::disable();
     strcpy(cvalor,"0.000");
     strcpy(cnombre,"mult.txt"); 
@@ -43,12 +42,8 @@ Multimetro::Multimetro(){
     ocontinuidad = new Fl_Button(922,273,63,35,"Cont");
     ocontinuidad->box(FL_UP_BOX);
     
-
-    
-    
     ogroup_mult-> end();
-     
-     
+      
     omult_on = new Fl_Light_Button(745,325,38,30,"ON");
     omult_on->labelsize(9); 
     omult_on->callback(cb_mult_on, this);

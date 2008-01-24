@@ -88,7 +88,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     otiempo_div->round(1);
     //otiempo_div->tooltip("Selector de las escalas de tiempo por división del instrumento");
     omenu_t_div = new Fl_Choice(648,330,30,20,"");
-    /*omenu_t_div->add("0.5 s");//,FL_ALT,(Fl_Callback *)cb_tdiv05s,this);
+    omenu_t_div->add("0.5 s");//,FL_ALT,(Fl_Callback *)cb_tdiv05s,this);
     omenu_t_div->add("0.2 s");//,FL_ALT,(Fl_Callback *)cb_tdiv02s,this);
     omenu_t_div->add("0.1 s");//,FL_ALT,(Fl_Callback *)cb_tdiv01s,this);           //
     omenu_t_div->add("50 m");//,FL_ALT,(Fl_Callback *)cb_tdiv50ms,this);
@@ -105,8 +105,8 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     omenu_t_div->add("10 u");//,FL_ALT,(Fl_Callback *)cb_tdiv10us,this);
     omenu_t_div->add("5 u");//,FL_ALT,(Fl_Callback *)cb_tdiv5us,this);
     omenu_t_div->add("2 u");//,FL_ALT,(Fl_Callback *)cb_tdiv2us,this);
-    omenu_t_div->add("1 u");//,FL_ALT,(Fl_Callback *)cb_tdiv1us,this);*/
-    omenu_t_div->menu(menu_tdiv);
+    omenu_t_div->add("1 u");//,FL_ALT,(Fl_Callback *)cb_tdiv1us,this);
+    //omenu_t_div->menu(menu_tdiv);
      
     ogroup_tdiv->end();
     
@@ -969,7 +969,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      if (num_canal == 2){
         opantalla->TraceColour(Fl_Color(canal2->ncolor));
         //if (omenu_t_div->value()<8){                                // !!!!!!!!!Toca cambiarlo a < 2 
-        if (omenu_t_div->value()<8){
+        if (otiempo_div->value()<8){
            idato_graf_ch2 = idato_osc_ch2;
            opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
            ogrilla->redraw();
@@ -984,7 +984,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      }
      if (num_canal == 3){
         //if (omenu_t_div->value() < 8){                                  // !!!!!!!!!Toca cambiarlo a < 2 
-        if (omenu_t_div->value()<8){
+        if (otiempo_div->value()<8){
            opantalla->TraceColour(Fl_Color(canal2->ncolor));           
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 
