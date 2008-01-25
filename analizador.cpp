@@ -6,6 +6,7 @@ int isec_numdatos = 0;
 int iespera_trigger = 0;
 char  cbyte_anterior[] = "00000000";
 bool bconf_trigger = 0;
+bool btermino_muestreo = 0;
 
 // class constructor
 Analizador::Analizador() {                 
@@ -161,7 +162,7 @@ void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany) {
  * Iniciar el analizador lógico
 */
 void Analizador::cb_ana_on_in() {
-      if(oana_on->value()== 1) {
+     if(oana_on->value()== 1) {
         activar(1);
         Encapsular('C','a','1','0',0x00,0x00);
         Transmision();
@@ -169,10 +170,7 @@ void Analizador::cb_ana_on_in() {
            ogroup_ana->activate();
            ogroup_ana_botones->activate();
            isec_numdatos = 0;
-           //oflancosubida->value(1);
-           //oflancosubida->box(FL_DOWN_BOX);
            oselector->value(1);
-           //Fl::add_timeout(0.1, cb_timer_ana, this);
         }
         else {
              fl_message("Error de hardware");
@@ -249,14 +247,15 @@ void Analizador::cb_muestrear(Fl_Widget* pboton, void *pany) {
 void Analizador::cb_muestrear_in() {
      if(omuestrear_on->value()== 1) {
        omuestrear_on->value(0);
+       btermino_muestreo = 0;
        omuestrear_on->box(FL_DOWN_BOX);
-       Fl::add_timeout(0.01, cb_timer_ana, this);
+       Fl::add_timeout(0.1, cb_timer_ana, this);
      }  
 }
 
 
 /**
- *
+ *  Activar el trigger por flanco de subida.  
 */
 void Analizador::cb_subida(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
@@ -264,7 +263,7 @@ void Analizador::cb_subida(Fl_Widget* pboton, void *pany) {
 }
 
 /**
- * 
+ * Activar el trigger por flanco de subida.  
 */
 void Analizador::cb_subida_in() {
       if (oflancosubida->value()== 0){
@@ -280,7 +279,7 @@ void Analizador::cb_subida_in() {
 }
 
 /**
- *
+ * Activar el trigger por flanco de bajada.  
 */
 void Analizador::cb_bajada(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
@@ -288,7 +287,7 @@ void Analizador::cb_bajada(Fl_Widget* pboton, void *pany) {
 }
 
 /**
- * 
+ *  Activar el trigger por flanco de bajada.
 */
 void Analizador::cb_bajada_in() {
      if (oflancobajada->value()== 0){
@@ -305,7 +304,7 @@ void Analizador::cb_bajada_in() {
 
 
 /**
- * 
+ *  Posición del cursor. 
 */
 void Analizador::cb_mas_datos(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
@@ -313,12 +312,20 @@ void Analizador::cb_mas_datos(Fl_Widget* pboton, void *pany) {
 }
 
 /**
- * 
+ * Posición del cursor.
 */
-void Analizador::cb_mas_datos_in() {
-    //idatos= 40 - oscroll->value();  
-    ocursor->iposx = oscroll->value()*10;
-   // ocursor->redraw();  
+void Analizador::cb_mas_datos_in() { 
+    ocursor->iposx = (oscroll->value()*10);
+    ocursor->redraw();
+    apantalla_ch1->redraw();
+    apantalla_ch2->redraw();
+    apantalla_ch3->redraw();
+    apantalla_ch4->redraw();
+    apantalla_ch5->redraw();
+    apantalla_ch6->redraw();
+    apantalla_ch7->redraw();
+    apantalla_ch8->redraw();
+    
 }
 
 
@@ -339,7 +346,9 @@ void Analizador::cb_timer_ana_in() {
      Encapsular('C','p','1','0',0x00,0x00);
      Transmision();
      separar_canales();
-     //Fl::repeat_timeout(0.001, cb_timer_ana, this);
+     if (btermino_muestreo == 0) {
+        Fl::repeat_timeout(0.001, cb_timer_ana, this);
+     }
 }
 
 
@@ -405,26 +414,27 @@ void Analizador::separar_canales() {
      cbyte_actual[7]= recibido_lsb2[3];  
      
      if (bmuestreando == 0){
-         if (bconf_trigger == 1){
+         if (bconf_trigger == 1){             
              btrigger = trigger();
-             if (btrigger == 0){
-                Fl::add_timeout(1, cb_timer_trigger, this);
-                if (iespera_trigger == 10 ){
-                   btimer_trigger = 1;
-                }
-                else {
-                     goto salir;
-                }
+             if (btrigger == 0){        
+                Fl::add_timeout(0.0000001, cb_timer_trigger, this);
+                goto salir;
              }
-             Fl::remove_timeout(cb_timer_trigger, this); 
-             bmuestreando = 1;
+             else{
+                  Fl::remove_timeout(cb_timer_trigger, this); 
+                  bmuestreando = 1;
+                  omuestreo->value(6);
+             }
          }             
      }
-     salir:
-     almacenar();
-     strcpy(cbyte_anterior,cbyte_actual);
-     Fl::repeat_timeout(0.01, cb_timer_ana, this);
-     
+     else{
+          //salir:
+         // omuestreo->value(9);
+          almacenar();
+          
+          salir:
+          strcpy(cbyte_anterior,cbyte_actual);
+     }    
 }
 
 
@@ -433,6 +443,7 @@ void Analizador::separar_canales() {
 */
 bool Analizador::trigger() {
     if (oflancosubida->value()== 1){
+       //omuestreo->value(2);
        if (cbyte_actual[int(oselector->value())] > cbyte_anterior [int(oselector->value())]){
           btrigger=1;
           btimer_trigger = 0;
@@ -442,15 +453,16 @@ bool Analizador::trigger() {
             btrigger=0;
        }
     }
-    if (cbyte_actual[int(oselector->value())] < cbyte_anterior [int(oselector->value())]){
-          btrigger=1;
-          btimer_trigger = 0;
-          Fl::remove_timeout(cb_timer_trigger, this);
+    else{
+         if (cbyte_actual[int(oselector->value())] < cbyte_anterior [int(oselector->value())]){
+            btrigger=1;
+            btimer_trigger = 0;
+            Fl::remove_timeout(cb_timer_trigger, this);
+         }
+         else {
+              btrigger=0;
+         }
     }
-    else {
-         btrigger=0;
-    }
-      
     return btrigger; 
 }
 
@@ -461,6 +473,10 @@ bool Analizador::trigger() {
 void Analizador::almacenar() {
      if (idatapos > inum_muestras-1) {
            Fl::remove_timeout(cb_timer_ana, this);
+           btermino_muestreo = 1;
+           omuestrear_on->value(1);
+           omuestrear_on->box(FL_UP_BOX);
+           oscroll->activate();
            graficar_datos();
            idatapos = 0;
            bmuestreando = 0;
@@ -471,7 +487,7 @@ void Analizador::almacenar() {
      
      strcpy(pdata_analizador [idatapos], cbyte_actual);
      idatapos++;
-     //iespera_trigger = 0;
+     bmuestreando = 1;
      ocursor->redraw();
 }
 
@@ -488,7 +504,17 @@ void Analizador::cb_timer_trigger(void *pany) {
  * 
 */
 void Analizador::cb_timer_trigger_in() {
+     //omuestreo->value(2);
      iespera_trigger++;
+     if (iespera_trigger < 10) {
+        //omuestreo->value(iespera_trigger);
+        Fl::repeat_timeout(0.01, cb_timer_trigger, this);
+     }
+     else if (iespera_trigger == 10 ){
+             Fl::remove_timeout(cb_timer_trigger, this);           
+             btimer_trigger = 1;
+             omuestreo->value(8);
+     }
 }
 
 
@@ -498,97 +524,96 @@ void Analizador::cb_timer_trigger_in() {
 */
 void Analizador::graficar_datos() {
      
-     for (int i=0; i<inum_muestras; i++) {
+     for (int o=0; o<inum_muestras; o++) {
          
          //Canal 1
-         if (pdata_analizador[i][0]=='1'){
+         if (pdata_analizador[o][0]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
                 apantalla_ch1->Add(50000);
             }
          }
-         else if (pdata_analizador[i][0]=='0'){
+         else if (pdata_analizador[o][0]=='0'){
               for (int i=0; i<idatos_graficados;i++){                   
                   apantalla_ch1->Add(10000);
               }
          }
          //Canal 2
-         if (pdata_analizador[i][1]=='1'){
+         if (pdata_analizador[o][1]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
                 apantalla_ch2->Add(50000);
             }
          }
-         else if (pdata_analizador[i][1]=='0'){
+         else if (pdata_analizador[o][1]=='0'){
               for (int i=0; i<idatos_graficados;i++){                   
                   apantalla_ch2->Add(10000);
               }
          }
          //Canal 3
-         if (pdata_analizador[i][2]=='1'){
+         if (pdata_analizador[o][2]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
                 apantalla_ch3->Add(50000);
             }
          }
-         else if (pdata_analizador[i][2]=='0'){
+         else if (pdata_analizador[o][2]=='0'){
               for (int i=0; i<idatos_graficados;i++){                   
                   apantalla_ch3->Add(10000);
               }
          }
          //Canal 4
-         if (pdata_analizador[i][3]=='1'){
+         if (pdata_analizador[o][3]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
                 apantalla_ch4->Add(50000);
             }
          }
-         else if (pdata_analizador[i][3]=='0'){
+         else if (pdata_analizador[o][3]=='0'){
               for (int i=0; i<idatos_graficados;i++){                   
                   apantalla_ch4->Add(10000);
               }
          }
          //Canal 5
-         if (pdata_analizador[i][4]=='1'){
+         if (pdata_analizador[o][4]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
                 apantalla_ch5->Add(50000);
             }
          }
-         else if (pdata_analizador[i][4]=='0'){
+         else if (pdata_analizador[o][4]=='0'){
               for (int i=0; i<idatos_graficados;i++){                   
                   apantalla_ch5->Add(10000);
               }
          }
          //Canal 6
-         if (pdata_analizador[i][5]=='1'){
+         if (pdata_analizador[o][5]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
                 apantalla_ch6->Add(50000);
             }
          }
-         else if (pdata_analizador[i][5]=='0'){
+         else if (pdata_analizador[o][5]=='0'){
               for (int i=0; i<idatos_graficados;i++){                   
                   apantalla_ch6->Add(10000);
               }
          }
          //Canal 7
-         if (pdata_analizador[i][6]=='1'){
+         if (pdata_analizador[o][6]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
                 apantalla_ch7->Add(50000);
             }
          }
-         else if (pdata_analizador[i][6]=='0'){
+         else if (pdata_analizador[o][6]=='0'){
               for (int i=0; i<idatos_graficados;i++){                   
                   apantalla_ch7->Add(10000);
               }
          }
          //Canal 8
-         if (pdata_analizador[i][7]=='1'){
+         if (pdata_analizador[o][7]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
                 apantalla_ch8->Add(50000);
             }
          }
-         else if (pdata_analizador[i][7]=='0'){
+         else if (pdata_analizador[o][7]=='0'){
               for (int i=0; i<idatos_graficados;i++){                   
                   apantalla_ch8->Add(10000);
               }
          }
          ocursor->redraw();
      }
-
 }

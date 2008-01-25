@@ -28,7 +28,7 @@
 #include <iostream>
 #include <string>
 
-#define TAM_ALMACENADO 4
+#define TAM_ALMACENADO 7
 #define ESPERA_TRIGGER 10
 
 using namespace std;
