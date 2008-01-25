@@ -248,9 +248,9 @@ void Analizador::cb_muestrear(Fl_Widget* pboton, void *pany) {
 */
 void Analizador::cb_muestrear_in() {
      if(omuestrear_on->value()== 1) {
-       Fl::add_timeout(0.001, cb_timer_ana, this);
        omuestrear_on->value(0);
        omuestrear_on->box(FL_DOWN_BOX);
+       Fl::add_timeout(0.01, cb_timer_ana, this);
      }  
 }
 
@@ -339,7 +339,7 @@ void Analizador::cb_timer_ana_in() {
      Encapsular('C','p','1','0',0x00,0x00);
      Transmision();
      separar_canales();
-     Fl::repeat_timeout(0.001, cb_timer_ana, this);
+     //Fl::repeat_timeout(0.001, cb_timer_ana, this);
 }
 
 
@@ -410,58 +410,47 @@ void Analizador::separar_canales() {
              if (btrigger == 0){
                 Fl::add_timeout(1, cb_timer_trigger, this);
                 if (iespera_trigger == 10 ){
-                   
+                   btimer_trigger = 1;
                 }
-             } 
-         }             
-         
-              
-
-     }
-     
-     if (btrigger == 1){
-        Fl::remove_timeout(cb_timer_trigger, this);
-        bmuestreando = 1;
-        almacenar();
-     } 
-     else{
-          Fl::add_timeout(1, cb_timer_trigger, this); 
-          if (iespera_trigger == 10 && btrigger == 0){
-             Fl::remove_timeout(cb_timer_trigger, this);
-             btimer_trigger = 1;
+                else {
+                     goto salir;
+                }
+             }
+             Fl::remove_timeout(cb_timer_trigger, this); 
              bmuestreando = 1;
-             almacenar();
-          }
-     } 
-     strcpy(cbyte_anterior,cbyte_actual);                              //convertir la cadena actual a la anterior 
-
+         }             
+     }
+     salir:
+     almacenar();
+     strcpy(cbyte_anterior,cbyte_actual);
+     Fl::repeat_timeout(0.01, cb_timer_ana, this);
+     
 }
 
 
 /**
  * Función para determinar si ocurrio el evento que dispara el muestreo
 */
-bool Analizador::trigger(int i, char cactual, char canterior) {
-    if (oselector->value()== i+1){
-       if (oflancosubida->value()== 1){
-          if (cactual > canterior){
-             btrigger = 1;
-             btimer_trigger = 0;
-             Fl::remove_timeout(cb_timer_trigger, this);
-            // Fl::remove_timeout(cb_timer_ana, this);
-          }
+bool Analizador::trigger() {
+    if (oflancosubida->value()== 1){
+       if (cbyte_actual[int(oselector->value())] > cbyte_anterior [int(oselector->value())]){
+          btrigger=1;
+          btimer_trigger = 0;
+          Fl::remove_timeout(cb_timer_trigger, this);
        }
-       else{
-           if (cactual < canterior){
-              btrigger = 1;
-              btimer_trigger = 0;
-              Fl::remove_timeout(cb_timer_trigger, this);
-           }
+       else {
+            btrigger=0;
        }
+    }
+    if (cbyte_actual[int(oselector->value())] < cbyte_anterior [int(oselector->value())]){
+          btrigger=1;
+          btimer_trigger = 0;
+          Fl::remove_timeout(cb_timer_trigger, this);
     }
     else {
-         btrigger = 0;
+         btrigger=0;
     }
+      
     return btrigger; 
 }
 
@@ -471,18 +460,18 @@ bool Analizador::trigger(int i, char cactual, char canterior) {
 */
 void Analizador::almacenar() {
      if (idatapos > inum_muestras-1) {
+           Fl::remove_timeout(cb_timer_ana, this);
            graficar_datos();
            idatapos = 0;
            bmuestreando = 0;
            btrigger = 0;
            btimer_trigger = 0;
-           Fl::remove_timeout(cb_timer_ana, this);
            omuestrear_on->value(0);
      }
      
      strcpy(pdata_analizador [idatapos], cbyte_actual);
      idatapos++;
-     iespera_trigger = 0;
+     //iespera_trigger = 0;
      ocursor->redraw();
 }
 

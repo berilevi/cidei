@@ -261,7 +261,7 @@ class Analizador : public Instrumento {
 		/**
 		 * Función para determinar si ocurrio el evento que dispara el muestreo
 	    */
-		bool trigger(int, char, char);
+		bool trigger();
 		/**
 		 * Función para almacenar muestras.
 	    */
