@@ -58,13 +58,12 @@ class FL_EXPORT Fl_Scope : public Fl_Widget
   int       _x,_y,_w,_h;               /* Posicion y tamaño del Screen */
 
   
-  
-  int ScopeDataSize;                   /* Tamaño de los arreglos de datos que se van a graficar*/
   int ScopeDataPos;                    /* Contador para recorrer los datos que se van a graficar*/
   
   Fl_Color _TraceColour;               /* Color de la traza */
   Fl_Color _TraceColour2;              /* Color de la traza */
   Fl_Color _BackColour;                /* Color de fondo del screen*/
+  Fl_Color _TextColour;                /* Color de texto */
 
   int TraceType;                       /* Modo de colocar los datos de las señales en el screen*/
   int RedrawMode;                      /* Modo de actualizar la grafica de las señales*/
@@ -92,6 +91,8 @@ protected:
   
 public:
 
+  int ScopeDataSize;                           /* Tamaño de los arreglos de datos que se van a graficar*/
+
   int *ScopeData;                             /* Apuntador al arreglo dinamico del canal 1 */
   
   int *ScopeData2;                            /* Apuntador al arreglo dinamico del canal 2 */     
@@ -106,7 +107,11 @@ public:
   
   bool bstop;                                 /* Variable que indica si se activa la detención de la gráfica*/
   
-  int ipos_x;
+  int ipos_x;                                 /* Variable para desplazar la grafica horizontalmente*/
+  
+  int imuestra;                               /* Número de muestra en el analizador*/
+  
+  int ipos_muestra;                           /* Posición del número de muestra del analizador*/
   
   int x(){return _x;};                        /* Posicion horizontal del Screen */
 
@@ -143,6 +148,9 @@ public:
 
   Fl_Color BackColour(){return _BackColour;};
   void     BackColour(Fl_Color c){_BackColour=c;};
+  
+  Fl_Color TextColour(){return _TextColour;};
+  void     TextColour(Fl_Color c){_TextColour=c;};
 
   virtual int handle(int);
   Fl_Scope(int,int,int,int,const char * = 0);

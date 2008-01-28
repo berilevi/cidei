@@ -13,7 +13,7 @@ Analizador::Analizador() {
     
     idatapos = 0;
     inum_muestras = TAM_ALMACENADO;
-    idatos_graficados = 40;
+    idatos_graficados = 20;
     btimer_trigger = 0;
     btrigger = 0;
     bmuestreando = 0;
@@ -38,7 +38,7 @@ Analizador::Analizador() {
     oscroll->linesize(2);
     oscroll->step(1);
     oscroll->deactivate();
-      
+    
     olog_ana = new Fl_Button(290,382,40,16,"Log");
     olog_ana->labelsize(10);
     
@@ -52,44 +52,59 @@ Analizador::Analizador() {
     apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch1->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch1->linetype(FL_SCOPE_LINE);
+    apantalla_ch1->ScopeDataSize = 800;
     apantalla_ch2->TraceColour(FL_RED);
     apantalla_ch2->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch2->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch2->linetype(FL_SCOPE_LINE);
+    apantalla_ch2->ScopeDataSize = 800;
     apantalla_ch3->TraceColour(FL_RED);
     apantalla_ch3->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch3->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch3->linetype(FL_SCOPE_LINE);
+    apantalla_ch3->ScopeDataSize = 800;
     apantalla_ch4->TraceColour(FL_RED);
     apantalla_ch4->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch4->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch4->linetype(FL_SCOPE_LINE);
+    apantalla_ch4->ScopeDataSize = 800;
     apantalla_ch5->TraceColour(FL_RED);
     apantalla_ch5->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch5->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch5->linetype(FL_SCOPE_LINE);
+    apantalla_ch5->ScopeDataSize = 800;
     apantalla_ch6->TraceColour(FL_RED);
     apantalla_ch6->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch6->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch6->linetype(FL_SCOPE_LINE);
+    apantalla_ch6->ScopeDataSize = 800;
     apantalla_ch7->TraceColour(FL_RED);
     apantalla_ch7->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch7->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch7->linetype(FL_SCOPE_LINE);
+    apantalla_ch7->ScopeDataSize = 800;
     apantalla_ch8->TraceColour(FL_RED);
     apantalla_ch8->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch8->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch8->linetype(FL_SCOPE_LINE);
+    apantalla_ch8->ScopeDataSize = 800;
     
-            
     ogroup_ana_botones = new Fl_Group(425,375,80,175,"");          // Agrupa los elementos del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
            
-    omuestreo = new Fl_Value_Slider(430,390,30,150,"");
+    omuestreo = new Fl_Value_Slider(430,390,30,80,"");
     omuestreo->range(1,10);
     omuestreo->step(1);
     omuestreo->round(1); 
+    
+    odes_horizontal = new Fl_Knob(435,480,60,60,"");
+    odes_horizontal->color(147);
+    odes_horizontal->type(8);
+    odes_horizontal->labelsize(9);
+    odes_horizontal->step(20);
+    odes_horizontal->round(100);
+    odes_horizontal->range(-450,0);
     
     ogroup_ana_botones->end();
     
@@ -103,6 +118,9 @@ Analizador::Analizador() {
     
     odato1 = new Fl_Output(430,645,70,20,"");
     odato1->textsize(9);
+    odato2 = new Fl_Output(430,675,70,20,"");
+    odato2->textsize(9);
+    
     
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger"); 
     otrigger_on->labelsize(12);
@@ -142,6 +160,7 @@ Analizador::Analizador() {
     ocerrar_trigger->callback(cb_cerrar_trigger,this);
     oflancosubida->callback(cb_subida,this);
     oflancobajada->callback(cb_bajada,this);
+    odes_horizontal->callback(cb_horizontal,this);
 }
 
 // class destructor
@@ -416,25 +435,36 @@ void Analizador::separar_canales() {
      if (bmuestreando == 0){
          if (bconf_trigger == 1){             
              btrigger = trigger();
-             if (btrigger == 0){        
-                Fl::add_timeout(0.0000001, cb_timer_trigger, this);
-                goto salir;
+             if (btrigger == 0){ 
+                if (iespera_trigger < 20){
+                   iespera_trigger++; 
+                   goto salir;      
+                }
+                else if (iespera_trigger == 20){
+                     iespera_trigger = 0;
+                     Fl::remove_timeout(cb_timer_ana, this);
+                     btermino_muestreo = 1;
+                     omuestrear_on->value(1);
+                     omuestrear_on->box(FL_UP_BOX);
+                     oscroll->activate();
+                     idatapos = 0;
+                     bmuestreando = 0;
+                     btrigger = 0;
+                     btimer_trigger = 0;
+                     omuestrear_on->value(0);
+                     goto salir;
+                }
              }
              else{
-                  Fl::remove_timeout(cb_timer_trigger, this); 
                   bmuestreando = 1;
-                  omuestreo->value(6);
+                  iespera_trigger = 1;
              }
          }             
      }
-     else{
-          //salir:
-         // omuestreo->value(9);
-          almacenar();
-          
-          salir:
-          strcpy(cbyte_anterior,cbyte_actual);
-     }    
+     
+     almacenar();
+     salir:
+     strcpy(cbyte_anterior,cbyte_actual);
 }
 
 
@@ -443,11 +473,13 @@ void Analizador::separar_canales() {
 */
 bool Analizador::trigger() {
     if (oflancosubida->value()== 1){
-       //omuestreo->value(2);
-       if (cbyte_actual[int(oselector->value())] > cbyte_anterior [int(oselector->value())]){
+       if (cbyte_actual[int(oselector->value())-1] > cbyte_anterior [int(oselector->value())-1]){
+          omuestreo->value(oselector->value());
+          odato1->value(cbyte_actual);
+          odato2->value(cbyte_anterior);
           btrigger=1;
+          iespera_trigger = 1;
           btimer_trigger = 0;
-          Fl::remove_timeout(cb_timer_trigger, this);
        }
        else {
             btrigger=0;
@@ -456,8 +488,8 @@ bool Analizador::trigger() {
     else{
          if (cbyte_actual[int(oselector->value())] < cbyte_anterior [int(oselector->value())]){
             btrigger=1;
+            iespera_trigger = 1;
             btimer_trigger = 0;
-            Fl::remove_timeout(cb_timer_trigger, this);
          }
          else {
               btrigger=0;
@@ -477,12 +509,12 @@ void Analizador::almacenar() {
            omuestrear_on->value(1);
            omuestrear_on->box(FL_UP_BOX);
            oscroll->activate();
-           graficar_datos();
            idatapos = 0;
            bmuestreando = 0;
            btrigger = 0;
            btimer_trigger = 0;
            omuestrear_on->value(0);
+           graficar_datos();
      }
      
      strcpy(pdata_analizador [idatapos], cbyte_actual);
@@ -493,28 +525,33 @@ void Analizador::almacenar() {
 
 
 /**
- * 
+ *
 */
-void Analizador::cb_timer_trigger(void *pany) {
+void Analizador::cb_horizontal(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
-     pana->cb_timer_trigger_in();
+     pana->cb_horizontal_in();
 }
 
 /**
  * 
 */
-void Analizador::cb_timer_trigger_in() {
-     //omuestreo->value(2);
-     iespera_trigger++;
-     if (iespera_trigger < 10) {
-        //omuestreo->value(iespera_trigger);
-        Fl::repeat_timeout(0.01, cb_timer_trigger, this);
-     }
-     else if (iespera_trigger == 10 ){
-             Fl::remove_timeout(cb_timer_trigger, this);           
-             btimer_trigger = 1;
-             omuestreo->value(8);
-     }
+void Analizador::cb_horizontal_in() {
+    apantalla_ch1->ipos_x = int(odes_horizontal->value());
+    apantalla_ch1->redraw();
+    apantalla_ch2->ipos_x = int(odes_horizontal->value());
+    apantalla_ch2->redraw();
+    apantalla_ch3->ipos_x = int(odes_horizontal->value());
+    apantalla_ch3->redraw();
+    apantalla_ch4->ipos_x = int(odes_horizontal->value());
+    apantalla_ch4->redraw();
+    apantalla_ch5->ipos_x = int(odes_horizontal->value());
+    apantalla_ch5->redraw();
+    apantalla_ch6->ipos_x = int(odes_horizontal->value());
+    apantalla_ch6->redraw();
+    apantalla_ch7->ipos_x = int(odes_horizontal->value());
+    apantalla_ch7->redraw();
+    apantalla_ch8->ipos_x = int(odes_horizontal->value());
+    apantalla_ch8->redraw();
 }
 
 
@@ -524,7 +561,17 @@ void Analizador::cb_timer_trigger_in() {
 */
 void Analizador::graficar_datos() {
      
+     apantalla_ch1->TextColour(FL_WHITE);
+     apantalla_ch2->TextColour(FL_WHITE);
+     apantalla_ch3->TextColour(FL_WHITE);
+     apantalla_ch4->TextColour(FL_WHITE);
+     apantalla_ch5->TextColour(FL_WHITE);
+     apantalla_ch6->TextColour(FL_WHITE);
+     apantalla_ch7->TextColour(FL_WHITE);
+     apantalla_ch8->TextColour(FL_WHITE);
+     
      for (int o=0; o<inum_muestras; o++) {
+         
          
          //Canal 1
          if (pdata_analizador[o][0]=='1'){
