@@ -6,6 +6,7 @@
 #include "instrumento.h" // inheriting class's header file
 #include "Fl_7Seg.H"     // inheriting class's header file
 #include <FL/Fl.H>
+#include "fl_Knob.h"
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <Fl/fl_Button.h>
@@ -28,7 +29,7 @@
 #include <iostream>
 #include <string>
 
-#define TAM_ALMACENADO 7
+#define TAM_ALMACENADO 100
 #define ESPERA_TRIGGER 10
 
 using namespace std;
@@ -78,7 +79,6 @@ class Analizador : public Instrumento {
 		 * Botón para seleccionar el canal con el que se activa el disparo por flancos
 		*/
         Fl_Spinner *oselector;
-        
         /**
 		 * Agrupa los botones e indicadores del analizador
 		 */
@@ -104,7 +104,6 @@ class Analizador : public Instrumento {
 		 * Boton que habilita la ayuda para el uso del instrumento. 
 	    */
         Fl_Button *ohelp_ana;
- 
         /**
 		 * Boton que habilita la ayuda flotante para el uso de los botones. 
 	    */
@@ -117,6 +116,10 @@ class Analizador : public Instrumento {
 		 * Scroll para desplazar los datos graficados.    
 	    */
         Fl_Scrollbar *oscroll;
+        /**
+		 * Botón para desplazar la grafica horizontalmente   
+		*/
+        Fl_Knob *odes_horizontal;
 	    /**
         * Agrupa las herramientas e indicadores del analizador
         */
@@ -149,6 +152,14 @@ class Analizador : public Instrumento {
 		 * del analizador 
 		 */
 		inline void cb_ana_on_in();
+		/**
+		 * 
+		*/		 		 
+		static void cb_horizontal(Fl_Widget*, void *);
+		/**
+		 * 
+		 */
+		inline void cb_horizontal_in();
 		/**
 		 * Callback para el boton que despliega las opciones del trigger 
 		*/		 		 
@@ -206,7 +217,6 @@ class Analizador : public Instrumento {
 		void graficar_datos();
 		
   private:
-
         /**
          * Este método es el callback del timer para realizar la solicitud 
          * de datos del analizador logico al hardware.  
@@ -217,14 +227,6 @@ class Analizador : public Instrumento {
          * para realizar los llamados de callback del timer 
          */
          inline void cb_timer_ana_in();
-         /**
-         *  Timer máximo de espera del trigger
-         */   
-         static void cb_timer_trigger(void *);
-         /**
-         *  Timer máximo de espera del trigger
-         */
-         inline void cb_timer_trigger_in();
          /**
 		 * Esta funcion separa los datos enviados desde el hardware para cada
 		 * canal del analizador logico.
@@ -274,6 +276,7 @@ class Analizador : public Instrumento {
 		 * Valor del dato binario de 8 bits en el 1er tiempo de muestreo 
 	    */
 		Fl_Output *odato1;
+		Fl_Output *odato2;
 	
          
 };

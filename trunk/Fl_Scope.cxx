@@ -118,7 +118,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
  ptrjp2++;                                                      /* Apuntar al segundo dato del arreglo dinamico del canal 2*/
 
  
- if (bdual== 0){                                                   /* Si el osciloscopio no esta en modo dual*/
+ if (bdual== 0){                                                /* Si el osciloscopio no esta en modo dual*/
     for(count=0;count<ScopeDataSize-1;count++){                 /* Ciclo para recorrer los arreglos dinamicos y graficarlos*/
        switch(LineType){
              default:
@@ -145,6 +145,9 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                           fl_color(_TraceColour);
                           fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
                           xx++;
+                          fl_color(_TextColour);
+	                      fl_font(FL_HELVETICA,8);
+                          fl_draw("10",ipos_muestra,(yy+hh) - (int)((float)20000 * ((float)hh/65535.0)));
                      }  
                   }
                   else{
@@ -233,7 +236,8 @@ int Fl_Scope::Add(int data){
     ScopeDataPos=0;
  }
  
- switch(TraceType)                                             /* Adicionar los datos al arreglo dependiendo el tipo de grafica*/
+ switch(TraceType)  
+                                            /* Adicionar los datos al arreglo dependiendo el tipo de grafica*/
  {
    default:
    case FL_SCOPE_TRACE_SCROLL:
@@ -391,6 +395,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  x(X);y(Y);w(W);h(H);                                  /* Tamaño del Screen*/
  box(FL_DOWN_BOX);                                     /* Tipo de bordes del Screen*/
  BackColour(Fl_Color(0));                              /* Color de fondo Negro*/
+ TextColour(Fl_Color(0));                              /* Color de fondo Negro*/
  TraceColour(FL_YELLOW);                                /* Color de grafica Blanco*/
  TraceColour2(FL_GREEN);                                /* Color de grafica Verde*/
  
@@ -414,6 +419,8 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  ivez = 0;
  
  ipos_x = 0;
+ 
+ ipos_muestra = 25;
  
                            /*Configuraciones por defecto de la clase*/
  
