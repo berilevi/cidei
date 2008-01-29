@@ -145,9 +145,9 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                           fl_color(_TraceColour);
                           fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
                           xx++;
-                          fl_color(_TextColour);
-	                      fl_font(FL_HELVETICA,8);
-                          fl_draw("10",ipos_muestra,(yy+hh) - (int)((float)20000 * ((float)hh/65535.0)));
+                         // fl_color(_TextColour);
+	                     // fl_font(FL_HELVETICA,8);
+                         // fl_draw("1",ipos_muestra,(yy+hh) - (int)((float)20000 * ((float)hh/65535.0)));
                      }  
                   }
                   else{
@@ -166,7 +166,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
              break;  
       }
 
-      //xx= xx+4;                                                      /* !!!!  Se incrementa en 4 el valor para la coordenada x de la grafica*/
+     
       Ptr2++;                                                    /* Se incrementa en 1 la direccion de los apuntadores*/
       Ptr++;
       ptrjp2++;
@@ -176,7 +176,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
     }
 }
 
-else if (bdual==1){                                                 /* Si el oscilocpio esta en modo de operación dual*/
+else if (bdual==1){                                              /* Si el oscilocpio esta en modo de operación dual*/
    if (ivez >0){                                                 /* Para que se grafique despues de la primera operacion entre los datos de las señales*/
       for(count=0;count<ScopeDataSize-1;count++){
           if (blissajous == 1){
@@ -395,7 +395,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  x(X);y(Y);w(W);h(H);                                  /* Tamaño del Screen*/
  box(FL_DOWN_BOX);                                     /* Tipo de bordes del Screen*/
  BackColour(Fl_Color(0));                              /* Color de fondo Negro*/
- TextColour(Fl_Color(0));                              /* Color de fondo Negro*/
+ TextColour(Fl_Color(0));                              /* Color de texto Negro*/
  TraceColour(FL_YELLOW);                                /* Color de grafica Blanco*/
  TraceColour2(FL_GREEN);                                /* Color de grafica Verde*/
  

@@ -23,16 +23,21 @@ Analizador::Analizador() {
     ogroup_ana->box(FL_UP_BOX);
     ogroup_ana->deactivate(); 
      
-    apantalla_ch1 = new Fl_Scope(20,410,400,34,"");  // Instancia de canal 1
-    apantalla_ch2 = new Fl_Scope(20,442,400,34,"");  // Instancia de canal 2
-    apantalla_ch3 = new Fl_Scope(20,474,400,34,"");  // Instancia de canal 3
-    apantalla_ch4 = new Fl_Scope(20,506,400,34,"");  // Instancia de canal 4
-    apantalla_ch5 = new Fl_Scope(20,538,400,34,"");  // Instancia de canal 5
-    apantalla_ch6 = new Fl_Scope(20,570,400,34,"");  // Instancia de canal 6
-    apantalla_ch7 = new Fl_Scope(20,602,400,34,"");  // Instancia de canal 7
-    apantalla_ch8 = new Fl_Scope(20,634,400,34,"");  // Instancia de canal 8
+    apantalla_ch1 = new Fl_Scope(20,420,400,34,"");  // Instancia de canal 1
+    apantalla_ch2 = new Fl_Scope(20,452,400,34,"");  // Instancia de canal 2
+    apantalla_ch3 = new Fl_Scope(20,484,400,34,"");  // Instancia de canal 3
+    apantalla_ch4 = new Fl_Scope(20,516,400,34,"");  // Instancia de canal 4
+    apantalla_ch5 = new Fl_Scope(20,548,400,34,"");  // Instancia de canal 5
+    apantalla_ch6 = new Fl_Scope(20,580,400,34,"");  // Instancia de canal 6
+    apantalla_ch7 = new Fl_Scope(20,612,400,34,"");  // Instancia de canal 7
+    apantalla_ch8 = new Fl_Scope(20,644,400,34,"");  // Instancia de canal 8
     
-    oscroll = new Fl_Scrollbar(12,670,415,10,"");
+    otexto_muestra = new Mensajes(20,420,400,20,""); 
+    
+     ogrilla = new grid(18,420,400,272,"");
+     ogrilla->bgrilla_analizador= 1;
+    
+    oscroll = new Fl_Scrollbar(12,680,415,10,"");
     oscroll->type(FL_HORIZONTAL);
     oscroll->range(0,40);
     oscroll->linesize(2);
@@ -104,7 +109,7 @@ Analizador::Analizador() {
     odes_horizontal->labelsize(9);
     odes_horizontal->step(20);
     odes_horizontal->round(100);
-    odes_horizontal->range(-450,0);
+    odes_horizontal->range(-400,0);
     
     ogroup_ana_botones->end();
     
@@ -120,8 +125,7 @@ Analizador::Analizador() {
     odato1->textsize(9);
     odato2 = new Fl_Output(430,675,70,20,"");
     odato2->textsize(9);
-    
-    
+        
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger"); 
     otrigger_on->labelsize(12);
           
@@ -141,8 +145,7 @@ Analizador::Analizador() {
     ocerrar_trigger->labelsize(9);
     
     ogroup_trigger->end();
-    
-    
+        
     obox_nombre = new Fl_Box(12,375,223,30,"ANALIZADOR LÓGICO");
     obox_nombre->box(FL_ENGRAVED_FRAME);
     obox_nombre->labelfont(FL_HELVETICA_BOLD);
@@ -151,7 +154,7 @@ Analizador::Analizador() {
     oana_on = new Fl_Light_Button(240,375,38,30,"ON");
     oana_on->labelsize(9);
     
-    ocursor = new Cursores(20,410,400,668);
+    ocursor = new Cursores(20,420,400,674);
     
     oana_on->callback(cb_ana_on, this);
     omuestrear_on->callback(cb_muestrear,this);
@@ -561,14 +564,6 @@ void Analizador::cb_horizontal_in() {
 */
 void Analizador::graficar_datos() {
      
-     apantalla_ch1->TextColour(FL_WHITE);
-     apantalla_ch2->TextColour(FL_WHITE);
-     apantalla_ch3->TextColour(FL_WHITE);
-     apantalla_ch4->TextColour(FL_WHITE);
-     apantalla_ch5->TextColour(FL_WHITE);
-     apantalla_ch6->TextColour(FL_WHITE);
-     apantalla_ch7->TextColour(FL_WHITE);
-     apantalla_ch8->TextColour(FL_WHITE);
      
      for (int o=0; o<inum_muestras; o++) {
          

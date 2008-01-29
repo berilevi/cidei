@@ -13,6 +13,7 @@
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
 #include "fl_Knob.h"
+#include <fstream>
 
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Box.H>

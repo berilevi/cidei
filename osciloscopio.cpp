@@ -7,17 +7,6 @@ int isec_trigger;         // Variable global para realizar la secuencia del menu
 int isec_acople;          // Variable global para realizar la secuencia del acople del canal 1
 int isec_acople2;         // Variable global para realizar la secuencia del acople del canal 2
 
-  Fl_Menu_Item menu_tdiv[] = {
-  {"Red",	FL_ALT+'r'},
-  {"Green",	FL_ALT+'g'},
-  {"Blue",	FL_ALT+'b'},
-  {"Strange",	FL_ALT+'s', 0, 0, FL_MENU_INACTIVE},
-  {"&Charm",	FL_ALT+'c'},
-  {"Truth",	FL_ALT+'t'},
-  {"Beauty",	FL_ALT+'b'},
-  {0}
-};
-
 
 // Constructor de clase
 Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento(){
@@ -159,6 +148,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     ogroup_osc->end();
     
     ogrilla = new grid(12,40,400,320,"");
+    ogrilla->banalizador_on = 0;
     
     obox_nombre = new Fl_Box(15,8,175,30,"OSCILOSCOPIO");
     obox_nombre->box(FL_ENGRAVED_FRAME);
@@ -1040,8 +1030,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
  * archivos planos de texto de los datos capturados para el osciloscopio,  
  * debe ir acompañada de una función inline para poder realizar los callbacks. 
 */
-void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany)
-{
+void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
      posc->cb_log_osc_in();
 }
@@ -1052,7 +1041,9 @@ void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany)
  * planos de texto de los datos capturados para el osciloscopio. 
 */
 void Osciloscopio::cb_log_osc_in(){
-     
+    ofstream log("oscill.txt");
+    log << "Hello World, from www.cpp-home.com and Loobian!";
+	log.close(); 
 }
 
 

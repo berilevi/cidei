@@ -1,7 +1,7 @@
 [Project]
 FileName=LIV.dev
 Name=LIV
-UnitCount=24
+UnitCount=26
 Type=0
 Ver=1
 ObjFiles=
@@ -279,6 +279,26 @@ BuildCmd=
 
 [Unit24]
 FileName=cursores.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit25]
+FileName=mensajes.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit26]
+FileName=mensajes.cpp
 CompileCpp=1
 Folder=
 Compile=1

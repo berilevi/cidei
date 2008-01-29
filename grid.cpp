@@ -9,6 +9,8 @@ grid::grid(int X,int Y,int W,int H,const char *l): Fl_Scope(X,Y,W,H,l){
                
 	x(X);y(Y);w(W);h(H);
     bgrid = 0; 
+    bgrilla_analizador = 0;
+    banalizador_on = 1;
 }
 
 
@@ -22,7 +24,8 @@ void grid::draw(int xx, int yy, int ww, int hh){
     
    fl_color(FL_WHITE);  
    fl_line_style(FL_DOT);
-   
+
+if (bgrilla_analizador == 0 ){   
    if (bgrid){
    
       fl_line(xx, (hh/8)+yy, ww+xx, (hh/8)+yy);
@@ -49,11 +52,33 @@ void grid::draw(int xx, int yy, int ww, int hh){
 
    }
    
-   else {
+   else if (bgrid == 0 && banalizador_on == 0 ){
         fl_line_style(0);
         fl_line((ww/2)+12, yy, (ww/2)+12, hh+yy);
         fl_line(xx, (hh/2)+yy, ww+12, (hh/2)+yy);
    }
+}
+else {
+      fl_line((ww/20)+xx, yy, (ww/20)+xx, hh+yy);
+      fl_line((ww/10)+xx, yy, (ww/10)+xx, hh+yy);
+      fl_line((ww/6.66667)+xx, yy, (ww/6.66667)+xx, hh+yy);
+      fl_line((ww/5)+xx, yy, (ww/5)+xx, hh+yy);
+      fl_line((ww/4)+xx, yy, (ww/4)+xx, hh+yy);
+      fl_line((ww/3.3333)+xx, yy, (ww/3.333)+xx, hh+yy);
+      fl_line((ww/2.85714)+xx, yy, (ww/2.85714)+xx, hh+yy);
+      fl_line((ww/2.5)+xx, yy, (ww/2.5)+xx, hh+yy);
+      fl_line((ww/2.2222)+xx, yy, (ww/2.2222)+xx, hh+yy);
+      fl_line((ww/2)+xx, yy, (ww/2)+xx, hh+yy);
+      fl_line((ww/1.81818)+xx, yy, (ww/1.81818)+xx, hh+yy);
+      fl_line((ww/1.66667)+xx, yy, (ww/1.66667)+xx, hh+yy);
+      fl_line((ww/1.538461)+xx, yy, (ww/1.538461)+xx, hh+yy);
+      fl_line((ww/1.42857)+xx, yy, (ww/1.42857)+xx, hh+yy);
+      fl_line((ww/1.3333)+xx, yy, (ww/1.3333)+xx, hh+yy);
+      fl_line((ww/1.25)+xx, yy, (ww/1.25)+xx, hh+yy);
+      fl_line((ww/1.17647)+xx, yy, (ww/1.17647)+xx, hh+yy);
+      fl_line((ww/1.1111)+xx, yy, (ww/1.1111)+xx, hh+yy);
+      fl_line((ww/1.0526316)+xx, yy, (ww/1.0526316)+xx, hh+yy);
+}
      
    fl_pop_clip();      
         
