@@ -17,6 +17,8 @@
 #include <FL/Fl_Spinner.H>
 #include "Fl_Scope.h"
 #include "cursores.h"
+#include "grid.h"
+#include "mensajes.h"
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_JPEG_Image.H>
@@ -37,7 +39,7 @@ using namespace std;
 /**
  * Esta clase representa las funcionees del instrumento
  * multimetro
- */
+*/
 class Analizador : public Instrumento {
 	public:
         // class constructor
@@ -64,9 +66,17 @@ class Analizador : public Instrumento {
 		Fl_Scope *apantalla_ch1, *apantalla_ch2, *apantalla_ch3, *apantalla_ch4, *apantalla_ch5,
                  *apantalla_ch6, *apantalla_ch7, *apantalla_ch8;
          /**
-		 * Agrupa los botones e indicadores del analizador
+		 * Cursor para identificar el dato graficado
 		 */
-	    Cursores *ocursor;        
+	    Cursores *ocursor; 
+        /**
+		 * Grilla del analizador 
+		*/
+		grid*  ogrilla;       
+	     /**
+		 * Numero de la muestra
+		 */
+	    Mensajes *otexto_muestra; 
         /**
 		 * Botón para activar el disparo por flanco de subida
 		 */

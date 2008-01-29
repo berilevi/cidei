@@ -5,8 +5,8 @@
 #include <FL/fl_draw.H>
 
 // class constructor
-Cursores::Cursores(int X,int Y,int W,int H,const char *l): Fl_Scope(X,Y,W,H,l)
-{
+Cursores::Cursores(int X,int Y,int W,int H,const char *l): Fl_Scope(X,Y,W,H,l){
+                       
 	x(X);y(Y);w(W);h(H);
     bcursor = 0;
     iposx = 0;

@@ -16,6 +16,8 @@ class grid : public Fl_Scope
 		~grid();
 		// activar grilla o ejes
 		bool bgrid;
+		bool bgrilla_analizador;
+		bool banalizador_on;
 		
 protected:
 
