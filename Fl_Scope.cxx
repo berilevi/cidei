@@ -143,7 +143,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                      }
                      else{
                           fl_color(_TraceColour);
-                          fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
+                          fl_line(xx-ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx-ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
                           xx++;
                          // fl_color(_TextColour);
 	                     // fl_font(FL_HELVETICA,8);

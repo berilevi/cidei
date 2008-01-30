@@ -4,6 +4,7 @@
 
 int isec_numdatos = 0;
 int iespera_trigger = 0;
+int inum_datos_grafica = 0;
 char  cbyte_anterior[] = "00000000";
 bool bconf_trigger = 0;
 bool btermino_muestreo = 0;
@@ -17,6 +18,7 @@ Analizador::Analizador() {
     btimer_trigger = 0;
     btrigger = 0;
     bmuestreando = 0;
+    inum_datos_grafica = 400/idatos_graficados;
      
     ogroup_ana = new Fl_Group(5,370,505,330,"");
     ogroup_ana->box(FL_ENGRAVED_FRAME);
@@ -34,13 +36,13 @@ Analizador::Analizador() {
     
     otexto_muestra = new Mensajes(20,420,400,20,""); 
     
-     ogrilla = new grid(18,420,400,272,"");
-     ogrilla->bgrilla_analizador= 1;
+    ogrilla = new grid(18,420,400,255,"");
+    ogrilla->bgrilla_analizador= 1;
     
-    oscroll = new Fl_Scrollbar(12,680,415,10,"");
+    oscroll = new Fl_Scrollbar(10,680,420,10,"");
     oscroll->type(FL_HORIZONTAL);
-    oscroll->range(0,40);
-    oscroll->linesize(2);
+    oscroll->range(0,19);
+    oscroll->linesize(1);
     oscroll->step(1);
     oscroll->deactivate();
     
@@ -99,17 +101,17 @@ Analizador::Analizador() {
     ogroup_ana_botones->deactivate();
            
     omuestreo = new Fl_Value_Slider(430,390,30,80,"");
-    omuestreo->range(1,10);
+    omuestreo->range(1,30);
     omuestreo->step(1);
     omuestreo->round(1); 
     
     odes_horizontal = new Fl_Knob(435,480,60,60,"");
     odes_horizontal->color(147);
     odes_horizontal->type(8);
+    odes_horizontal->scaleticks(0);
     odes_horizontal->labelsize(9);
     odes_horizontal->step(20);
-    odes_horizontal->round(100);
-    odes_horizontal->range(-400,0);
+    odes_horizontal->range(0,400);
     
     ogroup_ana_botones->end();
     
@@ -123,8 +125,6 @@ Analizador::Analizador() {
     
     odato1 = new Fl_Output(430,645,70,20,"");
     odato1->textsize(9);
-    odato2 = new Fl_Output(430,675,70,20,"");
-    odato2->textsize(9);
         
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger"); 
     otrigger_on->labelsize(12);
@@ -158,7 +158,7 @@ Analizador::Analizador() {
     
     oana_on->callback(cb_ana_on, this);
     omuestrear_on->callback(cb_muestrear,this);
-    oscroll->callback(cb_mas_datos, this);
+    oscroll->callback(cb_scroll_cursor, this);
     otrigger_on->callback(cb_trigger_on,this);
     ocerrar_trigger->callback(cb_cerrar_trigger,this);
     oflancosubida->callback(cb_subida,this);
@@ -328,16 +328,17 @@ void Analizador::cb_bajada_in() {
 /**
  *  Posición del cursor. 
 */
-void Analizador::cb_mas_datos(Fl_Widget* pboton, void *pany) {
+void Analizador::cb_scroll_cursor(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
-     pana->cb_mas_datos_in();
+     pana->cb_scroll_cursor_in();
 }
 
 /**
  * Posición del cursor.
 */
-void Analizador::cb_mas_datos_in() { 
-    ocursor->iposx = (oscroll->value()*10);
+void Analizador::cb_scroll_cursor_in() { 
+     
+    ocursor->iposx = ((inum_datos_grafica/2)+(inum_datos_grafica*oscroll->value())-2);
     ocursor->redraw();
     apantalla_ch1->redraw();
     apantalla_ch2->redraw();
@@ -347,7 +348,12 @@ void Analizador::cb_mas_datos_in() {
     apantalla_ch6->redraw();
     apantalla_ch7->redraw();
     apantalla_ch8->redraw();
-    
+    ogrilla->redraw();
+    int ipos = int(oscroll->value()+(odes_horizontal->value()/20));
+    //odato1->value(pdata_analizador[ipos]);
+    odato1->value(pdata_analizador[oscroll->value()]);
+    omuestreo->value(oscroll->value());
+      
 }
 
 
@@ -478,8 +484,6 @@ bool Analizador::trigger() {
     if (oflancosubida->value()== 1){
        if (cbyte_actual[int(oselector->value())-1] > cbyte_anterior [int(oselector->value())-1]){
           omuestreo->value(oselector->value());
-          odato1->value(cbyte_actual);
-          odato2->value(cbyte_anterior);
           btrigger=1;
           iespera_trigger = 1;
           btimer_trigger = 0;
@@ -539,6 +543,7 @@ void Analizador::cb_horizontal(Fl_Widget* pboton, void *pany) {
  * 
 */
 void Analizador::cb_horizontal_in() {
+    otexto_muestra->inum_inicial = int(odes_horizontal->value()/20);
     apantalla_ch1->ipos_x = int(odes_horizontal->value());
     apantalla_ch1->redraw();
     apantalla_ch2->ipos_x = int(odes_horizontal->value());
@@ -555,6 +560,12 @@ void Analizador::cb_horizontal_in() {
     apantalla_ch7->redraw();
     apantalla_ch8->ipos_x = int(odes_horizontal->value());
     apantalla_ch8->redraw();
+    ogrilla->redraw();
+    ocursor->redraw();
+    otexto_muestra->redraw();
+    ogroup_ana->redraw();
+    obox_nombre->redraw();
+    oana_on->redraw();
 }
 
 
@@ -566,8 +577,7 @@ void Analizador::graficar_datos() {
      
      
      for (int o=0; o<inum_muestras; o++) {
-         
-         
+             
          //Canal 1
          if (pdata_analizador[o][0]=='1'){
             for (int i=0; i<idatos_graficados;i++){                   
