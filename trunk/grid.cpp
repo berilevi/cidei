@@ -3,6 +3,7 @@
 #include "grid.h" // class's header file
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
+#include <FL/Enumerations.H>
 
 // class constructor
 grid::grid(int X,int Y,int W,int H,const char *l): Fl_Scope(X,Y,W,H,l){
@@ -23,6 +24,7 @@ void grid::draw(int xx, int yy, int ww, int hh){
    fl_push_clip(xx,yy,ww,hh); 
     
    fl_color(FL_WHITE);  
+  // fl_lighter(FL_WHITE); 
    fl_line_style(FL_DOT);
 
 if (bgrilla_analizador == 0 ){   
@@ -59,6 +61,8 @@ if (bgrilla_analizador == 0 ){
    }
 }
 else {
+     //fl_lighter(FL_WHITE);
+      fl_color(27);
       fl_line((ww/20)+xx, yy, (ww/20)+xx, hh+yy);
       fl_line((ww/10)+xx, yy, (ww/10)+xx, hh+yy);
       fl_line((ww/6.66667)+xx, yy, (ww/6.66667)+xx, hh+yy);

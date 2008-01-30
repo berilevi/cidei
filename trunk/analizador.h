@@ -163,11 +163,11 @@ class Analizador : public Instrumento {
 		 */
 		inline void cb_ana_on_in();
 		/**
-		 * 
+		 * Callback para el botón que desplaza las graficas horizontalmente
 		*/		 		 
 		static void cb_horizontal(Fl_Widget*, void *);
 		/**
-		 * 
+		 * Callback para el botón que desplaza las graficas horizontalmente
 		 */
 		inline void cb_horizontal_in();
 		/**
@@ -195,31 +195,29 @@ class Analizador : public Instrumento {
 		 */
 		inline void cb_muestrear_in();
 		/**
-		 * 
+		 * Callback del boton que activa el trigger por flanco de subida
 		 */
 		static void cb_subida(Fl_Widget*, void *);
 		/**
-		 * 
+		 * Callback del boton que activa el trigger por flanco de subida
 		 */
 		inline void cb_subida_in();
 		/**
-		 * 
+		 * Callback del boton que activa el trigger por flanco de bajada
 		 */
 		static void cb_bajada(Fl_Widget*, void *);
 		/**
-		 * 
+		 * Callback del boton que activa el trigger por flanco de bajada
 		 */
 		inline void cb_bajada_in();
 		/**
-		 * 
-         *  
+		 * Callback del scroll que dezplaza el cursor del instrumento
 		 */
-		static void cb_mas_datos(Fl_Widget*, void *);
+		static void cb_scroll_cursor(Fl_Widget*, void *);
 		/**
-		 *  
-		 *  
+		 * Callback del scroll que dezplaza el cursor del instrumento
 		 */
-		inline void cb_mas_datos_in();
+		inline void cb_scroll_cursor_in();
 		/**
 		 * Esta funcion recorre los buffers de los diferentes canales del
 		 * analizador logico y grafica sus datos en los canales en pantalla
@@ -286,7 +284,6 @@ class Analizador : public Instrumento {
 		 * Valor del dato binario de 8 bits en el 1er tiempo de muestreo 
 	    */
 		Fl_Output *odato1;
-		Fl_Output *odato2;
 	
          
 };
