@@ -105,6 +105,8 @@ public:
   
   bool bch2;                                  /* Variable que indica si el canal 2 del osciloscopio esta activo*/
   
+  bool banalizador;                           /* Variable que indica si el analizador está activo */
+  
   bool bstop;                                 /* Variable que indica si se activa la detención de la gráfica*/
   
   int ipos_x;                                 /* Variable para desplazar la grafica horizontalmente*/

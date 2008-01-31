@@ -102,7 +102,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
  int Yval,Yval2;
  int valor_y;
  
- fl_push_clip(xx,yy,ww,hh);                                     /* Establece el área de la gráfica */
+ fl_push_clip(xx,yy,ww-1,hh);                                     /* Establece el área de la gráfica */
  fl_draw_box(FL_DOWN_BOX,xx,yy,ww,hh,_BackColour);              /* Dibujo del Cuadro de grafica Screen */
  
  fl_color( FL_WHITE);                                           /* Ajustar el color para dibujar las divisiones del Screen*/
@@ -142,12 +142,13 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                           xx= xx+4;
                      }
                      else{
-                          fl_color(_TraceColour);
-                          fl_line(xx-ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx-ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
-                          xx++;
-                         // fl_color(_TextColour);
-	                     // fl_font(FL_HELVETICA,8);
-                         // fl_draw("1",ipos_muestra,(yy+hh) - (int)((float)20000 * ((float)hh/65535.0)));
+                          if (banalizador == 1){
+                             fl_color(_TraceColour);
+                             if (xx < 419+ipos_x){
+                                fl_line(xx-ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx-ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
+                                xx++;
+                             }
+                          }
                      }  
                   }
                   else{
@@ -165,8 +166,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
                   }
              break;  
       }
-
-     
+   
       Ptr2++;                                                    /* Se incrementa en 1 la direccion de los apuntadores*/
       Ptr++;
       ptrjp2++;
@@ -413,6 +413,8 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  bch1 = 0;
  
  bch1 = 0;
+ 
+ banalizador = 0; 
  
  bstop = 0;
  
