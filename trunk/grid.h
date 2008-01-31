@@ -8,6 +8,8 @@
 // No description
 class grid : public Fl_Scope
 {
+    Fl_Color _TraceColour;               /* Color de la traza */  
+      
 	public:
    
 		// class constructor
@@ -18,6 +20,10 @@ class grid : public Fl_Scope
 		bool bgrid;
 		bool bgrilla_analizador;
 		bool banalizador_on;
+		
+		Fl_Color TraceColour(){return _TraceColour;};
+        void     TraceColour(Fl_Color c){_TraceColour=c;};
+		
 		
 protected:
 

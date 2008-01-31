@@ -9,7 +9,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>  
 #include <FL/Fl_Menu_Item.H> 
-#include <FL/Fl_Choice.H>      
+#include <FL/Fl_Choice.H>     
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
 #include "fl_Knob.h"

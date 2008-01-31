@@ -12,6 +12,8 @@ grid::grid(int X,int Y,int W,int H,const char *l): Fl_Scope(X,Y,W,H,l){
     bgrid = 0; 
     bgrilla_analizador = 0;
     banalizador_on = 1;
+    TraceColour(Fl_Color(27));
+    
 }
 
 
@@ -61,8 +63,10 @@ if (bgrilla_analizador == 0 ){
    }
 }
 else {
+     if (bgrid == 1){
+      fl_color(_TraceColour);          
      //fl_lighter(FL_WHITE);
-      fl_color(27);
+     // fl_color(27);
       fl_line((ww/20)+xx, yy, (ww/20)+xx, hh+yy);
       fl_line((ww/10)+xx, yy, (ww/10)+xx, hh+yy);
       fl_line((ww/6.66667)+xx, yy, (ww/6.66667)+xx, hh+yy);
@@ -82,6 +86,8 @@ else {
       fl_line((ww/1.17647)+xx, yy, (ww/1.17647)+xx, hh+yy);
       fl_line((ww/1.1111)+xx, yy, (ww/1.1111)+xx, hh+yy);
       fl_line((ww/1.0526316)+xx, yy, (ww/1.0526316)+xx, hh+yy);
+      }
+      
 }
      
    fl_pop_clip();      

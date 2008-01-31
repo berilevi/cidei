@@ -34,10 +34,10 @@ Analizador::Analizador() {
     apantalla_ch7 = new Fl_Scope(20,612,400,34,"");  // Instancia de canal 7
     apantalla_ch8 = new Fl_Scope(20,644,400,34,"");  // Instancia de canal 8
     
-    otexto_muestra = new Mensajes(20,420,400,20,""); 
+    otexto_muestra = new Mensajes(20,417,400,20,""); 
     
     ogrilla = new grid(18,420,400,255,"");
-    ogrilla->bgrilla_analizador= 1;
+    ogrilla->bgrilla_analizador= 0;
     
     oscroll = new Fl_Scrollbar(10,680,420,10,"");
     oscroll->type(FL_HORIZONTAL);
@@ -46,19 +46,23 @@ Analizador::Analizador() {
     oscroll->step(1);
     oscroll->deactivate();
     
-    olog_ana = new Fl_Button(290,382,40,16,"Log");
+    olog_ana = new Fl_Button(340,375,40,15,"Log");
     olog_ana->labelsize(10);
     
-    ohelp_ana = new Fl_Button(340,382,40,16,"Help");
+    ohelp_ana = new Fl_Button(340,390,40,15,"Help");
     ohelp_ana->labelsize(10);
     
     oayuda_ana = new Fl_Check_Button(385,382,20,16,"?");
     oayuda_ana->labelsize(12);
     
+    ogrilla_on = new Fl_Light_Button(285,380,45,17,"Grilla");
+    ogrilla_on->labelsize(10);
+    
     apantalla_ch1->TraceColour(FL_RED);
     apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch1->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch1->linetype(FL_SCOPE_LINE);
+    //apantalla_ch1->ipos_x = 10;
     apantalla_ch1->ScopeDataSize = 800;
     apantalla_ch2->TraceColour(FL_RED);
     apantalla_ch2->tracetype(FL_SCOPE_TRACE_LOOP);
@@ -123,11 +127,11 @@ Analizador::Analizador() {
     orep_dato->add("Binario");
     orep_dato->add("Hexadecimal");
     
-    odato1 = new Fl_Output(430,645,70,20,"");
-    odato1->textsize(9);
+    odato1 = new Fl_Output(430,645,70,25,"");
+    odato1->textsize(12);
         
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger"); 
-    otrigger_on->labelsize(12);
+    otrigger_on->labelsize(15);
           
     ogroup_ana->end();
     
@@ -164,6 +168,7 @@ Analizador::Analizador() {
     oflancosubida->callback(cb_subida,this);
     oflancobajada->callback(cb_bajada,this);
     odes_horizontal->callback(cb_horizontal,this);
+    ogrilla_on->callback(cb_grilla, this);
 }
 
 // class destructor
@@ -192,6 +197,7 @@ void Analizador::cb_ana_on_in() {
            ogroup_ana->activate();
            ogroup_ana_botones->activate();
            isec_numdatos = 0;
+           orep_dato->value(1);
            oselector->value(1);
         }
         else {
@@ -202,6 +208,15 @@ void Analizador::cb_ana_on_in() {
         Fl::remove_timeout(cb_timer_ana, this);
         activar(0);
         ogroup_ana->deactivate();
+        apantalla_ch1->banalizador = 0;
+        apantalla_ch2->banalizador = 0;
+        apantalla_ch3->banalizador = 0;
+        apantalla_ch4->banalizador = 0;
+        apantalla_ch5->banalizador = 0;
+        apantalla_ch6->banalizador = 0;
+        apantalla_ch7->banalizador = 0;
+        apantalla_ch8->banalizador = 0;
+        ocursor->iposx = 0;
         ogroup_ana_botones->deactivate();
         oflancosubida->value(0);
         oflancosubida->box(FL_UP_BOX); 
@@ -209,6 +224,40 @@ void Analizador::cb_ana_on_in() {
         oflancobajada->box(FL_UP_BOX);
      }
 }
+
+
+/**
+ *Callback del boton para activar o desactivar la grilla en la 
+ * pantalla del analizador
+*/
+void Analizador::cb_grilla(Fl_Widget* pboton, void *pany){
+     Analizador* pana=(Analizador*)pany;
+     pana->cb_grilla_in();
+}
+
+
+/**
+ * Funcion que acompaña a la funcion cb_grilla para realizar los
+ * llamados de callback para activar o desactivar la grilla en la 
+ * pantalla del analizador
+*/
+void Analizador::cb_grilla_in(){
+     if (ogrilla_on->value()==1){
+         ogrilla->bgrilla_analizador= 1;
+         ogrilla->bgrid = 1;
+     }
+     else{
+        ogrilla->bgrilla_analizador= 0;
+        ogrilla->bgrid = 0;
+     }
+     ogrilla->redraw();
+     ogroup_ana->redraw();
+     obox_nombre->redraw();
+     oana_on->redraw();
+}
+
+
+
 
 
 /**
@@ -271,6 +320,7 @@ void Analizador::cb_muestrear_in() {
        omuestrear_on->value(0);
        btermino_muestreo = 0;
        omuestrear_on->box(FL_DOWN_BOX);
+       ogrilla->redraw();
        Fl::add_timeout(0.1, cb_timer_ana, this);
      }  
 }
@@ -349,10 +399,8 @@ void Analizador::cb_scroll_cursor_in() {
     apantalla_ch7->redraw();
     apantalla_ch8->redraw();
     ogrilla->redraw();
-    int ipos = int(oscroll->value()+(odes_horizontal->value()/20));
-    //odato1->value(pdata_analizador[ipos]);
-    odato1->value(pdata_analizador[oscroll->value()]);
-    omuestreo->value(oscroll->value());
+    int ipos = int((odes_horizontal->value()/20));
+    odato1->value(pdata_analizador[oscroll->value()+ipos]);
       
 }
 
@@ -560,6 +608,8 @@ void Analizador::cb_horizontal_in() {
     apantalla_ch7->redraw();
     apantalla_ch8->ipos_x = int(odes_horizontal->value());
     apantalla_ch8->redraw();
+    int ipos = int((odes_horizontal->value()/20));
+    odato1->value(pdata_analizador[oscroll->value()+ipos]);
     ogrilla->redraw();
     ocursor->redraw();
     otexto_muestra->redraw();
@@ -575,6 +625,14 @@ void Analizador::cb_horizontal_in() {
 */
 void Analizador::graficar_datos() {
      
+     apantalla_ch1->banalizador = 1;
+     apantalla_ch2->banalizador = 1;
+     apantalla_ch3->banalizador = 1;
+     apantalla_ch4->banalizador = 1;
+     apantalla_ch5->banalizador = 1;
+     apantalla_ch6->banalizador = 1;
+     apantalla_ch7->banalizador = 1;
+     apantalla_ch8->banalizador = 1;
      
      for (int o=0; o<inum_muestras; o++) {
              

@@ -32,6 +32,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     och2_on = new Fl_Light_Button(578,15,35,15,"ON");
     och2_on->labelsize(10);
     och2_on->tooltip("Botón para activar o desactivar el uso del canal 2");
+    
     ogroup_dual = new Fl_Group (415,330,200,30,"");              //Agrupa los controles de las operaciones en modo dual
     ogroup_dual->box(FL_ENGRAVED_FRAME);
     ogroup_dual->deactivate();

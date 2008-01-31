@@ -31,7 +31,7 @@
 #include <iostream>
 #include <string>
 
-#define TAM_ALMACENADO 100
+#define TAM_ALMACENADO 35
 #define ESPERA_TRIGGER 10
 
 using namespace std;
@@ -106,6 +106,10 @@ class Analizador : public Instrumento {
 	    */
         Fl_Light_Button *omuestrear_on;
         /**
+		 * Botón para activar la grilla en el instrumento 
+	    */
+        Fl_Light_Button *ogrilla_on;
+        /**
 		 * Boton que habilita el almacenamiento de datos en archivos planos de 
 		 * texto.
 	    */
@@ -162,6 +166,17 @@ class Analizador : public Instrumento {
 		 * del analizador 
 		 */
 		inline void cb_ana_on_in();
+		/**
+		 * Callback del boton para activar o desactivar la grilla en la 
+         * pantalla del analizador
+		 */
+		static void cb_grilla(Fl_Widget*, void *);
+		/**
+		 * Funcion que acompaña a la funcion cb_grilla para realizar los
+		 * llamados de callback para activar o desactivar la grilla en la 
+         * pantalla del analizador 
+		 */
+		inline void cb_grilla_in();
 		/**
 		 * Callback para el botón que desplaza las graficas horizontalmente
 		*/		 		 
