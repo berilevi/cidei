@@ -62,7 +62,6 @@ Analizador::Analizador() {
     apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
     apantalla_ch1->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
     apantalla_ch1->linetype(FL_SCOPE_LINE);
-    //apantalla_ch1->ipos_x = 10;
     apantalla_ch1->ScopeDataSize = 800;
     apantalla_ch2->TraceColour(FL_RED);
     apantalla_ch2->tracetype(FL_SCOPE_TRACE_LOOP);
@@ -100,16 +99,18 @@ Analizador::Analizador() {
     apantalla_ch8->linetype(FL_SCOPE_LINE);
     apantalla_ch8->ScopeDataSize = 800;
     
-    ogroup_ana_botones = new Fl_Group(425,375,80,175,"");          // Agrupa los elementos del analizador
+    ogroup_ana_botones = new Fl_Group(425,375,80,80,"");          // Agrupa los elementos del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
            
-    omuestreo = new Fl_Value_Slider(430,390,30,80,"");
-    omuestreo->range(1,30);
-    omuestreo->step(1);
-    omuestreo->round(1); 
+    ofrec_muestreo = new Fl_Choice(430,400,70,20,"Frec. Muestreo");
+    ofrec_muestreo->align(FL_ALIGN_TOP);
+    ofrec_muestreo->labelsize(10);
+    ofrec_muestreo->add("1");
     
-    odes_horizontal = new Fl_Knob(435,480,60,60,"");
+    ogroup_ana_botones->end();
+    
+    odes_horizontal = new Fl_Knob(430,460,70,70,"Desp. Hor.");
     odes_horizontal->color(147);
     odes_horizontal->type(8);
     odes_horizontal->scaleticks(0);
@@ -117,8 +118,7 @@ Analizador::Analizador() {
     odes_horizontal->step(20);
     odes_horizontal->range(0,400);
     
-    ogroup_ana_botones->end();
-    
+        
     omuestrear_on = new Fl_Light_Button(430,560,70,30,"Capturar");
     omuestrear_on->labelsize(13);
     
@@ -531,7 +531,6 @@ void Analizador::separar_canales() {
 bool Analizador::trigger() {
     if (oflancosubida->value()== 1){
        if (cbyte_actual[int(oselector->value())-1] > cbyte_anterior [int(oselector->value())-1]){
-          omuestreo->value(oselector->value());
           btrigger=1;
           iespera_trigger = 1;
           btimer_trigger = 0;
