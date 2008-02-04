@@ -127,6 +127,10 @@ class Analizador : public Instrumento {
 	    */  
         Fl_Choice *orep_dato;
         /**
+		 * Selector de la frecuencia de muestreo del analizador.    
+	    */  
+        Fl_Choice *ofrec_muestreo;
+        /**
 		 * Scroll para desplazar los datos graficados.    
 	    */
         Fl_Scrollbar *oscroll;

@@ -15,11 +15,13 @@
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
+#include <FL/Fl_Help_Dialog.h>
 #include <FL/Fl_Box.H>
 #include <FL/fl_ask.H>
 #include <iostream>
 #include <string>
 
+#include <windows.h> 
 
 
 #define FACTOR_VDC_1 2560
@@ -45,7 +47,11 @@ class Multimetro : public Instrumento
              amp_dc,
              ohm,
              continuidad
-        };
+        };   
+		/**
+		 *  Ventana de ayuda de uso del instrumento.
+	    */
+        Fl_Help_Dialog *Manual;        
 		/**
 		 * Esta variable almacena el valor entero de la medicion realizada con  
 		 * el hardware.
@@ -110,6 +116,14 @@ private:
          * para realizar los llamados de callback del timer 
          */
          inline void cb_timer_mult_in();
+         /**
+         * Callback del botón que activa la ayuda del instrumento  
+         */   
+         static void cb_help(Fl_Widget*, void *);
+         /**
+         * Callback del botón que activa la ayuda del instrumento 
+         */
+         inline void cb_help_in();
          /**
          * Envia la información al hardware para configurar el instrumento
          * del multimetro

@@ -197,8 +197,7 @@ else if (bdual==1){                                              /* Si el oscilo
       }
    }
 }
-
-
+ 
    /* pop the clip */
    fl_pop_clip();                                                 /* Cerrar el area donde se va a graficar*/
 }
@@ -312,11 +311,10 @@ int Fl_Scope::Add(int data, int data2){
     return(1);   
 }
 
-/********************************************************
+/*******************************************************************************
 *                   handle(int)
-*
-* Entry point for the event handling
-********************************************************/
+*      Entry point for the event handling
+*******************************************************************************/
 int Fl_Scope::handle(int event)
 {
   if (event == FL_PUSH && Fl::visible_focus()) Fl::focus(this);
@@ -328,11 +326,11 @@ int Fl_Scope::handle(int event)
     h()-Fl::box_dh(box()));
 
 }
-/********************************************************
+/*******************************************************************************
 *                   handle(int,int,int,int,int)
 *
-* Sort out what handles need to be done!!
-********************************************************/
+*              Sort out what handles need to be done!!
+*******************************************************************************/
 int Fl_Scope::handle(int event, int X, int Y, int W, int H)
 {
 
@@ -383,8 +381,8 @@ int Fl_Scope::handle(int event, int X, int Y, int W, int H)
 
 
 
-/******************************************************************************
-*               Fl_Scope::Fl_Scope
+/*******************************************************************************
+*                         Fl_Scope::Fl_Scope
 *******************************************************************************/
 Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,l){
 
@@ -425,6 +423,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  ipos_muestra = 25;
  
                            /*Configuraciones por defecto de la clase*/
+                           
  
  tracetype(FL_SCOPE_TRACE_SCROLL);                     /* Tipo de almacenamiento de los datos en los arreglos*/
 

@@ -42,6 +42,10 @@ Multimetro::Multimetro(){
     ocontinuidad = new Fl_Button(922,273,63,35,"Cont");
     ocontinuidad->box(FL_UP_BOX);
     
+    Manual = new Fl_Help_Dialog;
+    Manual->load("help_multimetro.html");
+
+    
     ogroup_mult-> end();
       
     omult_on = new Fl_Light_Button(745,325,38,30,"ON");
@@ -53,6 +57,7 @@ Multimetro::Multimetro(){
     oamp_dc->callback(cb_amp_dc, this);
     oohm->callback(cb_ohm, this);
     ocontinuidad->callback(cb_cont, this);
+    ohelp_mult->callback(cb_help,this);
 }
 
 // class destructor
@@ -392,9 +397,27 @@ void Multimetro::cb_cont_in(){
         instrument = continuidad;
         ounidades->label("Cont");
         config_instrumento(ohm);
+        Beep(1000,1000);
      }
      else{
           ocontinuidad->box(FL_UP_BOX);
           ocontinuidad->clear();
      }
+}
+
+
+/**
+ * 
+*/
+void Multimetro::cb_help(Fl_Widget* pboton, void *any){
+     Multimetro* pmult=(Multimetro*)any;
+     pmult->cb_help_in();
+}
+
+/**
+ * 
+*/
+void Multimetro::cb_help_in(){
+
+      Manual->show();
 }

@@ -51,18 +51,7 @@ void Instrumento::archivar(){
      ofstream log("oscill.txt");
      log << "Hello World, from www.cpp-home.com and Loobian!";
 	 log.close();
-      
-    /* FILE * log;
-     char buffer[] = { 'x' , 'y' , 'z' };
-     log = fopen("osc.txt","at+");                           // Nombre y permisos de acceso al archivo de texto
-     if (log != NULL) {
-        fwrite(buffer,sizeof (buffer),3,log);               // Escritura de los datos en el archivo de texto
-     }
-     else {
-          fl_alert("No se pudo abrir el archivo");          // Error de apertura del archivo 
-     }  
-     fclose(log);*/ 
-     //return; 
+	 
 }
 
 /**

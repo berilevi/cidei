@@ -7,6 +7,7 @@
 #include "grid.h"
 #include "canal.h"                          // Cabecera de la clase canal
 #include <FL/Fl.H>
+#include <FL/Fl_Help_Dialog.h>
 #include <FL/Fl_Group.H>  
 #include <FL/Fl_Menu_Item.H> 
 #include <FL/Fl_Choice.H>     
@@ -176,6 +177,14 @@ class Osciloscopio : public Instrumento
          inline void cb_ayuda_in();       
     	
    private: 
+         /**
+         * Callback del botón que activa la ayuda del instrumento  
+         */   
+         static void cb_help(Fl_Widget*, void *);
+         /**
+         * Callback del botón que activa la ayuda del instrumento 
+         */
+         inline void cb_help_in();   
         /**
 		 * Este método es el callback del boton selector de acople
 		 * del canal 1 del osciloscopio debe ir acompañada de una función 
@@ -561,6 +570,10 @@ class Osciloscopio : public Instrumento
 		 * Vriable que almacena el caracter de la escala de tiempo por division  
 		 */
         char ct_div;
+        /**
+		 *  Ventana de ayuda de uso del instrumento.
+	    */
+        Fl_Help_Dialog *Manual; 
         
 };
 

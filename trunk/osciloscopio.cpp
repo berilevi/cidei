@@ -146,6 +146,9 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opantalla->linetype(FL_SCOPE_LINE);
     opantalla->box(FL_FLAT_BOX);
     
+    Manual = new Fl_Help_Dialog;
+    Manual->load("help_osciloscopio.html");
+    
     ogroup_osc->end();
     
     ogrilla = new grid(12,40,400,320,"");
@@ -175,6 +178,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     canal1->osel_acople->callback(cb_acople1, this);
     canal2->ovolt_div->callback(cb_volt_div2, this);
     canal2->osel_acople->callback(cb_acople2, this);
+    ohelp_osc->callback(cb_help,this);
 }
 
 
@@ -430,6 +434,8 @@ void Osciloscopio::cb_ch2_on_in(){
            canal2->ogroup_ch->activate();
            canal2->ogroup_ch->box(FL_UP_BOX);
            canal2->oacop_ac->value(1);
+           canal2->ovolt_div->value(1);
+           canal2->omenu_v_div->value(0);
            opantalla->bch2 = 1;
            if (canal1->bestado== 1){
               odual_menu->activate();
@@ -1003,7 +1009,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
                 idato_graf_ch1 = buf_osc_ch1[icont];
                 idato_graf_ch2 = buf_osc_ch2[icont];
                 if (osuma->value()){
-                   opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255))-30000,255); //es  
+                   opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
                    ogrilla->redraw();              
                 }
                 else if (oresta->value()){
@@ -1194,6 +1200,25 @@ void Osciloscopio::cb_ayuda_in(){
          Fl_Tooltip::disable(); 
      }
 }
+
+
+
+/**
+ * 
+*/
+void Osciloscopio::cb_help(Fl_Widget* pboton, void *any){
+     Osciloscopio* posc=(Osciloscopio*)any;
+     posc->cb_help_in();
+}
+
+/**
+ * 
+*/
+void Osciloscopio::cb_help_in(){
+
+      Manual->show();
+}
+
 
 
 
