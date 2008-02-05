@@ -45,23 +45,30 @@ Generador::Generador(){
     otriangulo = new Fl_Button(780,635,70,35,"Triangulo");
     otriangulo->labelsize(12);
     ogroup_senal->end();
+    
     ogroup_frecuencia = new Fl_Group (885,380,130,310,"");
     ogroup_frecuencia->box(FL_ENGRAVED_BOX);
 	ogroup_frecuencia->deactivate();
-    ofrec_gen = new Fl_Knob (890,530,100,80,"Frecuencia");
+    ofrec_gen = new Fl_Knob (900,500,100,100,"Frecuencia");
     ofrec_gen->color(147);
     ofrec_gen->type(8);
     ofrec_gen->labelsize(9);
     ofrec_gen->step(0.01);
     ofrec_gen->range(0,1);
-    ofrec_ascendente = new Fl_Repeat_Button(980,390,30,20,"");
-    ofrec_ascendente->label("@->");
-    ofrec_descendente = new Fl_Repeat_Button(895,390,30,20,"");
-    ofrec_descendente->label("@<-");
-    ovalor_escala = new Fl_Value_Output(930,390,40,20,"");
-    ovalor_escala->value(10);
-    ovalor_frec = new Fl_Value_Output(900,630,60,20,"");
-    ocontador_frec = new Fl_Counter(890,655,110,20,""); 
+    
+    oescala_frecuencia = new Fl_Choice(890,420,120,20,"");
+    oescala_frecuencia->labelsize(10);
+    oescala_frecuencia->add("1 Hz");
+    oescala_frecuencia->add("100 Hz");
+    oescala_frecuencia->add("500 Hz");
+    oescala_frecuencia->add("1 KHz");
+    oescala_frecuencia->add("100 KHz");
+    oescala_frecuencia->add("500 KHz");
+    oescala_frecuencia->add("1 MHz");
+       
+    ovalor_frec = new Fl_Value_Input(910,630,80,25,"");
+    ovalor_frec->type(FL_FLOAT_INPUT);
+    ocontador_frec = new Fl_Counter(890,660,110,20,""); 
     ocontador_frec->step(0.1);
     ocontador_frec->range(0.1,1000000);
     ocontador_frec->value(0.1);
@@ -85,8 +92,7 @@ Generador::Generador(){
     ooffset->range(-5,5);
     ogroup_offset->end();
     
- 
-	ogroup_generador-> end();
+ 	ogroup_generador-> end();
 	
 	obox_nombre = new Fl_Box(520,375,254,30,"GENERADOR DE SEÑALES");
     obox_nombre->box(FL_ENGRAVED_FRAME);
@@ -103,9 +109,7 @@ Generador::Generador(){
     ofrec_gen->callback(cb_frec_gen, this);
     oamplitud->callback(cb_amplitud, this);
     ooffset->callback(cb_offset, this);
-    ocontador_frec->callback(cb_contador_frec, this);
-    ofrec_ascendente->callback(cb_frec_ascendente, this);
-    ofrec_descendente->callback(cb_frec_descendente, this);
+    //ocontador_frec->callback(cb_contador_frec, this);
 
 }
 
@@ -419,7 +423,7 @@ void Generador::cb_contador_frec_in(){
  * Este método es el callback del boton que selecciona ascendentemente la escala 
  * de frecuencias de la señal que va a ser generada.
 */
-void Generador::cb_frec_ascendente(Fl_Widget* pboton, void *any){
+/*void Generador::cb_frec_ascendente(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_frec_ascendente_in();
 }
@@ -429,7 +433,7 @@ void Generador::cb_frec_ascendente(Fl_Widget* pboton, void *any){
  * Esta función acompaña la función  cb_frec_ascendente para seleccionar la escala 
  * de frecuencias de la señal que va a ser generada.
 */
-void Generador::cb_frec_ascendente_in(){
+/*void Generador::cb_frec_ascendente_in(){
      if (isec_escalas == 0){
         ovalor_escala->value(10);
         ofrec_gen->range(0,10);
@@ -480,7 +484,7 @@ void Generador::cb_frec_ascendente_in(){
  * Este método es el callback del boton que selecciona descendentemente la escala 
  * de frecuencias de la señal que va a ser generada.
 */
-void Generador::cb_frec_descendente(Fl_Widget* pboton, void *any){
+/*void Generador::cb_frec_descendente(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_frec_descendente_in();
 }
@@ -490,7 +494,7 @@ void Generador::cb_frec_descendente(Fl_Widget* pboton, void *any){
  * Esta función acompaña la función  cb_frec_descendente para seleccionar la escala 
  * de frecuencias de la señal que va a ser generada.
 */
-void Generador::cb_frec_descendente_in(){
+/*void Generador::cb_frec_descendente_in(){
      if (isec_escalas > 0)
         isec_escalas--;
      if (isec_escalas == 0){
@@ -527,7 +531,7 @@ void Generador::cb_frec_descendente_in(){
           isec_escalas=-1;
      }
      
-}
+}*/
 
 
 
