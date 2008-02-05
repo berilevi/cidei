@@ -132,6 +132,9 @@ Analizador::Analizador() {
         
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger"); 
     otrigger_on->labelsize(15);
+    
+    manual = new Fl_Help_Dialog;
+    manual->load("help_analizador.html");
           
     ogroup_ana->end();
     
@@ -169,6 +172,7 @@ Analizador::Analizador() {
     oflancobajada->callback(cb_bajada,this);
     odes_horizontal->callback(cb_horizontal,this);
     ogrilla_on->callback(cb_grilla, this);
+    ohelp_ana->callback(cb_help,this);
 }
 
 // class destructor
@@ -725,4 +729,21 @@ void Analizador::graficar_datos() {
          }
          ocursor->redraw();
      }
+}
+
+
+/**
+ * 
+*/
+void Analizador::cb_help(Fl_Widget* pboton, void *pany){
+     Analizador* pana=(Analizador*)pany;
+     pana->cb_help_in();
+}
+
+/**
+ * 
+*/
+void Analizador::cb_help_in(){
+
+      manual->show();
 }

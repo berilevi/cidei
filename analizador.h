@@ -28,6 +28,7 @@
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Choice.H>
+#include <FL/Fl_Help_Dialog.h>
 #include <iostream>
 #include <string>
 
@@ -50,6 +51,10 @@ class Analizador : public Instrumento {
 		 * Número de muestras que se van a almacenar 
 		*/
 	    int inum_muestras;
+	    /**
+		 *  Ventana de ayuda de uso del instrumento.
+	    */
+        Fl_Help_Dialog *manual; 
 		/**
 		 * Contador de datos almacenados en el arreglo dinámico 
 		*/
@@ -244,6 +249,15 @@ class Analizador : public Instrumento {
 		void graficar_datos();
 		
   private:
+         /**
+         * Callback del botón que activa la ayuda del instrumento  
+         */   
+         static void cb_help(Fl_Widget*, void *);
+         /**
+         * Callback del botón que activa la ayuda del instrumento 
+         */
+         inline void cb_help_in();
+          
         /**
          * Este método es el callback del timer para realizar la solicitud 
          * de datos del analizador logico al hardware.  

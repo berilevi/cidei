@@ -2,6 +2,8 @@
 #ifndef OSCILOSCOPIO_H
 #define OSCILOSCOPIO_H
 
+
+#include <FL/Fl_Window.H>
 #include "instrumento.h"                    // Cabecera de la superclase
 #include "Fl_Scope.h"                       // Clase graficar las señales
 #include "grid.h"
@@ -23,6 +25,8 @@
 
 #include <iostream>
 #include <string.h>
+#include <windows.h> 
+
 
 /**
  * La clase Osciloscopio representa las funcionalidades del instrumento
