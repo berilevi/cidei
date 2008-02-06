@@ -68,10 +68,10 @@ Generador::Generador(){
        
     ovalor_frec = new Fl_Value_Input(910,630,80,25,"");
     ovalor_frec->type(FL_FLOAT_INPUT);
-    ocontador_frec = new Fl_Counter(890,660,110,20,""); 
+    /*ocontador_frec = new Fl_Counter(890,660,110,20,""); 
     ocontador_frec->step(0.1);
     ocontador_frec->range(0.1,1000000);
-    ocontador_frec->value(0.1);
+    ocontador_frec->value(0.1);*/
     ogroup_frecuencia->end();
     ogroup_amplitud = new Fl_Group (525,520,110,170,"");
     ogroup_amplitud->box(FL_ENGRAVED_BOX);
