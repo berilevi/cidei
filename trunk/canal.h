@@ -10,6 +10,7 @@
 #include <FL/Fl_Repeat_Button.H>
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Ask.H>
+#include <FL/Fl_Box.H>
 
 
 /**
@@ -82,17 +83,17 @@ class Canal : public Instrumento
 		 * Este indicador luminoso indica que está activado el acople
 		 * gnd del canal  
 		 */
-        Fl_Light_Button *oacop_gnd;
+        Fl_Box *oacop_gnd;
         /**
 		 * Este indicador luminoso indica que está activado el acople
 		 * ac del canal  
 		 */
-        Fl_Light_Button *oacop_ac;
+        Fl_Box *oacop_ac;
         /**
 		 * Este indicador luminoso indica que está activado el acople
 		 * dc del canal  
 		 */
-        Fl_Light_Button *oacop_dc;
+        Fl_Box *oacop_dc;
         /**
 		 * Perilla para ajustar la posición de la señal respecto al eje x 
 		 * de la señal.   

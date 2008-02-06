@@ -25,8 +25,8 @@ Multimetro::Multimetro(){
     ounidades->labelcolor(FL_WHITE);
     ounidades->box(FL_FLAT_BOX);
     ounidades->color(FL_BLACK);
-    ohelp_mult  = new Fl_Button (785,340,40,16,"Help");
-    ohelp_mult->labelsize(10);
+    ohelp_mult  = new Fl_Button (935,23,40,16,"Help");
+    ohelp_mult->labelsize(9);
     //ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
     ovolt_ac = new Fl_Button(765,189,63,35,"V_ac");
     ovolt_ac->clear();
@@ -44,11 +44,10 @@ Multimetro::Multimetro(){
     
     Manual = new Fl_Help_Dialog;
     Manual->load("help_multimetro.html");
-
     
     ogroup_mult-> end();
       
-    omult_on = new Fl_Light_Button(745,325,38,30,"ON");
+    omult_on = new Fl_Light_Button(892,10,33,42,"ON");
     omult_on->labelsize(9); 
     omult_on->callback(cb_mult_on, this);
     ovolt_ac->callback(cb_volt_ac, this);
@@ -85,7 +84,7 @@ void Multimetro::cb_mult_on_in(){
         Transmision();
         if (bhardware){
            ogroup_mult->activate();
-           Fl_Tooltip::enable();
+           //Fl_Tooltip::enable();
         }
         else {
              fl_message("Error de hardware");

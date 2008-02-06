@@ -3,13 +3,18 @@
 #include "osciloscopio.h" // class's header file
 
 int isec_dual;            // Variable global para realizar la secuencia del menu dual 
-int isec_trigger;         // Variable global para realizar la secuencia del menu dual
+int isec_trigger;         // Variable global para realizar la secuencia de la selección del canal fuente del trigger
 int isec_acople;          // Variable global para realizar la secuencia del acople del canal 1
 int isec_acople2;         // Variable global para realizar la secuencia del acople del canal 2
+bool bsuma;
+bool bresta;
+bool bx_y;
+bool btrigger1;
+bool btrigger2;
 
 
 // Constructor de clase
-Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):Instrumento(){
+Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) {
                                 
     Fl_Tooltip::disable();
     icolor = ncol;                                                // Color de fondo de la pantalla del osciloscopio
@@ -19,7 +24,14 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     isec_acople = 0;          
     isec_acople2 = 0;
     isec_dual = 0;
-                
+    bsuma = 0;
+    bresta = 0;
+    bx_y = 0;
+    btrigger1 = 0;
+    btrigger2 = 0;
+    
+    {   
+                 
     ogroup_osc = new Fl_Group (5,5,725,360,"");                   // Agrupa los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME);                 
     ogroup_osc->box(FL_UP_BOX);
@@ -40,19 +52,20 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     odual_menu->labelsize(10);
     odual_menu->deactivate();
     odual_menu->tooltip("Botón para seleccionar la operación dual de las gráficas");
-    osuma = new Fl_Light_Button(490,345,10,10,"Suma");            // Indicador luminoso para la operacion de suma de las dos señales
+    osuma = new Fl_Box(490,345,10,10,"Suma");                     // Indicador luminoso para la operacion de suma de las dos señales
     osuma->labelsize(10);
-    osuma->box(FL_NO_BOX);
+    osuma->box(FL_ENGRAVED_BOX);
     osuma->align(FL_ALIGN_TOP);
-    oresta = new Fl_Light_Button(530,345,10,10,"Resta");          // Indicador luminoso para la operacion de resta de las dos señales
+    oresta = new Fl_Box(530,345,10,10,"Resta");          // Indicador luminoso para la operacion de resta de las dos señales
     oresta->labelsize(10);
-    oresta->box(FL_NO_BOX);
+    oresta->box(FL_ENGRAVED_BOX);
     oresta->align(FL_ALIGN_TOP);
-    ox_y = new Fl_Light_Button(570,345,10,10,"X_Y");              // Indicador luminoso para la operacion lissajous 
-    ox_y->labelsize(10);
-    ox_y->box(FL_NO_BOX);
+    ox_y = new Fl_Box(570,345,10,10,"X_Y");              // Indicador luminoso para la operacion lissajous 
+    ox_y->labelsize(9);
+    ox_y->box(FL_ENGRAVED_BOX);
     ox_y->align(FL_ALIGN_TOP);
     ogroup_dual->end();
+    
     olog_osc  = new Fl_Button (340,8,40,14,"Log");               // Boton para activar el almacenamiento en archivo de texto los datos
     olog_osc->labelsize(9);
     olog_osc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
@@ -77,27 +90,25 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     otiempo_div->step(1);
     otiempo_div->round(1);
     //otiempo_div->tooltip("Selector de las escalas de tiempo por división del instrumento");
-    omenu_t_div = new Fl_Choice(648,330,30,20,"");
-    omenu_t_div->add("0.5 s");//,FL_ALT,(Fl_Callback *)cb_tdiv05s,this);
-    omenu_t_div->add("0.2 s");//,FL_ALT,(Fl_Callback *)cb_tdiv02s,this);
-    omenu_t_div->add("0.1 s");//,FL_ALT,(Fl_Callback *)cb_tdiv01s,this);           //
-    omenu_t_div->add("50 m");//,FL_ALT,(Fl_Callback *)cb_tdiv50ms,this);
-    omenu_t_div->add("20 m");//,FL_ALT,(Fl_Callback *)cb_tdiv20ms,this);
-    omenu_t_div->add("10 m");//,FL_ALT,(Fl_Callback *)cb_tdiv10ms,this);
-    omenu_t_div->add("5 m");//,FL_ALT,(Fl_Callback *)cb_tdiv5ms,this);
-    omenu_t_div->add("2 m");//,FL_ALT,(Fl_Callback *)cb_tdiv2ms,this);
-    omenu_t_div->add("1 m");//,FL_ALT,(Fl_Callback *)cb_tdiv1ms,this);
-    omenu_t_div->add("0.5 m");//,FL_ALT,(Fl_Callback *)cb_tdiv05ms,this);
-    omenu_t_div->add("0.2 m");//,FL_ALT,(Fl_Callback *)cb_tdiv02ms,this);
-    omenu_t_div->add("0.1 m");//,FL_ALT,(Fl_Callback *)cb_tdiv01ms,this);
-    omenu_t_div->add("50 u");//,FL_ALT,(Fl_Callback *)cb_tdiv50us,this);
-    omenu_t_div->add("20 u");//,FL_ALT,(Fl_Callback *)cb_tdiv20us,this);
-    omenu_t_div->add("10 u");//,FL_ALT,(Fl_Callback *)cb_tdiv10us,this);
-    omenu_t_div->add("5 u");//,FL_ALT,(Fl_Callback *)cb_tdiv5us,this);
-    omenu_t_div->add("2 u");//,FL_ALT,(Fl_Callback *)cb_tdiv2us,this);
-    omenu_t_div->add("1 u");//,FL_ALT,(Fl_Callback *)cb_tdiv1us,this);
-    //omenu_t_div->menu(menu_tdiv);
-     
+    omenu_t_div = new Fl_Choice(645,330,60,20,"");
+    omenu_t_div->add("0.5 s",0,(Fl_Callback *)cb_tdiv05s,this);
+    omenu_t_div->add("0.2 s",0,(Fl_Callback *)cb_tdiv02s,this);
+    omenu_t_div->add("0.1 s",0,(Fl_Callback *)cb_tdiv01s,this);           
+    omenu_t_div->add("50 m",0,(Fl_Callback *)cb_tdiv50ms,this);
+    omenu_t_div->add("20 m",0,(Fl_Callback *)cb_tdiv20ms,this);
+    omenu_t_div->add("10 m",0,(Fl_Callback *)cb_tdiv10ms,this);
+    omenu_t_div->add("5 m",0,(Fl_Callback *)cb_tdiv5ms,this);
+    omenu_t_div->add("2 m",0,(Fl_Callback *)cb_tdiv2ms,this);
+    omenu_t_div->add("1 m",0,(Fl_Callback *)cb_tdiv1ms,this);
+    omenu_t_div->add("0.5 m",0,(Fl_Callback *)cb_tdiv05ms,this);
+    omenu_t_div->add("0.2 m",0,(Fl_Callback *)cb_tdiv02ms,this);
+    omenu_t_div->add("0.1 m",0,(Fl_Callback *)cb_tdiv01ms,this);
+    omenu_t_div->add("50 u",0,(Fl_Callback *)cb_tdiv50us,this);
+    omenu_t_div->add("20 u",0,(Fl_Callback *)cb_tdiv20us,this);
+    omenu_t_div->add("10 u",0,(Fl_Callback *)cb_tdiv10us,this);
+    omenu_t_div->add("5 u",0,(Fl_Callback *)cb_tdiv5us,this);
+    omenu_t_div->add("2 u",0,(Fl_Callback *)cb_tdiv2us,this);
+    omenu_t_div->add("1 u",0,(Fl_Callback *)cb_tdiv1us,this);
     ogroup_tdiv->end();
     
     ogroup_pos = new Fl_Group (415,218,100,110,"");
@@ -122,13 +133,13 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     osel_trigger = new Fl_Repeat_Button(528,230,40,18,"Trigger");  
     osel_trigger->labelsize(10);
     osel_trigger->tooltip("Botón para seleccionar el canal fuente del trigger");
-    otrigger_ch1 = new Fl_Light_Button(577,225,10,10,"Ch1");
+    otrigger_ch1 = new Fl_Box(577,225,10,10,"Ch1");
     otrigger_ch1->labelsize(10);
-    otrigger_ch1->box(FL_NO_BOX);
+    otrigger_ch1->box(FL_ENGRAVED_BOX);
     otrigger_ch1->align(FL_ALIGN_RIGHT);
-    otrigger_ch2 = new Fl_Light_Button(577,245,10,10,"Ch2");
+    otrigger_ch2 = new Fl_Box(577,245,10,10,"Ch2");
     otrigger_ch2->labelsize(10);
-    otrigger_ch2->box(FL_NO_BOX);
+    otrigger_ch2->box(FL_ENGRAVED_BOX);
     otrigger_ch2->align(FL_ALIGN_RIGHT);
     onivel_trigger = new Fl_Knob (540,255,57,57,"Nivel");
     onivel_trigger->color(180);
@@ -136,7 +147,6 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     onivel_trigger->cursor(40);
     onivel_trigger->labelsize(10);
     onivel_trigger->range(0,10);
-    
     ogroup_trigger->end();
                 
     opantalla = new Fl_Scope(12,40,400,320,"");                  // Instancia de scope para la pantalla del osciloscopio
@@ -146,10 +156,11 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol):
     opantalla->linetype(FL_SCOPE_LINE);
     opantalla->box(FL_FLAT_BOX);
     
-    Manual = new Fl_Help_Dialog;
-    Manual->load("help_osciloscopio.html");
+    Manual_osc = new Fl_Help_Dialog;
+    Manual_osc->load("help_osciloscopio.html");
     
     ogroup_osc->end();
+    }
     
     ogrilla = new grid(12,40,400,320,"");
     ogrilla->banalizador_on = 0;
@@ -215,13 +226,19 @@ void Osciloscopio::cb_osc_on_in(){
             canal1->ogroup_ch->box(FL_UP_BOX);
             ogroup_tdiv->box(FL_UP_BOX);
             ogroup_trigger->box(FL_UP_BOX);
+            otrigger_ch1->color(FL_RED);
+            otrigger_ch1->redraw();
+            btrigger1 = 1;
+            isec_trigger = 1;
             ogroup_pos->box(FL_UP_BOX);
             ogroup_dual->box(FL_UP_BOX);
             otiempo_div->value(8);
             //omenu_t_div->value(8);
             canal1->ovolt_div->value(1);
             canal1->omenu_v_div->value(0);
-            canal1->oacop_ac->value(1);
+            //canal1->oacop_ac->value(1);
+            canal1->oacop_ac->color(FL_RED);
+            canal1->oacop_ac->redraw();
             isec_acople=1;
             opantalla->bch1 = 1;
             muestreo_timer(1);
@@ -273,13 +290,25 @@ void Osciloscopio::cb_osc_on_in(){
          ogroup_osc->deactivate(); 
          ogroup_tdiv->deactivate();
          odual_menu->deactivate();
-         isec_trigger = 0;         
+         isec_trigger = 0;
+         otrigger_ch1->color(FL_GRAY);
+         otrigger_ch1->redraw();
+         btrigger1 = 0;
+         otrigger_ch2->color(FL_GRAY);
+         otrigger_ch2->redraw();
+         btrigger2 = 0;         
          isec_acople = 0;          
          isec_acople2 = 0;
-         isec_dual = 0;
-         oresta->value(0);
-         ox_y->value(0);
-         osuma->value(0);
+         isec_dual = -1;
+         bsuma = 0;
+         bresta = 0;
+         bx_y = 0;
+         osuma->color(FL_GRAY);
+         osuma->redraw();
+         oresta->color(FL_GRAY);
+         oresta->redraw();
+         ox_y->color(FL_GRAY);
+         osuma->redraw();
          opantalla->bdual = 0;
          opantalla->blissajous = 0;
          oosc_on->box(FL_UP_BOX);
@@ -433,7 +462,9 @@ void Osciloscopio::cb_ch2_on_in(){
            canal2->activar(1);
            canal2->ogroup_ch->activate();
            canal2->ogroup_ch->box(FL_UP_BOX);
-           canal2->oacop_ac->value(1);
+           //canal2->oacop_ac->value(1);
+           canal2->oacop_ac->color(FL_GRAY);
+           canal2->oacop_ac->redraw();
            canal2->ovolt_div->value(1);
            canal2->omenu_v_div->value(0);
            opantalla->bch2 = 1;
@@ -506,23 +537,37 @@ void Osciloscopio::cb_dual_menu(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_dual_menu_in(){
      if (isec_dual==0){
-        ox_y->value(0);
-        osuma->value(1);
+        ox_y->color(FL_GRAY);
+        ox_y->redraw();
+        bx_y = 0;
+        bsuma = 1;
+        osuma->color(FL_RED);
+        osuma->redraw();
         opantalla->bdual = 1;
      }
      if (isec_dual==1){
-        osuma->value(0);
-        oresta->value(1);
+        bsuma = 0;
+        bresta = 1;
+        osuma->color(FL_GRAY);
+        osuma->redraw();
+        oresta->color(FL_RED);
+        oresta->redraw();
         opantalla->bdual = 1;
      }
      if (isec_dual==2){
-        oresta->value(0);
-        ox_y->value(1);
+        oresta->color(FL_GRAY);
+        oresta->redraw();
+        bresta = 0;
+        bx_y = 1;
+        ox_y->color(FL_RED);
+        ox_y->redraw();
         opantalla->bdual = 1;
         opantalla->blissajous = 1;
      }
      if (isec_dual==3){
-        ox_y->value(0);
+        ox_y->color(FL_GRAY);
+        ox_y->redraw();
+        bx_y = 0;
         opantalla->bdual = 0;
         opantalla->blissajous = 0;
         isec_dual=-1;
@@ -548,12 +593,16 @@ void Osciloscopio::cb_sel_trigger(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_sel_trigger_in(){
      if (isec_trigger==0){
-        otrigger_ch2->value(0);
-        otrigger_ch1->value(1);
+        otrigger_ch2->color(FL_GRAY);
+        otrigger_ch2->redraw();
+        otrigger_ch1->color(FL_RED);
+        otrigger_ch1->redraw();
      }
      if (isec_trigger==1){
-        otrigger_ch1->value(0);
-        otrigger_ch2->value(1);
+        otrigger_ch1->color(FL_GRAY);
+        otrigger_ch1->redraw();
+        otrigger_ch2->color(FL_RED);
+        otrigger_ch2->redraw();
         isec_trigger=-1;
      }
      isec_trigger++;
@@ -578,7 +627,6 @@ void Osciloscopio::cb_tiempo_div(Fl_Widget* psel, void *pany)
 */
 void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
-     //pselector->value(floor(pselector->value()));
      omenu_t_div->value(pselector->value());
      if (pselector->value()>=8){                                   // !!!!! Toca cambiarlo a >= 2 
                                                                    // !!! agregar las tramas de protocolo faltantes   
@@ -652,7 +700,6 @@ void Osciloscopio::cb_volt_div1(Fl_Widget* psel, void *pany)
 */
 void Osciloscopio::cb_volt_div1_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
-     //pselector->value(floor(pselector->value()));
      canal1->omenu_v_div->value(pselector->value()-1);                
      if (int((pselector->value()))== 10){
          Encapsular('A','c','1','A',0x00,0x00);
@@ -724,7 +771,6 @@ void Osciloscopio::cb_volt_div2(Fl_Widget* psel, void *pany){
 */
 void Osciloscopio::cb_volt_div2_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
-     //pselector->value(floor(pselector->value()));
      canal2->omenu_v_div->value(pselector->value()-1);                
      if (int((pselector->value()))== 10){
          Encapsular('B','c','1','A',0x00,0x00);
@@ -985,21 +1031,28 @@ void Osciloscopio::recorrer_datos(int num_canal){
            opantalla->TraceColour(Fl_Color(canal2->ncolor));           
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 
-           if (osuma->value()){
+           //if (osuma->value()){
+           //if (isec_dual == 0){
+           if (bsuma == 1){
               opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es
               ogrilla->redraw();
            }
-           else if(oresta->value()){
+           //else if(oresta->value()){
+           //else if (isec_dual == 1){
+           else if (bresta == 1){
                opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
                ogrilla->redraw(); 
            }
-           else if (ox_y->value()){
+           //else if (ox_y->value()){
+           //if (isec_dual == 2){
+           else if (bx_y == 1){     
                 opantalla->bdual = 1;
                 opantalla->blissajous = 1;
                 opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
                 ogrilla->redraw();
            }
-           else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
+           //else if (isec_dual != 0 && isec_dual != 1 && isec_dual != 2){
+           else if (bx_y == 0 && bsuma == 0 && bresta == 0){       
                 opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
                 ogrilla->redraw();
            }
@@ -1008,21 +1061,27 @@ void Osciloscopio::recorrer_datos(int num_canal){
             for(icont=0;icont < DATA_OSC-1; icont++){
                 idato_graf_ch1 = buf_osc_ch1[icont];
                 idato_graf_ch2 = buf_osc_ch2[icont];
-                if (osuma->value()){
+                //if (osuma->value()){
+                //if (isec_dual == 0){
+                if (bsuma == 1){          
                    opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
                    ogrilla->redraw();              
                 }
-                else if (oresta->value()){
+                //else if (oresta->value()){
+                //else if (isec_dual == 1){
+                else if (bresta == 1){     
                    opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
                    ogrilla->redraw();               
                 }
-                else if (ox_y->value()){
+                //else if (ox_y->value()){
+                //if (isec_dual == 2){
+                else if (bx_y == 1){              
                    opantalla->bdual = 1;
                    opantalla->blissajous = 1;
                    opantalla->Add((idato_graf_ch1*255),(idato_graf_ch2*255)); 
                    ogrilla->redraw();           
                 }
-                else if (~osuma->value() && ~oresta->value() && ~ox_y->value()){
+                else if (bx_y == 0 && bsuma == 0 && bresta == 0){
                      opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
                      ogrilla->redraw();
                 }
@@ -1086,33 +1145,45 @@ void Osciloscopio::cb_acople1(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_acople1_in(){
   if (isec_acople==0){
-     canal1->oacop_gnd->value(0);
+     //canal1->oacop_gnd->value(0);
+     canal1->oacop_gnd->color(FL_GRAY);
+     canal1->oacop_gnd->redraw();
      Encapsular('A', 'e', '1', '2',0x00,0x00);
      Transmision();
      if (bhardware){
-        canal1->oacop_ac->value(1);
+        //canal1->oacop_ac->value(1);
+        canal1->oacop_ac->color(FL_RED);
+        canal1->oacop_ac->redraw();
      }
      else{
          fl_message("Error de hardware"); 
      }
   }
   if (isec_acople==1){
-     canal1->oacop_ac->value(0);
+     //canal1->oacop_ac->value(0);
+     canal1->oacop_ac->color(FL_GRAY);
+     canal1->oacop_ac->redraw();
      Encapsular('A', 'e', '1', '1',0x00,0x00);
      Transmision();
      if (bhardware){
-        canal1->oacop_dc->value(1);
+        //canal1->oacop_dc->value(1);
+        canal1->oacop_dc->color(FL_RED);
+        canal1->oacop_dc->redraw();
      }
      else{
          fl_message("Error de hardware"); 
      }
   }
   if (isec_acople==2){
-     canal1->oacop_dc->value(0);
+     //canal1->oacop_dc->value(0);
+     canal1->oacop_dc->color(FL_GRAY);
+     canal1->oacop_dc->redraw();
      Encapsular('A', 'e', '1', '3',0x00,0x00);
      Transmision();
       if (bhardware){
-         canal1->oacop_gnd->value(1);
+         //canal1->oacop_gnd->value(1);
+         canal1->oacop_gnd->color(FL_RED);
+         canal1->oacop_gnd->redraw();
       }
      else{
          fl_message("Error de hardware"); 
@@ -1142,33 +1213,45 @@ void Osciloscopio::cb_acople2(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_acople2_in(){
   if (isec_acople2==0){
-     canal2->oacop_gnd->value(0);
+     //canal2->oacop_gnd->value(0);
+     canal2->oacop_gnd->color(FL_GRAY);
+     canal2->oacop_gnd->redraw();
      Encapsular('B', 'e', '1', '2',0x00,0x00);
      Transmision();
      if (bhardware){
-        canal2->oacop_ac->value(1);
+        //canal2->oacop_ac->value(1);
+        canal2->oacop_ac->color(FL_RED);
+        canal2->oacop_ac->redraw();
      }
      else{
          fl_message("Error de hardware"); 
      }
   }
   if (isec_acople2==1){
-     canal2->oacop_ac->value(0);
+     //canal2->oacop_ac->value(0);
+     canal2->oacop_ac->color(FL_GRAY);
+     canal2->oacop_ac->redraw();
      Encapsular('B', 'e', '1', '1',0x00,0x00);
      Transmision();
      if (bhardware){
-        canal2->oacop_dc->value(1);
+        //canal2->oacop_dc->value(1);
+        canal2->oacop_dc->color(FL_RED);
+        canal2->oacop_dc->redraw();
      }
      else{
          fl_message("Error de hardware"); 
      }
   }
   if (isec_acople2==2){
-     canal2->oacop_dc->value(0);
+     //canal2->oacop_dc->value(0);
+     canal2->oacop_dc->color(FL_GRAY);
+     canal2->oacop_dc->redraw();
      Encapsular('B', 'e', '1', '3',0x00,0x00);
      Transmision();
       if (bhardware){
-         canal2->oacop_gnd->value(1);
+         //canal2->oacop_gnd->value(1);
+         canal2->oacop_gnd->color(FL_RED);
+         canal2->oacop_gnd->redraw();
       }
      else{
          fl_message("Error de hardware"); 
@@ -1215,8 +1298,7 @@ void Osciloscopio::cb_help(Fl_Widget* pboton, void *any){
  * 
 */
 void Osciloscopio::cb_help_in(){
-
-      Manual->show();
+      Manual_osc->show();
 }
 
 
@@ -1228,214 +1310,214 @@ void Osciloscopio::cb_help_in(){
 */
 
 void Osciloscopio::cb_tdiv05s(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-    // posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv05s_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 void Osciloscopio::cb_tdiv02s(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv02s_in(Fl_Widget* psel){
-    // Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv01s(Fl_Widget* psel, void *pany){
-    // Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv01s_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-    // otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv50ms(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-    // posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv50ms_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv20ms(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv20ms_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv10ms(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv10ms_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 void Osciloscopio::cb_tdiv5ms(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv5ms_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv2ms(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv2ms_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv1ms(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector); 
+     posc->cb_tdiv05s_in(pselector); 
 }
 
 void Osciloscopio::cb_tdiv1ms_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-    // otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 
 void Osciloscopio::cb_tdiv05ms(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv05ms_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-    // otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 void Osciloscopio::cb_tdiv02ms(Fl_Widget* psel, void *pany){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-    // posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv02ms_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 
 void Osciloscopio::cb_tdiv01ms(Fl_Widget* psel, void *pany){
-    // Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-    // posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv01ms_in(Fl_Widget* psel){
-   //  Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv50us(Fl_Widget* psel, void *pany){
-  //   Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-    // posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv50us_in(Fl_Widget* psel){
-  //   Fl_Choice *pselector = (Fl_Choice *)psel;
-    // otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv20us(Fl_Widget* psel, void *pany){
-  //   Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-    // posc->cb_tdiv05s_in(pselector); 
+     posc->cb_tdiv05s_in(pselector); 
 }
 
 void Osciloscopio::cb_tdiv20us_in(Fl_Widget* psel){
-    // Fl_Choice *pselector = (Fl_Choice *)psel;
-    // otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 void Osciloscopio::cb_tdiv10us(Fl_Widget* psel, void *pany){
-   //  Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-    // posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv10us_in(Fl_Widget* psel){
-   //  Fl_Choice *pselector = (Fl_Choice *)psel;
-    // otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 void Osciloscopio::cb_tdiv5us(Fl_Widget* psel, void *pany){
-   //  Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     //posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv5us_in(Fl_Widget* psel){
-   //  Fl_Choice *pselector = (Fl_Choice *)psel;
-     //otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
 void Osciloscopio::cb_tdiv2us(Fl_Widget* psel, void *pany){
-   // Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-   //  posc->cb_tdiv05s_in(pselector); 
+     posc->cb_tdiv05s_in(pselector); 
 }
 
 void Osciloscopio::cb_tdiv2us_in(Fl_Widget* psel){
-     //Fl_Choice *pselector = (Fl_Choice *)psel;
-    // otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 void Osciloscopio::cb_tdiv1us(Fl_Widget* psel, void *pany){
-   //  Fl_Choice *pselector = (Fl_Choice *)psel;
+     Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-   //  posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv1us_in(Fl_Widget* psel){
-  //   Fl_Choice *pselector = (Fl_Choice *)psel;
-  //   otiempo_div->value(pselector->value());
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempo_div->value(pselector->value());
 }
 
 
