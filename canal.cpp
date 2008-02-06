@@ -2,7 +2,7 @@
 
 #include "canal.h" // class's header file
 
-Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento() {
+Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
              
      ncolor = ncolo;
 
@@ -39,17 +39,17 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo):Instrumento()
      omenu_v_div->add("1 m");
      osel_acople = new Fl_Repeat_Button((x+15),(y+180),45,18,"Acople");
      osel_acople->labelsize(10);
-     oacop_gnd = new Fl_Light_Button((x+120),(y+188),10,10,"Gnd");
+     oacop_gnd = new Fl_Box((x+120),(y+188),10,10,"Gnd");
      oacop_gnd->labelsize(10);
-     oacop_gnd->box(FL_NO_BOX);
+     oacop_gnd->box(FL_BORDER_BOX);
      oacop_gnd->align(FL_ALIGN_TOP);
-     oacop_dc  = new Fl_Light_Button((x+100),(y+188),10,10,"Dc");
+     oacop_dc  = new Fl_Box((x+100),(y+188),10,10,"Dc");
      oacop_dc->labelsize(10);
-     oacop_dc->box(FL_NO_BOX);
+     oacop_dc->box(FL_BORDER_BOX);
      oacop_dc->align(FL_ALIGN_TOP);
-     oacop_ac  = new Fl_Light_Button((x+78),(y+188),10,10,"Ac");
+     oacop_ac  = new Fl_Box((x+78),(y+188),10,10,"Ac");
      oacop_ac->labelsize(10);
-     oacop_ac->box(FL_NO_BOX);
+     oacop_ac->box(FL_BORDER_BOX);
      oacop_ac->align(FL_ALIGN_TOP);    
      ogroup_ch->end();
 }
