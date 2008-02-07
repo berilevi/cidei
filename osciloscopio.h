@@ -65,12 +65,6 @@ class Osciloscopio : public Instrumento
 		 */
         Fl_Box *obox_nombre;
         /**
-		 * Objeto que agrupa el control de detencion de la grafica en el 
-         * osciloscopio.
-		 */
-		 
-       // Fl_Group *ogroup_stop;
-        /**
 		 * Objeto que agrupa las opciones de operaciones entre las graficas en el 
          * osciloscopio cuando se encuantran activos los dos canales.
 		 */
@@ -555,7 +549,6 @@ class Osciloscopio : public Instrumento
 		 * del osciloscopio
 	     */
         Fl_Choice *omenu_t_div;
-       // Fl_Choice *oiv;
         /**
 		 * Indicador luminoso que indica que está activado el trigger del
 		 * canal 1  
