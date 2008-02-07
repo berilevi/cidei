@@ -6,21 +6,25 @@ int isec_dual;            // Variable global para realizar la secuencia del menu
 int isec_trigger;         // Variable global para realizar la secuencia de la selección del canal fuente del trigger
 int isec_acople;          // Variable global para realizar la secuencia del acople del canal 1
 int isec_acople2;         // Variable global para realizar la secuencia del acople del canal 2
-bool bsuma;
-bool bresta;
-bool bx_y;
-bool btrigger1;
-bool btrigger2;
+bool bsuma;               // Variable global que indica si se activó la operación de suma de las señales
+bool bresta;              // Variable global que indica si se activó la operación de resta de las señales
+bool bx_y;                // Variable global que indica si se activó la operación x vs y con las 2 señales 
+bool btrigger1;           // Variable global que indica si se activó la fuente del trigger en el canal 1
+bool btrigger2;           // Variable global que indica si se activó la fuente del trigger en el canal 2
 
 
 // Constructor de clase
 Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) {
                                 
-    Fl_Tooltip::disable();
+    Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
     icolor = ncol;                                                // Color de fondo de la pantalla del osciloscopio
     strcpy(cnombre,"osc.txt");                                    // Nombre para el archivo de texto donde se almacenan los datos
     ct_div = '1';                                                 // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
-    isec_trigger = 0;         
+    
+    
+    //    Inicialización de las variables globales
+    
+    isec_trigger = 0;                                                      
     isec_acople = 0;          
     isec_acople2 = 0;
     isec_dual = 0;
@@ -30,58 +34,64 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     btrigger1 = 0;
     btrigger2 = 0;
     
-    {   
-                 
-    ogroup_osc = new Fl_Group (5,5,725,360,"");                   // Agrupa los elementos del osciloscopio
+    
+    
+    {              
+    ogroup_osc = new Fl_Group (5,5,725,360,"");                   // Inicia el grup de los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME);                 
     ogroup_osc->box(FL_UP_BOX);
     ogroup_osc->deactivate();                           
     canal1 = new Canal(415,9,152,205,"",255);                     // Instancia de canal para crear el objeto canal 1
     canal2 = new Canal(573,9,152,205,"",250);                     // Instancia de canal para crear el objeto canal 2
-    och1_on = new Fl_Light_Button(420,15,35,15,"ON");
+    och1_on = new Fl_Light_Button(420,15,35,15,"ON");             // Botón para activar/desactivar el canal 1
     och1_on->labelsize(10);
     och1_on->tooltip("Botón para activar o desactivar el uso del canal 1");
-    och2_on = new Fl_Light_Button(578,15,35,15,"ON");
+    
+    och2_on = new Fl_Light_Button(578,15,35,15,"ON");             // Botón para activar/desactivar el canal 2
     och2_on->labelsize(10);
     och2_on->tooltip("Botón para activar o desactivar el uso del canal 2");
     
-    ogroup_dual = new Fl_Group (415,330,200,30,"");              //Agrupa los controles de las operaciones en modo dual
+    ogroup_dual = new Fl_Group (415,330,200,30,"");              //Inicio del grupo de los controles de las operaciones en modo dual
     ogroup_dual->box(FL_ENGRAVED_FRAME);
     ogroup_dual->deactivate();
-    odual_menu = new Fl_Repeat_Button(425,336,40,18,"Dual");      // Boton para seleccionar la operacion dual suma resta o lissajous 
+    odual_menu = new Fl_Repeat_Button(425,336,40,18,"Dual");      //Botón para seleccionar la operación dual suma resta o lissajous 
     odual_menu->labelsize(10);
     odual_menu->deactivate();
     odual_menu->tooltip("Botón para seleccionar la operación dual de las gráficas");
-    osuma = new Fl_Box(490,345,10,10,"Suma");                     // Indicador luminoso para la operacion de suma de las dos señales
+    
+    osuma = new Fl_Box(490,345,10,10,"Suma");                     // Indicador de la operación de suma de las dos señales
     osuma->labelsize(10);
     osuma->box(FL_ENGRAVED_BOX);
     osuma->align(FL_ALIGN_TOP);
-    oresta = new Fl_Box(530,345,10,10,"Resta");          // Indicador luminoso para la operacion de resta de las dos señales
+    oresta = new Fl_Box(530,345,10,10,"Resta");                   // Indicador de la operación de resta de las dos señales
     oresta->labelsize(10);
     oresta->box(FL_ENGRAVED_BOX);
     oresta->align(FL_ALIGN_TOP);
-    ox_y = new Fl_Box(570,345,10,10,"X_Y");              // Indicador luminoso para la operacion lissajous 
+    ox_y = new Fl_Box(570,345,10,10,"X_Y");                       // Indicador de la operación x vs y 
     ox_y->labelsize(9);
     ox_y->box(FL_ENGRAVED_BOX);
     ox_y->align(FL_ALIGN_TOP);
-    ogroup_dual->end();
+    ogroup_dual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
     
-    olog_osc  = new Fl_Button (340,8,40,14,"Log");               // Boton para activar el almacenamiento en archivo de texto los datos
+    olog_osc  = new Fl_Button (340,8,40,14,"Log");                // Boton para activar el almacenamiento en archivo de texto los datos
     olog_osc->labelsize(9);
     olog_osc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
-    ohelp_osc  = new Fl_Button (340,24,40,14,"Help");
+    
+    ohelp_osc  = new Fl_Button (340,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
     ohelp_osc->labelsize(10); 
     ohelp_osc->tooltip("Botón para iniciar el archivo de ayuda de uso del instrumento ");
-    oayuda_osc  = new Fl_Check_Button (385,13,20,16,"?");
+    
+    oayuda_osc  = new Fl_Check_Button (385,13,20,16,"?");         // Activa las ayudas flotantes de los botones del instrumento
     oayuda_osc->labelsize(12);
     oayuda_osc->tooltip("CheckBox para iniciar las ayudas flotantes del uso del los botones del instrumento");
-    ogrilla_on = new Fl_Light_Button(250,13,45,17,"Grilla");
+    
+    ogrilla_on = new Fl_Light_Button(250,13,45,17,"Grilla");      // Activa/desactiva la cuadricula de la pantalla del instrumento   
     ogrilla_on->labelsize(10);
     
-    ogroup_tdiv = new Fl_Group (620,218,106,142,"");              //Agrupa los controles de tiempo por división
+    ogroup_tdiv = new Fl_Group (620,218,106,142,"");              //Inicia el grupo de los controles de tiempo por división
     ogroup_tdiv->box(FL_ENGRAVED_FRAME);
     ogroup_tdiv->deactivate();
-    otiempo_div = new Fl_Knob (633,230,80,80,"T_DIV");
+    otiempo_div = new Fl_Knob (633,230,80,80,"T_DIV");            //Selector de la escala de tiempo por división
     otiempo_div->color(147);
     otiempo_div->type(8);
     otiempo_div->labelsize(9);
@@ -90,7 +100,8 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     otiempo_div->step(1);
     otiempo_div->round(1);
     //otiempo_div->tooltip("Selector de las escalas de tiempo por división del instrumento");
-    omenu_t_div = new Fl_Choice(645,330,60,20,"");
+    
+    omenu_t_div = new Fl_Choice(645,330,60,20,"");                //Menú selector de la escala de tiempo por división
     omenu_t_div->add("0.5 s",0,(Fl_Callback *)cb_tdiv05s,this);
     omenu_t_div->add("0.2 s",0,(Fl_Callback *)cb_tdiv02s,this);
     omenu_t_div->add("0.1 s",0,(Fl_Callback *)cb_tdiv01s,this);           
@@ -109,70 +120,74 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     omenu_t_div->add("5 u",0,(Fl_Callback *)cb_tdiv5us,this);
     omenu_t_div->add("2 u",0,(Fl_Callback *)cb_tdiv2us,this);
     omenu_t_div->add("1 u",0,(Fl_Callback *)cb_tdiv1us,this);
-    ogroup_tdiv->end();
+    ogroup_tdiv->end();                                                   //Fin del grupo de controles de escala de tiempo por división
     
-    ogroup_pos = new Fl_Group (415,218,100,110,"");
+    ogroup_pos = new Fl_Group (415,218,100,110,"");                       //Inicio del grupo de controles de posición horizontal de las gráfica
     ogroup_pos->box(FL_ENGRAVED_FRAME);
     ogroup_pos->deactivate();           
-    opos_y = new Fl_Knob (435,250,60,60,"X-Pos");
+    opos_y = new Fl_Knob (435,250,60,60,"X-Pos");                         //Perilla de dezplazamiento horizontal de las gráficas
     opos_y->color(180);
     opos_y->scaleticks(0);
     opos_y->cursor(40);
     opos_y->labelsize(10);
     opos_y->range(-100,100);
     //opos_y->tooltip("Boton de posicionamiento horizontal de las gráficas");
-    ogroup_pos->end();
+    ogroup_pos->end();                                                    //Fin del grupo de controles de posición horizontal de las gráficas   
     
-    ostop = new Fl_Light_Button(420,222,35,30,"");
+    ostop = new Fl_Light_Button(420,222,35,30,"");                        //Botón para detención de las gráficas
     ostop->label("@|>");
     ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
     
-    ogroup_trigger = new Fl_Group (520,218,95,110,"");
+    ogroup_trigger = new Fl_Group (520,218,95,110,"");                    //Inicio del grupo de controles del trigger del instrumento        
     ogroup_trigger->box(FL_ENGRAVED_FRAME);
     ogroup_trigger->deactivate();
-    osel_trigger = new Fl_Repeat_Button(528,230,40,18,"Trigger");  
+    osel_trigger = new Fl_Repeat_Button(528,230,40,18,"Trigger");         //Botón para seleccionar el canal que es la fuente del disparo
     osel_trigger->labelsize(10);
     osel_trigger->tooltip("Botón para seleccionar el canal fuente del trigger");
-    otrigger_ch1 = new Fl_Box(577,225,10,10,"Ch1");
+    
+    otrigger_ch1 = new Fl_Box(577,225,10,10,"Ch1");                       //Indicador de canal 1 fuente del trigger      
     otrigger_ch1->labelsize(10);
     otrigger_ch1->box(FL_ENGRAVED_BOX);
     otrigger_ch1->align(FL_ALIGN_RIGHT);
-    otrigger_ch2 = new Fl_Box(577,245,10,10,"Ch2");
+    
+    otrigger_ch2 = new Fl_Box(577,245,10,10,"Ch2");                       //Indicador de canal 2 fuente del trigger
     otrigger_ch2->labelsize(10);
     otrigger_ch2->box(FL_ENGRAVED_BOX);
     otrigger_ch2->align(FL_ALIGN_RIGHT);
-    onivel_trigger = new Fl_Knob (540,255,57,57,"Nivel");
+    
+    onivel_trigger = new Fl_Knob (540,255,57,57,"Nivel");                 //Perilla para seleccionar el nivel del trigger
     onivel_trigger->color(180);
     onivel_trigger->scaleticks(0);
     onivel_trigger->cursor(40);
     onivel_trigger->labelsize(10);
     onivel_trigger->range(0,10);
-    ogroup_trigger->end();
+    ogroup_trigger->end();                                                // Fin del grupo de controles del trigger
                 
-    opantalla = new Fl_Scope(12,40,400,320,"");                  // Instancia de scope para la pantalla del osciloscopio
-    opantalla ->TraceColour(FL_WHITE);                           // Color de la gráfica inicial por defecto
-    opantalla->tracetype(FL_SCOPE_TRACE_LOOP);  
-    opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    opantalla->linetype(FL_SCOPE_LINE);
-    opantalla->box(FL_FLAT_BOX);
+    opantalla = new Fl_Scope(12,40,400,320,"");                           // Instancia de scope para la pantalla del osciloscopio
+    opantalla->tracetype(FL_SCOPE_TRACE_LOOP);                            // Forma en que se colocan los datos para graficar
+    opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);                        // La gráfica se redibuja cuando se adiciona cada dato                        
+    opantalla->linetype(FL_SCOPE_LINE);                                   // La gráfica se forma con lineas entre dos puntos
+    opantalla->box(FL_FLAT_BOX);                                          // La pantalla es un cuadro sin relieve
     
-    Manual_osc = new Fl_Help_Dialog;
-    Manual_osc->load("help_osciloscopio.html");
+    Manual_osc = new Fl_Help_Dialog;                                      // Ventana de ayuda que sale al presionar el botón help
+    Manual_osc->load("help_osciloscopio.html");                           // Cargar el archivo html que contiene la ayuda.
     
-    ogroup_osc->end();
+    ogroup_osc->end();                                                    //Fin del grupo de los elementos del osciloscopio
     }
     
-    ogrilla = new grid(12,40,400,320,"");
-    ogrilla->banalizador_on = 0;
+    ogrilla = new grid(12,40,400,320,"");                                 //Instancia de la cuadricula para la pantalla 
+    ogrilla->banalizador_on = 0;                                          //En cero para que no se active la grilla del analizador
     
-    obox_nombre = new Fl_Box(15,8,175,30,"OSCILOSCOPIO");
+    obox_nombre = new Fl_Box(15,8,175,30,"OSCILOSCOPIO");                 //Cuadro para colocar el nombre del instrumento
     obox_nombre->box(FL_ENGRAVED_FRAME);
     obox_nombre->labelfont(FL_HELVETICA_BOLD);
     obox_nombre->labelsize(20);
     
-    oosc_on = new Fl_Light_Button(195,8,38,30,"ON");
+    oosc_on = new Fl_Light_Button(195,8,38,30,"ON");                      //Botón para encender o apagar el osciloscopio
     oosc_on->tooltip("Botón para encender o apagar el osciloscopio");
     oosc_on->labelsize(10);            
+                
+    // Callbacks de los botones del osciloscopio            
                 
     och1_on->callback(cb_ch1_on,this);
     och2_on->callback(cb_ch2_on,this);
@@ -194,8 +209,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
 
 
 /**
- * Este método es el callback del boton que enciende el osciloscopio 
- * debe ir acompañada de una función inline para poder realizar los callbacks. 
+ * Este método es el callback del boton que enciende el osciloscopio  
 */
 void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;       //
@@ -203,9 +217,7 @@ void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany){
 }
 
 /**
- * Esta función acompaña la función  cb_osc_on para realizar los llamados al 
- * callback del boton que enciende el osciloscopio con los parametros por defecto
- * Canal 1 activado, 500 uS pos division, Acople AC y 5 Voltios pos division 
+ * Esta función acompaña la función  cb_osc_on para realizar los llamados al  
 */
 void Osciloscopio::cb_osc_on_in(){
       if (oosc_on->value()== 1){                                
@@ -233,10 +245,9 @@ void Osciloscopio::cb_osc_on_in(){
             ogroup_pos->box(FL_UP_BOX);
             ogroup_dual->box(FL_UP_BOX);
             otiempo_div->value(8);
-            //omenu_t_div->value(8);
+            omenu_t_div->value(8);
             canal1->ovolt_div->value(0);
             canal1->omenu_v_div->value(0);
-            //canal1->oacop_ac->value(1);
             canal1->oacop_ac->color(FL_RED);
             canal1->oacop_ac->redraw();
             isec_acople=1;
@@ -245,6 +256,8 @@ void Osciloscopio::cb_osc_on_in(){
          }
          else {
               fl_message("Error de hardware");
+              oosc_on->value(0);
+              oosc_on->box(FL_UP_BOX);
          }  
       }
       oosc_on->box(FL_DOWN_BOX);
