@@ -173,6 +173,7 @@ Analizador::Analizador() {
     odes_horizontal->callback(cb_horizontal,this);
     ogrilla_on->callback(cb_grilla, this);
     ohelp_ana->callback(cb_help,this);
+    olog_ana->callback(cb_log_ana, this);
 }
 
 // class destructor
@@ -746,4 +747,24 @@ void Analizador::cb_help(Fl_Widget* pboton, void *pany){
 void Analizador::cb_help_in(){
 
       manual->show();
+}
+
+
+/**
+ * 
+*/
+void Analizador::cb_log_ana(Fl_Widget* pboton, void *pany){
+     Analizador* pana=(Analizador*)pany;
+     pana->cb_log_ana_in();
+}
+
+/**
+ * 
+*/
+void Analizador::cb_log_ana_in(){
+    ofstream log("analizador.txt");
+    for (int o=0; o<inum_muestras; o++) {
+        log << pdata_analizador[o] << endl;
+    }
+	log.close(); 
 }

@@ -234,7 +234,7 @@ void Osciloscopio::cb_osc_on_in(){
             ogroup_dual->box(FL_UP_BOX);
             otiempo_div->value(8);
             //omenu_t_div->value(8);
-            canal1->ovolt_div->value(1);
+            canal1->ovolt_div->value(0);
             canal1->omenu_v_div->value(0);
             //canal1->oacop_ac->value(1);
             canal1->oacop_ac->color(FL_RED);
@@ -465,7 +465,7 @@ void Osciloscopio::cb_ch2_on_in(){
            //canal2->oacop_ac->value(1);
            canal2->oacop_ac->color(FL_GRAY);
            canal2->oacop_ac->redraw();
-           canal2->ovolt_div->value(1);
+           canal2->ovolt_div->value(0);
            canal2->omenu_v_div->value(0);
            opantalla->bch2 = 1;
            if (canal1->bestado== 1){
@@ -700,52 +700,52 @@ void Osciloscopio::cb_volt_div1(Fl_Widget* psel, void *pany)
 */
 void Osciloscopio::cb_volt_div1_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
-     canal1->omenu_v_div->value(pselector->value()-1);                
-     if (int((pselector->value()))== 10){
+     canal1->omenu_v_div->value(pselector->value());                
+     if (int((pselector->value()))== 9){
          Encapsular('A','c','1','A',0x00,0x00);
          Transmision();
      }
-     else if (int((pselector->value()))== 11){
+     else if (int((pselector->value()))== 10){
         Encapsular('A','c','1','B',0x00,0x00);
          Transmision();
      }
-     else if (int((pselector->value()))== 12){
+     else if (int((pselector->value()))== 11){
          Encapsular('A','c','1','C',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 1){
+     else if (int((pselector->value()))== 0){
          Encapsular('A','c','1','1',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 2){
+     else if (int((pselector->value()))== 1){
          Encapsular('A','c','1','2',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 3){
+     else if (int((pselector->value()))== 2){
          Encapsular('A','c','1','3',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 4){
+     else if (int((pselector->value()))== 3){
          Encapsular('A','c','1','4',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 5){
+     else if (int((pselector->value()))== 4){
          Encapsular('A','c','1','5',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 6){
+     else if (int((pselector->value()))== 5){
          Encapsular('A','c','1','6',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 7){
+     else if (int((pselector->value()))== 6){
          Encapsular('A','c','1','7',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 8){
+     else if (int((pselector->value()))== 7){
          Encapsular('A','c','1','8',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 9){
+     else if (int((pselector->value()))== 8){
          Encapsular('A','c','1','9',0x00,0x00);
          Transmision();                            
      }
@@ -771,52 +771,52 @@ void Osciloscopio::cb_volt_div2(Fl_Widget* psel, void *pany){
 */
 void Osciloscopio::cb_volt_div2_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
-     canal2->omenu_v_div->value(pselector->value()-1);                
-     if (int((pselector->value()))== 10){
+     canal2->omenu_v_div->value(pselector->value());                
+     if (int((pselector->value()))== 9){
          Encapsular('B','c','1','A',0x00,0x00);
          Transmision();
      }
-     else if (int((pselector->value()))== 11){
+     else if (int((pselector->value()))== 10){
         Encapsular('B','c','1','B',0x00,0x00);
          Transmision();
      }
-     else if (int((pselector->value()))== 12){
+     else if (int((pselector->value()))== 11){
          Encapsular('B','c','1','C',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 1){
+     else if (int((pselector->value()))== 0){
          Encapsular('B','c','1','1',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 2){
+     else if (int((pselector->value()))== 1){
          Encapsular('B','c','1','2',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 3){
+     else if (int((pselector->value()))== 2){
          Encapsular('B','c','1','3',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 4){
+     else if (int((pselector->value()))== 3){
          Encapsular('B','c','1','4',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 5){
+     else if (int((pselector->value()))== 4){
          Encapsular('B','c','1','5',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 6){
+     else if (int((pselector->value()))== 5){
          Encapsular('B','c','1','6',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 7){
+     else if (int((pselector->value()))== 6){
          Encapsular('B','c','1','7',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 8){
+     else if (int((pselector->value()))== 7){
          Encapsular('B','c','1','8',0x00,0x00);
          Transmision();                            
      }
-     else if (int((pselector->value()))== 9){
+     else if (int((pselector->value()))== 8){
          Encapsular('B','c','1','9',0x00,0x00);
          Transmision();                            
      }
@@ -1107,8 +1107,10 @@ void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany){
  * planos de texto de los datos capturados para el osciloscopio. 
 */
 void Osciloscopio::cb_log_osc_in(){
-    ofstream log("oscill.txt");
-    log << "Hello World, from www.cpp-home.com and Loobian!";
+    ofstream log("osciloscopio.txt");
+    for(int icont=0;icont < DATA_OSC-1; icont++){
+         log << buf_osc_ch1[icont] << endl;             
+    }
 	log.close(); 
 }
 
