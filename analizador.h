@@ -30,7 +30,12 @@
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Help_Dialog.h>
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
 
 #define TAM_ALMACENADO 35
 #define ESPERA_TRIGGER 10
@@ -257,7 +262,12 @@ class Analizador : public Instrumento {
          * Callback del botón que activa la ayuda del instrumento 
          */
          inline void cb_help_in();
-          
+         /**
+		 * Este método es el callback del boton que activa el almacenamiento en 
+         * archivos planos los datos capturados para el analizador lógico   
+		 */
+		static void cb_log_ana(Fl_Widget*, void *);
+		inline void cb_log_ana_in(); 
         /**
          * Este método es el callback del timer para realizar la solicitud 
          * de datos del analizador logico al hardware.  

@@ -99,6 +99,67 @@ class Canal : public Instrumento
 		 * de la señal.   
 	     */
         Fl_Knob *opos_x;
+   private:
+        /**
+		 * Calback para la escala de 5 voltios por división
+		*/
+		static void cb_vdiv5(Fl_Widget*, void *);
+		inline void cb_vdiv5_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 2 voltios por división
+		*/
+		static void cb_vdiv2(Fl_Widget*, void *);
+		inline void cb_vdiv2_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 1 voltio por división
+		*/
+		static void cb_vdiv1(Fl_Widget*, void *);
+		inline void cb_vdiv1_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 0.5 voltios por división
+		*/
+		static void cb_vdiv05(Fl_Widget*, void *);
+		inline void cb_vdiv05_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 0.2 voltios por división
+		*/
+		static void cb_vdiv02(Fl_Widget*, void *);
+		inline void cb_vdiv02_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 0.1 voltios por división
+		*/
+		static void cb_vdiv01(Fl_Widget*, void *);
+		inline void cb_vdiv01_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 50m voltios por división
+		*/
+		static void cb_vdiv50m(Fl_Widget*, void *);
+		inline void cb_vdiv50m_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 20m voltios por división
+		*/
+		static void cb_vdiv20m(Fl_Widget*, void *);
+		inline void cb_vdiv20m_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 10m voltios por división
+		*/
+		static void cb_vdiv10m(Fl_Widget*, void *);
+		inline void cb_vdiv10m_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 5m voltios por división
+		*/
+		static void cb_vdiv5m(Fl_Widget*, void *);
+		inline void cb_vdiv5m_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 2m voltios por división
+		*/
+		static void cb_vdiv2m(Fl_Widget*, void *);
+		inline void cb_vdiv2m_in(Fl_Widget*);
+		/**
+		 * Calback para la escala de 1m voltio por división
+		*/
+		static void cb_vdiv1m(Fl_Widget*, void *);
+		inline void cb_vdiv1m_in(Fl_Widget*);
 
 };
 
