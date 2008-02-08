@@ -17,7 +17,7 @@
 #include <windows.h> 
 
 //Multimetro *mult =0;
-//Osciloscopio *osc = 0;
+Osciloscopio *osc = 0;
 //Analizador *ana = 0;
 //Generador *gene = 0;
 pthread_t thread, thread1, thread2, thread3;
@@ -30,10 +30,10 @@ int status, status2, status3;
 }*/
 
 
-/*void *runhilo2(void *threadid)
-{
+void *runhilo2(void *threadid){
   // osc = new Osciloscopio(8,8,380,304,"",150);
-}*/
+  osc = new Osciloscopio();
+}
 
 
 /*void *runhilo3(void *threadid)
@@ -67,9 +67,11 @@ int main (int argc, char ** argv)
   int rc, rc2, rc3, rc4;
   
   window = new Fl_Double_Window (0,0,1024, 708);
+  //window->icon(("livl.ico"));
+  //Fl_Window::icon("liv_ico.ico");
   ana = new Analizador();
   gene = new Generador();
-  osc = new Osciloscopio(8,8,380,304,"",150);
+  //osc = new Osciloscopio(8,8,380,304,"",150);
   mult = new Multimetro();
   
   
@@ -80,11 +82,11 @@ int main (int argc, char ** argv)
            exit(-1);
   }*/
         
- /* rc2=pthread_create(&thread1, NULL, runhilo2, (void *)u);
+  rc2=pthread_create(&thread1, NULL, runhilo2, (void *)u);
         if (rc2){
            fl_message("ERROR; return code from pthread_create() is %d\n", rc2);
            exit(-1);
-  }*/
+  }
   
  /* rc3=pthread_create(&thread2, NULL, runhilo3, (void *)y);
         if (rc3){
@@ -108,11 +110,11 @@ int main (int argc, char ** argv)
          exit(-1);
       } 
     */  
-  /*rc2 = pthread_join(thread1, NULL);
+  rc2 = pthread_join(thread1, NULL);
       if (rc2){
          printf("ERROR; return code from pthread_join() is %d\n", rc2);
          exit(-1);
-      }*/
+      }
       
  /* rc3= pthread_join(thread2, NULL);
       if (rc3){
@@ -134,8 +136,8 @@ int main (int argc, char ** argv)
  
   
   
-  
   window->end ();
+  
   window->show (argc, argv);
   
   

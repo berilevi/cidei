@@ -14,10 +14,10 @@ bool btrigger2;           // Variable global que indica si se activó la fuente d
 
 
 // Constructor de clase
-Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) {
-                                
+//Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) {
+Osciloscopio::Osciloscopio(){   
     Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
-    icolor = ncol;                                                // Color de fondo de la pantalla del osciloscopio
+   // icolor = ncol;                                                // Color de fondo de la pantalla del osciloscopio
     strcpy(cnombre,"osc.txt");                                    // Nombre para el archivo de texto donde se almacenan los datos
     ct_div = '1';                                                 // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
     
@@ -43,13 +43,14 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     ogroup_osc->deactivate();                           
     canal1 = new Canal(415,9,152,205,"",255);                     // Instancia de canal para crear el objeto canal 1
     canal2 = new Canal(573,9,152,205,"",250);                     // Instancia de canal para crear el objeto canal 2
+    
     och1_on = new Fl_Light_Button(420,15,35,15,"ON");             // Botón para activar/desactivar el canal 1
     och1_on->labelsize(10);
-    och1_on->tooltip("Botón para activar o desactivar el uso del canal 1");
+    //och1_on->tooltip("Botón para activar o desactivar el uso del canal 1");
     
     och2_on = new Fl_Light_Button(578,15,35,15,"ON");             // Botón para activar/desactivar el canal 2
     och2_on->labelsize(10);
-    och2_on->tooltip("Botón para activar o desactivar el uso del canal 2");
+    //och2_on->tooltip("Botón para activar o desactivar el uso del canal 2");
     
     ogroup_dual = new Fl_Group (415,330,200,30,"");              //Inicio del grupo de los controles de las operaciones en modo dual
     ogroup_dual->box(FL_ENGRAVED_FRAME);
@@ -57,7 +58,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     odual_menu = new Fl_Repeat_Button(425,336,40,18,"Dual");      //Botón para seleccionar la operación dual suma resta o lissajous 
     odual_menu->labelsize(10);
     odual_menu->deactivate();
-    odual_menu->tooltip("Botón para seleccionar la operación dual de las gráficas");
+    //odual_menu->tooltip("Botón para seleccionar la operación dual de las gráficas");
     
     osuma = new Fl_Box(490,345,10,10,"Suma");                     // Indicador de la operación de suma de las dos señales
     osuma->labelsize(10);
@@ -67,7 +68,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     oresta->labelsize(10);
     oresta->box(FL_ENGRAVED_BOX);
     oresta->align(FL_ALIGN_TOP);
-    ox_y = new Fl_Box(570,345,10,10,"X_Y");                       // Indicador de la operación x vs y 
+    ox_y = new Fl_Box(570,345,10,10,"XY");                       // Indicador de la operación x vs y 
     ox_y->labelsize(9);
     ox_y->box(FL_ENGRAVED_BOX);
     ox_y->align(FL_ALIGN_TOP);
@@ -75,15 +76,15 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     
     olog_osc  = new Fl_Button (340,8,40,14,"Log");                // Boton para activar el almacenamiento en archivo de texto los datos
     olog_osc->labelsize(9);
-    olog_osc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
+   // olog_osc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
     
     ohelp_osc  = new Fl_Button (340,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
-    ohelp_osc->labelsize(10); 
-    ohelp_osc->tooltip("Botón para iniciar el archivo de ayuda de uso del instrumento ");
+    ohelp_osc->labelsize(9); 
+    //ohelp_osc->tooltip("Botón para iniciar el archivo de ayuda de uso del instrumento ");
     
-    oayuda_osc  = new Fl_Check_Button (385,13,20,16,"?");         // Activa las ayudas flotantes de los botones del instrumento
+    oayuda_osc  = new Fl_Check_Button (385,13,20,16,"a");         // Activa las ayudas flotantes de los botones del instrumento
     oayuda_osc->labelsize(12);
-    oayuda_osc->tooltip("CheckBox para iniciar las ayudas flotantes del uso del los botones del instrumento");
+    //oayuda_osc->tooltip("CheckBox para iniciar las ayudas flotantes del uso del los botones del instrumento");
     
     ogrilla_on = new Fl_Light_Button(250,13,45,17,"Grilla");      // Activa/desactiva la cuadricula de la pantalla del instrumento   
     ogrilla_on->labelsize(10);
@@ -91,7 +92,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     ogroup_tdiv = new Fl_Group (620,218,106,142,"");              //Inicia el grupo de los controles de tiempo por división
     ogroup_tdiv->box(FL_ENGRAVED_FRAME);
     ogroup_tdiv->deactivate();
-    otiempo_div = new Fl_Knob (633,230,80,80,"T_DIV");            //Selector de la escala de tiempo por división
+    otiempo_div = new Fl_Knob (633,230,80,80,"TDIV");            //Selector de la escala de tiempo por división
     otiempo_div->color(147);
     otiempo_div->type(8);
     otiempo_div->labelsize(9);
@@ -102,30 +103,30 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     //otiempo_div->tooltip("Selector de las escalas de tiempo por división del instrumento");
     
     omenu_t_div = new Fl_Choice(645,330,60,20,"");                //Menú selector de la escala de tiempo por división
-    omenu_t_div->add("0.5 s",0,(Fl_Callback *)cb_tdiv05s,this);
-    omenu_t_div->add("0.2 s",0,(Fl_Callback *)cb_tdiv02s,this);
-    omenu_t_div->add("0.1 s",0,(Fl_Callback *)cb_tdiv01s,this);           
-    omenu_t_div->add("50 m",0,(Fl_Callback *)cb_tdiv50ms,this);
-    omenu_t_div->add("20 m",0,(Fl_Callback *)cb_tdiv20ms,this);
-    omenu_t_div->add("10 m",0,(Fl_Callback *)cb_tdiv10ms,this);
-    omenu_t_div->add("5 m",0,(Fl_Callback *)cb_tdiv5ms,this);
-    omenu_t_div->add("2 m",0,(Fl_Callback *)cb_tdiv2ms,this);
-    omenu_t_div->add("1 m",0,(Fl_Callback *)cb_tdiv1ms,this);
-    omenu_t_div->add("0.5 m",0,(Fl_Callback *)cb_tdiv05ms,this);
-    omenu_t_div->add("0.2 m",0,(Fl_Callback *)cb_tdiv02ms,this);
-    omenu_t_div->add("0.1 m",0,(Fl_Callback *)cb_tdiv01ms,this);
-    omenu_t_div->add("50 u",0,(Fl_Callback *)cb_tdiv50us,this);
-    omenu_t_div->add("20 u",0,(Fl_Callback *)cb_tdiv20us,this);
-    omenu_t_div->add("10 u",0,(Fl_Callback *)cb_tdiv10us,this);
-    omenu_t_div->add("5 u",0,(Fl_Callback *)cb_tdiv5us,this);
-    omenu_t_div->add("2 u",0,(Fl_Callback *)cb_tdiv2us,this);
-    omenu_t_div->add("1 u",0,(Fl_Callback *)cb_tdiv1us,this);
+    omenu_t_div->add("0.5s",0,(Fl_Callback *)cb_tdiv05s,this);
+    omenu_t_div->add("0.2s",0,(Fl_Callback *)cb_tdiv02s,this);
+    omenu_t_div->add("0.1s",0,(Fl_Callback *)cb_tdiv01s,this);           
+    omenu_t_div->add("50ms",0,(Fl_Callback *)cb_tdiv50ms,this);
+    omenu_t_div->add("20ms",0,(Fl_Callback *)cb_tdiv20ms,this);
+    omenu_t_div->add("10ms",0,(Fl_Callback *)cb_tdiv10ms,this);
+    omenu_t_div->add("5ms",0,(Fl_Callback *)cb_tdiv5ms,this);
+    omenu_t_div->add("2ms",0,(Fl_Callback *)cb_tdiv2ms,this);
+    omenu_t_div->add("1ms",0,(Fl_Callback *)cb_tdiv1ms,this);
+    omenu_t_div->add("0.5ms",0,(Fl_Callback *)cb_tdiv05ms,this);
+    omenu_t_div->add("0.2ms",0,(Fl_Callback *)cb_tdiv02ms,this);
+    omenu_t_div->add("0.1ms",0,(Fl_Callback *)cb_tdiv01ms,this);
+    omenu_t_div->add("50us",0,(Fl_Callback *)cb_tdiv50us,this);
+    omenu_t_div->add("20us",0,(Fl_Callback *)cb_tdiv20us,this);
+    omenu_t_div->add("10us",0,(Fl_Callback *)cb_tdiv10us,this);
+    omenu_t_div->add("5us",0,(Fl_Callback *)cb_tdiv5us,this);
+    omenu_t_div->add("2us",0,(Fl_Callback *)cb_tdiv2us,this);
+    omenu_t_div->add("1us",0,(Fl_Callback *)cb_tdiv1us,this);
     ogroup_tdiv->end();                                                   //Fin del grupo de controles de escala de tiempo por división
     
     ogroup_pos = new Fl_Group (415,218,100,110,"");                       //Inicio del grupo de controles de posición horizontal de las gráfica
     ogroup_pos->box(FL_ENGRAVED_FRAME);
     ogroup_pos->deactivate();           
-    opos_y = new Fl_Knob (435,250,60,60,"X-Pos");                         //Perilla de dezplazamiento horizontal de las gráficas
+    opos_y = new Fl_Knob (435,250,60,60,"XPos");                         //Perilla de dezplazamiento horizontal de las gráficas
     opos_y->color(180);
     opos_y->scaleticks(0);
     opos_y->cursor(40);
@@ -136,14 +137,14 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     
     ostop = new Fl_Light_Button(420,222,35,30,"");                        //Botón para detención de las gráficas
     ostop->label("@|>");
-    ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
+    //ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
     
     ogroup_trigger = new Fl_Group (520,218,95,110,"");                    //Inicio del grupo de controles del trigger del instrumento        
     ogroup_trigger->box(FL_ENGRAVED_FRAME);
     ogroup_trigger->deactivate();
     osel_trigger = new Fl_Repeat_Button(528,230,40,18,"Trigger");         //Botón para seleccionar el canal que es la fuente del disparo
     osel_trigger->labelsize(10);
-    osel_trigger->tooltip("Botón para seleccionar el canal fuente del trigger");
+    //osel_trigger->tooltip("Botón para seleccionar el canal fuente del trigger");
     
     otrigger_ch1 = new Fl_Box(577,225,10,10,"Ch1");                       //Indicador de canal 1 fuente del trigger      
     otrigger_ch1->labelsize(10);
@@ -184,7 +185,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     obox_nombre->labelsize(20);
     
     oosc_on = new Fl_Light_Button(195,8,38,30,"ON");                      //Botón para encender o apagar el osciloscopio
-    oosc_on->tooltip("Botón para encender o apagar el osciloscopio");
+    //oosc_on->tooltip("Botón para encender o apagar el osciloscopio");
     oosc_on->labelsize(10);            
                 
     // Callbacks de los botones del osciloscopio            
@@ -590,11 +591,9 @@ void Osciloscopio::cb_dual_menu_in(){
 
 /**
  * Este método es el callback del boton selector de la fuente del 
- * disparo (trigger) en el osciloscopio, debe ir acompañada de una 
- * función inline para poder realizar los callbacks.  
+ * disparo (trigger) en el osciloscopio.  
 */
-void Osciloscopio::cb_sel_trigger(Fl_Widget* pboton, void *pany)
-{
+void Osciloscopio::cb_sel_trigger(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
      posc->cb_sel_trigger_in();
 }
@@ -626,8 +625,7 @@ void Osciloscopio::cb_sel_trigger_in(){
  * tiempo por división en el osciloscopio, debe ir acompañada de una 
  * función inline para poder realizar los callbacks.  
 */
-void Osciloscopio::cb_tiempo_div(Fl_Widget* psel, void *pany)
-{
+void Osciloscopio::cb_tiempo_div(Fl_Widget* psel, void *pany){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
      posc->cb_tiempo_div_in(pselector);
@@ -696,11 +694,9 @@ void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
 
 /**
  * Este método es el callback del selector de la escala de volt/div
- * del canal 1 del osciloscopio debe ir acompañada de una función 
- * inline para poder realizar los callbacks. 
+ * del canal 1 del osciloscopio.
 */
-void Osciloscopio::cb_volt_div1(Fl_Widget* psel, void *pany)
-{
+void Osciloscopio::cb_volt_div1(Fl_Widget* psel, void *pany){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;          
      posc->cb_volt_div1_in(pselector);
@@ -709,7 +705,7 @@ void Osciloscopio::cb_volt_div1(Fl_Widget* psel, void *pany)
 /**
  * Esta función acompaña la función  cb_volt_div1  
  * para realizar los llamados de callback del selector de la escala
- * de volt/div del canal en el osciloscopio 
+ * de volt/div del canal 1 en el osciloscopio 
 */
 void Osciloscopio::cb_volt_div1_in(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
@@ -767,8 +763,7 @@ void Osciloscopio::cb_volt_div1_in(Fl_Widget* psel){
 
 /**
  * Este método es el callback del selector de la escala de volt/div
- * del canal 2 del osciloscopio debe ir acompañada de una función 
- * inline para poder realizar los callbacks. 
+ * del canal 2 del osciloscopio. 
 */
 void Osciloscopio::cb_volt_div2(Fl_Widget* psel, void *pany){
      Fl_Knob *pselector = (Fl_Knob *)psel;
@@ -838,11 +833,9 @@ void Osciloscopio::cb_volt_div2_in(Fl_Widget* psel){
 
 /**
  * Este método es el callback del boton selector de la posición 
- * de la señal respecto al eje y en el osciloscopio, debe ir acompañada 
- * de una función inline para poder realizar los callbacks.  
+ * de la señal respecto al eje y en el osciloscopio. 
 */
-void Osciloscopio::cb_pos_y(Fl_Widget* psel, void *pany)
-{
+void Osciloscopio::cb_pos_y(Fl_Widget* psel, void *pany){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
      posc->cb_pos_y_in(pselector);
@@ -865,8 +858,7 @@ void Osciloscopio::cb_pos_y_in(Fl_Widget* psel){
  * Este método es el callback del timer para realizar la solicitud 
  * de datos uno a uno en el osciloscopio.  
 */
-void Osciloscopio::cb_timer(void *pany)
-{
+void Osciloscopio::cb_timer(void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
      posc->cb_timer_in();
 }
@@ -878,7 +870,7 @@ void Osciloscopio::cb_timer(void *pany)
 void Osciloscopio::cb_timer_in(){
      Encapsular('L','y','1','0',0x00,0x00);
      Transmision();
-     if (canal1->bestado && canal2->bestado){     
+     if (canal1->bestado && canal2->bestado){                             //Ambos canales activos 
         recorrer_datos(3);
      }
      else if (canal1->bestado== 1 && canal2->bestado== 0){
@@ -887,35 +879,27 @@ void Osciloscopio::cb_timer_in(){
      else if (canal1->bestado== 0 && canal2->bestado== 1){
           recorrer_datos(2);
      }
-     //if(omenu_t_div->value()== 0){
      if(otiempo_div->value()== 0){
         Fl::repeat_timeout(0.5, cb_timer, this);
      }
-     //else if(omenu_t_div->value()== 1){
      if(otiempo_div->value()== 1){
         Fl::repeat_timeout(0.2, cb_timer, this);
      }
-     //else if(omenu_t_div->value()== 2){
      if(otiempo_div->value()== 2){
         Fl::repeat_timeout(0.1, cb_timer, this);
      }
-     //else if(omenu_t_div->value()== 3){
      if(otiempo_div->value()== 3){
         Fl::repeat_timeout(0.05, cb_timer, this);
      }
-     //else if(omenu_t_div->value()== 4){
      if(otiempo_div->value()== 4){
         Fl::repeat_timeout(0.02, cb_timer, this);
      }
-     //else if(omenu_t_div->value()== 5){
      if(otiempo_div->value()== 5){
         Fl::repeat_timeout(0.01, cb_timer, this);
      }
-     //else if(omenu_t_div->value()== 6){
      if(otiempo_div->value()== 6){
         Fl::repeat_timeout(0.005, cb_timer, this);
      }
-     //else if(omenu_t_div->value()== 7){
      if(otiempo_div->value()== 7){
         Fl::repeat_timeout(0.002, cb_timer, this);
      }
@@ -926,8 +910,7 @@ void Osciloscopio::cb_timer_in(){
  * Este método es el callback del timer para realizar la solicitud 
  * de vectores de datos del osciloscopio.  
 */
-void Osciloscopio::cb_timer_vectores(void *pany)
-{
+void Osciloscopio::cb_timer_vectores(void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
      posc->cb_timer_vectores_in();
 }
@@ -1044,27 +1027,20 @@ void Osciloscopio::recorrer_datos(int num_canal){
            opantalla->TraceColour(Fl_Color(canal2->ncolor));           
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 
-           //if (osuma->value()){
-           //if (isec_dual == 0){
            if (bsuma == 1){
               opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es
               ogrilla->redraw();
            }
-           //else if(oresta->value()){
-           //else if (isec_dual == 1){
            else if (bresta == 1){
                opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
                ogrilla->redraw(); 
            }
-           //else if (ox_y->value()){
-           //if (isec_dual == 2){
            else if (bx_y == 1){     
                 opantalla->bdual = 1;
                 opantalla->blissajous = 1;
                 opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
                 ogrilla->redraw();
            }
-           //else if (isec_dual != 0 && isec_dual != 1 && isec_dual != 2){
            else if (bx_y == 0 && bsuma == 0 && bresta == 0){       
                 opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
                 ogrilla->redraw();
@@ -1074,20 +1050,14 @@ void Osciloscopio::recorrer_datos(int num_canal){
             for(icont=0;icont < DATA_OSC-1; icont++){
                 idato_graf_ch1 = buf_osc_ch1[icont];
                 idato_graf_ch2 = buf_osc_ch2[icont];
-                //if (osuma->value()){
-                //if (isec_dual == 0){
                 if (bsuma == 1){          
                    opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
                    ogrilla->redraw();              
                 }
-                //else if (oresta->value()){
-                //else if (isec_dual == 1){
                 else if (bresta == 1){     
                    opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
                    ogrilla->redraw();               
                 }
-                //else if (ox_y->value()){
-                //if (isec_dual == 2){
                 else if (bx_y == 1){              
                    opantalla->bdual = 1;
                    opantalla->blissajous = 1;
@@ -1143,11 +1113,9 @@ void Osciloscopio::muestreo_timer(int isel){
 
 /**
  * Este método es el callback del boton selector de acople
- * del canal 1del osciloscopio debe ir acompañada de una función 
- * inline para poder realizar los callbacks. 
+ * del canal 1del osciloscopio. 
 */
-void Osciloscopio::cb_acople1(Fl_Widget* pboton, void *pany)
-{
+void Osciloscopio::cb_acople1(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;       
      posc->cb_acople1_in();
 }
@@ -1160,13 +1128,11 @@ void Osciloscopio::cb_acople1(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_acople1_in(){
   if (isec_acople==0){
-     //canal1->oacop_gnd->value(0);
      canal1->oacop_gnd->color(FL_GRAY);
      canal1->oacop_gnd->redraw();
      Encapsular('A', 'e', '1', '2',0x00,0x00);
      Transmision();
      if (bhardware){
-        //canal1->oacop_ac->value(1);
         canal1->oacop_ac->color(FL_RED);
         canal1->oacop_ac->redraw();
      }
@@ -1175,13 +1141,11 @@ void Osciloscopio::cb_acople1_in(){
      }
   }
   if (isec_acople==1){
-     //canal1->oacop_ac->value(0);
      canal1->oacop_ac->color(FL_GRAY);
      canal1->oacop_ac->redraw();
      Encapsular('A', 'e', '1', '1',0x00,0x00);
      Transmision();
      if (bhardware){
-        //canal1->oacop_dc->value(1);
         canal1->oacop_dc->color(FL_RED);
         canal1->oacop_dc->redraw();
      }
@@ -1190,13 +1154,11 @@ void Osciloscopio::cb_acople1_in(){
      }
   }
   if (isec_acople==2){
-     //canal1->oacop_dc->value(0);
      canal1->oacop_dc->color(FL_GRAY);
      canal1->oacop_dc->redraw();
      Encapsular('A', 'e', '1', '3',0x00,0x00);
      Transmision();
       if (bhardware){
-         //canal1->oacop_gnd->value(1);
          canal1->oacop_gnd->color(FL_RED);
          canal1->oacop_gnd->redraw();
       }
@@ -1211,11 +1173,9 @@ void Osciloscopio::cb_acople1_in(){
 
 /**
  * Este método es el callback del boton selector de acople
- * del canal 2 del osciloscopio debe ir acompañada de una función 
- * inline para poder realizar los callbacks. 
+ * del canal 2 del osciloscopio. 
 */
-void Osciloscopio::cb_acople2(Fl_Widget* pboton, void *pany)
-{
+void Osciloscopio::cb_acople2(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;       
      posc->cb_acople2_in();
 }
@@ -1228,13 +1188,11 @@ void Osciloscopio::cb_acople2(Fl_Widget* pboton, void *pany)
 */
 void Osciloscopio::cb_acople2_in(){
   if (isec_acople2==0){
-     //canal2->oacop_gnd->value(0);
      canal2->oacop_gnd->color(FL_GRAY);
      canal2->oacop_gnd->redraw();
      Encapsular('B', 'e', '1', '2',0x00,0x00);
      Transmision();
      if (bhardware){
-        //canal2->oacop_ac->value(1);
         canal2->oacop_ac->color(FL_RED);
         canal2->oacop_ac->redraw();
      }
@@ -1243,13 +1201,11 @@ void Osciloscopio::cb_acople2_in(){
      }
   }
   if (isec_acople2==1){
-     //canal2->oacop_ac->value(0);
      canal2->oacop_ac->color(FL_GRAY);
      canal2->oacop_ac->redraw();
      Encapsular('B', 'e', '1', '1',0x00,0x00);
      Transmision();
      if (bhardware){
-        //canal2->oacop_dc->value(1);
         canal2->oacop_dc->color(FL_RED);
         canal2->oacop_dc->redraw();
      }
@@ -1258,13 +1214,11 @@ void Osciloscopio::cb_acople2_in(){
      }
   }
   if (isec_acople2==2){
-     //canal2->oacop_dc->value(0);
      canal2->oacop_dc->color(FL_GRAY);
      canal2->oacop_dc->redraw();
      Encapsular('B', 'e', '1', '3',0x00,0x00);
      Transmision();
       if (bhardware){
-         //canal2->oacop_gnd->value(1);
          canal2->oacop_gnd->color(FL_RED);
          canal2->oacop_gnd->redraw();
       }
@@ -1338,7 +1292,7 @@ void Osciloscopio::cb_tdiv05s_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv02s(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv02s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv02s_in(Fl_Widget* psel){
@@ -1350,7 +1304,7 @@ void Osciloscopio::cb_tdiv02s_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv01s(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv01s_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv01s_in(Fl_Widget* psel){
@@ -1362,7 +1316,7 @@ void Osciloscopio::cb_tdiv01s_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv50ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv50ms_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv50ms_in(Fl_Widget* psel){
@@ -1374,7 +1328,7 @@ void Osciloscopio::cb_tdiv50ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv20ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv20ms_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv20ms_in(Fl_Widget* psel){
@@ -1386,7 +1340,7 @@ void Osciloscopio::cb_tdiv20ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv10ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv10ms_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv10ms_in(Fl_Widget* psel){
@@ -1397,7 +1351,7 @@ void Osciloscopio::cb_tdiv10ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv5ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv5ms_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv5ms_in(Fl_Widget* psel){
@@ -1409,7 +1363,7 @@ void Osciloscopio::cb_tdiv5ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv2ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv2ms_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv2ms_in(Fl_Widget* psel){
@@ -1421,7 +1375,7 @@ void Osciloscopio::cb_tdiv2ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv1ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector); 
+     posc->cb_tdiv1ms_in(pselector); 
 }
 
 void Osciloscopio::cb_tdiv1ms_in(Fl_Widget* psel){
@@ -1434,7 +1388,7 @@ void Osciloscopio::cb_tdiv1ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv05ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv05ms_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv05ms_in(Fl_Widget* psel){
@@ -1445,7 +1399,7 @@ void Osciloscopio::cb_tdiv05ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv02ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv02ms_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv02ms_in(Fl_Widget* psel){
@@ -1458,7 +1412,7 @@ void Osciloscopio::cb_tdiv02ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv01ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv01ms_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv01ms_in(Fl_Widget* psel){
@@ -1470,7 +1424,7 @@ void Osciloscopio::cb_tdiv01ms_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv50us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv50us_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv50us_in(Fl_Widget* psel){
@@ -1482,7 +1436,7 @@ void Osciloscopio::cb_tdiv50us_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv20us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector); 
+     posc->cb_tdiv20us_in(pselector); 
 }
 
 void Osciloscopio::cb_tdiv20us_in(Fl_Widget* psel){
@@ -1493,7 +1447,7 @@ void Osciloscopio::cb_tdiv20us_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv10us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv10us_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv10us_in(Fl_Widget* psel){
@@ -1504,7 +1458,7 @@ void Osciloscopio::cb_tdiv10us_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv5us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv5us_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv5us_in(Fl_Widget* psel){
@@ -1516,7 +1470,7 @@ void Osciloscopio::cb_tdiv5us_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv2us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector); 
+     posc->cb_tdiv2us_in(pselector); 
 }
 
 void Osciloscopio::cb_tdiv2us_in(Fl_Widget* psel){
@@ -1527,7 +1481,7 @@ void Osciloscopio::cb_tdiv2us_in(Fl_Widget* psel){
 void Osciloscopio::cb_tdiv1us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cb_tdiv1us_in(pselector);
 }
 
 void Osciloscopio::cb_tdiv1us_in(Fl_Widget* psel){

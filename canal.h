@@ -17,8 +17,8 @@
  * Esta clase representa las funcionalidades de los canales
  * del osciloscopio
  */
-class Canal : public Instrumento
-{
+class Canal : public Instrumento{
+      
 	public:
 		// class constructor
 		Canal(int x, int y, int w, int h, const char *l, int ncolo);
