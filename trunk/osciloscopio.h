@@ -8,6 +8,7 @@
 #include "Fl_Scope.h"                       // Clase graficar las señales
 #include "grid.h"
 #include "canal.h"                          // Cabecera de la clase canal
+#include "fl_Knob.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Help_Dialog.h>
 #include <FL/Fl_Group.H>  
@@ -15,18 +16,17 @@
 #include <FL/Fl_Choice.H>     
 #include <Fl/fl_Light_Button.h>
 #include <FL/Fl_Repeat_Button.H>
-#include "fl_Knob.h"
-#include <fstream>
-
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Check_Button.H>
-#include <math.h>
 
+#include <fstream>
+#include <math.h>
 #include <iostream>
 #include <string.h>
 #include <windows.h> 
 
+using namespace std;
 
 /**
  * La clase Osciloscopio representa las funcionalidades del instrumento
@@ -37,8 +37,9 @@ class Osciloscopio : public Instrumento
 {
 	public:
 		// Constructor de clase
-		Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
-		// Destructor de clase
+		//Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
+		Osciloscopio();
+        // Destructor de clase
 		~Osciloscopio();
 		/**
 		 * Objeto que agrupa la pantalla, los canales y controles
