@@ -2,12 +2,11 @@
 
 #ifndef OSCILOSCOPIO_H
 #define OSCILOSCOPIO_H
-
-#include <FL/Fl_Window.H>
+                  
 #include "instrumento.h"                    // Cabecera de la superclase
-#include "Fl_Scope.h"                       // Clase graficar las señales
+#include "Fl_Scope.h"                       
 #include "grid.h"
-#include "canal.h"                          // Cabecera de la clase canal
+#include "canal.h"                          
 #include "fl_Knob.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Help_Dialog.h>
@@ -28,551 +27,201 @@
 
 using namespace std;
 
-/**
- * La clase Osciloscopio representa las funcionalidades del instrumento
- * oscilscopio.
-*/
+/*******************************************************************************
+* Osciloscopio: Representa las funcionalidades del instrumento Osciloscopio de
+*               dos canales.               
+*******************************************************************************/
 
-class Osciloscopio : public Instrumento
-{
+class Osciloscopio : public Instrumento{
+      
 	public:
 		// Constructor de clase
-		//Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
-		Osciloscopio();
+		Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
+		//Osciloscopio();
         // Destructor de clase
 		~Osciloscopio();
-		/**
-		 * Objeto que agrupa la pantalla, los canales y controles
-		 * que componen el osciloscopio.
-		 */
+        //Agrupa la pantalla, los 2 canales y los demas controles del osciloscopìo
         Fl_Group *ogroup_osc;
-        /**
-		 * Objeto que agrupa los controles de tiempo por división en el 
-         * osciloscopio.
-		 */
+        //Agrupa los controles de tiempo por división en el osciloscopio.
         Fl_Group *ogroup_tdiv;
-        /**
-		 * Objeto que agrupa los controles de seleccion de fuente y posición 
-		 * del trigger en el osciloscopio.
-		 */
+        //Agrupa los controles de seleccion de fuente y posición del trigger en el osciloscopio.
         Fl_Group *ogroup_trigger;
-        /**
-		 * Objeto que agrupa el control de la posición de las graficas respecto 
-		 * al eje x en el osciloscopio.
-		 */
+        //Agrupa el control de la posición horizontal de las gráficas.
         Fl_Group *ogroup_pos;
-        /**
-		 * Caja para colocoar el nombre del instrumento 
-		 */
-        Fl_Box *obox_nombre;
-        /**
-		 * Objeto que agrupa las opciones de operaciones entre las graficas en el 
-         * osciloscopio cuando se encuantran activos los dos canales.
-		 */
+        //Agrupa las opciones de operaciones entre las gráficas cuando se encuantran activos los dos canales.
         Fl_Group *ogroup_dual;
-        /**
-		 * Canal 1 del osciloscopio
-	    */
+        //Caja para colocar el nombre del instrumento en la interfaz. 
+        Fl_Box *obox_nombre;
+        //Instancia de Canal 1. 
         Canal *canal1; 
-        /**
-		 * Canal 2 del osciloscopio
-	    */
+        //Instancia de Canal 2.
         Canal *canal2;	
-        /**
-		 * Boton para iniciar el instrumento osciloscopio
-	    */
+        //Botón para prender/apagar el osciloscopio.
         Fl_Light_Button *oosc_on;
-        /**
-		 * Boton de repetición para seleccionar la fuente de trigger para la
-		 * adquicisión y digitalización de las señales.
-	    */
+        //Botón para prender/apagar el canal 1.
+		Fl_Light_Button *och1_on;
+        //Botón para prender/apagar el canal 2.
+		Fl_Light_Button *och2_on;
+        //Botón de repetición para seleccionar el canal fuente del trigger.
         Fl_Repeat_Button *osel_trigger;
-        /**
-		 * Boton de repetición para seleccionar la operación del osciloscopio
-		 * en modo dual.
-	    */
+        //Botón de repetición para seleccionar la operación entre señales en modo dual.
         Fl_Repeat_Button *odual_menu;  
-        /**
-		 * Boton que detiene la solicitud de datos al hardware para detener las
-         * graficas que se presentan en la pantalla del osciloscopio.
-	    */
+        //Botón para detener las gráficas que se presentan en la pantalla del osciloscopio.
         Fl_Light_Button *ostop;
-        /**
-		 * Boton que habilita el almacenamiento de datos en archivos planos de 
-		 * texto.
-	    */
+        //Botón que habilita el almacenamiento en archivos planos de texto.
         Fl_Button *olog_osc;
-        /**
-		 * Boton que habilita la ayuda para el uso del instrumento. 
-	    */
+        //Botón que habilita la ayuda para el uso del instrumento. 
         Fl_Button *ohelp_osc;
-        /**
-		 * Boton que habilita la ayuda flotante para el uso de los botones del
-         * instrumento. 
-	    */
+        //Botón que habilita la ayuda flotante para el uso de los botones del instrumento. 
         Fl_Check_Button *oayuda_osc;
-        /**
-		 * Selector de la escala de tiempo por división para la visualización 
-		 * de la(s) señal(es) adquirida(s).
-	    */
+        //Selector de la escala de tiempo por división.
         Fl_Knob *otiempo_div;   
-        /**
-		 * Perilla de desplazamiento de la señal de forma horizontal.
-	    */
+        //Perilla para el desplazamiento horizontal de la señal graficada.
         Fl_Knob *opos_y;
-        /**
-		 * Perilla de seleccion del nivel de disparo del trigger.
-	    */
+        //Perilla de selección del nivel de disparo del trigger.
         Fl_Knob *onivel_trigger;
-        /**
-		 * Objeto de la calse scope que representa la pantalla del osciloscopio 
-		 * donde se grafica la señal digitalizada por el canal.
-		*/
+        //Pantalla del osciloscopio
 		Fl_Scope*  opantalla;
-		/**
-		 * Objeto de la calse scope que representa la pantalla del osciloscopio 
-		 * donde se grafica la señal digitalizada por el canal.
-		*/
+		//Cuadricula de de la pantalla del osciloscopio. 
 		grid*  ogrilla;
-		/**
-		 * Variable que contiene el valor del dato que se envia para adicionar 
-		 * a la gráfica del canal 1 en el método recorrer datos.
-		*/
+        //Variable que contiene el dato que se envía para graficar la señal del canal 1.
 		int idato_graf_ch1;
-		/**
-		 * Variable que contiene el valor del dato que se envia para adicionar 
-		 * a la gráfica del canal 2 en el método recorrer datos.
-		*/
+        //Variable que contiene el dato que se envía para graficar la señal del canal 2.
 		int idato_graf_ch2;
-		/**
-         * Este método es el callback del timer para realizar la solicitud 
-         * de los vectores de datos de los canales del osciloscopio.  
-         */   
-         static void cb_timer_vectores(void *);
-         /**
-         * Esta función acompaña la función cb_timer_vectores
-         * para realizar los llamados de callback del timer. 
-         */
-         inline void cb_timer_vectores_in();
-         /**
-         * Este método es el callback del timer para realizar la solicitud 
-         * de datos uno a uno en el osciloscopio.  
-         */   
-         static void cb_timer(void *);
-         /**
-         * Esta función acompaña la función cb_timer para realizar los llamados 
-         * de callback del timer de solicitud de muestras una a una 
-         */
-         inline void cb_timer_in();  
-         /**
-         * Este método es el callback del boton de ayuda flotante de los botones 
-         * del instrumento en el osciloscopio.  
-         */   
-         static void cb_ayuda(Fl_Widget*, void *);
-         /**
-         * Esta función acompaña la función cb_ayuda para realizar los llamados 
-         * de callback del boton de ayuda flotante. 
-         */
-         inline void cb_ayuda_in();       
+        //Callback del timer para realizar la solicitud de los vectores de datos.  
+        static void cb_timer_vectores(void *);
+        inline void cb_timer_vectores_in();
+        //Callback del timer para realizar la solicitud de datos uno a uno.  
+        static void cb_timer(void *);
+        inline void cb_timer_in();  
+        //Callback del botón de ayuda flotante de los botones del osciloscopio.  
+        static void cb_ayuda(Fl_Widget*, void *);
+        inline void cb_ayuda_in();       
     	
    private: 
-         /**
-         * Callback del botón que activa la ayuda del instrumento  
-         */   
-         static void cb_help(Fl_Widget*, void *);
-         /**
-         * Callback del botón que activa la ayuda del instrumento 
-         */
-         inline void cb_help_in();   
-        /**
-		 * Este método es el callback del boton selector de acople
-		 * del canal 1 del osciloscopio debe ir acompañada de una función 
-         * inline para poder realizar los callbacks. 
-		 */
+        //Callback del botón que activa la ayuda del instrumento     
+        static void cb_help(Fl_Widget*, void *);
+        inline void cb_help_in();   
+        //Callback del botón selector del acople del canal 1.
 		static void cb_acople1(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_acople1  
-		 * para realizar los llamados de callback del selector de acople
-		 * del canal 1 en el osciloscopio 
-		 */
 		inline void cb_acople1_in();
-		/**
-		 * Este método es el callback del boton selector de acople
-		 * del canal 2 del osciloscopio debe ir acompañada de una función 
-         * inline para poder realizar los callbacks. 
-		 */
+        //Callback del botón selector de acople del canal 2.
 		static void cb_acople2(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_acople2  
-		 * para realizar los llamados de callback del selector de acople
-		 * del canal 2 en el osciloscopio 
-		 */
 		inline void cb_acople2_in();
-        /**
-		 * Este método es el callback del selector de la escala de volt/div
-		 * del canal 1 del osciloscopio debe ir acompañada de una función 
-         * inline para poder realizar los callbacks. 
-		 */
+        //Callback del selector de la escala de volt/div del canal 1.
 		static void cb_volt_div1(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_volt_div1  
-		 * para realizar los llamados de callback del selector de la escala
-		 * de volt/div del canal en el osciloscopio 
-		 */
 		inline void cb_volt_div1_in(Fl_Widget*);  
-		/**
-		 * Este método es el callback del selector de la escala de volt/div
-		 * del canal 2 del osciloscopio debe ir acompañada de una función 
-         * inline para poder realizar los callbacks. 
-		 */
+        //Callback del selector de la escala de volt/div del canal 2.
 		static void cb_volt_div2(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_volt_div2   
-		 * para realizar los llamados de callback del selector de la escala
-		 * de volt/div del canal en el osciloscopio 
-		 */
 		inline void cb_volt_div2_in(Fl_Widget*); 
-		/**
-		 * Rutina para solicitar las muestras de las señales en el osciloscopio. 
-		*/
+        //Rutina para solicitar las muestras de las señales por vectores o una a una. 
 		void muestreo_timer(int);
-         /**
-		 * Calback para la escala de 0.5s por división
-		*/
+        //Callback del menú de tiempo por división en la escala de 0.5s.
 		static void cb_tdiv05s(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv05s para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv05s_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 0.2s por división
-		*/
+        //Callback del menú de tiempo por división en la escala de 0.2s.
 		static void cb_tdiv02s(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv02s para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv02s_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 0.1s por división
-		*/
+        //Callback del menú de tiempo por división en la escala de 0.1s.
 		static void cb_tdiv01s(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv01s para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv01s_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 50 ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 50ms.
 		static void cb_tdiv50ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv50ms para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv50ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 20 ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 20ms.
 		static void cb_tdiv20ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv05s para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv20ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 10 ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 10ms.
 		static void cb_tdiv10ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv10ms para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv10ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 5 ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 5ms.
 		static void cb_tdiv5ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv5ms para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv5ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 2ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 2ms.
 		static void cb_tdiv2ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv2ms para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv2ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 1ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 1ms.
 		static void cb_tdiv1ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv1ms para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv1ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 0.5ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 0.5ms.
 		static void cb_tdiv05ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv05ms para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv05ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 0.2ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 0.2ms.
 		static void cb_tdiv02ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv02ms para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv02ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 0.1ms por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 0.1ms.
 		static void cb_tdiv01ms(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv01ms para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv01ms_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 50us por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 50us.
 		static void cb_tdiv50us(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv50us para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv50us_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 20us por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 20us por división
 		static void cb_tdiv20us(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv20us para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv20us_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 10us por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 10us.
 		static void cb_tdiv10us(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv10us para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv10us_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 5us por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 5us.
 		static void cb_tdiv5us(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv5us para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv5us_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 2us por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 2us.
 		static void cb_tdiv2us(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv2us para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv2us_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 1us por división
-		*/
+		//Callback del menú de tiempo por división en la escala de 1us.
 		static void cb_tdiv1us(Fl_Widget*, void *);
-		/**
-         * Esta función acompaña la función cb_tdiv1us para realizar los 
-         * llamados de callback de las escalas de tiempo por division 
-         */
 		inline void cb_tdiv1us_in(Fl_Widget*);
-         /**
-		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
-         * por punto los datos para graficar.
-		*/
+        //Rutina que recorre el arreglo de los datos y envía punto por punto los datos para graficar.
 		void recorrer_datos(int);
-		/**
-		 * La función recorrer_datos recorre el arreglo idatos y envia punto 
-         * por punto los datos para graficar.
-		*/
-		//void config_canal();
-		/**
-		 * Callback del boton para encender el canal 1 del osciloscopio 
-		 */
+		//Callback del botón para encender el canal 1. 
 		static void cb_ch1_on(Fl_Widget*, void *);
-		/**
-		 * Funcion que acompaña a la funcion cb_ch1_on para realizar los
-		 * llamados de callback para encender el canal 1 del osciloscopio
-		 */
 		inline void cb_ch1_on_in();
-		/**
-		 * Callback del boton para encender el canal 2 del osciloscopio
-		 */
+		//Callback del botón para encender el canal 2.
 		static void cb_ch2_on(Fl_Widget*, void *);
-		/**
-		 * Funcion que acompaña a la funcion cb_ch2_on para realizar los
-		 * llamados de callback para encender el canal 2 del osciloscopio 
-		 */
 		inline void cb_ch2_on_in();
-		/**
-		 * Callback del boton para activar o desactivar la grilla en la 
-         * pantalla del osciloscopio
-		 */
+		//Callback del botón para activar o desactivar la grilla.
 		static void cb_grilla(Fl_Widget*, void *);
-		/**
-		 * Funcion que acompaña a la funcion cb_grilla para realizar los
-		 * llamados de callback para activar o desactivar la grilla en la 
-         * pantalla del osciloscopio 
-		 */
 		inline void cb_grilla_in();
-		/**
-		 * Callback del boton para detener la grafica en la pantalla del osciloscopio
-		 */
+		//Callback del botón para detener las gráficas.
 		static void cb_stop(Fl_Widget*, void *);
-		/**
-		 * Funcion que acompaña a la funcion cb_stop para realizar los
-		 * llamados de callback para detener en la pantalla del osciloscopio 
-		 */
 		inline void cb_stop_in();
-		/**
-		 * Este método es el callback del boton del menu de las funciones
-		 * duales de graficas en el osciloscopio, debe ir acompañada de una 
-         * función inline para poder realizar los callbacks. 
-		 */
+		//Callback del botón de las operaciones entre las gráficas.
 		static void cb_dual_menu(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_menu_dual 
-		 * para realizar los llamados de callback del menu de funciones duales
-		 * de graficas en el osciloscopio 
-		 */
 		inline void cb_dual_menu_in();
-		/**
-		 * Este método es el callback del boton selector de la fuente del 
-		 * disparo (trigger) en el osciloscopio, debe ir acompañada de una 
-         * función inline para poder realizar los callbacks. 
-		 */
+		//Callback del botón selector de la fuente del disparo (trigger).
 		static void cb_sel_trigger(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_sel_trigger 
-		 * para realizar los llamados de callback del boton selector de la
-		 * fuente del trigger en el osciloscopio 
-	    */
 		inline void cb_sel_trigger_in();
-		/**
-		 * Este método es el callback del boton que enciende el osciloscopio 
-		 * debe ir acompañada de una función inline para poder realizar los callbacks. 
-		 */
+		//Callback del botón que prende/apaga el osciloscopio
 		static void cb_osc_on(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_osc_on 
-		 * para realizar los llamados de callback del boton que enciende
-		 * el osciloscopio 
-	    */
 		inline void cb_osc_on_in();
-		/**
-		 * Este método es el callback del boton que activa el almacenamiento en 
-         * archivos planos de texto de los datos capturados para el osciloscopio,  
-		 * debe ir acompañada de una función inline para poder realizar los callbacks. 
-		 */
+		//Callback del botón que activa el almacenamiento en archivos planos. 
 		static void cb_log_osc(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_log_osc para realizar los 
-         * llamados de callback del boton que activa el almacenamiento en archivos
-         * planos de texto de los datos capturados para el osciloscopio. 
-	    */
 		inline void cb_log_osc_in();
-		/**
-		 * Este método es el callback del boton selector de la escala de 
-		 * tiempo por división en el osciloscopio, debe ir acompañada de una 
-         * función inline para poder realizar los callbacks. 
-		 */
+		//Callback del botón selector de la escala de tiempo por división. 
 		static void cb_tiempo_div(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_tiempo_div 
-		 * para realizar los llamados de callback del boton selector de la
-		 * escala de tiempo por división en el osciloscopio 
-	    */
 		inline void cb_tiempo_div_in(Fl_Widget*);
-		/**
-		 * Este método es el callback del boton selector de la posición 
-		 * de la señal respecto al eje y en el osciloscopio, debe ir acompañada 
-         * de una función inline para poder realizar los callbacks. 
-		 */
+		//Callback del botón selector de la posición vertical
 		static void cb_pos_y(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_pos_y 
-		 * para realizar los llamados de callback del boton selector de la
-		 * posición de la señal respecto al eje y en el osciloscopio 
-	    */
 		inline void cb_pos_y_in(Fl_Widget*);
-		/**
-		 * Variable que representa el color de fondo de la pantalla del
-		 * osciloscopio
-		 */
+		//Variable que representa el color de fondo de la pantalla.
 		int icolor;
-		/**
-		 * Botón indicador luminoso para activar el canal 1 del osciloscopio
-		 */
-		Fl_Light_Button *och1_on;
-		/**
-		 * Botón indicador luminoso para activar el canal 2 del osciloscopio
-		 */
-		Fl_Light_Button *och2_on;
-        /**
-		 * Indicador luminoso que indica que está activado el modo dual
-		 * de suma de señales de los dos canales  
-		 */
+        //Indicador del modo de suma de señales de los dos canales  
         Fl_Box *osuma;
-        /**
-		 * Indicador luminoso que indica que está activado el modo dual
-		 * de diferencia de señales de los dos canales  
-		 */
+        //Indicador del modo de resta de señales de los dos canales 
         Fl_Box *oresta;
-        /**
-		 * Indicador luminoso quqe indica que está activado el modo dual
-		 * de gráfica de señales de lissajous  
-		 */
+        //Indicador del modo x vs y de las señales de los dos canales 
         Fl_Box *ox_y;
-        /**
-		 * Menu desplegable para seleccionar la escala de tiempo por división 
-		 * del osciloscopio
-	     */
+        //Menu desplegable para seleccionar la escala de tiempo por división 
         Fl_Choice *omenu_t_div;
-        /**
-		 * Indicador luminoso que indica que está activado el trigger del
-		 * canal 1  
-		 */
+        //Indicador de activación del canal 1 como fuente de trigger  
         Fl_Box *otrigger_ch1;
-        /**
-		 * Indicador luminoso que indica que está activado el trigger del
-		 * canal 2  
-		 */
+        //Indicador de activación del canal 2 como fuente de trigger 
         Fl_Box *otrigger_ch2;
-        /**
-		 * Botón para activar o desactivar la grilla de la pantalla del osciloscopio
-		 */
+        //Botón para activar o desactivar la grilla.
         Fl_Light_Button *ogrilla_on;
-        /**
-		 * Vriable que almacena el caracter de la escala de tiempo por division  
-		 */
+        //Variable que almacena el caracter de la escala de tiempo por division  
         char ct_div;
-        /**
-		 *  Ventana de ayuda de uso del instrumento.
-	    */
+        //Ventana de ayuda de uso del instrumento.
         Fl_Help_Dialog *Manual_osc; 
-        
 };
 
 #endif // OSCILOSCOPIO_H

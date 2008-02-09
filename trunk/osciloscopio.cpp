@@ -14,8 +14,8 @@ bool btrigger2;           // Variable global que indica si se activó la fuente d
 
 
 // Constructor de clase
-//Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) {
-Osciloscopio::Osciloscopio(){   
+Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) {
+//Osciloscopio::Osciloscopio(){   
     Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
    // icolor = ncol;                                                // Color de fondo de la pantalla del osciloscopio
     strcpy(cnombre,"osc.txt");                                    // Nombre para el archivo de texto donde se almacenan los datos
@@ -983,8 +983,7 @@ void Osciloscopio::cb_timer_vectores_in(){
 
 
 /**
- * La función recorrer_datos recorre el arreglo idatos y envia punto 
- * por punto los datos para graficar.
+ * 
 */
 void Osciloscopio::recorrer_datos(int num_canal){
      int icont;

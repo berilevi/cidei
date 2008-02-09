@@ -2,6 +2,7 @@
 		
 #ifndef INSTRUMENTO_H
 #define INSTRUMENTO_H
+
 #include <string.h>
 #include <fstream>
 #include <stdlib.h>
@@ -21,11 +22,12 @@
 using namespace std;
 
 
-/**
- * La clase Instrumento es la clase base para los cuatro instrumentos
- * que conforman el LIV y representa las caracteristicas generales que 
- * poseen. 
-*/
+/*******************************************************************************
+*La clase Instrumento es la clase base para los cuatro instrumentos: Osciloscopio,
+*Multímetro, Analizador Lógico y Generador de Señales, que conforman el LIV y 
+*representa las caracteristicas generales que poseen. 
+*******************************************************************************/
+
 class Instrumento	
 {
 	public:
@@ -33,147 +35,61 @@ class Instrumento
 		Instrumento();
 		// Destructor de clase
 		~Instrumento();
-		/**
-		 * Almacena los identificadores de producto y vendedor
-        */
+		//Almacena los identificadores de producto y vendedor del dispositivo USB
 		char vid_pid[18];
-		/**
-		 * Cadena con el número del endpoint de salida para
-         * comunicación USB.
-	    */
+		// Cadena con el número del endpoint de salida para la comunicación USB.
 		char out_pipe[11];
-		/**
-		 * Cadena con el número del endpoint de entrada para
-		 * comunicación USB
-	    */
+	    //Cadena con el número del endpoint de entrada para la comunicación USB
         char in_pipe[11];
-        /**
-		 * Apunta al handle del endpoint pipe de salida para la
-		 * comunicación USB
-	    */
+		//Apuntador al handle del endpoint pipe de salida para la comunicación USB
         HANDLE myOutPipe;
-        /**
-		 * Apunta al handle del endpoint pipe de entrada para la
-		 * comunicación USB
-	    */
+		//Apuntador al handle del endpoint pipe de entrada para la comunicación USB
         HANDLE myInPipe;
-        /**
-		 * Buffer donde se encapsula los comandos enviados al hardware
-		 * para la comunicación USB
-	    */
+		//Buffer donde se encapsula los comandos enviados al hardware para la comunicación USB
         BYTE trama_control[9];
-        /**
-		 * Buffer donde se almacena la información enviada desde el hardware
-	    */
+		//Buffer donde se almacena la información enviada desde el hardware
 	    BYTE receive_buf[SIZE_DATA];
-	    /**
-		 * Buffer donde se almacena la información desencapsulada 
-         * enviada desde el hardware por el osciloscopio.
-	    */
-	    char receive_buf_osc[572];
-	    /**
-		 * Variable que indica si el hardware ya completo de tomar las muestras 
-         * de la señal en el canal 1 del osciloscopio.
-	    */
+		//Variable que indica si el hardware ya completo de muestrear la señal del canal 1 del osciloscopio.
 	    bool ch1_muestreado;
-	    /**
-		 * Variable que indica si el hardware ya completo de tomar las muestras 
-         * de la señal en el canal 2 del osciloscopio.
-	    */
+		//Variable que indica si el hardware ya completo de muestrear la señal del canal 2 del osciloscopio.
 	    bool ch2_muestreado;
-	    /**
-		 * Buffer donde se almacena la información desencapsulada 
-         * enviada desde el hardware por el osciloscopio al canal 1.
-	    */
+		//Buffer donde se almacenan los datos enviados por el hardware del canal 1 del osciloscopio.
 	    int buf_osc_ch1[DATA_OSC];
-	    /**
-		 * Variable donde se almacena el dato muestreado uno por uno 
-         * enviado desde el hardware por el canal 1 del osciloscopio.
-	    */
+		//Variable donde se almacena el dato muestreado uno a uno por el hardware del canal 1 del osciloscopio. 
 	    int idato_osc_ch1;
-	    /**
-		 * Variable donde se almacena el dato muestreado uno por uno 
-         * enviado desde el hardware por el canal 2 del osciloscopio.
-	    */
+		//Variable donde se almacena el dato muestreado uno a uno por el hardware del canal 2 del osciloscopio. 
 	    int idato_osc_ch2;
-	    /**
-		 * Buffer donde se almacena la información desencapsulada 
-         * enviada desde el hardware por el osciloscopio al canal 2.
-	    */
+		//Buffer donde se almacenan los datos enviados por el hardware del canal 2 del osciloscopio.
 	    int buf_osc_ch2[DATA_OSC];
-	    /**
-		 * Buffer donde se almacena la información desencapsulada 
-         * enviada desde el hardware por el multimetro.
-	    */
+		//Buffer donde se almacena la información desencapsulada enviada por el hardware del Multímetro.
 	    char buf_mult[4];
-	    /**
-		 * Buffer donde se almacena la información desencapsulada 
-         * enviada desde el hardware por el analizador logico.
-	    */
+		//Buffer donde se almacena la información desencapsulada enviada por el hardware del Analizador Lógico.
 	    char buf_analizador[3];
-	    /**
-		 * Valor de escala de la medicion realizada con el multimetro 
-		*/
+		//Valor de escala de la medicion realizada con el Multímetro. 
 		int imult_escala;
-	    /**
-		 * Arreglo con los datos de las señales digitalizados por el 
-         * hardware del instrumento.
-		*/
-		int idatos[DATA_OSC];
-		/**
-		 * Esta variable representa el estado activo o inactivo del
-		 * instrumento.
-		*/
+		//Arreglo con los datos de las señales digitalizados por el hardware.
+		/* TODO (JuanP#1#): Revizar por que al quitarla se daña el muestreo del 
+                            analizador. */
+		int idatos[DATA_OSC];                                
+		//Variable que representa el estado activo o inactivo de los instrumentos.
 		bool bestado;
-		/**
-		 * La función archivar genera un archivo plano con los datos 
-		 * enviados por el hardware del intrumento.
-		*/
-		void archivar();
-        /**
-		 * La función Setarchivo asigna el valor de la variable
-		 * barchivo para habilitar el almacenamiento en archivos de texto.
-		*/		
-		void Setarchivo(bool x); 
-		/**
-		 * La función Sethardware asigna el valor de la variable
-		 * bhardware que indica el estado del hardware.
-		*/
+		//La función archivar genera un archivo plano con los datos enviados por el hardware.
+		void archivar(); 
+        //La función Sethardware asigna el valor de la variable bhardware que indica el estado del hardware.
         void Sethardware(bool x); 
-        /**
-		 * La función activar asigna el valor de la variable estado.
-		*/
+        //La función activar asigna el valor de la variable estado que indica si el instrumento está o no activo.
 		void activar(bool bx); 
-		/**
-		 * La función Transmision realiza la comunicación
-		 * con el hardware a través de USB.
-		*/
+		//La función Transmision realiza la comunicación con el hardware a través de USB.
 		void Transmision();
-		/**
-		 * La función Encapsular organiza la trama que se envía
-		 * al hardware a través de USB.
-		*/
+		//La función Encapsular organiza la trama que se envía al hardware a través de USB.
 		void Encapsular(char, char, char, char, char,char);
-		/**
-		 * La función Desencapsular organiza los datos enviados desde el hardware
-		 * a los instrumentos de software a través de USB.
-		*/
+		//La función Desencapsular organiza los datos enviados desde el hardware a los instrumentos de software a través de USB.
 		void Desencapsular(BYTE []);
 		
 	protected:
-		/**
-		 * Esta variable representa el estado funcional del hardware del instrumento.
-		*/
+		//Esta variable representa el estado funcional del hardware del instrumento.
 		bool bhardware;
-		/**
-		 * Esta variable representa la habilitación de la opción de guardar
-		 * los datos adquiridos por los instrumentos en archivos planos. 
-		*/
-		bool barchivo;
-		/**
-		 * Esta variable contiene el nombre del archivo de texto donde se 
-         * almacenan los datos del instrumento.
-		*/
+		//Esta variable contiene el nombre del archivo de texto donde se almacenan los datos del instrumento.
 		char cnombre [12];
 };
 
