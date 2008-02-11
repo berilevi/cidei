@@ -413,9 +413,7 @@ Fl_Scope::Fl_Scope(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,
  bch1 = 0;
  
  banalizador = 0; 
- 
- bstop = 0;
- 
+  
  ivez = 0;
  
  ipos_x = 0;
