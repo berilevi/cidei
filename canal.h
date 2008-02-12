@@ -13,10 +13,10 @@
 #include <FL/Fl_Box.H>
 
 
-/**
- * Esta clase representa las funcionalidades de los canales
- * del osciloscopio
- */
+/*******************************************************************************
+ * Esta clase representa las funcionalidades de los canales del osciloscopio
+*******************************************************************************/
+
 class Canal : public Instrumento{
       
 	public:
@@ -24,80 +24,37 @@ class Canal : public Instrumento{
 		Canal(int x, int y, int w, int h, const char *l, int ncolo);
 		// class destructor
 		~Canal();
-		/**
-		 * Selector de la escala de voltios por division
-		 */
+		// Selector de la escala de voltios por división.
 		Fl_Knob *ovolt_div;
-		/**
-		 * Selector del acople 
-		 */
+		//Selector del acople. 
 		Fl_Repeat_Button *osel_acople;
-		/**
-		 * Método para calcular el valor pico a pico de la señal
-		 * adquirida por el canal del osciloscopio
-		 */
+		//Método para calcular el valor pico a pico de la señal adquirida por el canal del osciloscopio.
 		float vpp();
-		/**
-		 * Método para calcular la frecuencia de la señal (periodica) 
-		 * adquirida por el canal del osciloscopio
-		 */
+		// Método para calcular la frecuencia de la señal (periodica) adquirida por el canal del osciloscopio.
 		float frecuencia();
-		/**
-		 * Grupo de los diferentes botones y selectores que componen
-		 * el canal.
-        */
+		//Grupo de los diferentes botones y selectores que componen el canal.
 		Fl_Group *ogroup_ch;
-		/**
-		 * Grupo del selector de posicion de la grafica del canal.
-        */
+		//Grupo del selector de posicion de la grafica del canal.
 		Fl_Group *ogroup_pos;
-		/**
-		 * Grupo de los selectores de la escala de votios por division del canal.
-        */
+		// Grupo de los selectores de la escala de votios por division del canal.
 		Fl_Group *ogroup_v_div;
-		/**
-		 * Grupo de los selectores del tipo de acople del canal.
-        */
+		//Grupo de los selectores del tipo de acople del canal.
 		Fl_Group *ogroup_acople;
-		/**
-		 * Esta variable representa el color de la gráfica de la señal
-		 * adquirida por el canal
-	    */
+		// Esta variable representa el color de la gráfica de la señal adquirida por el canal.
 		int ncolor;
-		/**
-		 * Menu desplegable para seleccionar la escala de voltios por división 
-		 * del canal  
-	     */
+		//Menu desplegable para seleccionar la escala de voltios por división del canal  
         Fl_Choice *omenu_v_div;
-		/**
-		 * Esta variable representa el valor pico a pico de la señal 
-		 * analizada con el osciloscopio
-		 */
+		//Esta variable representa el valor pico a pico de la señal analizada con el osciloscopio
 		float dvolt_pp;
-		/**
-		 * Esta variable representa el valor de la frecuencia de la señal
-		 * analizada.  
-		 */
+		// Esta variable representa el valor de la frecuencia de la señal analizada.  
 		float dv_frecuencia;
-		/**
-		 * Este indicador luminoso indica que está activado el acople
-		 * gnd del canal  
-		 */
+		// Este indicador luminoso indica que está activado el acople gnd del canal  
         Fl_Box *oacop_gnd;
-        /**
-		 * Este indicador luminoso indica que está activado el acople
-		 * ac del canal  
-		 */
+        //Este indicador luminoso indica que está activado el acople ac del canal  
         Fl_Box *oacop_ac;
-        /**
-		 * Este indicador luminoso indica que está activado el acople
-		 * dc del canal  
-		 */
+        // Este indicador luminoso indica que está activado el acople dc del canal  
         Fl_Box *oacop_dc;
-        /**
-		 * Perilla para ajustar la posición de la señal respecto al eje x 
-		 * de la señal.   
-	     */
+        // Perilla para ajustar la posición de la señal respecto al eje x de la señal.   
         Fl_Knob *opos_x;
    private:
         /**

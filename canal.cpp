@@ -71,7 +71,7 @@ float Canal::vpp(){
       int imayor = 0;         // Inicializar el valor mayor
       int imenor = 500;       // Inicializar el valor menor
       
-    /*  for (icont=0; icont< DATA_OSC-1; icont++){
+      /*for (icont=0; icont< DATA_OSC-1; icont++){
           if (idatos[icont]>imayor){
               imayor = idatos[icont];               
           }
