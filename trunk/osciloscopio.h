@@ -6,7 +6,8 @@
 #include "instrumento.h"                    // Cabecera de la superclase
 #include "Fl_Scope.h"                       
 #include "grid.h"
-#include "canal.h"                          
+#include "canal.h"  
+#include "DispOsc.h"                         
 #include "fl_Knob.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Help_Dialog.h>
@@ -68,6 +69,8 @@ class Osciloscopio : public Instrumento{
         Fl_Repeat_Button *odual_menu;  
         //Botón para detener las gráficas que se presentan en la pantalla del osciloscopio.
         Fl_Light_Button *ostop;
+        //Botón que habilita el ajuste automático del instrumento. 
+        Fl_Button *oauto_set;
         //Botón que habilita el almacenamiento en archivos planos de texto.
         Fl_Button *olog_osc;
         //Botón que habilita la ayuda para el uso del instrumento. 
@@ -84,6 +87,10 @@ class Osciloscopio : public Instrumento{
 		Fl_Scope*  opantalla;
 		//Cuadricula de de la pantalla del osciloscopio. 
 		grid*  ogrilla;
+		//Texto de información de la configuracion del canal 1. 
+		DispOsc*  odisp_osc1;
+        //Texto de información de la configuracion del canal 2. 
+		DispOsc*  odisp_osc2;
         //Variable que contiene el dato que se envía para graficar la señal del canal 1.
 		int idato_graf_ch1;
         //Variable que contiene el dato que se envía para graficar la señal del canal 2.
@@ -102,6 +109,9 @@ class Osciloscopio : public Instrumento{
         //Callback del botón que activa la ayuda del instrumento     
         static void cb_help(Fl_Widget*, void *);
         inline void cb_help_in();   
+        //Callback del botón que activa el ajuste automático del instrumento    
+        static void cb_auto(Fl_Widget*, void *);
+        inline void cb_auto_in();
         //Callback del botón selector del acople del canal 1.
 		static void cb_acople1(Fl_Widget*, void *);
 		inline void cb_acople1_in();
@@ -172,6 +182,8 @@ class Osciloscopio : public Instrumento{
 		inline void cb_tdiv1us_in(Fl_Widget*);
         //Rutina que recorre el arreglo de los datos y envía punto por punto los datos para graficar.
 		void recorrer_datos(int);
+		//Rutina que calcula el valor pico a pico de la señal.
+		void vpp();
 		//Callback del botón para encender el canal 1. 
 		static void cb_ch1_on(Fl_Widget*, void *);
 		inline void cb_ch1_on_in();

@@ -70,6 +70,9 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     ox_y->align(FL_ALIGN_TOP);
     ogroup_dual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
     
+    oauto_set  = new Fl_Button (290,13,40,17,"Auto");             // Botón para activar el ajuste automático del instrumento
+    oauto_set->labelsize(9);
+    
     olog_osc  = new Fl_Button (340,8,40,14,"Log");                // Boton para activar el almacenamiento en archivo de texto los datos
     olog_osc->labelsize(9);
    // olog_osc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
@@ -82,7 +85,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     oayuda_osc->labelsize(12);
     //oayuda_osc->tooltip("CheckBox para iniciar las ayudas flotantes del uso del los botones del instrumento");
     
-    ogrilla_on = new Fl_Light_Button(250,13,45,17,"Grilla");      // Activa/desactiva la cuadricula de la pantalla del instrumento   
+    ogrilla_on = new Fl_Light_Button(240,13,45,17,"Grilla");      // Activa/desactiva la cuadricula de la pantalla del instrumento   
     ogrilla_on->labelsize(10);
     
     ogroup_tdiv = new Fl_Group (620,218,106,142,"");              //Inicia el grupo de los controles de tiempo por división
@@ -166,6 +169,13 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     opantalla->linetype(FL_SCOPE_LINE);                                   // La gráfica se forma con lineas entre dos puntos
     opantalla->box(FL_FLAT_BOX);                                          // La pantalla es un cuadro sin relieve
     
+    odisp_osc1 = new DispOsc(12,40,200,40);
+    odisp_osc2 = new DispOsc(212,40,200,40);
+    odisp_osc1->TextColour(FL_YELLOW);
+    odisp_osc2->TextColour(FL_GREEN);
+   // strcpy(odisp_osc1->ccanal,"CH 1");
+   // strcpy(odisp_osc2->ccanal,"CH 2");
+    
     Manual_osc = new Fl_Help_Dialog;                                      // Ventana de ayuda que sale al presionar el botón help
     Manual_osc->load("help_osciloscopio.html");                           // Cargar el archivo html que contiene la ayuda.
     
@@ -202,6 +212,7 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     canal2->ovolt_div->callback(cb_volt_div2, this);
     canal2->osel_acople->callback(cb_acople2, this);
     ohelp_osc->callback(cb_help,this);
+    //oauto_set->callback(cb_auto,this);
 }
 
 
@@ -1047,17 +1058,18 @@ void Osciloscopio::recorrer_datos(int num_canal){
      int icont;
      if (num_canal == 1){
      opantalla->TraceColour(Fl_Color(canal1->ncolor));
-     free(opantalla->ScopeData2);
-        //if (omenu_t_div->value()<8){                           // !!!!!!!!!Toca cambiarlo a < 2 
-        if (otiempo_div->value()<8){
+     free(opantalla->ScopeData2);                         
+        if (otiempo_div->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
            idato_graf_ch1 = idato_osc_ch1;
            opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); 
+           //opantalla->Add(255,255); 
            ogrilla->redraw();
         }
         else{
              for(icont=0;icont < DATA_OSC-1; icont++){
                  idato_graf_ch1 = buf_osc_ch1[icont];
                  opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); 
+                 //opantalla->Add((canal1->opos_x->value()*255)+32700,255);
                  ogrilla->redraw();           
              }   
         }                
@@ -1341,6 +1353,38 @@ void Osciloscopio::cb_help(Fl_Widget* pboton, void *any){
 void Osciloscopio::cb_help_in(){
       Manual_osc->show();
 }
+
+
+
+/*******************************************************************************
+ * Osciloscopio::cb_auto: Callback del botón que ajusta automáticamente el
+ *                        instrumento. 
+ * El Callaback consta de la función static e inline cb_auto y cb_auto_in.
+ * 
+ *
+*******************************************************************************/
+void Osciloscopio::cb_auto(Fl_Widget* pboton, void *any){
+     Osciloscopio* posc=(Osciloscopio*)any;
+     posc->cb_auto_in();
+}
+
+void Osciloscopio::cb_auto_in(){
+      
+}
+
+
+
+/*******************************************************************************
+ * Osciloscopio::vpp(): Rutina que calcula el valor pico a pico de las señales
+ *                      graficadas. 
+ * 
+*******************************************************************************/
+void Osciloscopio::vpp(){
+     int imayor = 0;         // Inicializar el valor mayor
+     int imenor = 510;       // Inicializar el valor menor 
+      
+}
+
 
 
 /*******************************************************************************
