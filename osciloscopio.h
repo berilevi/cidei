@@ -95,6 +95,10 @@ class Osciloscopio : public Instrumento{
 		int idato_graf_ch1;
         //Variable que contiene el dato que se envía para graficar la señal del canal 2.
 		int idato_graf_ch2;
+		//Variable que contiene el valor pico a pico de la señal del canal 1.
+		int ivpp_ch1;
+        //Variable que contiene el valor pico a pico de la señal del canal 2.
+		int ivpp_ch2;
         //Callback del timer para realizar la solicitud de los vectores de datos.  
         static void cb_timer_vectores(void *);
         inline void cb_timer_vectores_in();
@@ -182,8 +186,8 @@ class Osciloscopio : public Instrumento{
 		inline void cb_tdiv1us_in(Fl_Widget*);
         //Rutina que recorre el arreglo de los datos y envía punto por punto los datos para graficar.
 		void recorrer_datos(int);
-		//Rutina que calcula el valor pico a pico de la señal.
-		void vpp();
+		//Rutina que calcula el valor pico a pico de las señales.
+		void vpp(int, int, int);
 		//Callback del botón para encender el canal 1. 
 		static void cb_ch1_on(Fl_Widget*, void *);
 		inline void cb_ch1_on_in();

@@ -11,6 +11,11 @@ bool bresta;              // Variable global que indica si se activó la operació
 bool bx_y;                // Variable global que indica si se activó la operación x vs y con las 2 señales 
 bool btrigger1;           // Variable global que indica si se activó la fuente del trigger en el canal 1
 bool btrigger2;           // Variable global que indica si se activó la fuente del trigger en el canal 2
+int icont_datos;          // variable global que cuenta el numero de muestras graficadas. 
+int imayor1 = 0;         // Inicializar el valor mayor para el canal 1
+int imenor1 = 510;       // Inicializar el valor menor para el canal 1
+int imayor2 = 0;         // Inicializar el valor mayor para el canal 2
+int imenor2 = 127;       // Inicializar el valor menor para el canal 2
 
 
 // Constructor de clase
@@ -31,6 +36,9 @@ Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) 
     bx_y = 0;
     btrigger1 = 0;
     btrigger2 = 0;
+    ivpp_ch1 = 0;
+    ivpp_ch2 = 0;
+    icont_datos = 0;
     
     {              
     ogroup_osc = new Fl_Group (5,5,725,360,"");                   // Inicia el grup de los elementos del osciloscopio
@@ -358,7 +366,8 @@ void Osciloscopio::cb_osc_on_in(){
 * ogrilla->bgrid = 1 : Activa la cuadricula de 10 x 8 
 * ogrilla->bgrid = 0 : Desactiva la grilla de 10 x 8 y deja solo los ejes que 
 *                      dividen en 4 la pantalla. 
-********************************************************************************/
+*******************************************************************************/
+
 void Osciloscopio::cb_grilla(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
      posc->cb_grilla_in();
@@ -1028,7 +1037,7 @@ void Osciloscopio::cb_timer_vectores_in(){
               recorrer_datos(3);
         }
      }
-    Fl::repeat_timeout(0.05, cb_timer_vectores, this);           //Repetición del timer
+    Fl::repeat_timeout(0.09, cb_timer_vectores, this);           //Repetición del timer
 }
 
 
@@ -1056,28 +1065,43 @@ void Osciloscopio::cb_timer_vectores_in(){
 
 void Osciloscopio::recorrer_datos(int num_canal){
      int icont;
+     char cvpp1 [4];
      if (num_canal == 1){
      opantalla->TraceColour(Fl_Color(canal1->ncolor));
      free(opantalla->ScopeData2);                         
         if (otiempo_div->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
+           icont_datos ++;
            idato_graf_ch1 = idato_osc_ch1;
+           vpp(idato_osc_ch1,0,1);
            opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); 
-           //opantalla->Add(255,255); 
            ogrilla->redraw();
+           if (icont_datos == 399){
+              ivpp_ch1 = imayor1 - imenor1;             
+              itoa(ivpp_ch1,cvpp1,10);             
+              strcpy(odisp_osc1->ccanal,cvpp1);
+              odisp_osc1->redraw();
+              imayor1 = 0;           // Inicializar el valor mayor para el canal 1
+              imenor1 = 510;         // Inicializar el valor menor para el canal 1
+              icont_datos = 0;
+           }
         }
         else{
              for(icont=0;icont < DATA_OSC-1; icont++){
                  idato_graf_ch1 = buf_osc_ch1[icont];
+                 vpp(idato_graf_ch1,0,1);
                  opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); 
-                 //opantalla->Add((canal1->opos_x->value()*255)+32700,255);
-                 ogrilla->redraw();           
-             }   
+                 ogrilla->redraw();                 
+             }
+             itoa(ivpp_ch1,cvpp1,10);
+             strcpy(odisp_osc1->ccanal,cvpp1);
+             odisp_osc1->redraw();
+             imayor1 = 0;           // Inicializar el valor mayor para el canal 1
+             imenor1 = 510;         // Inicializar el valor menor para el canal 1
         }                
      }
      if (num_canal == 2){
-        opantalla->TraceColour(Fl_Color(canal2->ncolor));
-        //if (omenu_t_div->value()<8){                                // !!!!!!!!!Toca cambiarlo a < 2 
-        if (otiempo_div->value()<8){
+        opantalla->TraceColour(Fl_Color(canal2->ncolor));                                
+        if (otiempo_div->value()<8){                                  // !!!!!!!!!Toca cambiarlo a < 2 
            idato_graf_ch2 = idato_osc_ch2;
            opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); 
            ogrilla->redraw();
@@ -1091,8 +1115,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
         }                 
      }
      if (num_canal == 3){
-        //if (omenu_t_div->value() < 8){                                  // !!!!!!!!!Toca cambiarlo a < 2 
-        if (otiempo_div->value()<8){
+        if (otiempo_div->value()<8){                                      // !!!!!!!!!Toca cambiarlo a < 2
            opantalla->TraceColour(Fl_Color(canal2->ncolor));           
            idato_graf_ch2 = idato_osc_ch2;
            idato_graf_ch1 = idato_osc_ch1; 
@@ -1377,12 +1400,52 @@ void Osciloscopio::cb_auto_in(){
 /*******************************************************************************
  * Osciloscopio::vpp(): Rutina que calcula el valor pico a pico de las señales
  *                      graficadas. 
- * 
+ * ivalor1: Variable que contiene el dato del canal 1.
+ * ivalor2: Variable que contiene el dato del canal 2.
+ * icanal:  Número del canal que envía los datos.
+ * icanal = 1: Datos enviados por el canal 1.
+ * icanal = 2: Datos enviados por el canal 2.
+ * icanal = 3: Datos enviados por los 2 canales.   
 *******************************************************************************/
-void Osciloscopio::vpp(){
-     int imayor = 0;         // Inicializar el valor mayor
-     int imenor = 510;       // Inicializar el valor menor 
-      
+
+void Osciloscopio::vpp(int ivalor1, int ivalor2, int icanal){
+     
+     if (icanal == 1) {
+        if (ivalor1 < imenor1){
+           imenor1 = ivalor1;             
+        }
+         if (ivalor1 > imayor1){
+             imayor1 = ivalor1;           
+        }
+        ivpp_ch1 = imayor1 - imenor1; 
+     }      
+     else if(icanal==2){
+          if (ivalor2 > imayor2){
+             imayor2 = ivalor2;               
+          }
+          if (ivalor2 < imenor2){
+               imenor2 = ivalor2;
+          }
+          ivpp_ch2 = imayor2 - imenor2; 
+     } 
+     else if(icanal==3){
+          if (ivalor1 > imayor1){
+             imayor1 = ivalor1;               
+           }
+           else if (ivalor1 < imenor1){
+                imenor1 = ivalor1;
+           }
+           ivpp_ch1 = imayor1 - imenor1;
+           
+           if (ivalor2 > imayor2){
+              imayor2 = ivalor2;               
+           }
+           else if (ivalor2 < imenor2){
+                imenor2 = ivalor2;
+           }
+           ivpp_ch2 = imayor2 - imenor2; 
+     }     
+           
 }
 
 
