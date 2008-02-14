@@ -1,26 +1,23 @@
+#include "osciloscopio.h"
+//#include "multimetro.h"
+#include "analizador.h"
+//#include "generador.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
-#include <FL/Fl_Window.H>
-#include <Fl/fl_Light_Button.h>
-#include <FL/Fl_Ask.H>
 #include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Box.H>
-#include "osciloscopio.h"
-#include "multimetro.h"
-#include "analizador.h"
-#include "generador.h"
-#include <string>
-#include <pthread.h>
 
-#include <iostream>
+//#include <pthread.h>
+
 #include <windows.h> 
+
 
 //Multimetro *mult =0;
 //Osciloscopio *osc = 0;
 //Analizador *ana = 0;
 //Generador *gene = 0;
-pthread_t thread, thread1, thread2, thread3;
+//pthread_t thread, thread1, thread2, thread3;
 
 int status, status2, status3;
 
@@ -53,13 +50,11 @@ int main (int argc, char ** argv)
   Fl_Double_Window *window;
   Osciloscopio *osc;
   Analizador *ana;
-  Generador *gene;
-  
-  Multimetro *mult;
+ // Generador *gene;
+ // Multimetro *mult;
   
   Fl_Box *box_mult;
   
-
   int t =0;
   int u =0;
   int y =0;
@@ -67,14 +62,12 @@ int main (int argc, char ** argv)
   int rc, rc2, rc3, rc4;
   
   window = new Fl_Double_Window (0,0,1024, 708);
-  osc = new Osciloscopio(5,5,725,360,"",150);
-  //osc = new Osciloscopio();
+  //osc = new Osciloscopio(5,5,725,360,"",150);
+  osc = new Osciloscopio();
   ana = new Analizador();
-  gene = new Generador();
-  mult = new Multimetro();
-  
-  
-  
+  //gene = new Generador();
+ // mult = new Multimetro();
+
   /*rc=pthread_create(&thread, NULL, runhilo, (void *)t);
         if (rc){
            fl_message("ERROR; return code from pthread_create() is %d\n", rc);

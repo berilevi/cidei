@@ -4,11 +4,7 @@
 #define MULTIMETRO_H
 
 
-//#include <FL/Fl_Shared_Image.H>
-//#include <FL/Fl_PNG_Image.H>
-//#include <FL/Fl_Box.H>
-
-#include <FL/Fl_Window.H>
+//#include <FL/Fl_Window.H>
 #include "instrumento.h" // inheriting class's header file
 #include "Fl_7Seg.H"     // inheriting class's header file
 #include <FL/Fl.H>
@@ -31,7 +27,7 @@
 #define FACTOR_VDC_5 0,256
 
 
-//using namespace std;
+using namespace std;
 
 /**
  * Esta clase representa las funcionees del instrumento

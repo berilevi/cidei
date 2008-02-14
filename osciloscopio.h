@@ -37,8 +37,8 @@ class Osciloscopio : public Instrumento{
       
 	public:
 		// Constructor de clase
-		Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
-		//Osciloscopio();
+		//Osciloscopio(int x, int y, int w, int h, const char *l, int ncol);
+		Osciloscopio();
         // Destructor de clase
 		~Osciloscopio();
         //Agrupa la pantalla, los 2 canales y los demas controles del osciloscopìo

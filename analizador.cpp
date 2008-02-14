@@ -14,12 +14,10 @@ Analizador::Analizador() {
     
     idatapos = 0;
     inum_muestras = TAM_ALMACENADO;
-    //idatos_graficados = 20;
     igraf_datos = 20;
     btimer_trigger = 0;
     btrigger = 0;
     bmuestreando = 0;
-    //inum_datos_grafica = 400/idatos_graficados;
     inum_datos_grafica = 400/igraf_datos;
      
     ogroup_ana = new Fl_Group(5,370,505,330,"");
@@ -644,104 +642,88 @@ void Analizador::graficar_datos() {
              
          //Canal 1
          if (pdata_analizador[o][0]=='1'){
-            //for (int i=0; i<idatos_graficados;i++){
             for (int i=0; i<igraf_datos;i++){                   
                 apantalla_ch1->Add(50000);
             }
          }
-         else if (pdata_analizador[o][0]=='0'){
-              //for (int i=0; i<idatos_graficados;i++){                   
+         else if (pdata_analizador[o][0]=='0'){             
               for (int i=0; i<igraf_datos;i++){ 
                   apantalla_ch1->Add(10000);
               }
          }
          //Canal 2
-         if (pdata_analizador[o][1]=='1'){
-            //for (int i=0; i<idatos_graficados;i++){                   
+         if (pdata_analizador[o][1]=='1'){                
             for (int i=0; i<igraf_datos;i++){ 
                 apantalla_ch2->Add(50000);
             }
          }
-         else if (pdata_analizador[o][1]=='0'){
-              //for (int i=0; i<idatos_graficados;i++){                   
+         else if (pdata_analizador[o][1]=='0'){              
               for (int i=0; i<igraf_datos;i++){ 
                   apantalla_ch2->Add(10000);
               }
          }
          //Canal 3
-         if (pdata_analizador[o][2]=='1'){
-            //for (int i=0; i<idatos_graficados;i++){                   
+         if (pdata_analizador[o][2]=='1'){                 
             for (int i=0; i<igraf_datos;i++){ 
                 apantalla_ch3->Add(50000);
             }
          }
-         else if (pdata_analizador[o][2]=='0'){
-              //for (int i=0; i<idatos_graficados;i++){                   
+         else if (pdata_analizador[o][2]=='0'){              
               for (int i=0; i<igraf_datos;i++){ 
                   apantalla_ch3->Add(10000);
               }
          }
          //Canal 4
-         if (pdata_analizador[o][3]=='1'){
-            //for (int i=0; i<idatos_graficados;i++){                   
+         if (pdata_analizador[o][3]=='1'){                 
             for (int i=0; i<igraf_datos;i++){ 
                 apantalla_ch4->Add(50000);
             }
          }
-         else if (pdata_analizador[o][3]=='0'){
-              //for (int i=0; i<idatos_graficados;i++){                   
+         else if (pdata_analizador[o][3]=='0'){                 
               for (int i=0; i<igraf_datos;i++){ 
                   apantalla_ch4->Add(10000);
               }
          }
          //Canal 5
-         if (pdata_analizador[o][4]=='1'){
-            //for (int i=0; i<idatos_graficados;i++){                   
+         if (pdata_analizador[o][4]=='1'){            
             for (int i=0; i<igraf_datos;i++){ 
                 apantalla_ch5->Add(50000);
             }
          }
-         else if (pdata_analizador[o][4]=='0'){
-              //for (int i=0; i<idatos_graficados;i++){                   
+         else if (pdata_analizador[o][4]=='0'){               
               for (int i=0; i<igraf_datos;i++){ 
                   apantalla_ch5->Add(10000);
               }
          }
          //Canal 6
-         if (pdata_analizador[o][5]=='1'){
-            //for (int i=0; i<idatos_graficados;i++){                   
+         if (pdata_analizador[o][5]=='1'){                
             for (int i=0; i<igraf_datos;i++){ 
                 apantalla_ch6->Add(50000);
             }
          }
-         else if (pdata_analizador[o][5]=='0'){
-              //for (int i=0; i<idatos_graficados;i++){                   
+         else if (pdata_analizador[o][5]=='0'){                 
               for (int i=0; i<igraf_datos;i++){ 
                   apantalla_ch6->Add(10000);
               }
          }
          //Canal 7
-         if (pdata_analizador[o][6]=='1'){
-            //for (int i=0; i<idatos_graficados;i++){                   
+         if (pdata_analizador[o][6]=='1'){                
             for (int i=0; i<igraf_datos;i++){ 
                 apantalla_ch7->Add(50000);
             }
          }
-         else if (pdata_analizador[o][6]=='0'){
-              //for (int i=0; i<idatos_graficados;i++){                   
+         else if (pdata_analizador[o][6]=='0'){                
               for (int i=0; i<igraf_datos;i++){ 
                   apantalla_ch7->Add(10000);
               }
          }
          //Canal 8
-         if (pdata_analizador[o][7]=='1'){
-            //for (int i=0; i<idatos_graficados;i++){                   
+         if (pdata_analizador[o][7]=='1'){                  
             for (int i=0; i<igraf_datos;i++){ 
                 apantalla_ch8->Add(50000);
             }
          }
-         else if (pdata_analizador[o][7]=='0'){
-              //for (int i=0; i<idatos_graficados;i++){                   
+         else if (pdata_analizador[o][7]=='0'){             
               for (int i=0; i<igraf_datos;i++){ 
                   apantalla_ch8->Add(10000);
               }

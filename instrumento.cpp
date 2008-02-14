@@ -40,7 +40,6 @@ void Instrumento::Sethardware(bool x){
 *                        hardware.
 *******************************************************************************/
 void Instrumento::archivar(){
-     
      ofstream log("oscill.txt");
      log << "Hello World, from www.cpp-home.com and Loobian!" << endl;
 	 log.close();	 
