@@ -286,7 +286,6 @@ class Analizador : public Instrumento {
 		/**
 		 * Número de datos representados en la pantalla. 
 	     */
-		//int  idatos_graficados;
 		int igraf_datos;
 		/**
 		 * valor msb recibido en binario. 

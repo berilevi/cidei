@@ -9,17 +9,16 @@
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Tooltip.H>
 
+using namespace std;
+
 #pragma hdrstop
 #include <stdio.h>
 #include <windows.h>
 #include "_mpusbapi.h"         // Archivo de cabecera para el enlace con la DLL 
                                // que provee Microchip para la comunicacion USB          
-#pragma argsused*/
+//#pragma argsused*/
 
 #define SIZE_DATA 150          // Maximo tamaño del vector recibido desde el hardawre 
-#define DATA_OSC  572          // Tamaño del vector de datos para las graficas del osciloscopio 
-
-using namespace std;
 
 
 /*******************************************************************************
@@ -28,8 +27,8 @@ using namespace std;
 *representa las caracteristicas generales que poseen. 
 *******************************************************************************/
 
-class Instrumento	
-{
+class Instrumento {
+      
 	public:
 		// Constructor de Clase
 		Instrumento();
@@ -54,13 +53,13 @@ class Instrumento
 		//Variable que indica si el hardware ya completo de muestrear la señal del canal 2 del osciloscopio.
 	    bool ch2_muestreado;
 		//Buffer donde se almacenan los datos enviados por el hardware del canal 1 del osciloscopio.
-	    int buf_osc_ch1[DATA_OSC];
+	    int buf_osc_ch1[572];
 		//Variable donde se almacena el dato muestreado uno a uno por el hardware del canal 1 del osciloscopio. 
 	    int idato_osc_ch1;
 		//Variable donde se almacena el dato muestreado uno a uno por el hardware del canal 2 del osciloscopio. 
 	    int idato_osc_ch2;
 		//Buffer donde se almacenan los datos enviados por el hardware del canal 2 del osciloscopio.
-	    int buf_osc_ch2[DATA_OSC];
+	    int buf_osc_ch2[572];
 		//Buffer donde se almacena la información desencapsulada enviada por el hardware del Multímetro.
 	    char buf_mult[4];
 		//Buffer donde se almacena la información desencapsulada enviada por el hardware del Analizador Lógico.
@@ -70,7 +69,7 @@ class Instrumento
 		//Arreglo con los datos de las señales digitalizados por el hardware.
 		/* TODO (JuanP#1#): Revizar por que al quitarla se daña el muestreo del 
                             analizador. */
-		int idatos[DATA_OSC];                                
+		int idatos[572];                                
 		//Variable que representa el estado activo o inactivo de los instrumentos.
 		bool bestado;
 		//La función archivar genera un archivo plano con los datos enviados por el hardware.
@@ -86,7 +85,6 @@ class Instrumento
 		//La función Desencapsular organiza los datos enviados desde el hardware a los instrumentos de software a través de USB.
 		void Desencapsular(BYTE []);
 		
-	protected:
 		//Esta variable representa el estado funcional del hardware del instrumento.
 		bool bhardware;
 		//Esta variable contiene el nombre del archivo de texto donde se almacenan los datos del instrumento.
