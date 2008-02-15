@@ -102,6 +102,7 @@ void Instrumento::Transmision(){
 *                          protocolo establecido para enviar los datos al 
 *                          hardware a traves de USB.
 *******************************************************************************/
+
 void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char cfin, char cfin2){
      
      trama_control[1] = cnom;       //Dispositivo de hardware 
@@ -112,7 +113,6 @@ void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char
      trama_control[8] = cfin2;      //Dato que se va a configurar en el hardware
      
 }
-
 
 /*******************************************************************************
 * Instrumento::Desencapsular: Desencapsula los datos enviados desde el hardware
@@ -134,6 +134,7 @@ void Instrumento::Encapsular(char cnom, char coper, char clong, char cdato, char
 * 'K': Multímetro.
 * 'L': Osciloscopio.
 *******************************************************************************/
+
 void Instrumento::Desencapsular(BYTE recibida []){
      
      int icont = 0;                                                      //Contador auxiliar para los ciclos

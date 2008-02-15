@@ -382,7 +382,6 @@ void Osciloscopio::cb_grilla_in(){
      ogrilla->redraw();
 }
 
-
 /*******************************************************************************
 * Osciloscopio::cb_stop: Callback del botón para detener las gráficas en la 
 *                        pantalla del osciloscopio.
@@ -390,6 +389,7 @@ void Osciloscopio::cb_grilla_in(){
 * Si el botón esta presionado no se hace llamado a la función recorrer_datos()
 * es decir no se envían datos para ser graficados.
 *******************************************************************************/
+
 void Osciloscopio::cb_stop(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
      posc->cb_stop_in();
@@ -403,7 +403,6 @@ void Osciloscopio::cb_stop_in(){
          ostop->box(FL_UP_BOX);
      }
 }
-
 
 /*******************************************************************************
 * Osciloscopio::cb_ch1_on: Callback del botón para encender o apagar el canal 1 
@@ -1472,6 +1471,10 @@ void Osciloscopio::cb_auto(Fl_Widget* pboton, void *any){
 
 void Osciloscopio::cb_auto_in(){
      
+     canal1->oacop_dc->color(FL_GRAY);
+     canal1->oacop_dc->redraw();
+     canal1->oacop_gnd->color(FL_GRAY);
+     canal1->oacop_gnd->redraw();
      Encapsular('A', 'e', '1', '2',0x00,0x00);                     // Configurar acople ac 
      Transmision();
      if (bhardware){
@@ -1481,33 +1484,34 @@ void Osciloscopio::cb_auto_in(){
      else{
          fl_message("Error de hardware"); 
      }
-     otiempo_div->value(2); 
-     Encapsular('L','d','1','1',0x00,0x00);                        //Configurar T/Div  mas lenta por vectores
-     //Encapsular('L','d','1','0',0x00,0x00);                        //Configurar T/Div  mas lenta por vectores
+     otiempo_div->value(10); 
+     Encapsular('L','d','1','A',0x00,0x00);                        //Configurar T/Div  mas lenta por vectores
+     //Encapsular('L','d','8','0',0x00,0x00);                      //Configurar T/Div  mas lenta por vectores
      Fl::remove_timeout(cb_timer,this);
      Fl::remove_timeout(cb_timer_vectores,this); 
      Transmision();
      if (bhardware){
-         muestreo_timer(1);                                           //Solicitar envío de muestras en vectores 
+         muestreo_timer(1);                                        //Solicitar envío de muestras en vectores 
      }
      else
          fl_message("Error de hardware");
      
-     if (ivpp_ch1 < 192 && ivpp_ch1 > 256){
-        if (ivpp_ch1 >= 256){
-           if(canal1->omenu_v_div->value() > 0){
-                canal1->omenu_v_div->value(canal1->omenu_v_div->value()-1);
-                cb_volt_div1_in(canal1->omenu_v_div);
-           }
-        }
-        else if (ivpp_ch1 < 192){
-            if(canal1->omenu_v_div->value() < 12){
-                canal1->omenu_v_div->value(canal1->omenu_v_div->value()+1);
-                cb_volt_div1_in(canal1->omenu_v_div);
-           } 
-        }
-     }
-      
+          if (ivpp_ch1 < 64 || ivpp_ch1 > 128){
+              if (ivpp_ch1 >= 128){
+                 if(canal1->ovolt_div->value() > 1){
+                    canal1->omenu_v_div->value(canal1->omenu_v_div->value()-1);
+                    canal1->ovolt_div->value(canal1->ovolt_div->value()-1);
+                    cb_volt_div1_in( canal1->ovolt_div);
+                 }
+              }
+              else if (ivpp_ch1 <= 64){
+                 if(canal1->ovolt_div->value() < 11){
+                   canal1->omenu_v_div->value(canal1->omenu_v_div->value()+1);
+                   canal1->ovolt_div->value(canal1->ovolt_div->value()+1);
+                   cb_volt_div1_in( canal1->ovolt_div);
+                } 
+              }
+          }
 }
 
 
