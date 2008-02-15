@@ -1,7 +1,7 @@
 #include "osciloscopio.h"
-//#include "multimetro.h"
+#include "multimetro.h"
 #include "analizador.h"
-//#include "generador.h"
+#include "generador.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Shared_Image.H>
@@ -50,8 +50,8 @@ int main (int argc, char ** argv)
   Fl_Double_Window *window;
   Osciloscopio *osc;
   Analizador *ana;
- // Generador *gene;
- // Multimetro *mult;
+  Generador *gene;
+  Multimetro *mult;
   
   Fl_Box *box_mult;
   
@@ -63,10 +63,10 @@ int main (int argc, char ** argv)
   
   window = new Fl_Double_Window (0,0,1024, 708);
   //osc = new Osciloscopio(5,5,725,360,"",150);
-  osc = new Osciloscopio();
   ana = new Analizador();
-  //gene = new Generador();
- // mult = new Multimetro();
+  osc = new Osciloscopio();
+  gene = new Generador();
+  mult = new Multimetro();
 
   /*rc=pthread_create(&thread, NULL, runhilo, (void *)t);
         if (rc){
