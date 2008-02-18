@@ -199,7 +199,7 @@ void Instrumento::Desencapsular(BYTE recibida []){
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;                              
                  }
-                 imult_escala = recibida[2];
+                 imult_escala = int(recibida[2]-48);
             break;
             case 'E':                                                     //Informacion para Voltimetro DC
                  strcpy(buf_mult,"0000");
@@ -209,7 +209,7 @@ void Instrumento::Desencapsular(BYTE recibida []){
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
-                 imult_escala = recibida[2];
+                 imult_escala = int(recibida[2]-48);
             break;
             case 'F':                                                     //Informacion para Amperimetro AC
                  strcpy(buf_mult,"0000");
@@ -219,7 +219,7 @@ void Instrumento::Desencapsular(BYTE recibida []){
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
-                 imult_escala = recibida[2];
+                 imult_escala = int(recibida[2]-48);
             break;
             case 'G':                                                     //Informacion para Amperimetro DC
                  strcpy(buf_mult,"0000");
@@ -229,7 +229,7 @@ void Instrumento::Desencapsular(BYTE recibida []){
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
-                 imult_escala = recibida[2];
+                 imult_escala = int(recibida[2]-48);
             break;
             case 'H':                                                     //Informacion para Ohmetro
                  strcpy(buf_mult,"0000");
@@ -239,7 +239,7 @@ void Instrumento::Desencapsular(BYTE recibida []){
                  if (itamano < 4){
                     buf_mult[itamano] = 0x00;
                  }
-                 imult_escala = recibida[2];
+                 imult_escala = int(recibida[2]-48);
             break;
             case 'I':                                                     //Informacion para Generador de señales
             break;
