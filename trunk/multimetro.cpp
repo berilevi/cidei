@@ -3,52 +3,64 @@
 #include "multimetro.h" // class's header file
 
 
-// class constructor
+/*******************************************************************************
+ * Multímetro: Clase que representa las funciones del instrumento multímetro con
+ *             6 tipos de medición:
+ * Voltímetro AC: Mide la magnitud de voltaje True RMS de una señal alterna.
+ * Voltímetro DC: Mide la magnitud de voltaje de una señal continua.
+ * Amperímetro AC: Mide la magnitud de corriente de una señal alterna.
+ * Amperímetro DC: Mide la magnitud de corriente de una señal continua. 
+ * Resistencia: Mide la magnitud de resistencia eléctrica.
+ * Continuidad: Reviza la continuidad eléctrica.             
+*******************************************************************************/
 Multimetro::Multimetro(){
                             
-    Fl_Tooltip::disable();
-    strcpy(cvalor,"0.000");
+    //Fl_Tooltip::disable();
+    fvalor_escalado = 0.0;
+    strcpy(cvalor,"0.000");                                                     //Inicialización del valor mostrado en el dsiplay
     strcpy(cnombre,"mult.txt"); 
-    ogroup_mult = new Fl_Group (735,5,285,360,"");
+    ogroup_mult = new Fl_Group (735,5,285,360,"");                              //Inicio del grupo de los elementos del multímetro
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
-    odisp_mult  = new Fl_7Seg (740,53,230,99);
+    odisp_mult  = new Fl_7Seg (740,53,230,99);                                  //Display del multímetro
     odisp_mult->color(FL_BLACK);
     odisp_mult->thickness(5);
     odisp_mult->dot_len(7);
     odisp_mult->align_text(FL_ALIGN_RIGHT);
     odisp_mult->segment_gap(2);
     odisp_mult->value("00.0");
-    ounidades = new Fl_Box (968,53,43,99,"");
+    ounidades = new Fl_Box (968,53,43,99,"VAC");                                   //Display de las unidades de medida
     ounidades->labelsize(20);
     ounidades->labelcolor(FL_WHITE);
     ounidades->box(FL_FLAT_BOX);
     ounidades->color(FL_BLACK);
-    ohelp_mult  = new Fl_Button (935,23,40,16,"Help");
+    ohelp_mult  = new Fl_Button (935,23,40,16,"Help");                          //Botón que inicia la ventana de ayuda de uso del instrumento.
     ohelp_mult->labelsize(9);
     //ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
-    ovolt_ac = new Fl_Button(765,189,63,35,"V_ac");
+    ovolt_ac = new Fl_Button(765,189,63,35,"V_ac");                             //Botón que activa el instrumento voltímetro AC.   
     ovolt_ac->clear();
     ovolt_ac->box(FL_UP_BOX);
-    ovolt_dc = new Fl_Button(842,189,63,35,"V_dc");
+    ovolt_dc = new Fl_Button(842,189,63,35,"V_dc");                             //Botón que activa el instrumento voltímetro DC.
     ovolt_dc->box(FL_UP_BOX);
-    oamp_ac = new Fl_Button(922,190,63,35,"A_ac");
+    oamp_ac = new Fl_Button(922,190,63,35,"A_ac");                              //Botón que activa el instrumento Amperímetro AC.
     oamp_ac->box(FL_UP_BOX);
-    oamp_dc = new Fl_Button(765,273,63,35,"A_dc");
+    oamp_dc = new Fl_Button(765,273,63,35,"A_dc");                              //Botón que activa el instrumento Amperímetro DC.
     oamp_dc->box(FL_UP_BOX);
-    oohm = new Fl_Button(842,273,63,35,"R");
+    oohm = new Fl_Button(842,273,63,35,"R");                                    //Botón que activa el instrumento Ohmetro.
     oohm->box(FL_UP_BOX);
-    ocontinuidad = new Fl_Button(922,273,63,35,"Cont");
+    ocontinuidad = new Fl_Button(922,273,63,35,"Cont");                         //Botón que activa el instrumento Medidor de continuidad.
     ocontinuidad->box(FL_UP_BOX);
     
     Manual = new Fl_Help_Dialog;
-    Manual->load("help_multimetro.html");
+    Manual->load("help_multimetro.html");                                       //Ventana de ayuda de uso del multímetro
     
-    ogroup_mult-> end();
+    ogroup_mult-> end();                                                        //Fin del grupo de elementos del multímetro
       
-    omult_on = new Fl_Light_Button(892,10,33,42,"ON");
+    omult_on = new Fl_Light_Button(892,10,33,42,"ON");                          //Botón que enciende/apaga el instrumento
     omult_on->labelsize(9); 
+    
+    // Callbacks de los diferentes botones del instrumento
     omult_on->callback(cb_mult_on, this);
     ovolt_ac->callback(cb_volt_ac, this);
     ovolt_dc->callback(cb_volt_dc, this);
@@ -61,121 +73,266 @@ Multimetro::Multimetro(){
 
 // class destructor
 Multimetro::~Multimetro(){
-	// insert your code here
 }
 
 
-/*
- * Este método es el callback del boton que activa el multimetro
-*/
+/*******************************************************************************
+ * Multimetro::cb_mult_on: Callback del botón que activa/desactiva el multímetro
+ * El Callaback consta de la función static e inline cb_mult_on y cb_mult_on_in.
+ * Al encender el instrumento se inicia el instrumento voltímetro AC por defecto 
+*******************************************************************************/
 void Multimetro::cb_mult_on(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_mult_on_in();
 }
 
-/**
- * Esta función acompaña la función  cb_mult_on para activar el  
- * multimetro
-*/
 void Multimetro::cb_mult_on_in(){
-     if (omult_on->value()== 1){
+     if (omult_on->value()== 1){                                                //Encender Multímetro
         activar(1);
-        Encapsular('K','a','1','0',0x00,0x00);
+        Encapsular('K','a','1','0',0x00,0x00);                                  //Trama de inicio de multímetro
         Transmision();
         if (bhardware){
            ogroup_mult->activate();
-           //Fl_Tooltip::enable();
+           cb_volt_ac_in();                                                     //Inicio por defecto de voltímetro AC
+           ounidades->label("VAC");
+           ounidades->redraw();
         }
         else {
              fl_message("Error de hardware");
              omult_on->value(0);
         }
      }
-     if (omult_on->value()== 0){
+     if (omult_on->value()== 0){                                                //Apagar el Multímetro
+        Fl::remove_timeout(cb_timer_mult, this);
         activar(0);
+        ovolt_ac->box(FL_UP_BOX);
+        ovolt_ac->clear();
+        ovolt_dc->box(FL_UP_BOX);
+        ovolt_dc->clear();
+        oamp_ac->box(FL_UP_BOX);
+        oamp_ac->clear();
+        oamp_dc->box(FL_UP_BOX);
+        oamp_dc->clear();
+        oohm->box(FL_UP_BOX);
+        oohm->clear();
+        ocontinuidad->box(FL_UP_BOX);
+        ocontinuidad->clear(); 
         ogroup_mult->deactivate();
         Fl_Tooltip::disable(); 
      } 
 }
 
-/**
-* Este método coloca el valor de la medición en el display
-* del multímetro.
-*/
+/*******************************************************************************
+* Multimetro::set_disp_mult: Método para colocar el valor de la medición en el 
+*                            display del multímetro.
+* svalor : Cadena de caracteres con el valor de la medición realizada
+*******************************************************************************/
 void Multimetro::set_disp_mult(char svalor [4]){
      odisp_mult->value((svalor));      
 }
 
-/**
- * Este método es el callback del timer para realizar la solicitud 
- * de datos del canal 1 del osciloscopio al hardware.  
-*/
+/*******************************************************************************
+ * Multimetro::cb_timer_mult: Callback del timer para realizar la solicitud 
+ *                            de datos del multímetro.  
+ * El Callaback consta de la función static e inline cb_timer_mult y 
+ * cb_timer_mult_in.
+ * Se envía una trama de solicitud de datos de multímetro al hardware Mu04.
+ * escalar_valor(x): Función que se encarga de escalar el valor de la medida en 
+ *                   la escala adecuada.
+ *                   El paramétro es el valor de la escala que envía el hardware.
+ * set_disp_mult(): Se envía el dato escalado para mostrarlo en el display.
+ * Se repite el timer de solicitud de datos cada medio segundo. 
+*******************************************************************************/
+
 void Multimetro::cb_timer_mult(void *pany){
      Multimetro* pmult=(Multimetro*)pany;
      pmult->cb_timer_mult_in();
 }
 
-/**
- * Esta función acompaña la función cb_timer_ch1 para realizar los llamados de 
- * callback del timer 
-*/
 void Multimetro::cb_timer_mult_in(){
      Encapsular('K','p','1','0',0x00,0x00);
      Transmision();
-     escalar_valor(1);
-     set_disp_mult((buf_mult));
+     escalar_valor(imult_escala);
+     set_disp_mult(cvalor);
+     ounidades->redraw();
      Fl::repeat_timeout(0.5, cb_timer_mult, this);
 }
 
 
-/**
- * Envia la información al hardware para configurar el instrumento
- * del multimetro
-*/
+/*******************************************************************************
+ * Multimetro::config_instrumento: Envia la trama de selección de instrumento al 
+ *                                 hardware para configurar el multímetro.
+ * Este método es llamado en los callbacks de los botones que seleccionan cada
+ * instrumento del multímetro.
+ * Se envía al hardware una trama de tipo [K,q,1,X,0,0] donde X es el núemro del 
+ * instrumento seleccionado:
+ * X = 1: Voltímetro DC.
+ * X = 2: Voltímetro AC.
+ * X = 3: Amperímetro DC.
+ * X = 1: Amperímetro AC.
+ * X = 1: Ohmetro DC.
+ * Luego de configurar el instrumento se inicia el timer de solicitud de datos.
+*******************************************************************************/
+
 void Multimetro::config_instrumento(int instrumento){
      switch (instrumento) {
             case volt_ac:
                  Encapsular('K','q','1','2',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.005, cb_timer_mult, this);
+                 Fl::add_timeout(0.05, cb_timer_mult, this);
                  break;
             case volt_dc:
                  Encapsular('K','q','1','1',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.005, cb_timer_mult, this);
+                 Fl::add_timeout(0.05, cb_timer_mult, this);
                  break;
             case amp_ac:
                  Encapsular('K','q','1','4',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.005, cb_timer_mult, this);
+                 Fl::add_timeout(0.05, cb_timer_mult, this);
                  break;
             case amp_dc:
                  Encapsular('K','q','1','3',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.005, cb_timer_mult, this); 
+                 Fl::add_timeout(0.05, cb_timer_mult, this); 
                  break;
             case ohm:
                  Encapsular('K','q','1','5',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.005, cb_timer_mult, this); 
+                 Fl::add_timeout(0.05, cb_timer_mult, this); 
                  break;
     }
 }
 
 
-/**
- * Calcula el valor de la medicion en el rango de escala en que se encuentre
-*/
+/*******************************************************************************
+ * Multimetro::escalar_valor: Calcula el valor de la medición en el rango de 
+ *                            escala en que se encuentre.
+ * escala: Dato de escala enviada desde el hardware en la que se encuentra el
+ *         valor de la medición.
+ * Para calcular el resultado de la medición se realiza la siguiente formula:
+ * (valor_medición-256)*Factor.
+ * Por cada escala hay un Factor por el que se debe multiplicar para obtener el 
+ * valor de la medición.  
+*******************************************************************************/
 void Multimetro::escalar_valor(int escala){
-     double fvalor_escalado = 0.0;
      ivalor_conversion = atoi(buf_mult);
-     fvalor_escalado = ivalor_conversion/20;
-     sprintf(cvalor,"%.4g",fvalor_escalado);
+     switch (escala) {
+            case 1:
+                 if (instrument==volt_ac){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==amp_ac){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==ohm){
+                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                 }
+                 break; 
+            case 2:
+                 if (instrument==volt_ac){
+                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                 }
+                 else if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                 }
+                 else if (instrument==amp_ac){
+                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                 }
+                 else if (instrument==ohm){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 break;
+            case 3:
+                 if (instrument==volt_ac){
+                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                 }
+                 else if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                 }
+                 else if (instrument==amp_ac){
+                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                 }
+                 else if (instrument==ohm){
+                    fvalor_escalado = (ivalor_conversion-256)*7.81;
+                 }
+                 break;
+            case 4:
+                 if (instrument==volt_ac){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==amp_ac){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==ohm){
+                    fvalor_escalado = (ivalor_conversion-256)*7812.5;
+                 }
+                 break;
+            case 5:
+                 if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*7.81;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                 }
+                 break;
+            case 6:
+                 if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 break;
+            case 7:
+                 if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                 }
+                 break;
+            case 8:
+                 if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                 }
+                 break;
+            case 9:
+                 if (instrument==volt_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 else if (instrument==amp_dc){
+                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                 }
+                 break; 
+     }
+     sprintf(cvalor,"%.3g",fvalor_escalado);
 }
 
 
@@ -208,6 +365,7 @@ void Multimetro::cb_volt_ac_in(){
         instrument = volt_ac;
         ounidades->label("VAC");
         config_instrumento(volt_ac);
+        //fl_message("escala es: %d",imult_escala);
      }
      else{
           ovolt_ac->box(FL_UP_BOX);

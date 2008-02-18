@@ -3,8 +3,6 @@
 #ifndef MULTIMETRO_H
 #define MULTIMETRO_H
 
-
-//#include <FL/Fl_Window.H>
 #include "instrumento.h" // inheriting class's header file
 #include "Fl_7Seg.H"     // inheriting class's header file
 #include <FL/Fl.H>
@@ -29,13 +27,20 @@
 
 using namespace std;
 
-/**
- * Esta clase representa las funcionees del instrumento
- * multimetro
- */
+/*******************************************************************************
+ * Multímetro: Clase que representa las funciones del instrumento multímetro con
+ *             6 tipos de medición:
+ * Voltímetro AC: Mide la magnitud de voltaje True RMS de una señal alterna.
+ * Voltímetro DC: Mide la magnitud de voltaje de una señal continua.
+ * Amperímetro AC: Mide la magnitud de corriente de una señal alterna.
+ * Amperímetro DC: Mide la magnitud de corriente de una señal continua. 
+ * Resistencia: Mide la magnitud de resistencia eléctrica.
+ * Continuidad: Reviza la continuidad eléctrica.             
+*******************************************************************************/
 class Multimetro : public Instrumento
 {
 	public:
+        // Variable enumerada con los 6 instrumentos que hacen parte del multñimetro   
         enum inst {
              volt_ac,
              volt_dc,
@@ -44,183 +49,77 @@ class Multimetro : public Instrumento
              ohm,
              continuidad
         };   
-		/**
-		 *  Ventana de ayuda de uso del instrumento.
-	    */
+		//Ventana de ayuda de uso del instrumento.
         Fl_Help_Dialog *Manual;        
-		/**
-		 * Esta variable almacena el valor entero de la medicion realizada con  
-		 * el hardware.
-	    */
+		//Variable que almacena el valor entero de la medicion realizada con el hardware  
 		long int ivalor_conversion;
-		/**
-		 * Esta variable representa el valor de la medición realizada
-		 * con algun instrumento del multimetro
-		*/
+		//Variable que almacena el valor ye escalado que se presentará al usuario.
+        double fvalor_escalado;
+		//Variable representa el valor de la medición realizada con algun instrumento del multímetro
 		char cvalor[7];
-		/**
-		 * Este objeto representa el display del multímetro 
-		 * donde el usuario observa el resultado de la medición.
-		*/
+		//Display del multímetro donde el usuario observa el resultado de la medición.
 		Fl_7Seg *odisp_mult;
-		/**
-		 * Este método coloca el valor de la medición en el display
-		 * del multímetro.
-		*/
+		// Método para colocar el valor de la medición en el display.
 		void set_disp_mult(char [4]);
-		 /**
-		 * Agrupa los botones e indicadores del multimetro
-		 */
+		//Agrupa los botones e indicadores del multímetro.
 	    Fl_Group *ogroup_mult;
 		// class constructor
 		Multimetro();
 		// class destructor
 		~Multimetro();
-        /**
-		 * Este método es el callback del boton selector de instrumentos
-		 * en el multímetro debe ir acompañada de una función inline para
-         * poder realizar los callbacks. 
-		 */
-		static void cb_sel_instrumento(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_sel_instrumento 
-		 * para realizar los llamados de callback del selector de instrumento
-		 * en el multimetro 
-		 */
-		inline void cb_sel_instrumento_in();
-		/**
-		 * Este método es el callback del boton de encendido
-		 * del multímetro debe ir acompañada de una función inline para
-         * poder realizar los callbacks. 
-		 */
+		//Callback del botón de encendido / apagado del multímetro.
 		static void cb_mult_on(Fl_Widget*, void *);
-		/**
-		 * Esta función acompaña la función  cb_mult_on 
-		 * para realizar los llamados de callback del boton de encendido
-		 * del multimetro 
-		 */
 		inline void cb_mult_on_in();
 		
 private:
-        /**
-         * Este método es el callback del timer para realizar la solicitud 
-         * de datos del multímetro al hardware.  
-         */   
+        //Callback del timer para realizar la solicitud de datos del multímetro al hardware.    
          static void cb_timer_mult(void *);
-         /**
-         * Esta función acompaña la función cb_timer_mult
-         * para realizar los llamados de callback del timer 
-         */
          inline void cb_timer_mult_in();
-         /**
-         * Callback del botón que activa la ayuda del instrumento  
-         */   
+         //Callback del botón que activa la ayuda del instrumento. 
          static void cb_help(Fl_Widget*, void *);
-         /**
-         * Callback del botón que activa la ayuda del instrumento 
-         */
          inline void cb_help_in();
-         /**
-         * Envia la información al hardware para configurar el instrumento
-         * del multimetro
-         */
+         //Envia la información al hardware para configurar cada instrumento del multimetro.
          void config_instrumento(int);
-         /**
-         * Calcula el valor de la medicion en el rango de escala en que se encuentre
-         */
+         //Calcula el valor de la medición en el rango de escala en que se encuentre.
          void escalar_valor(int);
-		/**
-		 * Esta varaible representa los instrumentos que contiene
-		 * el multimetro
-		 */
+		//Varaible que representa los instrumentos que contiene el multímetro.
 		inst instrument;
-		/**
-		 * Boton que habilita la ayuda para el uso del instrumento. 
-	    */
+		// Boton que habilita la ayuda para el uso del instrumento.
         Fl_Button *ohelp_mult;
-		/**
-		 * Botón de activación del medidor de voltaje en ac.
-		 */
+		//Botón de activación del medidor de voltaje en ac.
 		Fl_Button *ovolt_ac;
-		/**
-		 * Botón de activación del medidor de voltaje en dc.
-		 */
+		//Botón de activación del medidor de voltaje en dc.
 	    Fl_Button *ovolt_dc;
-	    /**
-		 * Botón de activación del medidor de corriente en ac.
-		 */
+	    //Botón de activación del medidor de corriente en ac.
 	    Fl_Button *oamp_ac;
-	    /**
-		 * Botón de activación del medidor de corriente en dc.
-		 */
+	    //Botón de activación del medidor de corriente en dc.
 	    Fl_Button *oamp_dc;
-	    /**
-		 * Botón de activación del medidor de resistencia.
-		 */
+	    //Botón de activación del medidor de resistencia.
 	    Fl_Button *oohm;
-	    /**
-		 * Botón de activación del medidor de continuidad.
-		 */
+	    //Botón de activación del medidor de continuidad.
 	    Fl_Button *ocontinuidad;
-	    /**
-         * Callback del botón que activa el medidor de voltaje en ac 
-         */   
-         static void cb_volt_ac(Fl_Widget*, void *);
-         /**
-         * Callback del botón que activa el medidor de voltaje en ac 
-         */
-         inline void cb_volt_ac_in();
-         /**
-         * Callback del botón que activa el medidor de voltaje en dc   
-         */   
-         static void cb_volt_dc(Fl_Widget*, void *);
-         /**
-         * Callback del botón que activa el medidor de voltaje en dc 
-         */
-         inline void cb_volt_dc_in();
-         /**
-         * Callback del botón que activa el medidor de corriente en ac  
-         */   
-         static void cb_amp_ac(Fl_Widget*, void *);
-         /**
-         * Callback del botón que activa el medidor de corriente en ac 
-         */
-         inline void cb_amp_ac_in();
-         /**
-         * Callback del botón que activa el medidor de corriente en dc  
-         */   
-         static void cb_amp_dc(Fl_Widget*, void *);
-         /**
-         * Callback del botón que activa el medidor de corriente en dc 
-         */
-         inline void cb_amp_dc_in();
-         /**
-         * Callback del botón que activa el medidor de resistencia 
-         */   
-         static void cb_ohm(Fl_Widget*, void *);
-         /**
-         * Callback del botón que activa el medidor de resistencia
-         */
-         inline void cb_ohm_in();
-         /**
-         * Callback del botón que activa el medidor de continuidad  
-         */   
-         static void cb_cont(Fl_Widget*, void *);
-         /**
-         * Callback del botón que activa el medidor de continuidad 
-         */
-         inline void cb_cont_in();
-	    /**
-		 * Boton para encender el instrumento multimetro.
-		*/
+	    //Callback del botón que activa el medidor de voltaje en ac.
+        static void cb_volt_ac(Fl_Widget*, void *);
+        inline void cb_volt_ac_in();
+        //Callback del botón que activa el medidor de voltaje en dc.   
+        static void cb_volt_dc(Fl_Widget*, void *);
+        inline void cb_volt_dc_in();
+        //Callback del botón que activa el medidor de corriente en ac.   
+        static void cb_amp_ac(Fl_Widget*, void *);
+        inline void cb_amp_ac_in();
+        //Callback del botón que activa el medidor de corriente en dc.   
+        static void cb_amp_dc(Fl_Widget*, void *);
+        inline void cb_amp_dc_in();
+        //Callback del botón que activa el medidor de resistencia   
+        static void cb_ohm(Fl_Widget*, void *);
+        inline void cb_ohm_in();
+        //Callback del botón que activa el medidor de continuidad    
+        static void cb_cont(Fl_Widget*, void *);
+        inline void cb_cont_in();
+	    //Boton para encender el instrumento multimetro.
         Fl_Light_Button *omult_on;
-        /**
-		 * Widget para colocar en texto las unidades de medida de la medición 
-		 * realizada con el multímetro.
-		*/
+        // Widget para colocar en texto las unidades de medida de la medición realizada con el multímetro.
         Fl_Box *ounidades;
-        
-        Fl_Box *box_mult;
 };
 
 #endif // MULTIMETRO_H

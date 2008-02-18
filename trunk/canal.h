@@ -14,7 +14,14 @@
 
 
 /*******************************************************************************
- * Esta clase representa las funcionalidades de los canales del osciloscopio
+ * Canal: Representa las funcionalidades de los canales del osciloscopio.
+ *        La clase permite configurar los siguientes parametros del canal:
+ * Escala de Voltios por División: Se configura con una perilla selectora o un
+ *                                 menú desplegable con 12 escalas.
+ * Acople del canal: Se puede seleccionar el tipo de acople con el que recibe la 
+ *                   señal: acople Ac, Dc y Gnd.
+ * Posición Vertical de la señal: Se configura con una perilla la posición 
+ *                                vertical donde se va a graficar la señal.  
 *******************************************************************************/
 
 class Canal : public Instrumento{
@@ -28,10 +35,6 @@ class Canal : public Instrumento{
 		Fl_Knob *ovolt_div;
 		//Selector del acople. 
 		Fl_Repeat_Button *osel_acople;
-		//Método para calcular el valor pico a pico de la señal adquirida por el canal del osciloscopio.
-		float vpp();
-		// Método para calcular la frecuencia de la señal (periodica) adquirida por el canal del osciloscopio.
-		float frecuencia();
 		//Grupo de los diferentes botones y selectores que componen el canal.
 		Fl_Group *ogroup_ch;
 		//Grupo del selector de posicion de la grafica del canal.
@@ -40,81 +43,53 @@ class Canal : public Instrumento{
 		Fl_Group *ogroup_v_div;
 		//Grupo de los selectores del tipo de acople del canal.
 		Fl_Group *ogroup_acople;
-		// Esta variable representa el color de la gráfica de la señal adquirida por el canal.
+		// Variable que representa el color de la gráfica de la señal adquirida por el canal.
 		int ncolor;
 		//Menu desplegable para seleccionar la escala de voltios por división del canal  
         Fl_Choice *omenu_v_div;
-		//Esta variable representa el valor pico a pico de la señal analizada con el osciloscopio
-		float dvolt_pp;
-		// Esta variable representa el valor de la frecuencia de la señal analizada.  
-		float dv_frecuencia;
-		// Este indicador luminoso indica que está activado el acople gnd del canal  
+		// Indicador luminoso del estado activo el acople gnd del canal  
         Fl_Box *oacop_gnd;
-        //Este indicador luminoso indica que está activado el acople ac del canal  
+		// Indicador luminoso del estado activo el acople ac del canal   
         Fl_Box *oacop_ac;
-        // Este indicador luminoso indica que está activado el acople dc del canal  
+		// Indicador luminoso del estado activo el acople dc del canal   
         Fl_Box *oacop_dc;
-        // Perilla para ajustar la posición de la señal respecto al eje x de la señal.   
+        // Perilla para ajustar la posición vertical de la señal.   
         Fl_Knob *opos_x;
    private:
-        /**
-		 * Calback para la escala de 5 voltios por división
-		*/
+        // Calback para la escala de 5 voltios por división
 		static void cb_vdiv5(Fl_Widget*, void *);
 		inline void cb_vdiv5_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 2 voltios por división
-		*/
+		// Calback para la escala de 2 voltios por división
 		static void cb_vdiv2(Fl_Widget*, void *);
 		inline void cb_vdiv2_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 1 voltio por división
-		*/
+		//Calback para la escala de 1 voltio por división
 		static void cb_vdiv1(Fl_Widget*, void *);
 		inline void cb_vdiv1_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 0.5 voltios por división
-		*/
+		//Calback para la escala de 0.5 voltios por división
 		static void cb_vdiv05(Fl_Widget*, void *);
 		inline void cb_vdiv05_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 0.2 voltios por división
-		*/
+		//Calback para la escala de 0.2 voltios por división
 		static void cb_vdiv02(Fl_Widget*, void *);
 		inline void cb_vdiv02_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 0.1 voltios por división
-		*/
+		//Calback para la escala de 0.1 voltios por división
 		static void cb_vdiv01(Fl_Widget*, void *);
 		inline void cb_vdiv01_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 50m voltios por división
-		*/
+		// Calback para la escala de 50m voltios por división
 		static void cb_vdiv50m(Fl_Widget*, void *);
 		inline void cb_vdiv50m_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 20m voltios por división
-		*/
+		// Calback para la escala de 20m voltios por división
 		static void cb_vdiv20m(Fl_Widget*, void *);
 		inline void cb_vdiv20m_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 10m voltios por división
-		*/
+		//Calback para la escala de 10m voltios por división
 		static void cb_vdiv10m(Fl_Widget*, void *);
 		inline void cb_vdiv10m_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 5m voltios por división
-		*/
+		//Calback para la escala de 5m voltios por división
 		static void cb_vdiv5m(Fl_Widget*, void *);
 		inline void cb_vdiv5m_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 2m voltios por división
-		*/
+		// Calback para la escala de 2m voltios por división
 		static void cb_vdiv2m(Fl_Widget*, void *);
 		inline void cb_vdiv2m_in(Fl_Widget*);
-		/**
-		 * Calback para la escala de 1m voltio por división
-		*/
+		// Calback para la escala de 1m voltio por división
 		static void cb_vdiv1m(Fl_Widget*, void *);
 		inline void cb_vdiv1m_in(Fl_Widget*);
 

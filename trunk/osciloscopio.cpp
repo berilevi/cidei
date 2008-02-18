@@ -12,10 +12,10 @@ bool bx_y;                // Variable global que indica si se activó la operació
 bool btrigger1;           // Variable global que indica si se activó la fuente del trigger en el canal 1
 bool btrigger2;           // Variable global que indica si se activó la fuente del trigger en el canal 2
 int icont_datos;          // variable global que cuenta el numero de muestras graficadas. 
-int imayor1 = 0;         // Inicializar el valor mayor para el canal 1
-int imenor1 = 510;       // Inicializar el valor menor para el canal 1
-int imayor2 = 0;         // Inicializar el valor mayor para el canal 2
-int imenor2 = 510;       // Inicializar el valor menor para el canal 2
+int imayor1 = 0;          // Inicializar el valor mayor para calcular el vpp del canal 1
+int imenor1 = 510;        // Inicializar el valor menor para calcular el vpp del canal 1
+int imayor2 = 0;          // Inicializar el valor mayor para calcular el vpp del canal 2
+int imenor2 = 510;        // Inicializar el valor menor para calcular el vpp del canal 2
 
 
 // Constructor de clase
@@ -42,7 +42,7 @@ Osciloscopio::Osciloscopio(){
     icont_datos = 0;
     
     {              
-    ogroup_osc = new Fl_Group (5,5,725,360,"");                   // Inicia el grup de los elementos del osciloscopio
+    ogroup_osc = new Fl_Group (5,5,725,360,"");                   // Inicia el grupo de los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME);                 
     ogroup_osc->box(FL_UP_BOX);
     ogroup_osc->deactivate();                           
