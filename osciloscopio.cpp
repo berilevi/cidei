@@ -270,6 +270,8 @@ void Osciloscopio::cb_osc_on_in(){
             otrigger_ch1->redraw();
             btrigger1 = 1;
             isec_trigger = 1;
+            //strcpy(odisp_osc1->ctrigger,"CH1");
+            //odisp_osc1->redraw();
             ogroup_pos->box(FL_UP_BOX);
             ogroup_dual->box(FL_UP_BOX);
             otiempo_div->value(8);
@@ -466,6 +468,19 @@ void Osciloscopio::cb_ch1_on_in(){
            Fl::remove_timeout(cb_timer,this);
            Fl::remove_timeout(cb_timer_vectores,this);
         }
+        else {
+             bsuma = 0;
+             osuma->color(FL_GRAY);
+             osuma->redraw();
+             bresta = 0;
+             oresta->color(FL_GRAY);
+             oresta->redraw();
+             bx_y = 0;
+             ox_y->color(FL_GRAY);
+             ox_y->redraw();
+             isec_dual=3;
+             cb_dual_menu_in();
+        }
         Encapsular('A','b','1','0',0x00,0x00);                         //Desactivar canal 1 en hardware
         opantalla->bch1 = 0;
         Transmision();
@@ -550,6 +565,19 @@ void Osciloscopio::cb_ch2_on_in(){
         if (canal1->bestado == 0){
            Fl::remove_timeout(cb_timer,this);
            Fl::remove_timeout(cb_timer_vectores,this);
+        }
+        else {
+             bsuma = 0;
+             osuma->color(FL_GRAY);
+             osuma->redraw();
+             bresta = 0;
+             oresta->color(FL_GRAY);
+             oresta->redraw();
+             bx_y = 0;
+             ox_y->color(FL_GRAY);
+             ox_y->redraw();
+             isec_dual=3;
+             cb_dual_menu_in();
         }
         Encapsular('B','b','1','0',0x00,0x00);                      //Desactivar canal 2 por hardware
         opantalla->bch2 = 0;
@@ -1031,7 +1059,7 @@ void Osciloscopio::cb_timer_vectores(void *pany){
 }
 
 void Osciloscopio::cb_timer_vectores_in(){
-     if (canal1->bestado && ~canal2->bestado){
+     if (canal1->bestado == 1 && canal2->bestado==0){
         Encapsular('L', 'p', '1', '0',0x00,0x00);                //Trama Osc14   
         Transmision();
         if (ch1_muestreado){                                     //El hardware termino de adquirir las muetras del canal 1
@@ -1047,7 +1075,7 @@ void Osciloscopio::cb_timer_vectores_in(){
               recorrer_datos(1);
         }
      }
-     if (canal2->bestado && ~canal1->bestado){
+     if (canal2->bestado==1 && canal1->bestado==0){
         Encapsular('L', 'p', '1', '0',0x00,0x00);
         Transmision();
         if (ch2_muestreado){                                     //El hardware termino de adquirir las muetras del canal 2
@@ -1063,7 +1091,7 @@ void Osciloscopio::cb_timer_vectores_in(){
               recorrer_datos(2);
         }
      }
-     if (canal1->bestado && canal2->bestado){                    
+     if (canal1->bestado==1 && canal2->bestado==1){                    
         Encapsular('L', 'p', '1', '0',0x00,0x00);
         Transmision();
         if (ch1_muestreado && ch2_muestreado){                   //El hardware termino de adquirir las muetras de los 2 canales
@@ -1129,8 +1157,8 @@ void Osciloscopio::recorrer_datos(int num_canal){
            ogrilla->redraw();
            if (icont_datos == 399){             
               itoa(ivpp_ch1,cvpp1,10);             
-              strcpy(odisp_osc1->ccanal,cvpp1);
-              odisp_osc1->redraw();
+              //strcpy(odisp_osc1->ccanal,cvpp1);
+              //odisp_osc1->redraw();
               imayor1 = 0;           // Inicializar el valor mayor para el canal 1
               imenor1 = 510;         // Inicializar el valor menor para el canal 1
               icont_datos = 0;
@@ -1142,11 +1170,12 @@ void Osciloscopio::recorrer_datos(int num_canal){
                  idato_graf_ch1 = buf_osc_ch1[icont];
                  vpp(idato_graf_ch1,0,1);
                  opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); 
-                 ogrilla->redraw();                 
+                 ogrilla->redraw();   
+                 odisp_osc1->redraw();              
              }
              itoa(ivpp_ch1,cvpp1,10);
-             strcpy(odisp_osc1->ccanal,cvpp1);
-             odisp_osc1->redraw();
+             //strcpy(odisp_osc1->ccanal,cvpp1);
+             //odisp_osc1->redraw();
              imayor1 = 0;           // Inicializar el valor mayor para el canal 1
              imenor1 = 510;         // Inicializar el valor menor para el canal 1
         }                
@@ -1162,7 +1191,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
            ogrilla->redraw();
            if (icont_datos == 399){             
               itoa(ivpp_ch2,cvpp2,10);             
-              strcpy(odisp_osc2->ccanal,cvpp2);
+              //strcpy(odisp_osc2->ccanal,cvpp2);
               odisp_osc2->redraw();
               imayor2 = 0;           // Inicializar el valor mayor para el canal 1
               imenor2 = 510;         // Inicializar el valor menor para el canal 1
@@ -1178,7 +1207,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
                 ogrilla->redraw();
             }
             itoa(ivpp_ch2,cvpp2,10);
-            strcpy(odisp_osc2->ccanal,cvpp2);
+            //strcpy(odisp_osc2->ccanal,cvpp2);
             odisp_osc2->redraw();
             imayor2 = 0;           // Inicializar el valor mayor para el canal 1
             imenor2 = 510;         // Inicializar el valor menor para el canal 1
@@ -1215,7 +1244,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
                 idato_graf_ch1 = buf_osc_ch1[icont];
                 idato_graf_ch2 = buf_osc_ch2[icont];
                 if (bsuma == 1){          
-                   opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
+                   opantalla->Add((canal1->opos_x->value()*512)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
                    ogrilla->redraw();              
                 }
                 else if (bresta == 1){     

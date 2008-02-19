@@ -31,7 +31,7 @@ void grid::draw(int xx, int yy, int ww, int hh){
 
 if (bgrilla_analizador == 0 ){   
    if (bgrid){
-   
+      fl_color(_TraceColour);
       fl_line(xx, (hh/8)+yy, ww+xx, (hh/8)+yy);
       fl_line(xx, (hh/4)+yy, ww+xx, (hh/4)+yy);
       fl_line(xx, (hh/2.6667)+yy, ww+xx, (hh/2.6667)+yy);
