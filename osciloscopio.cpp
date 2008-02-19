@@ -1506,10 +1506,10 @@ void Osciloscopio::cb_auto_in(){
               }
               else if (ivpp_ch1 <= 64){
                  if(canal1->ovolt_div->value() < 11){
-                   canal1->omenu_v_div->value(canal1->omenu_v_div->value()+1);
-                   canal1->ovolt_div->value(canal1->ovolt_div->value()+1);
-                   cb_volt_div1_in( canal1->ovolt_div);
-                } 
+                    canal1->omenu_v_div->value(canal1->omenu_v_div->value()+1);
+                    canal1->ovolt_div->value(canal1->ovolt_div->value()+1);
+                    cb_volt_div1_in( canal1->ovolt_div);
+                 } 
               }
           }
 }
