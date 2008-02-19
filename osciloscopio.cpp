@@ -24,7 +24,7 @@ Osciloscopio::Osciloscopio(){
                                
     Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
     strcpy(cnombre,"osc.txt");                                    // Nombre para el archivo de texto donde se almacenan los datos
-    ct_div = '0';                                                 // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
+    ct_div = '1';                                                 // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
     
     //    Inicialización de las variables globales
     

@@ -239,6 +239,11 @@ void Multimetro::escalar_valor(int escala){
                  else if (instrument==ohm){
                     fvalor_escalado = (ivalor_conversion-256)*0.08;
                  }
+                 else if (instrument==continuidad){
+                    fvalor_escalado = (ivalor_conversion-256)*0.078;
+                    /*if (fvalor_escalado < 1)
+                       Beep(1000,1000);*/
+                 }
                  break; 
             case 2:
                  if (instrument==volt_ac){
@@ -336,17 +341,20 @@ void Multimetro::escalar_valor(int escala){
 }
 
 
-/**
- * Callback del botón que activa el medidor de voltaje en ac
-*/
+/*******************************************************************************
+ * Multimetro::cb_volt_ac: Callback del botón que activa el medidor de voltaje 
+ *                         en AC.
+ * El Callaback consta de la función static e inline cb_volt_ac y cb_volt_ac_in.
+ * Los botones de selección de instrumento son excluyentes, es decir que cuando
+ * se activa uno, los demas se desactivan.
+ * Se realiza un llamado al método config_instrumento(), con el parametro
+ * volt_ac.
+*******************************************************************************/
 void Multimetro::cb_volt_ac(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_volt_ac_in();
 }
 
-/**
- * Callback del botón que activa el medidor de voltaje en ac
-*/
 void Multimetro::cb_volt_ac_in(){
      if (ovolt_ac->value()== 0){
         Fl::remove_timeout(cb_timer_mult, this);
@@ -365,7 +373,6 @@ void Multimetro::cb_volt_ac_in(){
         instrument = volt_ac;
         ounidades->label("VAC");
         config_instrumento(volt_ac);
-        //fl_message("escala es: %d",imult_escala);
      }
      else{
           ovolt_ac->box(FL_UP_BOX);
@@ -374,17 +381,21 @@ void Multimetro::cb_volt_ac_in(){
 }
 
 
-/**
- * Callback del botón que activa el medidor de voltaje en dc
-*/
+/*******************************************************************************
+ * Multimetro::cb_volt_dc: Callback del botón que activa el medidor de voltaje 
+ *                         en DC.
+ * El Callaback consta de la función static e inline cb_volt_dc y cb_volt_dc_in.
+ * Los botones de selección de instrumento son excluyentes, es decir que cuando
+ * se activa uno, los demas se desactivan.
+ * Se realiza un llamado al método config_instrumento(), con el parametro
+ * volt_dc.
+*******************************************************************************/
+
 void Multimetro::cb_volt_dc(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_volt_dc_in();
 }
 
-/**
- * Callback del botón que activa el medidor de voltaje en dc
-*/
 void Multimetro::cb_volt_dc_in(){
      if (ovolt_dc->value()== 0){
         Fl::remove_timeout(cb_timer_mult, this);
@@ -411,17 +422,21 @@ void Multimetro::cb_volt_dc_in(){
 }
 
 
-/**
- * Callback del botón que activa el medidor de corriente en ac
-*/
+/*******************************************************************************
+ * Multimetro::cb_amp_ac: Callback del botón que activa el medidor de corriente 
+ *                         en AC.
+ * El Callaback consta de la función static e inline cb_amp_ac y cb_amp_ac_in.
+ * Los botones de selección de instrumento son excluyentes, es decir que cuando
+ * se activa uno, los demas se desactivan.
+ * Se realiza un llamado al método config_instrumento(), con el parametro
+ * amp_ac.
+*******************************************************************************/
+
 void Multimetro::cb_amp_ac(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_amp_ac_in();
 }
 
-/**
- * Callback del botón que activa el medidor de corriente en ac
-*/
 void Multimetro::cb_amp_ac_in(){
     if (oamp_ac->value()== 0){
         Fl::remove_timeout(cb_timer_mult, this);
@@ -440,7 +455,6 @@ void Multimetro::cb_amp_ac_in(){
         oamp_ac->set();
         instrument = amp_ac;
         ounidades->label("AAC");
-        //fl_message("Verifique las puntas de prueba");
         config_instrumento(amp_ac);
      }
      else{
@@ -450,17 +464,21 @@ void Multimetro::cb_amp_ac_in(){
 }
 
 
-/**
- * Callback del botón que activa el medidor de corriente en dc
-*/
+/*******************************************************************************
+ * Multimetro::cb_amp_dc: Callback del botón que activa el medidor de corriente 
+ *                         en DC.
+ * El Callaback consta de la función static e inline cb_amp_dc y cb_amp_dc_in.
+ * Los botones de selección de instrumento son excluyentes, es decir que cuando
+ * se activa uno, los demas se desactivan.
+ * Se realiza un llamado al método config_instrumento(), con el parametro
+ * amp_dc.
+*******************************************************************************/
+
 void Multimetro::cb_amp_dc(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_amp_dc_in();
 }
 
-/**
- * Callback del botón que activa el medidor de corriente en dc
-*/
 void Multimetro::cb_amp_dc_in(){
     if (oamp_dc->value()== 0){
         Fl::remove_timeout(cb_timer_mult, this);
@@ -488,17 +506,21 @@ void Multimetro::cb_amp_dc_in(){
 }
 
 
-/**
- * Callback del botón que activa el medidor de resistencia
-*/
+/*******************************************************************************
+ * Multimetro::cb_ohm: Callback del botón que activa el medidor de resistencia 
+ *  
+ * El Callaback consta de la función static e inline cb_ohm y cb_ohm_in.
+ * Los botones de selección de instrumento son excluyentes, es decir que cuando
+ * se activa uno, los demas se desactivan.
+ * Se realiza un llamado al método config_instrumento(), con el parametro
+ * ohm.
+*******************************************************************************/
+
 void Multimetro::cb_ohm(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_ohm_in();
 }
 
-/**
- * Callback del botón que activa el medidor de resistencia
-*/
 void Multimetro::cb_ohm_in(){
      if (oohm->value()== 0){
         Fl::remove_timeout(cb_timer_mult, this);
@@ -525,17 +547,24 @@ void Multimetro::cb_ohm_in(){
 }
 
 
-/**
- * Callback del botón que activa el medidor de continuidad
-*/
+/*******************************************************************************
+ * Multimetro::cb_cont: Callback del botón que activa el medidor de continuidad 
+ *  
+ * El Callaback consta de la función static e inline cb_cont y cb_cont_in.
+ * Los botones de selección de instrumento son excluyentes, es decir que cuando
+ * se activa uno, los demas se desactivan.
+ * Se realiza un llamado al método config_instrumento(), con el parametro
+ * ohm.
+ * La medición de continuidad se realiza con el ohmetro y se verifica si el 
+ * valor de resistencia es menor que un (1) Ohmio entonces se activa un sonido 
+ * indicador de continuidad.
+*******************************************************************************/
+
 void Multimetro::cb_cont(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_cont_in();
 }
 
-/**
- * Callback del botón que activa el medidor de continuidad
-*/
 void Multimetro::cb_cont_in(){
      if (ocontinuidad->value()== 0){
         Fl::remove_timeout(cb_timer_mult, this);
@@ -554,7 +583,7 @@ void Multimetro::cb_cont_in(){
         instrument = continuidad;
         ounidades->label("Cont");
         config_instrumento(ohm);
-        Beep(1000,1000);
+       // Beep(1000,1000);
      }
      else{
           ocontinuidad->box(FL_UP_BOX);
@@ -563,18 +592,19 @@ void Multimetro::cb_cont_in(){
 }
 
 
-/**
- * 
-*/
+/*******************************************************************************
+ * Multimetro::cb_help: Callback del botón que lanza la ayuda del uso del
+ *                      instrumento. 
+ * El Callaback consta de la función static e inline cb_help y cb_help_in.
+ * Se despliega una ventana de ayuda con un archivo en html con la guía de
+ * usuario del instrumento.
+*******************************************************************************/
+
 void Multimetro::cb_help(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
      pmult->cb_help_in();
 }
 
-/**
- * 
-*/
 void Multimetro::cb_help_in(){
-
       Manual->show();
 }
