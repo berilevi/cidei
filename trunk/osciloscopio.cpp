@@ -22,7 +22,7 @@ int imenor2 = 510;        // Inicializar el valor menor para calcular el vpp del
 //Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) {
 Osciloscopio::Osciloscopio(){
                                
-    Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
+   // Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
     strcpy(cnombre,"osc.txt");                                    // Nombre para el archivo de texto donde se almacenan los datos
     ct_div = '1';                                                 // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
     
@@ -110,7 +110,7 @@ Osciloscopio::Osciloscopio(){
     otiempo_div->round(1);
     //otiempo_div->tooltip("Selector de las escalas de tiempo por división del instrumento");
     
-    omenu_t_div = new Fl_Choice(645,330,60,20,"");                //Menú selector de la escala de tiempo por división
+    omenu_t_div = new Fl_Choice(635,330,80,20,"");                //Menú selector de la escala de tiempo por división
     omenu_t_div->add("0.5s",0,(Fl_Callback *)cb_tdiv05s,this);
     omenu_t_div->add("0.2s",0,(Fl_Callback *)cb_tdiv02s,this);
     omenu_t_div->add("0.1s",0,(Fl_Callback *)cb_tdiv01s,this);               
@@ -270,8 +270,6 @@ void Osciloscopio::cb_osc_on_in(){
             otrigger_ch1->redraw();
             btrigger1 = 1;
             isec_trigger = 1;
-            //strcpy(odisp_osc1->ctrigger,"CH1");
-            //odisp_osc1->redraw();
             ogroup_pos->box(FL_UP_BOX);
             ogroup_dual->box(FL_UP_BOX);
             otiempo_div->value(8);
@@ -280,6 +278,12 @@ void Osciloscopio::cb_osc_on_in(){
             canal1->omenu_v_div->value(0);
             canal1->oacop_ac->color(FL_RED);
             canal1->oacop_ac->redraw();
+            strcpy(odisp_osc1->ctrigger,"Trg-Ch1");
+            strcpy(odisp_osc1->cacople,"AC");
+            strcpy(odisp_osc1->ccanal,"Ch1");
+            strcpy(odisp_osc1->ct_div,"1mS/Dv");
+            strcpy(odisp_osc1->cv_div,"5V/Dv");
+            odisp_osc1->redraw();
             isec_acople=1;
             opantalla->bch1 = 1;
             muestreo_timer(1);                                   //Muestrear por vectores deacuerdo a la escala de tiempo por división.
@@ -352,6 +356,30 @@ void Osciloscopio::cb_osc_on_in(){
          oresta->redraw();
          ox_y->color(FL_GRAY);
          osuma->redraw();
+         canal1->oacop_ac->color(FL_GRAY);
+         canal1->oacop_ac->redraw();
+         canal1->oacop_dc->color(FL_GRAY);
+         canal1->oacop_dc->redraw();
+         canal1->oacop_gnd->color(FL_GRAY);
+         canal1->oacop_gnd->redraw();
+         canal2->oacop_ac->color(FL_GRAY);
+         canal2->oacop_ac->redraw();
+         canal2->oacop_dc->color(FL_GRAY);
+         canal2->oacop_dc->redraw();
+         canal2->oacop_gnd->color(FL_GRAY);
+         canal2->oacop_gnd->redraw();
+         strcpy(odisp_osc1->ctrigger,"       ");
+         strcpy(odisp_osc1->cacople,"  ");
+         strcpy(odisp_osc1->ccanal,"   ");
+         strcpy(odisp_osc1->ct_div,"      ");
+         strcpy(odisp_osc1->cv_div,"     ");
+         odisp_osc1->redraw();
+         strcpy(odisp_osc2->ctrigger,"       ");
+         strcpy(odisp_osc2->cacople,"  ");
+         strcpy(odisp_osc2->ccanal,"   ");
+         strcpy(odisp_osc2->ct_div,"      ");
+         strcpy(odisp_osc2->cv_div,"     ");
+         odisp_osc2->redraw();
          opantalla->bdual = 0;
          opantalla->blissajous = 0;
          oosc_on->box(FL_UP_BOX);
@@ -433,6 +461,9 @@ void Osciloscopio::cb_ch1_on_in(){
            canal1->ogroup_ch->activate();
            canal1->ogroup_ch->box(FL_UP_BOX);
            opantalla->bch1 = 1;
+           strcpy(odisp_osc1->cacople,"AC");
+           strcpy(odisp_osc1->ccanal,"Ch1");
+           odisp_osc1->redraw();
            if (canal2->bestado== 1){                              //Si el canal 2 ya está activo se habilitan las operaciones entre las dos señales
               odual_menu->activate();
            }
@@ -529,6 +560,10 @@ void Osciloscopio::cb_ch2_on_in(){
            canal2->ovolt_div->value(0);
            canal2->omenu_v_div->value(0);
            opantalla->bch2 = 1;
+           strcpy(odisp_osc2->cacople,"AC");
+           strcpy(odisp_osc2->ccanal,"Ch2");
+           strcpy(odisp_osc2->cv_div,"5V/Dv");
+           odisp_osc2->redraw();
            if (canal1->bestado== 1){
               odual_menu->activate();                               //Si el canal 1 está activo se habilitan las operaciones entre las dos señales 
            }
@@ -683,6 +718,8 @@ void Osciloscopio::cb_sel_trigger_in(){
         otrigger_ch2->redraw();
         otrigger_ch1->color(FL_RED);
         otrigger_ch1->redraw();
+        strcpy(odisp_osc1->ctrigger,"Trg-Ch1");
+        odisp_osc1->redraw();
         /* TODO (JuanPablo#1#): Encapsular trama de canal fuente de trigger */
      }
      if (isec_trigger==1){
@@ -690,6 +727,8 @@ void Osciloscopio::cb_sel_trigger_in(){
         otrigger_ch1->redraw();
         otrigger_ch2->color(FL_RED);
         otrigger_ch2->redraw();
+        strcpy(odisp_osc1->ctrigger,"Trg-Ch2");
+        odisp_osc1->redraw();
         isec_trigger=-1;
      }
      isec_trigger++;
@@ -722,81 +761,131 @@ void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
     // if (pselector->value()>=3){                                   // !!!!! Toca cambiarlo a >= 2 
        /*                                                            // !!! agregar las tramas de protocolo faltantes 
        if (pselector->value()== 3){
-           ct_div = '0';                                     
+           ct_div = '0';  
+           strcpy(odisp_osc1->ct_div,"50mS/Dv");
+           odisp_osc1->redraw();                                   
         } 
         else if (pselector->value() == 4){
-            ct_div = '1';                                    
+            ct_div = '1';
+            strcpy(odisp_osc1->ct_div,"20mS/Dv");
+            odisp_osc1->redraw();                                    
         } 
         else if (pselector->value() == 5){
-            ct_div = '2';                                   
+            ct_div = '2';
+            strcpy(odisp_osc1->ct_div,"10mS/Dv");
+            odisp_osc1->redraw();                                   
         } 
         else if (pselector->value() == 6){
-            ct_div = '3';                                    
+            ct_div = '3';
+            strcpy(odisp_osc1->ct_div,"5mS/Dv");
+            odisp_osc1->redraw();                                    
         } 
         else if (pselector->value() == 7){
-            ct_div = '4';                                     
+            ct_div = '4';
+            strcpy(odisp_osc1->ct_div,"2mS/Dv");
+            odisp_osc1->redraw();                                     
         } 
         else if (pselector->value() == 8){
-            ct_div = '5';                                    
+            ct_div = '5';
+            strcpy(odisp_osc1->ct_div,"1mS/Dv");
+            odisp_osc1->redraw();                                    
         }   
         else if (pselector->value() == 9){
-            ct_div = '6';                                    
+            ct_div = '6';
+            strcpy(odisp_osc1->ct_div,"0.5mS/Dv");
+            odisp_osc1->redraw();                                    
         }
         else if (pselector->value() == 10){
-            ct_div = '7';                                    
+            ct_div = '7';  
+            strcpy(odisp_osc1->ct_div,"0.2mS/Dv");
+            odisp_osc1->redraw();                                  
         }
         else if (pselector->value() == 11){
-            ct_div = '8';                                    
+            ct_div = '8';
+            strcpy(odisp_osc1->ct_div,"0.1mS/Dv");
+            odisp_osc1->redraw();                                    
         }
         else if (pselector->value() == 12){
-            ct_div = '9';                                     
+            ct_div = '9';
+            strcpy(odisp_osc1->ct_div,"50uS/Dv");
+            odisp_osc1->redraw();                                     
         }
         else if (pselector->value() == 13){
-            ct_div = 'A';                                     
+            ct_div = 'A';
+            strcpy(odisp_osc1->ct_div,"20uS/Dv");
+            odisp_osc1->redraw();                                     
         }
         else if (pselector->value() == 14){
-            ct_div = 'B';                                     
+            ct_div = 'B';
+            strcpy(odisp_osc1->ct_div,"10uS/Dv");
+            odisp_osc1->redraw();                                     
         }
         else if (pselector->value() == 15){
-            ct_div = 'C';                                     
+            ct_div = 'C';
+            strcpy(odisp_osc1->ct_div,"5uS/Dv");
+            odisp_osc1->redraw();                                     
         }
         else if (pselector->value() == 16){
-            ct_div = 'D';                                     
+            ct_div = 'D';
+            strcpy(odisp_osc1->ct_div,"2uS/Dv");
+            odisp_osc1->redraw();                                     
         }
         else if (pselector->value() == 17){
-            ct_div = 'E';                                     
+            ct_div = 'E';
+            strcpy(odisp_osc1->ct_div,"1uS/Dv");
+            odisp_osc1->redraw();                                     
         }
         */  
      
         if (pselector->value()== 8){
-           ct_div = '1';                                     
+           ct_div = '1'; 
+           strcpy(odisp_osc1->ct_div,"1mS/Dv");
+           odisp_osc1->redraw();                                    
         } 
         else if (pselector->value() == 9){
-            ct_div = '2';                                    
+            ct_div = '2'; 
+            strcpy(odisp_osc1->ct_div,"0.5mS/Dv");
+            odisp_osc1->redraw();                                   
         } 
         else if (pselector->value() == 10){
-            ct_div = '3';                                   
+            ct_div = '3';
+            strcpy(odisp_osc1->ct_div,"0.2mS/Dv");
+            odisp_osc1->redraw();                                   
         } 
         else if (pselector->value() == 11){
-            ct_div = '4';                                    
+            ct_div = '4';   
+            strcpy(odisp_osc1->ct_div,"0.1mS/Dv");
+            odisp_osc1->redraw();                                 
         } 
         else if (pselector->value() == 12){
-            ct_div = '5';                                     
+            ct_div = '5';                 
+            strcpy(odisp_osc1->ct_div,"50uS/Dv");
+            odisp_osc1->redraw();                    
         } 
         else if (pselector->value() == 13){
-            ct_div = '6';                                    
+            ct_div = '6';        
+            strcpy(odisp_osc1->ct_div,"20uS/Dv");
+            odisp_osc1->redraw();                           
         }   
         else if (pselector->value() == 14){
-            ct_div = '7';                                    
+            ct_div = '7';               
+            strcpy(odisp_osc1->ct_div,"10uS/Dv");
+            odisp_osc1->redraw();                     
         }
         else if (pselector->value() == 15){
-            ct_div = '8';                                    
+            ct_div = '8';               
+            strcpy(odisp_osc1->ct_div,"5uS/Dv");
+            odisp_osc1->redraw();                     
         }
         else if (pselector->value() == 16){
-            ct_div = '9';                                    
+            ct_div = '9';               
+            strcpy(odisp_osc1->ct_div,"2uS/Dv");
+            odisp_osc1->redraw();;                     
         }
         else if (pselector->value() == 17){
-            ct_div = 'A';                                     
+            ct_div = 'A';  
+            strcpy(odisp_osc1->ct_div,"1uS/Dv");
+            odisp_osc1->redraw();                                   
         }    
         Encapsular('L','d','1',ct_div,0x00,0x00);                       //Trama de configuración de escala de Tiempo por division menor de 0.1s
         Fl::remove_timeout(cb_timer,this);
@@ -843,50 +932,74 @@ void Osciloscopio::cb_volt_div1_in(Fl_Widget* psel){
      if (int((pselector->value()))== 9){
          Encapsular('A','c','1','A',0x00,0x00);                             //Trama con la configuración seleccionada por el usuario
          Transmision();
+         strcpy(odisp_osc1->cv_div,"5mV/Dv");
+         odisp_osc1->redraw();
      }
      else if (int((pselector->value()))== 10){
         Encapsular('A','c','1','B',0x00,0x00);
          Transmision();
+         strcpy(odisp_osc1->cv_div,"2mV/Dv");
+         odisp_osc1->redraw();
      }
      else if (int((pselector->value()))== 11){
          Encapsular('A','c','1','C',0x00,0x00);
-         Transmision();                            
+         Transmision();              
+         strcpy(odisp_osc1->cv_div,"1mV/Dv");
+         odisp_osc1->redraw();              
      }
      else if (int((pselector->value()))== 0){
          Encapsular('A','c','1','1',0x00,0x00);
-         Transmision();                            
+         Transmision();
+         strcpy(odisp_osc1->cv_div,"5V/Dv");
+         odisp_osc1->redraw();                    
      }
      else if (int((pselector->value()))== 1){
          Encapsular('A','c','1','2',0x00,0x00);
-         Transmision();                            
+         Transmision();
+         strcpy(odisp_osc1->cv_div,"2V/Dv");
+         odisp_osc1->redraw();                            
      }
      else if (int((pselector->value()))== 2){
          Encapsular('A','c','1','3',0x00,0x00);
-         Transmision();                            
+         Transmision();              
+         strcpy(odisp_osc1->cv_div,"1V/Dv");
+         odisp_osc1->redraw();              
      }
      else if (int((pselector->value()))== 3){
          Encapsular('A','c','1','4',0x00,0x00);
-         Transmision();                            
+         Transmision();              
+         strcpy(odisp_osc1->cv_div,"0.5V/Dv");
+         odisp_osc1->redraw();              
      }
      else if (int((pselector->value()))== 4){
          Encapsular('A','c','1','5',0x00,0x00);
-         Transmision();                            
+         Transmision();  
+         strcpy(odisp_osc1->cv_div,"0.2V/Dv");
+         odisp_osc1->redraw();                          
      }
      else if (int((pselector->value()))== 5){
          Encapsular('A','c','1','6',0x00,0x00);
-         Transmision();                            
+         Transmision(); 
+         strcpy(odisp_osc1->cv_div,"0.1V/Dv");
+         odisp_osc1->redraw();                           
      }
      else if (int((pselector->value()))== 6){
          Encapsular('A','c','1','7',0x00,0x00);
-         Transmision();                            
+         Transmision(); 
+         strcpy(odisp_osc1->cv_div,"50mV/Dv");
+         odisp_osc1->redraw();                           
      }
      else if (int((pselector->value()))== 7){
          Encapsular('A','c','1','8',0x00,0x00);
-         Transmision();                            
+         Transmision(); 
+         strcpy(odisp_osc1->cv_div,"20mV/Dv");
+         odisp_osc1->redraw();                           
      }
      else if (int((pselector->value()))== 8){
          Encapsular('A','c','1','9',0x00,0x00);
-         Transmision();                            
+         Transmision();              
+         strcpy(odisp_osc1->cv_div,"10mV/Dv");
+         odisp_osc1->redraw();              
      }
 }
 
@@ -914,50 +1027,74 @@ void Osciloscopio::cb_volt_div2_in(Fl_Widget* psel){
      if (int((pselector->value()))== 9){
          Encapsular('B','c','1','A',0x00,0x00);
          Transmision();
+         strcpy(odisp_osc2->cv_div,"5mV/Dv");
+         odisp_osc2->redraw(); 
      }
      else if (int((pselector->value()))== 10){
         Encapsular('B','c','1','B',0x00,0x00);
          Transmision();
+         strcpy(odisp_osc2->cv_div,"2mV/Dv");
+         odisp_osc2->redraw(); 
      }
      else if (int((pselector->value()))== 11){
          Encapsular('B','c','1','C',0x00,0x00);
-         Transmision();                            
+         Transmision();       
+         strcpy(odisp_osc2->cv_div,"1mV/Dv");
+         odisp_osc2->redraw();                      
      }
      else if (int((pselector->value()))== 0){
          Encapsular('B','c','1','1',0x00,0x00);
-         Transmision();                            
+         Transmision(); 
+         strcpy(odisp_osc2->cv_div,"5V/Dv");
+         odisp_osc2->redraw();                           
      }
      else if (int((pselector->value()))== 1){
          Encapsular('B','c','1','2',0x00,0x00);
-         Transmision();                            
+         Transmision();  
+         strcpy(odisp_osc2->cv_div,"2V/Dv");
+         odisp_osc2->redraw();                          
      }
      else if (int((pselector->value()))== 2){
          Encapsular('B','c','1','3',0x00,0x00);
-         Transmision();                            
+         Transmision();              
+         strcpy(odisp_osc2->cv_div,"1V/Dv");
+         odisp_osc2->redraw();              
      }
      else if (int((pselector->value()))== 3){
          Encapsular('B','c','1','4',0x00,0x00);
-         Transmision();                            
+         Transmision();       
+         strcpy(odisp_osc2->cv_div,"0.5V/Dv");
+         odisp_osc2->redraw();                     
      }
      else if (int((pselector->value()))== 4){
          Encapsular('B','c','1','5',0x00,0x00);
-         Transmision();                            
+         Transmision();               
+         strcpy(odisp_osc2->cv_div,"0.2V/Dv");
+         odisp_osc2->redraw();             
      }
      else if (int((pselector->value()))== 5){
          Encapsular('B','c','1','6',0x00,0x00);
-         Transmision();                            
+         Transmision();                
+         strcpy(odisp_osc2->cv_div,"0.1V/Dv");
+         odisp_osc2->redraw();            
      }
      else if (int((pselector->value()))== 6){
          Encapsular('B','c','1','7',0x00,0x00);
-         Transmision();                            
+         Transmision();                
+         strcpy(odisp_osc2->cv_div,"50mV/Dv");
+         odisp_osc2->redraw();            
      }
      else if (int((pselector->value()))== 7){
          Encapsular('B','c','1','8',0x00,0x00);
-         Transmision();                            
+         Transmision(); 
+         strcpy(odisp_osc2->cv_div,"20mV/Dv");
+         odisp_osc2->redraw();                            
      }
      else if (int((pselector->value()))== 8){
          Encapsular('B','c','1','9',0x00,0x00);
-         Transmision();                            
+         Transmision();
+         strcpy(odisp_osc2->cv_div,"10mV/Dv");
+         odisp_osc2->redraw();                             
      }
 }
 
@@ -1146,71 +1283,108 @@ void Osciloscopio::recorrer_datos(int num_canal){
      char cvpp1 [4];
      char cvpp2 [4];
      if (num_canal == 1){
-     opantalla->TraceColour(Fl_Color(canal1->ncolor));
-     free(opantalla->ScopeData2);                         
-        if (otiempo_div->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
-        //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2 
-           icont_datos ++;
-           idato_graf_ch1 = idato_osc_ch1;
-           vpp(idato_osc_ch1,0,1);
-           opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); 
-           ogrilla->redraw();
-           if (icont_datos == 399){             
-              itoa(ivpp_ch1,cvpp1,10);             
-              //strcpy(odisp_osc1->ccanal,cvpp1);
-              //odisp_osc1->redraw();
-              imayor1 = 0;           // Inicializar el valor mayor para el canal 1
-              imenor1 = 510;         // Inicializar el valor menor para el canal 1
-              icont_datos = 0;
-           }
+        opantalla->TraceColour(Fl_Color(canal1->ncolor));
+        free(opantalla->ScopeData2);
+        if (isec_acople==2){
+           if (otiempo_div->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
+            //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
+                 opantalla->Add((canal1->opos_x->value()*255)+33000,255); 
+                 ogrilla->redraw();
+                 odisp_osc1->redraw();
+            }
+            else{
+                 for(icont=0;icont < 571; icont++){
+                     opantalla->Add((canal1->opos_x->value()*255)+33000,255); 
+                     ogrilla->redraw();   
+                     odisp_osc1->redraw();              
+                 }
+            }              
         }
-        else{
-             //for(icont=0;icont < DATA_OSC-1; icont++){
-             for(icont=0;icont < 571; icont++){
-                 idato_graf_ch1 = buf_osc_ch1[icont];
-                 vpp(idato_graf_ch1,0,1);
+        else{                        
+            if (otiempo_div->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
+            //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2 
+                 icont_datos ++;
+                 idato_graf_ch1 = idato_osc_ch1;
+                 vpp(idato_osc_ch1,0,1);
                  opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); 
-                 ogrilla->redraw();   
-                 odisp_osc1->redraw();              
-             }
-             itoa(ivpp_ch1,cvpp1,10);
-             //strcpy(odisp_osc1->ccanal,cvpp1);
-             //odisp_osc1->redraw();
-             imayor1 = 0;           // Inicializar el valor mayor para el canal 1
-             imenor1 = 510;         // Inicializar el valor menor para el canal 1
-        }                
+                 ogrilla->redraw();
+                 odisp_osc1->redraw();
+                 if (icont_datos == 399){             
+                    //itoa(ivpp_ch1,cvpp1,10);             
+                    //strcpy(odisp_osc1->ccanal,cvpp1);
+                    //odisp_osc1->redraw();
+                    imayor1 = 0;           // Inicializar el valor mayor para el canal 1
+                    imenor1 = 510;         // Inicializar el valor menor para el canal 1
+                    icont_datos = 0;
+                 }
+            }
+            else{
+                 //for(icont=0;icont < DATA_OSC-1; icont++){
+                 for(icont=0;icont < 571; icont++){
+                     idato_graf_ch1 = buf_osc_ch1[icont];
+                     vpp(idato_graf_ch1,0,1);
+                     opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),255); 
+                     ogrilla->redraw();   
+                     odisp_osc1->redraw();              
+                 }
+                 itoa(ivpp_ch1,cvpp1,10);
+                 //strcpy(odisp_osc1->ccanal,cvpp1);
+                 //odisp_osc1->redraw();
+                 imayor1 = 0;           // Inicializar el valor mayor para el canal 1
+                 imenor1 = 510;         // Inicializar el valor menor para el canal 1
+            }                
+       }
      }
      if (num_canal == 2){
-        opantalla->TraceColour(Fl_Color(canal2->ncolor));                                
-        if (otiempo_div->value()<8){                                  // !!!!!!!!!Toca cambiarlo a < 2 
-        //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
-           icont_datos ++;
-           idato_graf_ch2 = idato_osc_ch2;
-           vpp(0,idato_osc_ch2,2);
-           opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); 
-           ogrilla->redraw();
-           if (icont_datos == 399){             
-              itoa(ivpp_ch2,cvpp2,10);             
-              //strcpy(odisp_osc2->ccanal,cvpp2);
-              odisp_osc2->redraw();
-              imayor2 = 0;           // Inicializar el valor mayor para el canal 1
-              imenor2 = 510;         // Inicializar el valor menor para el canal 1
-              icont_datos = 0;
-           }
-        }
-        else{
-            //for(icont=0;icont < DATA_OSC-1; icont++){ 
-            for(icont=0;icont < 571; icont++){ 
-                idato_graf_ch2 = buf_osc_ch2[icont];
-                vpp(0,idato_graf_ch2,2);
-                opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); 
-                ogrilla->redraw();
+        opantalla->TraceColour(Fl_Color(canal2->ncolor)); 
+        if (isec_acople2==2){
+           if (otiempo_div->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
+            //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
+                 opantalla->Add(255,(canal2->opos_x->value()*255)+33000); 
+                 ogrilla->redraw();
+                 odisp_osc2->redraw();
             }
-            itoa(ivpp_ch2,cvpp2,10);
-            //strcpy(odisp_osc2->ccanal,cvpp2);
-            odisp_osc2->redraw();
-            imayor2 = 0;           // Inicializar el valor mayor para el canal 1
-            imenor2 = 510;         // Inicializar el valor menor para el canal 1
+            else{
+                 for(icont=0;icont < 571; icont++){
+                     opantalla->Add(255,(canal2->opos_x->value()*255)+33000); 
+                     ogrilla->redraw();   
+                     odisp_osc2->redraw();              
+                 }
+            }              
+        }
+        else {                               
+             if (otiempo_div->value()<8){                                  // !!!!!!!!!Toca cambiarlo a < 2 
+             //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
+                  icont_datos ++;
+                  idato_graf_ch2 = idato_osc_ch2;
+                  vpp(0,idato_osc_ch2,2);
+                  opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); 
+                  ogrilla->redraw();
+                  odisp_osc2->redraw();
+                  if (icont_datos == 399){             
+                     itoa(ivpp_ch2,cvpp2,10);             
+                     //strcpy(odisp_osc2->ccanal,cvpp2);
+                     //odisp_osc2->redraw();
+                     imayor2 = 0;           // Inicializar el valor mayor para el canal 1
+                     imenor2 = 510;         // Inicializar el valor menor para el canal 1
+                     icont_datos = 0;
+                  }
+             }
+             else{
+                  //for(icont=0;icont < DATA_OSC-1; icont++){ 
+                  for(icont=0;icont < 571; icont++){ 
+                     idato_graf_ch2 = buf_osc_ch2[icont];
+                     vpp(0,idato_graf_ch2,2);
+                     opantalla->Add(255,(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); 
+                     ogrilla->redraw();
+                     odisp_osc2->redraw();
+                  }
+                  itoa(ivpp_ch2,cvpp2,10);
+                  //strcpy(odisp_osc2->ccanal,cvpp2);
+                  //odisp_osc2->redraw();
+                  imayor2 = 0;           // Inicializar el valor mayor para el canal 1
+                  imenor2 = 510;         // Inicializar el valor menor para el canal 1
+             }
         }                 
      }
      if (num_canal == 3){
@@ -1236,6 +1410,8 @@ void Osciloscopio::recorrer_datos(int num_canal){
            else if (bx_y == 0 && bsuma == 0 && bresta == 0){       
                 opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
                 ogrilla->redraw();
+                odisp_osc1->redraw();
+                odisp_osc2->redraw();
            }
         }
         else{
@@ -1243,12 +1419,13 @@ void Osciloscopio::recorrer_datos(int num_canal){
             for(icont=0;icont < 571; icont++){
                 idato_graf_ch1 = buf_osc_ch1[icont];
                 idato_graf_ch2 = buf_osc_ch2[icont];
-                if (bsuma == 1){          
-                   opantalla->Add((canal1->opos_x->value()*512)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
+                if (bsuma == 1){ 
+                   opantalla->Add((-65000)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
                    ogrilla->redraw();              
                 }
                 else if (bresta == 1){     
-                   opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
+                   //opantalla->Add((canal1->opos_x->value()*512)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
+                   opantalla->Add((35000)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
                    ogrilla->redraw();               
                 }
                 else if (bx_y == 1){              
@@ -1260,6 +1437,8 @@ void Osciloscopio::recorrer_datos(int num_canal){
                 else if (bx_y == 0 && bsuma == 0 && bresta == 0){
                      opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
                      ogrilla->redraw();
+                     odisp_osc1->redraw();
+                     odisp_osc2->redraw();
                 }
             }              
         }                   
@@ -1285,15 +1464,12 @@ void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany){
 
 void Osciloscopio::cb_log_osc_in(){
     ofstream log("osc_ch1.txt");
-    //for(int icont=0;icont < DATA_OSC-1; icont++){
     for(int icont=0;icont < 571; icont++){
          log << buf_osc_ch1[icont] << endl;             
     }
 	log.close(); 
-	
-	
+		
 	ofstream log2("osc_ch2.txt");
-    //for(int icont=0;icont < DATA_OSC-1; icont++){
     for(int icont=0;icont < 571; icont++){
          log2 << buf_osc_ch2[icont] << endl;             
     }
@@ -1347,6 +1523,8 @@ void Osciloscopio::cb_acople1_in(){
      if (bhardware){
         canal1->oacop_ac->color(FL_RED);
         canal1->oacop_ac->redraw();
+        strcpy(odisp_osc1->cacople,"AC");
+        odisp_osc1->redraw();
      }
      else{
          fl_message("Error de hardware"); 
@@ -1360,6 +1538,8 @@ void Osciloscopio::cb_acople1_in(){
      if (bhardware){
         canal1->oacop_dc->color(FL_RED);
         canal1->oacop_dc->redraw();
+        strcpy(odisp_osc1->cacople,"DC");
+        odisp_osc1->redraw();
      }
      else{
          fl_message("Error de hardware"); 
@@ -1373,6 +1553,8 @@ void Osciloscopio::cb_acople1_in(){
       if (bhardware){
          canal1->oacop_gnd->color(FL_RED);
          canal1->oacop_gnd->redraw();
+         strcpy(odisp_osc1->cacople,"GND");
+         odisp_osc1->redraw();
       }
      else{
          fl_message("Error de hardware"); 
@@ -1408,6 +1590,8 @@ void Osciloscopio::cb_acople2_in(){
      if (bhardware){
         canal2->oacop_ac->color(FL_RED);
         canal2->oacop_ac->redraw();
+        strcpy(odisp_osc2->cacople,"AC");
+        odisp_osc2->redraw();
      }
      else{
          fl_message("Error de hardware"); 
@@ -1421,6 +1605,8 @@ void Osciloscopio::cb_acople2_in(){
      if (bhardware){
         canal2->oacop_dc->color(FL_RED);
         canal2->oacop_dc->redraw();
+        strcpy(odisp_osc2->cacople,"DC");
+        odisp_osc2->redraw();
      }
      else{
          fl_message("Error de hardware"); 
@@ -1434,6 +1620,8 @@ void Osciloscopio::cb_acople2_in(){
       if (bhardware){
          canal2->oacop_gnd->color(FL_RED);
          canal2->oacop_gnd->redraw();
+         strcpy(odisp_osc2->cacople,"GND");
+         odisp_osc2->redraw();
       }
      else{
          fl_message("Error de hardware"); 

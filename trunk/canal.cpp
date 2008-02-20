@@ -18,22 +18,22 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      opos_x->range(-100,100);
      opos_x->step(1);
      opos_x->round(1);
-     ovolt_div = new Fl_Knob ((x+10),(y+75),75,75,"Vol/Div");      //Selector de escala de Voltios por División
+     ovolt_div = new Fl_Knob ((x+10),(y+75),75,75,"Vol-Div");      //Selector de escala de Voltios por División
      ovolt_div->step(1);
      ovolt_div->labelsize(9);
      ovolt_div->color(147);
      ovolt_div->type(8);
      ovolt_div->scaleticks(11);
      ovolt_div->range(0,11);
-     omenu_v_div = new Fl_Choice((x+93),(y+105),50,18,"V/DIV");    //Menú de las escalas de Voltios por División
+     omenu_v_div = new Fl_Choice((x+85),(y+105),60,18,"");    //Menú de las escalas de Voltios por División
      omenu_v_div->labelsize(10);
      omenu_v_div->align(FL_ALIGN_TOP);
      omenu_v_div->add("5",0,(Fl_Callback *)cb_vdiv5,this);
      omenu_v_div->add("2",0,(Fl_Callback *)cb_vdiv2,this);
      omenu_v_div->add("1",0,(Fl_Callback *)cb_vdiv1,this);
-     omenu_v_div->add("0.5",0,(Fl_Callback *)cb_vdiv05,this);
-     omenu_v_div->add("0.2",0,(Fl_Callback *)cb_vdiv02,this);
-     omenu_v_div->add("0.1",0,(Fl_Callback *)cb_vdiv01,this);
+     omenu_v_div->add("05",0,(Fl_Callback *)cb_vdiv05,this);
+     omenu_v_div->add("02",0,(Fl_Callback *)cb_vdiv02,this);
+     omenu_v_div->add("01",0,(Fl_Callback *)cb_vdiv01,this);
      omenu_v_div->add("50m",0,(Fl_Callback *)cb_vdiv50m,this);
      omenu_v_div->add("20m",0,(Fl_Callback *)cb_vdiv20m,this);
      omenu_v_div->add("10m",0,(Fl_Callback *)cb_vdiv10m,this);
