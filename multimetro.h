@@ -13,6 +13,7 @@
 #include <FL/Fl_Help_Dialog.h>
 #include <FL/Fl_Box.H>
 #include <FL/fl_ask.H>
+#include <FL/Fl_Check_Button.H>
 #include <iostream>
 #include <string>
 
@@ -79,6 +80,9 @@ private:
          //Callback del botón que activa la ayuda del instrumento. 
          static void cb_help(Fl_Widget*, void *);
          inline void cb_help_in();
+         //Callback del botón que activa la ayuda flotante de los botones del instrumento. 
+         static void cb_ayuda(Fl_Widget*, void *);
+         inline void cb_ayuda_in();
          //Envia la información al hardware para configurar cada instrumento del multimetro.
          void config_instrumento(int);
          //Calcula el valor de la medición en el rango de escala en que se encuentre.
@@ -87,6 +91,8 @@ private:
 		inst instrument;
 		// Boton que habilita la ayuda para el uso del instrumento.
         Fl_Button *ohelp_mult;
+        //Botón que habilita la ayuda flotante para el uso de los botones del instrumento. 
+        Fl_Check_Button *oayudaMult;
 		//Botón de activación del medidor de voltaje en ac.
 		Fl_Button *ovolt_ac;
 		//Botón de activación del medidor de voltaje en dc.

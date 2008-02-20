@@ -1280,6 +1280,9 @@ void Osciloscopio::cb_timer_vectores_in(){
  * ser graficado.
  * Si la escala de tiempo por división es mayor que 2 se debe recorrer el arreglo
  * para enviar dato por dato.
+ * bacopleGndX: Representa si el canal X:(1 ó 2) se encuentran en acople GND.
+ *              Si el canal se encuentra en acople GND, se gráfica una linea 
+ *              en el eje x de la pantalla, representando 0 voltios.  
 *******************************************************************************/
 
 void Osciloscopio::recorrer_datos(int num_canal){
