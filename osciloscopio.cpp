@@ -16,6 +16,8 @@ int imayor1 = 0;          // Inicializar el valor mayor para calcular el vpp del
 int imenor1 = 510;        // Inicializar el valor menor para calcular el vpp del canal 1
 int imayor2 = 0;          // Inicializar el valor mayor para calcular el vpp del canal 2
 int imenor2 = 510;        // Inicializar el valor menor para calcular el vpp del canal 2
+bool bacopleGnd1 = 0;     // Variable global que indica si el canal 1 está en acople gnd.
+bool bacopleGnd2 = 0;     // Variable global que indica si el canal 2 está en acople gnd.
 
 
 // Constructor de clase
@@ -380,6 +382,8 @@ void Osciloscopio::cb_osc_on_in(){
          strcpy(odisp_osc2->ct_div,"      ");
          strcpy(odisp_osc2->cv_div,"     ");
          odisp_osc2->redraw();
+         bacopleGnd1 = 0;
+         bacopleGnd2 = 0;
          opantalla->bdual = 0;
          opantalla->blissajous = 0;
          oosc_on->box(FL_UP_BOX);
@@ -1285,7 +1289,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      if (num_canal == 1){
         opantalla->TraceColour(Fl_Color(canal1->ncolor));
         free(opantalla->ScopeData2);
-        if (isec_acople==2){
+        if (bacopleGnd1 == 1){
            if (otiempo_div->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
             //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
                  opantalla->Add((canal1->opos_x->value()*255)+33000,255); 
@@ -1310,9 +1314,6 @@ void Osciloscopio::recorrer_datos(int num_canal){
                  ogrilla->redraw();
                  odisp_osc1->redraw();
                  if (icont_datos == 399){             
-                    //itoa(ivpp_ch1,cvpp1,10);             
-                    //strcpy(odisp_osc1->ccanal,cvpp1);
-                    //odisp_osc1->redraw();
                     imayor1 = 0;           // Inicializar el valor mayor para el canal 1
                     imenor1 = 510;         // Inicializar el valor menor para el canal 1
                     icont_datos = 0;
@@ -1328,8 +1329,6 @@ void Osciloscopio::recorrer_datos(int num_canal){
                      odisp_osc1->redraw();              
                  }
                  itoa(ivpp_ch1,cvpp1,10);
-                 //strcpy(odisp_osc1->ccanal,cvpp1);
-                 //odisp_osc1->redraw();
                  imayor1 = 0;           // Inicializar el valor mayor para el canal 1
                  imenor1 = 510;         // Inicializar el valor menor para el canal 1
             }                
@@ -1337,7 +1336,7 @@ void Osciloscopio::recorrer_datos(int num_canal){
      }
      if (num_canal == 2){
         opantalla->TraceColour(Fl_Color(canal2->ncolor)); 
-        if (isec_acople2==2){
+        if (bacopleGnd2 == 1){
            if (otiempo_div->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
             //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
                  opantalla->Add(255,(canal2->opos_x->value()*255)+33000); 
@@ -1362,11 +1361,8 @@ void Osciloscopio::recorrer_datos(int num_canal){
                   ogrilla->redraw();
                   odisp_osc2->redraw();
                   if (icont_datos == 399){             
-                     itoa(ivpp_ch2,cvpp2,10);             
-                     //strcpy(odisp_osc2->ccanal,cvpp2);
-                     //odisp_osc2->redraw();
-                     imayor2 = 0;           // Inicializar el valor mayor para el canal 1
-                     imenor2 = 510;         // Inicializar el valor menor para el canal 1
+                     imayor2 = 0;           // Inicializar el valor mayor para el canal 2
+                     imenor2 = 510;         // Inicializar el valor menor para el canal 2
                      icont_datos = 0;
                   }
              }
@@ -1379,69 +1375,177 @@ void Osciloscopio::recorrer_datos(int num_canal){
                      ogrilla->redraw();
                      odisp_osc2->redraw();
                   }
-                  itoa(ivpp_ch2,cvpp2,10);
-                  //strcpy(odisp_osc2->ccanal,cvpp2);
-                  //odisp_osc2->redraw();
                   imayor2 = 0;           // Inicializar el valor mayor para el canal 1
                   imenor2 = 510;         // Inicializar el valor menor para el canal 1
              }
         }                 
      }
-     if (num_canal == 3){
-        if (otiempo_div->value()<8){                                      // !!!!!!!!!Toca cambiarlo a < 2
-        //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
-           opantalla->TraceColour(Fl_Color(canal2->ncolor));           
-           idato_graf_ch2 = idato_osc_ch2;
-           idato_graf_ch1 = idato_osc_ch1; 
-           if (bsuma == 1){
-              opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255);
-              ogrilla->redraw();
-           }
-           else if (bresta == 1){
-               opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255);  
-               ogrilla->redraw(); 
-           }
-           else if (bx_y == 1){     
-                opantalla->bdual = 1;
-                opantalla->blissajous = 1;
-                opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
-                ogrilla->redraw();
-           }
-           else if (bx_y == 0 && bsuma == 0 && bresta == 0){       
-                opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
-                ogrilla->redraw();
-                odisp_osc1->redraw();
-                odisp_osc2->redraw();
-           }
-        }
-        else{
-            //for(icont=0;icont < DATA_OSC-1; icont++){
-            for(icont=0;icont < 571; icont++){
-                idato_graf_ch1 = buf_osc_ch1[icont];
-                idato_graf_ch2 = buf_osc_ch2[icont];
-                if (bsuma == 1){ 
-                   opantalla->Add((-65000)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
-                   ogrilla->redraw();              
-                }
-                else if (bresta == 1){     
-                   //opantalla->Add((canal1->opos_x->value()*512)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
-                   opantalla->Add((35000)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
-                   ogrilla->redraw();               
-                }
-                else if (bx_y == 1){              
-                   opantalla->bdual = 1;
-                   opantalla->blissajous = 1;
-                   opantalla->Add((idato_graf_ch1*255),(idato_graf_ch2*255)); 
-                   ogrilla->redraw();           
-                }
-                else if (bx_y == 0 && bsuma == 0 && bresta == 0){
-                     opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
-                     ogrilla->redraw();
-                     odisp_osc1->redraw();
-                     odisp_osc2->redraw();
-                }
-            }              
-        }                   
+     if (num_canal == 3){         
+             if (otiempo_div->value()<8){                                      // !!!!!!!!!Toca cambiarlo a < 2
+             //if (otiempo_div->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
+                  opantalla->TraceColour(Fl_Color(canal2->ncolor));           
+                  idato_graf_ch2 = idato_osc_ch2;
+                  idato_graf_ch1 = idato_osc_ch1; 
+                  if (bsuma == 1){
+                     if (bacopleGnd1 == 1){
+                           opantalla->bdual=0;            
+                           opantalla->Add((canal1->opos_x->value()*255)+33000,(canal2->opos_x->value()*255)+(idato_graf_ch2*255));
+                           ogrilla->redraw();
+                           odisp_osc1->redraw();
+                           odisp_osc2->redraw();
+                        }
+                        else if (bacopleGnd2 == 1){
+                             opantalla->bdual=0;
+                             opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+33000);
+                             ogrilla->redraw();
+                             odisp_osc1->redraw();
+                             odisp_osc2->redraw();
+                        } 
+                        else {
+                             opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255);
+                             ogrilla->redraw();
+                        }
+                  }
+                  else if (bresta == 1){
+                       if (bacopleGnd1 == 1){
+                           opantalla->bdual=0;            
+                           opantalla->Add((canal1->opos_x->value()*255)+33000,(canal2->opos_x->value()*255)+(idato_graf_ch2*255));
+                           ogrilla->redraw();
+                           odisp_osc1->redraw();
+                           odisp_osc2->redraw();
+                        }
+                        else if (bacopleGnd2 == 1){
+                             opantalla->bdual=0;
+                             opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+33000);
+                             ogrilla->redraw();
+                             odisp_osc1->redraw();
+                             odisp_osc2->redraw();
+                        } 
+                        else {
+                             opantalla->Add((canal1->opos_x->value()*255)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255);  
+                             ogrilla->redraw();
+                        } 
+                  }
+                  else if (bx_y == 1){     
+                       opantalla->bdual = 1;
+                       opantalla->blissajous = 1;
+                       opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
+                       ogrilla->redraw();
+                  }
+                  else if (bx_y == 0 && bsuma == 0 && bresta == 0){       
+                       if (bacopleGnd2 == 1 && bacopleGnd1 == 1){
+                           opantalla->bdual=0;            
+                           opantalla->Add((canal1->opos_x->value()*255)+33000,(canal2->opos_x->value()*255)+33000);
+                           ogrilla->redraw();
+                           odisp_osc1->redraw();
+                           odisp_osc2->redraw();
+                        }
+                        else if (bacopleGnd2 == 1){
+                             opantalla->bdual=0;
+                             opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+33000);
+                             ogrilla->redraw();
+                             odisp_osc1->redraw();
+                             odisp_osc2->redraw();
+                        } 
+                        else if (bacopleGnd1 == 1){
+                             opantalla->bdual=0;
+                             opantalla->Add((canal1->opos_x->value()*255)+33000,(canal2->opos_x->value()*255)+(idato_graf_ch2*255));
+                             ogrilla->redraw();
+                             odisp_osc1->redraw();
+                             odisp_osc2->redraw();
+                        }
+                        else {
+                          opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
+                          ogrilla->redraw();
+                          odisp_osc1->redraw();
+                          odisp_osc2->redraw();
+                        }
+                  }
+             }
+             else{
+                  //for(icont=0;icont < DATA_OSC-1; icont++){
+                  for(icont=0;icont < 571; icont++){
+                     idato_graf_ch1 = buf_osc_ch1[icont];
+                     idato_graf_ch2 = buf_osc_ch2[icont];
+                     if (bsuma == 1){ 
+                        if (bacopleGnd1 == 1){
+                           opantalla->bdual=0;            
+                           opantalla->Add((canal1->opos_x->value()*255)+33000,(canal2->opos_x->value()*255)+(idato_graf_ch2*255));
+                           ogrilla->redraw();
+                           odisp_osc1->redraw();
+                           odisp_osc2->redraw();
+                        }
+                        else if (bacopleGnd2 == 1){
+                             opantalla->bdual=0;
+                             opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+33000);
+                             ogrilla->redraw();
+                             odisp_osc1->redraw();
+                             odisp_osc2->redraw();
+                        } 
+                        else {       
+                             opantalla->bdual=1;
+                             opantalla->Add((-65000)+((idato_graf_ch2*255)+(idato_graf_ch1*255)),255); //es  
+                             ogrilla->redraw();
+                        }              
+                     }
+                     else if (bresta == 1){
+                          if (bacopleGnd1 == 1){
+                           opantalla->bdual=0;            
+                           opantalla->Add((canal1->opos_x->value()*255)+33000,(canal2->opos_x->value()*255)+(idato_graf_ch2*255));
+                           ogrilla->redraw();
+                           odisp_osc1->redraw();
+                           odisp_osc2->redraw();
+                        }
+                        else if (bacopleGnd2 == 1){
+                             opantalla->bdual=0;
+                             opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+33000);
+                             ogrilla->redraw();
+                             odisp_osc1->redraw();
+                             odisp_osc2->redraw();
+                        } 
+                        else {     
+                          //opantalla->Add((canal1->opos_x->value()*512)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
+                          opantalla->Add((35000)+((idato_graf_ch2*255)-(idato_graf_ch1*255)),255); //es 
+                          ogrilla->redraw();
+                        }               
+                     }
+                     else if (bx_y == 1){              
+                          opantalla->bdual = 1;
+                          opantalla->blissajous = 1;
+                          opantalla->Add((idato_graf_ch1*255),(idato_graf_ch2*255)); 
+                          ogrilla->redraw();           
+                     }
+                     else if (bx_y == 0 && bsuma == 0 && bresta == 0){
+                        if (bacopleGnd2 == 1 && bacopleGnd1 == 1){
+                           opantalla->bdual=0;            
+                           opantalla->Add((canal1->opos_x->value()*255)+33000,(canal2->opos_x->value()*255)+33000);
+                           ogrilla->redraw();
+                           odisp_osc1->redraw();
+                           odisp_osc2->redraw();
+                        }
+                        else if (bacopleGnd2 == 1){
+                             opantalla->bdual=0;
+                             opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+33000);
+                             ogrilla->redraw();
+                             odisp_osc1->redraw();
+                             odisp_osc2->redraw();
+                        } 
+                        else if (bacopleGnd1 == 1){
+                             opantalla->bdual=0;
+                             opantalla->Add((canal1->opos_x->value()*255)+33000,(canal2->opos_x->value()*255)+(idato_graf_ch2*255));
+                             ogrilla->redraw();
+                             odisp_osc1->redraw();
+                             odisp_osc2->redraw();
+                        }
+                        else {
+                          opantalla->Add((canal1->opos_x->value()*255)+(idato_graf_ch1*255),(canal2->opos_x->value()*255)+(idato_graf_ch2*255)); //es
+                          ogrilla->redraw();
+                          odisp_osc1->redraw();
+                          odisp_osc2->redraw();
+                        }
+                     }
+                  }              
+             }                   
      }      
 }
 
@@ -1518,6 +1622,7 @@ void Osciloscopio::cb_acople1_in(){
   if (isec_acople==0){
      canal1->oacop_gnd->color(FL_GRAY);
      canal1->oacop_gnd->redraw();
+     bacopleGnd1 = 0;
      Encapsular('A', 'e', '1', '2',0x00,0x00);
      Transmision();
      if (bhardware){
@@ -1553,6 +1658,7 @@ void Osciloscopio::cb_acople1_in(){
       if (bhardware){
          canal1->oacop_gnd->color(FL_RED);
          canal1->oacop_gnd->redraw();
+         bacopleGnd1 = 1;
          strcpy(odisp_osc1->cacople,"GND");
          odisp_osc1->redraw();
       }
@@ -1585,6 +1691,7 @@ void Osciloscopio::cb_acople2_in(){
   if (isec_acople2==0){
      canal2->oacop_gnd->color(FL_GRAY);
      canal2->oacop_gnd->redraw();
+     bacopleGnd2 = 0;
      Encapsular('B', 'e', '1', '2',0x00,0x00);
      Transmision();
      if (bhardware){
@@ -1620,6 +1727,7 @@ void Osciloscopio::cb_acople2_in(){
       if (bhardware){
          canal2->oacop_gnd->color(FL_RED);
          canal2->oacop_gnd->redraw();
+         bacopleGnd2 = 1;
          strcpy(odisp_osc2->cacople,"GND");
          odisp_osc2->redraw();
       }
