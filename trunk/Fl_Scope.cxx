@@ -187,7 +187,8 @@ else if (bdual==1){                                              /* Si el oscilo
           else{
                fl_color(_TraceColour);
                fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
-               xx++;
+               //xx++;
+               xx= xx+2;
           }
 
           Ptr2++;                                                /* Incrementar en 1 la direccion de los apuntadores*/
