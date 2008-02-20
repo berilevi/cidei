@@ -16,6 +16,7 @@
 Multimetro::Multimetro(){
                             
     //Fl_Tooltip::disable();
+    Fl_Tooltip::enable();
     fvalor_escalado = 0.0;
     strcpy(cvalor,"0.000");                                                     //Inicialización del valor mostrado en el dsiplay
     strcpy(cnombre,"mult.txt"); 
@@ -37,7 +38,10 @@ Multimetro::Multimetro(){
     ounidades->color(FL_BLACK);
     ohelp_mult  = new Fl_Button (935,23,40,16,"Help");                          //Botón que inicia la ventana de ayuda de uso del instrumento.
     ohelp_mult->labelsize(9);
-    //ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
+    ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
+    
+    oayudaMult = new Fl_Check_Button(985,20,20,20,"");
+    
     ovolt_ac = new Fl_Button(765,189,63,35,"V_ac");                             //Botón que activa el instrumento voltímetro AC.   
     ovolt_ac->clear();
     ovolt_ac->box(FL_UP_BOX);
@@ -69,6 +73,7 @@ Multimetro::Multimetro(){
     oohm->callback(cb_ohm, this);
     ocontinuidad->callback(cb_cont, this);
     ohelp_mult->callback(cb_help,this);
+    oayudaMult->callback(cb_ayuda,this);
 }
 
 // class destructor
@@ -607,4 +612,24 @@ void Multimetro::cb_help(Fl_Widget* pboton, void *any){
 
 void Multimetro::cb_help_in(){
       Manual->show();
+}
+
+
+/*******************************************************************************
+ * Multimetro::cb_ayuda: Callback del botón que activa los globos de ayuda
+ *                       flotante para cada botón del multímetro.
+ * El Callaback consta de la función static e inline cb_ayuda y cb_ayuda_in.
+*******************************************************************************/
+void Multimetro::cb_ayuda(Fl_Widget* pboton, void *pany){
+     Multimetro* pmult=(Multimetro*)pany;
+     pmult->cb_ayuda_in();
+}
+
+void Multimetro::cb_ayuda_in(){
+     if (oayudaMult->value() == 1){
+        Fl_Tooltip::enable();
+     }
+     else{
+         Fl_Tooltip::disable(); 
+     }
 }
