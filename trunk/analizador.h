@@ -69,6 +69,8 @@ class Analizador : public Instrumento {
 		 */
 	    //char **pdata_analizador;
 	    char pdata_analizador [TAM_ALMACENADO][9];
+	    //char **pdata_analizador hexadecimal;
+	    //char pdata_analizador [TAM_ALMACENADO][9];
         /**
 		 * Objeto de la clase scope que representa la pantalla del analizador 
 		 * donde se grafica la señal digitalizada por el canal.
@@ -278,6 +280,18 @@ class Analizador : public Instrumento {
          * para realizar los llamados de callback del timer 
          */
          inline void cb_timer_ana_in();
+         //Callback de la primera frecuencia de muestreo del analizador 
+		 static void cbfrec1(Fl_Widget*, void *);
+		 inline void cbfrec1_in();
+		 //Callback de la segunda frecuencia de muestreo del analizador 
+		 static void cbfrec2(Fl_Widget*, void *);
+		 inline void cbfrec2_in();
+		 //Callback de la tercera frecuencia de muestreo del analizador 
+		 static void cbfrec3(Fl_Widget*, void *);
+		 inline void cbfrec3_in();
+		 //Callback de la cuarta frecuencia de muestreo del analizador 
+		 static void cbfrec4(Fl_Widget*, void *);
+		 inline void cbfrec4_in();
          /**
 		 * Esta funcion separa los datos enviados desde el hardware para cada
 		 * canal del analizador logico.
