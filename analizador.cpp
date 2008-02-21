@@ -103,10 +103,13 @@ Analizador::Analizador() {
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
            
-    ofrec_muestreo = new Fl_Choice(430,400,70,20,"Frec. Muestreo");
+    ofrec_muestreo = new Fl_Choice(430,400,70,20,"FrecMuestreo");
     ofrec_muestreo->align(FL_ALIGN_TOP);
     ofrec_muestreo->labelsize(10);
-    ofrec_muestreo->add("1");
+    ofrec_muestreo->add("1",0,(Fl_Callback *)cbfrec1,this);
+    ofrec_muestreo->add("2",0,(Fl_Callback *)cbfrec2,this);
+    ofrec_muestreo->add("3",0,(Fl_Callback *)cbfrec3,this);
+    ofrec_muestreo->add("4",0,(Fl_Callback *)cbfrec4,this);
     
     ogroup_ana_botones->end();
     
@@ -405,7 +408,9 @@ void Analizador::cb_scroll_cursor_in() {
     apantalla_ch8->redraw();
     ogrilla->redraw();
     int ipos = int((odes_horizontal->value()/20));
-    odato1->value(pdata_analizador[oscroll->value()+ipos]);
+    if (orep_dato->value()==1){
+       odato1->value(pdata_analizador[oscroll->value()+ipos]);
+    }
       
 }
 
@@ -493,6 +498,8 @@ void Analizador::separar_canales() {
      cbyte_actual[5]= recibido_lsb2[1];
      cbyte_actual[6]= recibido_lsb2[2];
      cbyte_actual[7]= recibido_lsb2[3];  
+     
+     
      
      if (bmuestreando == 0){
          if (bconf_trigger == 1){             
@@ -767,4 +774,65 @@ void Analizador::cb_log_ana_in(){
         log << pdata_analizador[o] << endl;
     }
 	log.close(); 
+}
+
+/*******************************************************************************
+*
+*
+*******************************************************************************/
+
+void Analizador::cbfrec1(Fl_Widget* pmenu, void *pany){
+     Analizador* pana = (Analizador*)pany;
+     pana->cbfrec1_in();
+}
+
+
+void Analizador::cbfrec1_in(){
+     
+}
+
+/*******************************************************************************
+*
+*
+*******************************************************************************/
+
+void Analizador::cbfrec2(Fl_Widget* pmenu, void *pany){
+     Analizador* pana = (Analizador*)pany;
+     pana->cbfrec1_in();
+}
+
+
+void Analizador::cbfrec2_in(){
+     
+}
+
+/*******************************************************************************
+*
+*
+*******************************************************************************/
+
+void Analizador::cbfrec3(Fl_Widget* pmenu, void *pany){
+     Analizador* pana = (Analizador*)pany;
+     pana->cbfrec1_in();
+}
+
+
+void Analizador::cbfrec3_in(){
+     
+}
+
+
+/*******************************************************************************
+*
+*
+*******************************************************************************/
+
+void Analizador::cbfrec4(Fl_Widget* pmenu, void *pany){
+     Analizador* pana = (Analizador*)pany;
+     pana->cbfrec1_in();
+}
+
+
+void Analizador::cbfrec4_in(){
+     
 }

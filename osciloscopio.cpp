@@ -472,7 +472,7 @@ void Osciloscopio::cb_ch1_on_in(){
               odual_menu->activate();
            }
            if (otiempo_div->value() >= 8){                         // !!!! Toca cambiarlo a >= 2 
-           //if (otiempo_div->value() >= 3){                         // !!!! Toca cambiarlo a >= 2 
+           //if (otiempo_div->value() >= 3){                       // !!!! Toca cambiarlo a >= 2 
               Encapsular('L','d','1',ct_div,0x00,0x00);            // Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
               if (bhardware){
