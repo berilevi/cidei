@@ -69,7 +69,7 @@ Generador::Generador(){
     ofrec_gen2->type(8);
     ofrec_gen2->scaleticks(0);
     ofrec_gen2->labelsize(9);
-    ofrec_gen2->step(0.1);
+    ofrec_gen2->step(0.01);
     ofrec_gen2->range(0,1);
     
     oescala_frecuencia = new Fl_Choice(890,410,120,20,"Rango");                 //Menú de escalas de frecuencia
@@ -128,6 +128,7 @@ Generador::Generador(){
     ocuadrada->callback(cb_cuadrada,this);
     otriangulo->callback(cb_triangulo,this);
     ofrec_gen->callback(cb_frec_gen, this);
+    ofrec_gen2->callback(cb_frecgen2, this);
     oamplitud->callback(cb_amplitud, this);
     ooffset->callback(cb_offset, this);
 
@@ -273,7 +274,20 @@ void Generador::cb_triangulo_in(){
 /*******************************************************************************
  * Generador::cb_frec_gen: Callback del botón para seleccionar la frecuencia de 
  *                         la señal generada.
- *
+ * FACTOR: Constante por la que se multiplica el valor del botón de configurar
+ *         la frecuencia, para escalarlo al valor del chip generador de señales.
+ * ifrechardware: Variable entera que contiene el valor que se debe enviar al 
+ *                hardware para configurar la frecuencia de la señal.
+ * frec_hexa: Cadena de caracteres donde se almacena el valor ifrechardware
+ *            convertido en caracteres hexadecimales que se envián en la trama
+ *            de configuración de fracuencia de señal.
+ * Para encapsular el valor de frecuencia configurado, se recorre el arreglo de 
+ * carácteres en forma inversa es decir desde el ultimo caracter hasta el primero
+ * mediante un ciclo for() y se va adicionando carácter a carácter a la trama que
+ * se envía al hardware: "trama_control[]". 
+ * Para configurar la frecuencia, se envía en "trama_control[]" en 8 carácteres
+ * hexadecimales, si el valor se representa en menos de 8 carácteres hexadecima-
+ * les, el resto se rrellena con '0's.  
 *******************************************************************************/
 void Generador::cb_frec_gen(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
@@ -281,20 +295,19 @@ void Generador::cb_frec_gen(Fl_Widget* pboton, void *any){
 }
 
 void Generador::cb_frec_gen_in(){
-     long double in = 0.18626451561698509610066226162263;    //Factor por el que se debe multiplicar el valor del botón de frecuencia para obtener el valor que se debe enviar la hardware
+    
      int ifrechardware;
-     int icont;
      int ilong;
      char pruebafrec[10];
      ovalor_frec->value(ofrec_gen->value()*5.3687);
-     ifrechardware = int(in*ofrec_gen->value());
-     itoa(ofrec_gen->value(),cfrecuencia,10);
+     ifrechardware = int(FACTOR*(ofrec_gen->value()+ofrec_gen2->value()));
+     itoa(ofrec_gen->value(),cfrecuencia,10);                                  
      //odisp_gen->value(cfrecuencia);
-     sprintf(pruebafrec, "%.6g", ofrec_gen->value());
+     sprintf(pruebafrec, "%.6g", ofrec_gen->value()); //Valor de la frecuencia guardado en formato de 6 decimales.                         
      odisp_gen->value(pruebafrec);
-     itoa(ifrechardware,frec_hexa,16);
+     itoa(ifrechardware,frec_hexa,16);                //Conversión del valor entero en una cadena de caracteres con el valor hexadecimal.    
      ilong = strlen(frec_hexa);
-     for (icont = 8; icont > 0; icont --){
+     for (int icont = 8; icont > 0; icont --){        //Ciclo para encapsular el valor de frecuencia configurado en la trama para enviar la hardware.
          if(ilong > 0){
             if (frec_hexa[ilong-1]>60){                                                        
                frec_hexa[ilong-1]=frec_hexa[ilong-1]-32;  
@@ -315,20 +328,44 @@ void Generador::cb_frec_gen_in(){
 }
 
 
+/*******************************************************************************
+ * Generador::cb_frecgen2: Callback del botón que realiza el ajuste fino de la
+ *                         frecuencia de la señal generada.
+ * Botón de ajuste fino para configurar el valor de la frecuencia de las señales
+ * generadas. Ajusta el valor en un decimo del valor de la escala en la que se 
+ * encuentra.
+*******************************************************************************/
 
-/*
- * Este método es el callback del boton que selecciona la amplitud de la señal 
- * que va a ser generada.
-*/
+void Generador::cb_frecgen2(Fl_Widget* pboton, void *any){
+     Generador* pgener=(Generador*)any;
+     pgener->cb_frecgen2_in();
+}
+
+void Generador::cb_frecgen2_in(){
+
+     ovalor_frec->value(ofrec_gen->value()*5.3687+ofrec_gen2->value());
+}
+
+
+
+/*******************************************************************************
+ * Generador::cb_amplitud: Callback del botón que selecciona la amplitud de la 
+ *                         señal generada.
+ * camplitud[]: Cadena de carácteres que contiene la amplitud configurada para
+ *              mostrarla en el diplay de amplitud.
+ * El valor del botón de configurar la amplitud de la señal se debe multiplicar 
+ * por 51 para escalarlo a valores con el que se configura el hardware entre 0 y
+ * FF hexadecimal y se almacena en una cadena de caracteres.
+ * amplitud_hexa[]: Cadena de caracteres que almacena el valor hexadecimal que
+ *                  representa la amplitud configurada por el usuario.  
+ * El dato de amplitud se encapsula en "trama_control[]" en la que se envía al 
+ * hardware la amplitud configurada por el usuario.
+*******************************************************************************/
 void Generador::cb_amplitud(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_amplitud_in();
 }
 
-/**
- * Esta función acompaña la función  cb_amplitud para seleccionar la amplitud 
- * de la señal que va a ser generada.
-*/
 void Generador::cb_amplitud_in(){
      char camplitud [10];
      sprintf(camplitud, "%.3g", oamplitud->value());
@@ -336,7 +373,7 @@ void Generador::cb_amplitud_in(){
      int ilong;
      itoa(oamplitud->value()*51,amplitud_hexa,16);
      ilong = strlen(amplitud_hexa);
-     if (amplitud_hexa[0] > 60){
+     if (amplitud_hexa[0] > 60){                                     //Para dejar caracteres numericos hexadecimales.            
            amplitud_hexa[0]= amplitud_hexa[0]-32;
      }
      if (amplitud_hexa[1] > 60){
@@ -364,26 +401,33 @@ void Generador::cb_amplitud_in(){
 
 
 
-/*
- * Este método es el callback del boton que selecciona el nivel de offset de la señal 
- * que va a ser generada.
-*/
+/*******************************************************************************
+ * Generador::cb_offset: Callback del botón que selecciona el nivel de offset de 
+ *                       la señal generada.
+ * coffset[]: Cadena de carácteres que contiene el valor de nivel de offset  
+ *            configurado por el usuario para ser visualizado en el display de
+ *            valor de offset.
+ * El valor de offset se puede configurar entre -5V y 5V en la IGU pero para el 
+ * hardware se debe enviar un dato hexadecimal entre 0xOO y 0xFF, por lo que hay
+ * que multiplicar el dato del botón por 25.6 y sumarle 128 para luego convertir 
+ * ese valor en hexadecimal y guardarlo en una cadena de caracteres.
+ * offset_hexa[]: Cadena de caracteres que almacena el valor que se va a enviar
+ *                al hardware del nivel de offset configurado por el usuario.
+ * La cadena de caracteres offset_hexa[], se encapsula en la trama de protocolo
+ * trama_control[] para configurar nivel de offset.
+*******************************************************************************/
 void Generador::cb_offset(Fl_Widget* pboton, void *any)
 {
      Generador* pgener=(Generador*)any;
      pgener->cb_offset_in();
 }
 
-/**
- * Esta función acompaña la función  cb_offset para seleccionar el nivel de offset 
- * de la señal que va a ser generada.
-*/
 void Generador::cb_offset_in(){
      char coffset [10];
-     sprintf(coffset, "%.2g", ooffset->value());
+     sprintf(coffset, "%.2g", ooffset->value());                      //Almacenar en formato de dos decimales el valor configurado de nivel de offset          
      odisp_offset->value(coffset);
      int ilong;                                               
-     itoa(int((ooffset->value()*25.6)+128),offset_hexa,16);
+     itoa(int((ooffset->value()*25.6)+128),offset_hexa,16);           //Escalar el valor configurado de offset entre 0x00 y 0xFF.
      ilong = strlen(offset_hexa);
      if (offset_hexa[0] > 60){
            offset_hexa[0]= offset_hexa[0]-32;
@@ -412,9 +456,14 @@ void Generador::cb_offset_in(){
 
 
 
-/**
- * Callbacks del menu de escalas de frecuencias de la señal generada    
-*/
+/*******************************************************************************
+ * Generador::cb_frec1: Callbacks del menú de escalas de frecuencias de la señal 
+ *                      generada.  
+ * El menú tiene 7 escalas de frecuencia que van desde 1Hz hasta 1 MHz.
+ * Cuando se escoge alguna de las escalas, el botón de configurar frecuencia
+ * se coloca en cero y se modifica el rango de dicho botón para la escala selec-
+ * sionada en el menú. 
+*******************************************************************************/
 
 void Generador::cb_frec1(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
@@ -426,6 +475,8 @@ void Generador::cb_frec1_in(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrec_gen->range(0,1);
      ofrec_gen->value(0);
+     ofrec_gen2->range(0,0.1);
+     ofrec_gen2->value(0);
      odisp_gen->value("0.0");
 }
 
@@ -439,6 +490,9 @@ void Generador::cb_frec100_in(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrec_gen->range(0,100);
      ofrec_gen->value(0);
+     ofrec_gen2->range(0,10);
+     ofrec_gen2->step(0.1);
+     ofrec_gen2->value(0);
      odisp_gen->value("0.0");
 }
 
@@ -453,6 +507,9 @@ void Generador::cb_frec500_in(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrec_gen->range(0,500);
      ofrec_gen->value(0);
+     ofrec_gen2->range(0,50);
+     ofrec_gen2->step(0.1);
+     ofrec_gen2->value(0);
      odisp_gen->value("0.0");
 }
 
@@ -467,6 +524,9 @@ void Generador::cb_frec1k_in(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrec_gen->range(0,1000);
      ofrec_gen->value(0);
+     ofrec_gen2->range(0,100);
+     ofrec_gen2->step(0.1);
+     ofrec_gen2->value(0);
      odisp_gen->value("0.0");
 }
 
@@ -480,6 +540,9 @@ void Generador::cb_frec100k_in(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrec_gen->range(0,100000);
      ofrec_gen->value(0);
+     ofrec_gen2->range(0,100);
+     ofrec_gen2->step(0.1);
+     ofrec_gen2->value(0);
      odisp_gen->value("0.0");
 }
 
@@ -493,6 +556,9 @@ void Generador::cb_frec500k_in(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrec_gen->range(0,500000);
      ofrec_gen->value(0);
+     ofrec_gen2->range(0,500);
+     ofrec_gen2->step(0.1);
+     ofrec_gen2->value(0);
      odisp_gen->value("0.0");
 }
 
@@ -506,6 +572,9 @@ void Generador::cb_frec1m_in(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrec_gen->range(0,1000000);
      ofrec_gen->value(0);
+     ofrec_gen2->range(0,1000);
+     ofrec_gen2->step(0.1);
+     ofrec_gen2->value(0);
      odisp_gen->value("0.0");
 }
 
