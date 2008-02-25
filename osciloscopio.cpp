@@ -20,16 +20,20 @@ bool bacopleGnd1 = 0;     // Variable global que indica si el canal 1 está en ac
 bool bacopleGnd2 = 0;     // Variable global que indica si el canal 2 está en acople gnd.
 
 
-// Constructor de clase
-//Osciloscopio::Osciloscopio(int x, int y, int w, int h, const char *l, int ncol) {
+/*******************************************************************************
+* Osciloscopio::Osciloscopio: Constructor de la clase Osciloscopio.
+* Se inicializan las variables y se realizan las instancias de los objetos que
+* hacen parte del instrumento en especial los 2 canales, la pantalla y demás 
+* botones y controles con sus respectivos callbacks.  
+*******************************************************************************/
 Osciloscopio::Osciloscopio(){
                                
    // Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
-    strcpy(cnombre,"osc.txt");                                    // Nombre para el archivo de texto donde se almacenan los datos
-    ct_div = '1';                                                 // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
+   // strcpy(cnombre,"osc.txt");                                    // Nombre del para el archivo de texto donde se almacenan los datos
+                                                    
     
     //    Inicialización de las variables globales
-    
+    ct_div = '1';                                                   // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
     isec_trigger = 0;                                                      
     isec_acople = 0;          
     isec_acople2 = 0;
@@ -42,8 +46,7 @@ Osciloscopio::Osciloscopio(){
     ivpp_ch1 = 0;
     ivpp_ch2 = 0;
     icont_datos = 0;
-    
-    {              
+                
     ogroup_osc = new Fl_Group (5,5,725,360,"");                   // Inicia el grupo de los elementos del osciloscopio
     ogroup_osc->box(FL_ENGRAVED_FRAME);                 
     ogroup_osc->box(FL_UP_BOX);
@@ -189,7 +192,7 @@ Osciloscopio::Osciloscopio(){
     Manual_osc->load("help_osciloscopio.html");                           // Cargar el archivo html que contiene la ayuda.
     
     ogroup_osc->end();                                                    //Fin del grupo de los elementos del osciloscopio
-    }
+    
     
     ogrilla = new grid(12,40,400,320,"");                                 //Instancia de la cuadricula para la pantalla 
     ogrilla->banalizador_on = 0;                                          //En cero para que no se active la grilla del analizador
@@ -205,9 +208,9 @@ Osciloscopio::Osciloscopio(){
                 
     // Callbacks de los botones del osciloscopio            
                 
-    och1_on->callback(cb_ch1_on,this);
-    och2_on->callback(cb_ch2_on,this);
-    odual_menu->callback(cb_dual_menu, this);    
+    och1_on->callback(cb_ch1_on,this);                                    //Callback del botón de prender/apagar el canal 1
+    och2_on->callback(cb_ch2_on,this);                                    //Callback del botón de prender/apagar el canal 2
+    odual_menu->callback(cb_dual_menu, this);                             //Callback del botón que selecciona la operación suma, resta o xy   
     osel_trigger->callback(cb_sel_trigger, this);
     otiempo_div->callback(cb_tiempo_div, this);
     opos_y->callback(cb_pos_y, this);
@@ -226,7 +229,7 @@ Osciloscopio::Osciloscopio(){
 
 
 /*******************************************************************************
-* Callback del botón que enciende o apaga el osciloscopio.
+* Osciloscopio::cb_osc_on: Callback del botón que enciende/apaga el osciloscopio.
 *
 * Para los callbacks de los botones en las clases se deben tener 2 funciones que
 * van juntas y se debe tener en cuenta las siguientes caracteristicas.
