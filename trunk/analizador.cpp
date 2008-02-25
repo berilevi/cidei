@@ -2,62 +2,74 @@
 
 #include "analizador.h" // class's header file
 
-int isec_numdatos = 0;
-int iespera_trigger = 0;
-int inum_datos_grafica = 0;
-int icont = 0;                                              //Contador para llenar los arreglos de datos decimales y hexadecimal.
-char  cbyte_anterior[] = "00000000";
-bool bconf_trigger = 0;
-bool btermino_muestreo = 0;
+//int isec_numdatos = 0;                                      
+int iespera_trigger = 0;                                      //Contador de veces que debe esperar el instrumento antes de que ocurra el evento del trigger 
+int inum_datos_grafica = 0;                                   //Contador del número máximo de datos representados en pantalla.                                   
+//int icont = 0;                                                //Contador para llenar los arreglos de datos decimales y hexadecimal.
+char  cbyte_anterior[] = "00000000";                          //Almacena el byte muestreado en t-1.
+bool bconf_trigger = 0;                                       //Variable que indica si fue o no configurado el almacenamiento con trigger.
+bool btermino_muestreo = 0;                                   //Variable que indica si terminó o no el muestreo.
 
-// class constructor
+/******************************************************************************
+ * Analizador::Analizador: Constructor de la clase Analizador .
+ * Se inicializan las variables y se realizan las instancias de los objetos que
+ * hacen parte del instrumento y sus callbacks:
+ * - Menú de frecuencias de muestreo.
+ * - Perilla de deplazamiento horizontal de las gráficas.
+ * - Botones de captura, trigger, ayuda, log, grilla y encendido del instrumento.
+ * - Pantallas de grafica de los 8 canales.
+ * - Cursor.
+ * - Cuadro de texto donde se muestra la representación de los datos.
+*******************************************************************************/
 Analizador::Analizador() {                 
     
-    idatapos = 0;
-    inum_muestras = TAM_ALMACENADO;
-    igraf_datos = 20;
+    idatapos = 0;                                                  //Inicializar la posición del arreglo pdata_analizador[], donde se van a almacenar los datos.             
+    inum_muestras = TAM_ALMACENADO;                                //Inicializar el contador de muestras almacenadas.
+    igraf_datos = 20;                                              //Número de puntos graficados en pantalla por cada tiempo de muestreo.
     btimer_trigger = 0;
     btrigger = 0;
     bmuestreando = 0;
-    inum_datos_grafica = 400/igraf_datos;
+    inum_datos_grafica = 400/igraf_datos;                          //Número de muestras graficadas por pantalla.
      
-    ogroup_ana = new Fl_Group(5,370,505,330,"");
+    ogroup_ana = new Fl_Group(5,370,505,330,"");                   //Inicio del grupo de componentes del analizador
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->box(FL_UP_BOX);
     ogroup_ana->deactivate(); 
      
-    apantalla_ch1 = new Fl_Scope(20,420,400,34,"");  // Instancia de canal 1
-    apantalla_ch2 = new Fl_Scope(20,452,400,34,"");  // Instancia de canal 2
-    apantalla_ch3 = new Fl_Scope(20,484,400,34,"");  // Instancia de canal 3
-    apantalla_ch4 = new Fl_Scope(20,516,400,34,"");  // Instancia de canal 4
-    apantalla_ch5 = new Fl_Scope(20,548,400,34,"");  // Instancia de canal 5
-    apantalla_ch6 = new Fl_Scope(20,580,400,34,"");  // Instancia de canal 6
-    apantalla_ch7 = new Fl_Scope(20,612,400,34,"");  // Instancia de canal 7
-    apantalla_ch8 = new Fl_Scope(20,644,400,34,"");  // Instancia de canal 8
+    apantalla_ch1 = new Fl_Scope(20,420,400,34,"");                // Canal 1
+    apantalla_ch2 = new Fl_Scope(20,452,400,34,"");                // Canal 2
+    apantalla_ch3 = new Fl_Scope(20,484,400,34,"");                // Canal 3
+    apantalla_ch4 = new Fl_Scope(20,516,400,34,"");                // Canal 4
+    apantalla_ch5 = new Fl_Scope(20,548,400,34,"");                // Canal 5
+    apantalla_ch6 = new Fl_Scope(20,580,400,34,"");                // Canal 6
+    apantalla_ch7 = new Fl_Scope(20,612,400,34,"");                // Canal 7
+    apantalla_ch8 = new Fl_Scope(20,644,400,34,"");                // Canal 8
     
-    otexto_muestra = new Mensajes(20,417,400,20,""); 
+    otexto_muestra = new Mensajes(20,417,400,20,"");               //Indicador del número de muestra 
     
-    ogrilla = new grid(18,420,400,255,"");
+    ogrilla = new grid(18,420,400,255,"");                         //Grilla del analizador
     ogrilla->bgrilla_analizador= 0;
     
-    oscroll = new Fl_Scrollbar(10,680,420,10,"");
+    oscroll = new Fl_Scrollbar(10,680,420,10,"");                  //Scroll que posiciona el cursor. 
     oscroll->type(FL_HORIZONTAL);
     oscroll->range(0,19);
     oscroll->linesize(1);
     oscroll->step(1);
     oscroll->deactivate();
     
-    olog_ana = new Fl_Button(340,375,40,15,"Log");
+    olog_ana = new Fl_Button(340,375,40,15,"Log");                 //Botón que activa el alamacenamiento en archivo plano de texto.
     olog_ana->labelsize(10);
     
-    ohelp_ana = new Fl_Button(340,390,40,15,"Help");
+    ohelp_ana = new Fl_Button(340,390,40,15,"Help");               //Botón que lanza el archivo de ayuda del instrumento.
     ohelp_ana->labelsize(10);
     
-    oayuda_ana = new Fl_Check_Button(385,382,20,16,"?");
+    oayuda_ana = new Fl_Check_Button(385,382,20,16,"?");           //Check button que activa la ayuda de los botones del analizador.
     oayuda_ana->labelsize(12);
     
-    ogrilla_on = new Fl_Light_Button(285,380,45,17,"Grilla");
+    ogrilla_on = new Fl_Light_Button(285,380,45,17,"Grilla");      //Botón que activa la grilla del instrumento.
     ogrilla_on->labelsize(10);
+    
+    // Configuraciones de las gráficas de los 8 canales
     
     apantalla_ch1->TraceColour(FL_RED);
     apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
@@ -100,11 +112,11 @@ Analizador::Analizador() {
     apantalla_ch8->linetype(FL_SCOPE_LINE);
     apantalla_ch8->ScopeDataSize = 800;
     
-    ogroup_ana_botones = new Fl_Group(425,375,80,80,"");          // Agrupa los elementos del analizador
+    ogroup_ana_botones = new Fl_Group(425,375,80,80,"");             // Agrupa los botones del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
            
-    ofrec_muestreo = new Fl_Choice(430,400,70,20,"FrecMuestreo");
+    ofrec_muestreo = new Fl_Choice(430,400,70,20,"FrecMuestreo");    //Menú dde las frecuencias de muestreo
     ofrec_muestreo->align(FL_ALIGN_TOP);
     ofrec_muestreo->labelsize(10);
     ofrec_muestreo->add("1",0,(Fl_Callback *)cbfrec1,this);
@@ -112,9 +124,9 @@ Analizador::Analizador() {
     ofrec_muestreo->add("3",0,(Fl_Callback *)cbfrec3,this);
     ofrec_muestreo->add("4",0,(Fl_Callback *)cbfrec4,this);
     
-    ogroup_ana_botones->end();
+    ogroup_ana_botones->end();                                       //Fin del grupo de los botones del analizador
     
-    odes_horizontal = new Fl_Knob(430,460,70,70,"Desp. Hor.");
+    odes_horizontal = new Fl_Knob(430,460,70,70,"Desp. Hor.");       //Perilla para desplazar horizontalmente las gráficas
     odes_horizontal->color(147);
     odes_horizontal->type(8);
     odes_horizontal->scaleticks(0);
@@ -123,52 +135,54 @@ Analizador::Analizador() {
     odes_horizontal->range(0,400);
     
         
-    omuestrear_on = new Fl_Light_Button(430,560,70,30,"Capturar");
+    omuestrear_on = new Fl_Light_Button(430,560,70,30,"Capturar");   //Botón que inicia el muestreo y captura de las señales.
     omuestrear_on->labelsize(13);
     
-    orep_dato = new Fl_Choice(430,620,70,20,"");
+    orep_dato = new Fl_Choice(430,620,70,20,"");                     //Menú de las representaciones numericas del dato señalado por el cursor
     orep_dato->add("Decimal");
     orep_dato->add("Binario");
     orep_dato->add("Hexadecimal");
     
-    odato1 = new Fl_Output(430,645,70,25,"");
+    odato1 = new Fl_Output(430,645,70,25,"");                        //Cuadro de texto con la representación numerica del dato señalado por el cursor
     odato1->textsize(12);
     
-    odatoprueba = new Fl_Output(430,670,70,25,"");
+    odatoprueba = new Fl_Output(430,670,70,25,"");                   
     odatoprueba->textsize(12);
         
-    otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger"); 
+    otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger");      //Botón que saca la ventana de configuración del trigger
     otrigger_on->labelsize(15);
     
     manual = new Fl_Help_Dialog;
-    manual->load("help_analizador.html");
+    manual->load("help_analizador.html");                            
           
-    ogroup_ana->end();
+    ogroup_ana->end();                                               //Fin del grupo de los elementos del analizador
     
-    obox_trigger = new Fl_Box(415,520,92,70,"");
+    obox_trigger = new Fl_Box(415,520,92,70,"");                     //Ventana de configuración del trigger
     obox_trigger->box(FL_UP_BOX);
     obox_trigger->hide();
     
-    ogroup_trigger = new Fl_Group(415,520,92,70,"");
+    ogroup_trigger = new Fl_Group(415,520,92,70,"");                 //Grupo de elementos de configuración del trigger
     ogroup_trigger->hide();
-    oflancosubida = new Fl_Button(420,530,20,20,"s");
-    oflancobajada = new Fl_Button(445,530,20,20,"b");  
-    oselector = new Fl_Spinner(470,530,30,20,""); 
+    oflancosubida = new Fl_Button(420,530,20,20,"s");                //Botón de configuración de evento de flanco de subida para el trigger 
+    oflancobajada = new Fl_Button(445,530,20,20,"b");                //Botón de configuración de evento de flanco de bajada para el trigger
+    oselector = new Fl_Spinner(470,530,30,20,"");                    //selector del canal donde debe ocurrir el evento del flanco para empezar a muestrear
     oselector->range(1,8);
-    ocerrar_trigger = new Fl_Button(460,565,40,16,"Cerrar");
+    ocerrar_trigger = new Fl_Button(460,565,40,16,"Cerrar");         //Botón para cerrar la ventana de configuración del trigger
     ocerrar_trigger->labelsize(9);
     
-    ogroup_trigger->end();
+    ogroup_trigger->end();                                           //Fin del grupo de elementos de configuración del trigger
         
     obox_nombre = new Fl_Box(12,375,223,30,"ANALIZADOR LÓGICO");
     obox_nombre->box(FL_ENGRAVED_FRAME);
     obox_nombre->labelfont(FL_HELVETICA_BOLD);
     obox_nombre->labelsize(20);
     
-    oana_on = new Fl_Light_Button(240,375,38,30,"ON");
+    oana_on = new Fl_Light_Button(240,375,38,30,"ON");               //Botón para prender o apagar el instrumento
     oana_on->labelsize(9);
     
-    ocursor = new Cursores(20,420,400,674);
+    ocursor = new Cursores(20,420,400,674);                          //Cursor de la pantalla del instrumento
+    
+    //Callbacks de los botones del instrumento
     
     oana_on->callback(cb_ana_on, this);
     omuestrear_on->callback(cb_muestrear,this);
@@ -183,34 +197,39 @@ Analizador::Analizador() {
     olog_ana->callback(cb_log_ana, this);
 }
 
-// class destructor
+/*******************************************************************************
+* Analizador::~Analizador: Destructor de la clase.
+*
+*******************************************************************************/
 Analizador::~Analizador() {
                                           
 }
 
 
-/**
- * Iniciar el analizador lógico
-*/
+/*******************************************************************************
+ * Analizador::cb_ana_on: Callback del botón que prende/apaga el Analizador
+ *                        Lógico.
+ * Al prender el instrumento se inicia con las siguientes configuraciones por
+ * defecto:
+ * - Tipo de representación de los datos señalados con el cursor: Binario
+ * - Frecuencia de muestreo: La más baja.
+*******************************************************************************/
 void Analizador::cb_ana_on(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_ana_on_in();
 }
 
-/** 
- * Iniciar el analizador lógico
-*/
 void Analizador::cb_ana_on_in() {
      if(oana_on->value()== 1) {
         activar(1);
-        Encapsular('C','a','1','0',0x00,0x00);
+        Encapsular('C','a','1','0',0x00,0x00);             //Trama de encendido del instrumento.
         Transmision();
         if (bhardware){
            ogroup_ana->activate();
            ogroup_ana_botones->activate();
-           isec_numdatos = 0;
-           orep_dato->value(1);
-           oselector->value(1);
+           //isec_numdatos = 0;
+           orep_dato->value(1);                            //Representación Binaria
+           oselector->value(1);                            //Frecuencia de muestreo más baja.
         }
         else {
              fl_message("Error de hardware");
@@ -238,24 +257,23 @@ void Analizador::cb_ana_on_in() {
 }
 
 
-/**
- *Callback del boton para activar o desactivar la grilla en la 
- * pantalla del analizador
-*/
+/*******************************************************************************
+ * Analizador::cb_grilla: Callback del botón para activar o desactivar la grilla 
+ *                        en la pantalla del analizador.
+ * Coloca una grilla en la pantalla del analizador, para ayudar al usuario a 
+ * identificar el inicio y final de cada dato muestreado.
+ * Como se usa la misma clase grid que se usa en el oscilocopio, se debe modifi-
+ * car el atributo bgrilla_analizador para que se grafique la grilla de analiza-
+ * dor y no la de osciloscopio: "ogrilla->bgrilla_analizador= 1";
+*******************************************************************************/
 void Analizador::cb_grilla(Fl_Widget* pboton, void *pany){
      Analizador* pana=(Analizador*)pany;
      pana->cb_grilla_in();
 }
 
-
-/**
- * Funcion que acompaña a la funcion cb_grilla para realizar los
- * llamados de callback para activar o desactivar la grilla en la 
- * pantalla del analizador
-*/
 void Analizador::cb_grilla_in(){
      if (ogrilla_on->value()==1){
-         ogrilla->bgrilla_analizador= 1;
+         ogrilla->bgrilla_analizador= 1;           //Activar en el objeto grilla, la gráfica de la grilla para analizador.
          ogrilla->bgrid = 1;
      }
      else{
@@ -269,27 +287,27 @@ void Analizador::cb_grilla_in(){
 }
 
 
-
-
-
-/**
- * Callback para seleccionar la configuración del sistema de trigger del
- * analizador lógico.
-*/
+/*******************************************************************************
+ * Analizador::cb_trigger_on: Callback para seleccionar la configuración del 
+ *                            sistema de trigger del analizador lógico.
+ * Al presionar el botón, aparece la ventana de configuración del trigger con 
+ * la configuración por defecto:
+ * Tipo de flanco: Subida.
+ * Canal donde debe ocurrir el evento: Canal 1.
+ * En esta ventana se puede modificar la configuración anterior.
+ * Si el botón se presiona para apagarlo, se desactivan la opciones de trigger. 
+*******************************************************************************/
 void Analizador::cb_trigger_on(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_trigger_on_in();
 }
 
-/**
- * Mostrar el panel de configuración del sistema de trigger del instrumento
-*/
 void Analizador::cb_trigger_on_in() {
      if(otrigger_on->value()== 1) {
         obox_trigger->show();
         ogroup_trigger->show();
-        bconf_trigger = 1;
-        oflancosubida->value(1);
+        bconf_trigger = 1;                                    //Modificada la variable que indica que se configuró un evento (trigger) para iniciar el muestreo
+        oflancosubida->value(1);                              //Valor por defecto de flanco de subida.
         oflancosubida->box(FL_DOWN_BOX);
      }
      else{
@@ -298,17 +316,16 @@ void Analizador::cb_trigger_on_in() {
 }
 
 
-/**
- * CallbackBotón para cerrar el panel de configuración del sistema de trigger
-*/
+/*******************************************************************************
+ * Analizador::cb_cerrar_trigger: Callback del botón para cerrar el panel de 
+ *                                configuración del sistema de trigger.
+ * Esconde la ventana de configuracion del sistema de trigger del instrumento.
+*******************************************************************************/
 void Analizador::cb_cerrar_trigger(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_cerrar_trigger_in();
 }
 
-/**
- *  Cerrar el panel de configuración del sistema de trigger
-*/
 void Analizador::cb_cerrar_trigger_in() {
      obox_trigger->hide();
      ogroup_trigger->hide();
@@ -316,17 +333,17 @@ void Analizador::cb_cerrar_trigger_in() {
 
 
 
-/**
- * Callback del boton que habilita el muestreo en el analizador
-*/
+/*******************************************************************************
+ * Analizador::cb_muestrear: Callback del botón que habilita el muestreo en el 
+ *                           analizador.
+ * Al presionar el botón se inicia el timer que solicita los datos al hardware
+ * de los 8 canales. 
+*******************************************************************************/
 void Analizador::cb_muestrear(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_muestrear_in();
 }
 
-/**
- * Callback del boton que habilita el muestreo en el analizador
-*/
 void Analizador::cb_muestrear_in() {
      if(omuestrear_on->value()== 1) {
        omuestrear_on->value(0);
@@ -338,69 +355,77 @@ void Analizador::cb_muestrear_in() {
 }
 
 
-/**
- *  Activar el trigger por flanco de subida.  
-*/
+/*******************************************************************************
+ * Analizador::cb_subida: Callback del botón que activar el trigger por flanco 
+ *                        de subida.  
+ * Al presionar este botón se configura que el sistema espere un evento de flan-
+ * co de subida en el canal seleccionado.
+ * Este botón es excluyente del botón de configuración de trigger por flanco de
+ * bajada.
+*******************************************************************************/
 void Analizador::cb_subida(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_subida_in();
 }
 
-/**
- * Activar el trigger por flanco de subida.  
-*/
 void Analizador::cb_subida_in() {
       if (oflancosubida->value()== 0){
          oflancobajada->box(FL_UP_BOX);                      
-         oflancobajada->value(0);
+         oflancobajada->value(0);            //Si se escoge flanco de subida, se debe desactivar el botón de flanco de bajada 
          oflancosubida->value(1);
          oflancosubida->box(FL_DOWN_BOX);
       }
-      else {
+   /*   else {
          oflancosubida->value(0);
          oflancosubida->box(FL_UP_BOX);
-      }
+      }*/
 }
 
-/**
- * Activar el trigger por flanco de bajada.  
-*/
+/*******************************************************************************
+ * Analizador::cb_bajada: Callback del botón que activar el trigger por flanco 
+ *                        de bajada.  
+ * Al presionar este botón se configura que el sistema espere un evento de flan-
+ * co de bajada en el canal seleccionado.
+ * Este botón es excluyente del botón de configuración de trigger por flanco de
+ * subida.
+*******************************************************************************/
 void Analizador::cb_bajada(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_bajada_in();
 }
 
-/**
- *  Activar el trigger por flanco de bajada.
-*/
 void Analizador::cb_bajada_in() {
      if (oflancobajada->value()== 0){
          oflancosubida->box(FL_UP_BOX);                      
-         oflancosubida->value(0);
+         oflancosubida->value(0);                   //Si se escoge flanco de bajada, se debe desactivar el botón de flanco de subida
          oflancobajada->value(1);
          oflancobajada->box(FL_DOWN_BOX);
       }
-      else {
+    /*  else {
          oflancobajada->value(0);
          oflancobajada->box(FL_UP_BOX);
-      }
+      }*/
 }
 
 
-/**
- *  Posición del cursor. 
-*/
+/*******************************************************************************
+ * Analizador::cb_scroll_cursor: Callback del scroll que modifica la posición 
+ *                               del cursor en la pantalla del Analizador.
+ * ocursor->iposx: Posición de la pantalla donde se debe dibujar el cursor:
+ *                 El cursor se posiciona en la mitad de cada dato muestreado
+ *                 graficado en la pantalla.
+ * La posición se calcula:
+ * El dato donde se posiciona el cursor es representado en el cuadro de texto
+ * dependiendo el tipo de numeración escogido por el usuario para su representa-
+ * cion: Binaria, Decimal ó Hexadecimal.
+*******************************************************************************/
 void Analizador::cb_scroll_cursor(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_scroll_cursor_in();
 }
 
-/**
- * Posición del cursor.
-*/
 void Analizador::cb_scroll_cursor_in() { 
-     
-    ocursor->iposx = ((inum_datos_grafica/2)+(inum_datos_grafica*oscroll->value())-2);
+    ocursor->iposx = ((inum_datos_grafica/2)+(inum_datos_grafica*oscroll->value())-2); 
     ocursor->redraw();
     apantalla_ch1->redraw();
     apantalla_ch2->redraw();

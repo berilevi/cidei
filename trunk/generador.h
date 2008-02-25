@@ -18,6 +18,10 @@
 #include <FL/Fl_Box.H>
 #include <math.h>
 
+//Factor por el que se debe multiplicar el valor del botón de frecuencia para 
+//obtener el valor en la escala del chip generador de señales.
+#define FACTOR 0.18626451561698509610066226162263                       
+
 /*******************************************************************************
  * Generador: Clase que representa el funcionamiento del instrumento generador 
  *            de señales.
@@ -101,6 +105,9 @@ class Generador : public Instrumento
 		//Callback del botón que selecciona la frecuencia de la señal generada.
 		static void cb_frec_gen(Fl_Widget*, void *);
 		inline void cb_frec_gen_in();
+		//Callback del botón que realiza el ajuste fino de la frecuencia de la señal generada.
+		static void cb_frecgen2(Fl_Widget*, void *);
+		inline void cb_frecgen2_in();
 		//Calback para la escala de frecuencias hasta 1 Hertz
 		static void cb_frec1(Fl_Widget*, void *);
 		inline void cb_frec1_in(Fl_Widget*);
