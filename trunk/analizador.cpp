@@ -5,6 +5,7 @@
 int isec_numdatos = 0;
 int iespera_trigger = 0;
 int inum_datos_grafica = 0;
+int icont = 0;                                              //Contador para llenar los arreglos de datos decimales y hexadecimal.
 char  cbyte_anterior[] = "00000000";
 bool bconf_trigger = 0;
 bool btermino_muestreo = 0;
@@ -132,6 +133,9 @@ Analizador::Analizador() {
     
     odato1 = new Fl_Output(430,645,70,25,"");
     odato1->textsize(12);
+    
+    odatoprueba = new Fl_Output(430,670,70,25,"");
+    odatoprueba->textsize(12);
         
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger"); 
     otrigger_on->labelsize(15);
@@ -433,7 +437,7 @@ void Analizador::cb_timer_ana_in() {
      Transmision();
      separar_canales();
      if (btermino_muestreo == 0) {
-        Fl::repeat_timeout(0.001, cb_timer_ana, this);
+        Fl::repeat_timeout(0.01, cb_timer_ana, this);
      }
 }
 
@@ -447,7 +451,8 @@ void Analizador::separar_canales() {
      int ilong;
      int ipos_msb;
      int ipos_lsb;
-     char cdato_1[9];
+     char cdatodecimal[9];
+     char cdatohexa[9];
      
      // Convertir los carácteres a datos hexadecimales
      
@@ -463,8 +468,10 @@ void Analizador::separar_canales() {
      else{
          ipos_lsb = int(buf_analizador[1]-48); 
      }
-     //itoa(atoi(buf_analizador),cdato_1,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
-     // odato1->value(cdato_1);
+     
+     //idatosDecimal[icont] = atoi(buf_analizador);
+     //itoa(atoi(buf_analizador),cdatodecimal,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
+     //odatoprueba->value(cdatodecimal);
      
      // Guardar el número hexadecimal más significativo convertido a binario en caracteres   
      itoa(ipos_msb,recibido_msb,2);
@@ -498,8 +505,6 @@ void Analizador::separar_canales() {
      cbyte_actual[5]= recibido_lsb2[1];
      cbyte_actual[6]= recibido_lsb2[2];
      cbyte_actual[7]= recibido_lsb2[3];  
-     
-     
      
      if (bmuestreando == 0){
          if (bconf_trigger == 1){             

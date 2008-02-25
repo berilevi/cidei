@@ -4,52 +4,59 @@
 #include <math.h>
 
 
-int isec_escalas;
-char cfrecuencia [9];
+char cfrecuencia [9];                        // Cadena de caracteres con el valor de frecuencia que se visualizará en el display
 
-// class constructor
+/******************************************************************************
+ * Generador::Generador: Constructor de la clase Generador.
+ * Se inicializan las variables y se realizan las instancias de los objetos que
+ * hacen parte del instrumento y sus callbacks:
+ * - Control de amplitud.
+ * - Control de nivel de offset.
+ * - Selectores de tipo de señal.
+ * - Displays de frecuencia, amplitud y nivel de offset.
+*******************************************************************************/
 Generador::Generador(){
 
-    isec_escalas = 0;
-	ogroup_generador = new Fl_Group (515,370,505,330,"");
+	ogroup_generador = new Fl_Group (515,370,505,330,"");                       //Inicio de grupo de objetos que hacen parte del generador
 	ogroup_generador->box(FL_UP_BOX);
 	ogroup_generador->deactivate();
-	odisp_gen = new Fl_7Seg(520,410,320,100,""); 
+	odisp_gen = new Fl_7Seg(520,410,320,100,"");                                //Display 7 segmentos donde se visualiza la frecuencia configurada 
     odisp_gen->box(FL_EMBOSSED_FRAME);
     odisp_gen->color(FL_BLACK);
     odisp_gen->thickness(5);
     odisp_gen->dot_len(5);
     odisp_gen->align_text(FL_ALIGN_RIGHT);
     odisp_gen->value("000.0");
-    omHz = new Fl_Box(843,420,10,10,"mHz");
+    omHz = new Fl_Box(843,420,10,10,"mHz");                                     //Indicador de escala de miliHertz
     omHz->labelsize(10);
     omHz->box(FL_ENGRAVED_BOX);
     omHz->align(FL_ALIGN_RIGHT);
-    oHz = new Fl_Box(843,450,10,10,"Hz");
+    oHz = new Fl_Box(843,450,10,10,"Hz");                                       //Indicador de escala de Hertz
     oHz->labelsize(10);
     oHz->box(FL_ENGRAVED_BOX);
     oHz->align(FL_ALIGN_RIGHT);
-    oMeHz = new Fl_Box(843,480,10,10,"MHz");
+    oMeHz = new Fl_Box(843,480,10,10,"MHz");                                    //Indicador de escala de MegaHertz
     oMeHz->labelsize(10);
     oMeHz->box(FL_ENGRAVED_BOX);
     oMeHz->align(FL_ALIGN_RIGHT);
-    ohelp_gen  = new Fl_Button (825,382,40,18,"Help");
+    ohelp_gen  = new Fl_Button (825,382,40,18,"Help");                          //Botón que inicia la ayuda de uso del instrumento
     ohelp_gen->labelsize(10);
-    ogroup_senal = new Fl_Group (755,520,120,170,"");
+    
+    ogroup_senal = new Fl_Group (755,520,120,170,"");                           //Inicio del grupo de botones de selección de tipo de señal
     ogroup_senal->box(FL_ENGRAVED_BOX);
 	ogroup_senal->deactivate();
-    oseno = new Fl_Button(780,540,70,35,"Seno");
+    oseno = new Fl_Button(780,540,70,35,"Seno");                                //Botón de selección de señal seno.
     oseno->labelsize(12);
-    ocuadrada = new Fl_Button(780,585,70,35,"Cuadrada");
+    ocuadrada = new Fl_Button(780,585,70,35,"Cuadrada");                        //Botón de selección de señal cuadrada.
     ocuadrada->labelsize(12);
-    otriangulo = new Fl_Button(780,635,70,35,"Triangulo");
+    otriangulo = new Fl_Button(780,635,70,35,"Triangulo");                      //Botón de selección de señal triángulo.
     otriangulo->labelsize(12);
-    ogroup_senal->end();
+    ogroup_senal->end();                                                        //Fin del grupo de botones selctores de tipo de señal.
     
-    ogroup_frecuencia = new Fl_Group (885,380,130,310,"");
+    ogroup_frecuencia = new Fl_Group (885,380,130,310,"");                      //Inicio del grupo de botones de configuración de frecuencia.
     ogroup_frecuencia->box(FL_ENGRAVED_BOX);
 	ogroup_frecuencia->deactivate();
-    ofrec_gen = new Fl_Knob (900,440,100,100,"Frecuencia");
+    ofrec_gen = new Fl_Knob (900,440,100,100,"Frecuencia");                     //Ajuste grueso de frecuencia.
     ofrec_gen->color(147);
     ofrec_gen->type(8);
     ofrec_gen->scaleticks(0);
@@ -57,7 +64,7 @@ Generador::Generador(){
     ofrec_gen->step(0.1);
     ofrec_gen->range(0,1);
     
-    ofrec_gen2 = new Fl_Knob (915,565,70,70,"Ajuste Fino");
+    ofrec_gen2 = new Fl_Knob (915,565,70,70,"Ajuste Fino");                     //Ajuste fino de frecuencia.
     ofrec_gen2->color(147);
     ofrec_gen2->type(8);
     ofrec_gen2->scaleticks(0);
@@ -65,10 +72,10 @@ Generador::Generador(){
     ofrec_gen2->step(0.1);
     ofrec_gen2->range(0,1);
     
-    oescala_frecuencia = new Fl_Choice(890,410,120,20,"Rango");
+    oescala_frecuencia = new Fl_Choice(890,410,120,20,"Rango");                 //Menú de escalas de frecuencia
     oescala_frecuencia->labelsize(13);
     oescala_frecuencia->align(FL_ALIGN_TOP);
-    oescala_frecuencia->add("1 Hz",0,(Fl_Callback *)cb_frec1,this);
+    oescala_frecuencia->add("1 Hz",0,(Fl_Callback *)cb_frec1,this);             
     oescala_frecuencia->add("100 Hz",0,(Fl_Callback *)cb_frec100,this);
     oescala_frecuencia->add("500 Hz",0,(Fl_Callback *)cb_frec500,this);
     oescala_frecuencia->add("1 KHz",0,(Fl_Callback *)cb_frec1k,this);
@@ -76,43 +83,45 @@ Generador::Generador(){
     oescala_frecuencia->add("500 KHz",0,(Fl_Callback *)cb_frec500k,this);
     oescala_frecuencia->add("1 MHz",0,(Fl_Callback *)cb_frec1m,this);
        
-    ovalor_frec = new Fl_Value_Input(900,655,100,25,"");
+    ovalor_frec = new Fl_Value_Input(900,655,100,25,"");                        //Caja de texto para configurar por teclado el valor de frecuencia
     ovalor_frec->type(FL_FLOAT_INPUT);
-    ogroup_frecuencia->end();
-    ogroup_amplitud = new Fl_Group (525,520,110,170,"");
+    ogroup_frecuencia->end();                                                   //Fin del grupo de controles de frecuencia
+    
+    ogroup_amplitud = new Fl_Group (525,520,110,170,"");                        //Inicio del grupo de controles de amplitud
     ogroup_amplitud->box(FL_ENGRAVED_BOX);
 	ogroup_amplitud->deactivate();
-    oamplitud = new Fl_Knob (540,550,80,80,"Amplitud");
+    oamplitud = new Fl_Knob (540,550,80,80,"Amplitud");                         //Botón de ajuste de la amplitud de la señal
     oamplitud->color(180);
     oamplitud->type(8); 
     oamplitud->scaleticks(0);
     oamplitud->labelsize(11);
     oamplitud->range(0,5);
-    odisp_amplitud = new Fl_Output(545,650,70,20,"");
-    ogroup_amplitud->end();
+    odisp_amplitud = new Fl_Output(545,650,70,20,"");                           //Display del valor de la amplitud.
+    ogroup_amplitud->end();                                                     //Fin del grupo de controles de amplitud
     
-    ogroup_offset = new Fl_Group (640,520,110,170,"");
+    ogroup_offset = new Fl_Group (640,520,110,170,"");                          //Inicio del grupo de controles de nivel de offset
     ogroup_offset->box(FL_ENGRAVED_BOX);
 	ogroup_offset->deactivate();
-    ooffset = new Fl_Knob (655,550,80,80,"Offset");
+    ooffset = new Fl_Knob (655,550,80,80,"Offset");                             //Perilla de ajuste de nivel de offset.
     ooffset->color(180);
     ooffset->type(8);
     ooffset->scaleticks(0); 
     ooffset->labelsize(11);
     ooffset->range(-5,5);
-    odisp_offset = new Fl_Output(660,650,70,20,"");
+    odisp_offset = new Fl_Output(660,650,70,20,"");                             //Display de nivel de offset
+    ogroup_offset->end();                                                       //Fin del grupo de controles de nivel de offset
     
-    ogroup_offset->end();
-    
- 	ogroup_generador-> end();
+ 	ogroup_generador-> end();                                                   //Fin del grupo de controles del generador
 	
-	obox_nombre = new Fl_Box(520,375,254,30,"GENERADOR DE SEÑALES");
+	obox_nombre = new Fl_Box(520,375,254,30,"GENERADOR DE SEÑALES");            
     obox_nombre->box(FL_ENGRAVED_FRAME);
     obox_nombre->labelfont(FL_HELVETICA_BOLD);
     obox_nombre->labelsize(19);
 	
-	ogen_on = new Fl_Light_Button(780,375,38,30,"ON");  
+	ogen_on = new Fl_Light_Button(780,375,38,30,"ON");                          //Botón para prender/apagar el generador  
     ogen_on->labelsize(9);     
+    
+    // Callbacks de los botones del generador de señales
     
     ogen_on->callback(cb_generador_on, this);
     oseno->callback(cb_seno,this);
@@ -121,25 +130,25 @@ Generador::Generador(){
     ofrec_gen->callback(cb_frec_gen, this);
     oamplitud->callback(cb_amplitud, this);
     ooffset->callback(cb_offset, this);
-    //ofrec_gen2->callback(cb_frec_gen2, this);
-    //ocontador_frec->callback(cb_contador_frec, this);
 
 }
 
 
-/*
- * Este método es el callback del boton que activa el generador de señales
-*/
-void Generador::cb_generador_on(Fl_Widget* pboton, void *any)
-{
+/*******************************************************************************
+ * Generador::cb_generador_on: Callback del botón que prende/apaga el generador 
+ *                             de señales.
+ * Al prender el instrumento se inicializa con las siguientes configuraciones 
+ * por defecto:
+ * Señal tipo: Seno.
+ * Frecuencia de la señal: xxxxx Hz.
+ * Amplitud: 5 V pico a pico.
+ * Nivel de offset: 0 Voltios. 
+*******************************************************************************/
+void Generador::cb_generador_on(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_generador_on_in();
 }
 
-/**
- * Esta función acompaña la función  cb_generador_on para activar el  
- * generador de señales
-*/
 void Generador::cb_generador_on_in(){
      if (ogen_on->value()== 1){
         activar(1);
@@ -172,26 +181,25 @@ void Generador::cb_generador_on_in(){
 
 
 
-/*
- *  Callback del boton que selecciona la señal seno
-*/
+/*******************************************************************************
+ * Generador::cb_seno: Callback del botón que selecciona la señal tipo seno.
+ * Se le envía al hardware una trama con la configuración de tipo de señal seno
+ * y los otros botones de selección de tipo de señal se desactivan.
+*******************************************************************************/
 void Generador::cb_seno(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_seno_in();
 }
 
-/**
- * Callback del boton que selecciona la señal seno
-*/
 void Generador::cb_seno_in(){
      if (oseno->value()== 0){
         ocuadrada->box(FL_UP_BOX);                      
         ocuadrada->value(0);
         otriangulo->box(FL_UP_BOX);                      
         otriangulo->value(0);
-        Encapsular('I','i','1','1',0x00,0x00);
+        Encapsular('I','i','1','1',0x00,0x00);                                  //Trama tipo de señal seno
         Transmision();
-        if (bhardware){
+        if (bhardware){                                                         //Si la respuesta fue ack.
            otriangulo->value(0);
            oseno->value(1);
            oseno->box(FL_DOWN_BOX);
@@ -200,31 +208,27 @@ void Generador::cb_seno_in(){
              fl_message("Error de hardware");
         }
      }
-     else{
-        oseno->box(FL_UP_BOX);                      
-        oseno->value(0);
-     }
 }
 
 
-/*
- * Callback del boton que selecciona la señal cuadrada
-*/
+/*******************************************************************************
+ * Generador::cb_cuadrada: Callback del botón que selecciona la señal tipo 
+ *                         cuadrada.
+ * Se le envía al hardware una trama con la configuración de tipo de señal 
+ * cuadrada y los otros botones de selección de tipo de señal se desactivan.
+*******************************************************************************/
 void Generador::cb_cuadrada(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_cuadrada_in();
 }
 
-/**
- * Callback del boton que selecciona la señal cuadrada
-*/
 void Generador::cb_cuadrada_in(){
      if (ocuadrada->value()== 0){
         oseno->box(FL_UP_BOX);                      
         oseno->value(0);
         otriangulo->box(FL_UP_BOX);                      
         otriangulo->value(0);
-        Encapsular('I','i','1','3',0x00,0x00);
+        Encapsular('I','i','1','3',0x00,0x00);                                  //Trama tipo de señal cuadrada
         Transmision();
         if (bhardware){                   
            ocuadrada->value(1);
@@ -234,30 +238,26 @@ void Generador::cb_cuadrada_in(){
              fl_message("Error de hardware");
         }
      }
-     else{
-        ocuadrada->box(FL_UP_BOX);                      
-        ocuadrada->value(0); 
-     }
 }
 
-/*
- * Callback del boton que selecciona la señal triangulo
-*/
+/*******************************************************************************
+ * Generador::cb_triangulo: Callback del botón que selecciona la señal tipo
+ *                          triangulo.
+ * Se le envía al hardware una trama con la configuración de tipo de señal 
+ * triangulo y los otros botones de selección de tipo de señal se desactivan.
+*******************************************************************************/
 void Generador::cb_triangulo(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_triangulo_in();
 }
 
-/**
- * Callback del boton que selecciona la señal triangulo
-*/
 void Generador::cb_triangulo_in(){
      if (otriangulo->value()== 0){
         oseno->box(FL_UP_BOX);                      
         oseno->value(0);
         ocuadrada->box(FL_UP_BOX);                      
         ocuadrada->value(0);
-        Encapsular('I','i','1','2',0x00,0x00);
+        Encapsular('I','i','1','2',0x00,0x00);                                  //Trama de tipo de señal triángulo
         Transmision();
         if (bhardware){                   
            otriangulo->value(1);
@@ -267,42 +267,32 @@ void Generador::cb_triangulo_in(){
              fl_message("Error de hardware");
         }
      }
-     else{
-        otriangulo->box(FL_UP_BOX);                      
-        otriangulo->value(0); 
-     }
 }
 
 
-
-
-/*
- * Este método es el callback del boton que selecciona la frecuencia de la señal 
- * que va a ser generada.
-*/
-void Generador::cb_frec_gen(Fl_Widget* pboton, void *any)
-{
+/*******************************************************************************
+ * Generador::cb_frec_gen: Callback del botón para seleccionar la frecuencia de 
+ *                         la señal generada.
+ *
+*******************************************************************************/
+void Generador::cb_frec_gen(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
      pgener->cb_frec_gen_in();
 }
 
-/**
- * Esta función acompaña la función  cb_frec_gen para seleccionar la frecuencia 
- * de la señal que va a ser generada.
-*/
 void Generador::cb_frec_gen_in(){
-     long double in = 0.18626451561698509610066226162263;         //Factor multiplicativo para la frecuencia
-     int sd;
+     long double in = 0.18626451561698509610066226162263;    //Factor por el que se debe multiplicar el valor del botón de frecuencia para obtener el valor que se debe enviar la hardware
+     int ifrechardware;
      int icont;
      int ilong;
      char pruebafrec[10];
      ovalor_frec->value(ofrec_gen->value()*5.3687);
-     sd = int(in*ofrec_gen->value());
+     ifrechardware = int(in*ofrec_gen->value());
      itoa(ofrec_gen->value(),cfrecuencia,10);
      //odisp_gen->value(cfrecuencia);
      sprintf(pruebafrec, "%.6g", ofrec_gen->value());
      odisp_gen->value(pruebafrec);
-     itoa(sd,frec_hexa,16);
+     itoa(ifrechardware,frec_hexa,16);
      ilong = strlen(frec_hexa);
      for (icont = 8; icont > 0; icont --){
          if(ilong > 0){

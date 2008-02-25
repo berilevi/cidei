@@ -31,9 +31,9 @@ protected:
 public:
        
       char ccanal[4];                      /* Nombre del canal*/
-      char cv_div[10];                      /* Escala de voltios por división*/
+      char cv_div[10];                     /* Escala de voltios por división*/
       char cacople[4];                     /* Tipo de acople*/
-      char ct_div[10];                      /* Escala de tiempo por división*/
+      char ct_div[10];                     /* Escala de tiempo por división*/
       char ctrigger[7];                    /* Canal fuente del trigger*/
        
        int x(){return _x;};                        /* Posicion horizontal del Texto */

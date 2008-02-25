@@ -70,7 +70,9 @@ class Analizador : public Instrumento {
 	    //char **pdata_analizador;
 	    char pdata_analizador [TAM_ALMACENADO][9];
 	    //char **pdata_analizador hexadecimal;
-	    //char pdata_analizador [TAM_ALMACENADO][9];
+	    //char cdatosHexa [TAM_ALMACENADO];
+        //char **pdata_analizador hexadecimal;
+	    int idatosDecimal [TAM_ALMACENADO];
         /**
 		 * Objeto de la clase scope que representa la pantalla del analizador 
 		 * donde se grafica la señal digitalizada por el canal.
@@ -341,7 +343,7 @@ class Analizador : public Instrumento {
 		 * Valor del dato binario de 8 bits en el 1er tiempo de muestreo 
 	    */
 		Fl_Output *odato1;
-	
+	    Fl_Output *odatoprueba;
          
 };
 
