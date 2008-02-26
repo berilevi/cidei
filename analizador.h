@@ -38,7 +38,8 @@
 
 
 #define TAM_ALMACENADO 35
-#define ESPERA_TRIGGER 10
+#define ESPERA_TRIGGER 20
+
 
 using namespace std;
 
@@ -46,7 +47,7 @@ using namespace std;
  * Analizador: Clase que representa las funcionees del instrumento Analizador
  *             Lógico.
  * El instrumento puede capturar el estado binario de un bus de señales digitales 
- * de 8 canales.
+ * de 8 canales y el hardware lo envía en un dato hexadecimal de 2 carácteres.
  * TAM_ALMACENADO: Constante que representa el número máximo de muestras que 
  *                 puede almacenar el instrumento.
  * El instrumento tiene 2 modos de captura:
