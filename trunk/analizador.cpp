@@ -414,7 +414,6 @@ void Analizador::cb_bajada_in() {
  * ocursor->iposx: Posición de la pantalla donde se debe dibujar el cursor:
  *                 El cursor se posiciona en la mitad de cada dato muestreado
  *                 graficado en la pantalla.
- * La posición se calcula:
  * El dato donde se posiciona el cursor es representado en el cuadro de texto
  * dependiendo el tipo de numeración escogido por el usuario para su representa-
  * cion: Binaria, Decimal ó Hexadecimal.
@@ -425,8 +424,12 @@ void Analizador::cb_scroll_cursor(Fl_Widget* pboton, void *pany) {
 }
 
 void Analizador::cb_scroll_cursor_in() { 
-    ocursor->iposx = ((inum_datos_grafica/2)+(inum_datos_grafica*oscroll->value())-2); 
-    ocursor->redraw();
+    ocursor->iposx = ((inum_datos_grafica/2)+(inum_datos_grafica*oscroll->value())-2);  //Cálculo de la posición del cursor
+    
+    ocursor->redraw();                                   // Redibujar el cursor                              
+    
+    //Redibujar las gráficas en todos los canales
+    
     apantalla_ch1->redraw();
     apantalla_ch2->redraw();
     apantalla_ch3->redraw();
@@ -435,62 +438,103 @@ void Analizador::cb_scroll_cursor_in() {
     apantalla_ch6->redraw();
     apantalla_ch7->redraw();
     apantalla_ch8->redraw();
-    ogrilla->redraw();
-    int ipos = int((odes_horizontal->value()/20));
-    if (orep_dato->value()==1){
-       odato1->value(pdata_analizador[oscroll->value()+ipos]);
+    
+    ogrilla->redraw();                                   // Redibujar la grilla                               
+    
+    // Para conocer la posición en el arreglo del dato que el cursor está señalando.
+    
+    int ipos = int((odes_horizontal->value()/20));                                      
+    if (orep_dato->value()==1){                                                         //Si el tipo de representación seleccionada es tipo binario
+       odato1->value(pdata_analizador[oscroll->value()+ipos]);                          //Mostrar el dato seleccionado con el cursor en el cuadro de texto.
     }
       
 }
 
-
-/**
- * Este método es el callback del timer para realizar la solicitud 
- * de datos del analizador al hardware.  
-*/
+/*******************************************************************************
+ * Analizador::cb_timer_ana: Callback del timer para realizar la solicitud 
+ *                           de datos del analizador al hardware.
+ * En cada ocurrencia del timer se encapsula una trama de solicitud de datos de
+ * Analizador.
+ * separar_canales(): Método donde se separan los datos adquiridos por cada 
+ *                    canal para convertirlos en cadenas de datos binarios y al-
+ *                    macenarlos en un arreglo.
+ * El llamado al timer se repite de acuerdo a la frecuencia de muestreo que el
+ * usuario configure.    
+*******************************************************************************/
 void Analizador::cb_timer_ana(void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_timer_ana_in();
 }
 
-/**
- * Esta función acompaña la función cb_timer_ana
- * para realizar los llamados de callback del timer 
-*/
 void Analizador::cb_timer_ana_in() {
-     Encapsular('C','p','1','0',0x00,0x00);
+     Encapsular('C','p','1','0',0x00,0x00);                                     //Trama de solicitud de datos de analizador
      Transmision();
      separar_canales();
      if (btermino_muestreo == 0) {
-        Fl::repeat_timeout(0.01, cb_timer_ana, this);
+        Fl::repeat_timeout(0.01, cb_timer_ana, this);                           //Repetición del llamado al timer.
      }
 }
 
 
-/**
- * Esta funcion separa los datos enviados desde el hardware para cada
- * canal del analizador logico.
-*/
+/*******************************************************************************
+ * Analizador::separar_canales: Método donde se separan los datos adquiridos por 
+ *                              cada canal para convertirlos en cadenas de datos 
+ *                              binarios y almacenarlos en un arreglo.
+ * buf_analizador[2]: Cadena de caracteres que almacena el dato recibido del 
+ *                   hardware del muestreo del bus de 8 bits. Este dato llega
+ *                   convertido en carácteres hexadecimales entre 0x00 y 0xFF.
+ * ilong: Variable para almacenar el número de carácteres '1's o '0's que repre-
+ *        sentan en binario cada uno de los caracteres hexadecimales que envía
+ *        el hardware; este dato es útil para poder guardar los datos en cadenas
+ *        de carácteres de 8 posiciones.
+ * ipos_msb: Variable donde se almacena el carácter hexadecimal más significati-
+ *           vo que llega del hardware.
+ * ipos_lsb: Variable donde se almacena el carácter hexadecimal menos signifi-
+ *           cativo que llega del hardware.
+ * cbyte_actual[]: Cadena de carácteres donde se almacena temporalmente el dato
+ *                 recibido convertido en carácteres de digitos binarios.
+ * cbyte_anterior[]: Cadena de carácteres donde se almacena temporalmente el dato
+ *                 recibido convertido en carácteres de digitos binarios para
+ *                 compararlo con el próximo dato que llega y hacer el análisis
+ *                 del cambio de estado en caso de estar configurado el muestreo
+ *                 con trigger. 
+ * El almacenamiento de los datos se puede realizar de 2 modos:
+ * - Modo simple: El almacenamiento se realiza incondicionalmente al presionar
+ *                el botón de muestrar; en este modo se almacena hasta el máxi-
+ *                mo numero de datos establecido y cuando se haya terminado se
+ *                envían los datos a gráficar.
+ * - Modo con trigger: El almacenamiento empieza cuando se cumpla el evento con-
+ *                     figurado en la ventana de trigger; si el evento no se 
+ *                     cumple despues de "ESPERA_TRIGGER" muestreos, no se  
+ *                     almacenan datos. al finalizar el almacenamiento, se 
+ *                     envian los datos para ser graficados.
+ * ESPERA_TRIGGER: Constante de número máximo de muestreos esperados para que
+ *                 ocurra el evento configurado de disparo. 
+ * trigger(): Método que analiza si ocurrio o no el evento de trigger configura-
+ *            do por el usuario; retorna un valor booleano (True/False).
+ * almacenar(): Método para almacenar los datos recibidos, en el arreglo para
+ *              despues ser graficados.                  
+*******************************************************************************/
 void Analizador::separar_canales() {
      
      int ilong;
      int ipos_msb;
      int ipos_lsb;
-     char cdatodecimal[9];
-     char cdatohexa[9];
+    // char cdatodecimal[9];
+    // char cdatohexa[9];
      
-     // Convertir los carácteres a datos hexadecimales
+     // Convertir los carácteres que envía el hardware a numeros enteros
      
-     if (buf_analizador[0] > 64){
+     if (buf_analizador[0] > 64){                        //Si el carácter es un dato hexadecimal mayor que '9': 'A', 'B', 'C'.....
         ipos_msb = int(buf_analizador[0]-55);
      }
-     else{
+     else{                                               //Si el carácter es un dato hexadecimal entro '0' y '9'.
          ipos_msb = int(buf_analizador[0]-48); 
      }
-     if (buf_analizador[1] > 64){
+     if (buf_analizador[1] > 64){                        //Si es un dato hexadecimal mayor que '9': 'A', 'B', 'C'.....
         ipos_lsb = int(buf_analizador[1]-55);
      }
-     else{
+     else{                                               //Si es un dato hexadecimal entro '0' y '9'.
          ipos_lsb = int(buf_analizador[1]-48); 
      }
      
@@ -498,10 +542,11 @@ void Analizador::separar_canales() {
      //itoa(atoi(buf_analizador),cdatodecimal,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
      //odatoprueba->value(cdatodecimal);
      
-     // Guardar el número hexadecimal más significativo convertido a binario en caracteres   
+     // Guardar el número hexadecimal más significativo convertido a binario en una cadena de caracteres  
      itoa(ipos_msb,recibido_msb,2);
-     ilong = strlen(recibido_msb);
+     ilong = strlen(recibido_msb);                                 
      
+     //El dato se debe almacenar en una cadena de 4 carácteres     
      for (int i= 4; i > 0; i-- ){
          if (ilong > 0){
             recibido_msb2[i-1] = recibido_msb[ilong-1];
@@ -511,8 +556,12 @@ void Analizador::separar_canales() {
          }
          ilong --;
      }
+     
+     // Guardar el número hexadecimal menos significativo convertido a binario en una cadena de caracteres
      itoa(ipos_lsb,recibido_lsb,2);
      ilong = strlen(recibido_lsb);
+     
+     //El dato se debe almacenar en una cadena de 4 carácteres
      for (int i= 4; i > 0; i-- ){
          if (ilong > 0){
             recibido_lsb2[i-1] = recibido_lsb[ilong-1]; 
@@ -522,6 +571,8 @@ void Analizador::separar_canales() {
          }
          ilong --;
      }
+     
+     //Alamcenar el dato recibido completo en un arreglo de carácteres de 8 posiciones.
      cbyte_actual[0]= recibido_msb2[0];
      cbyte_actual[1]= recibido_msb2[1];
      cbyte_actual[2]= recibido_msb2[2];
@@ -531,17 +582,21 @@ void Analizador::separar_canales() {
      cbyte_actual[6]= recibido_lsb2[2];
      cbyte_actual[7]= recibido_lsb2[3];  
      
-     if (bmuestreando == 0){
-         if (bconf_trigger == 1){             
-             btrigger = trigger();
-             if (btrigger == 0){ 
-                if (iespera_trigger < 20){
+     
+     // Control de flujo del programa para el almacenamiento de datos  en caso de 
+     // ser configurado o no el muestreo con condiciones de trigger.
+     
+     if (bmuestreando == 0){                                        //Si aún no se ha comenzado a almacenar los datos muestrados                            
+         if (bconf_trigger == 1){                                   //Si el usuario configuró el sistema de trigger
+             btrigger = trigger();                                  
+             if (btrigger == 0){                                    //Si no ha ocurrido el evento de disparo configurado.
+                if (iespera_trigger < ESPERA_TRIGGER){              //Si no se ha cumplido la espera para que ocurra el trigger.
                    iespera_trigger++; 
-                   goto salir;      
+                   goto salir;                                      //Salir de la rutina.      
                 }
-                else if (iespera_trigger == 20){
+                else if (iespera_trigger == ESPERA_TRIGGER){        //Si se cumplio la espera del trigger y no ocurrio el evento
                      iespera_trigger = 0;
-                     Fl::remove_timeout(cb_timer_ana, this);
+                     Fl::remove_timeout(cb_timer_ana, this);        //Cancelar el timer de solicitud de muestras
                      btermino_muestreo = 1;
                      omuestrear_on->value(1);
                      omuestrear_on->box(FL_UP_BOX);
@@ -551,53 +606,64 @@ void Analizador::separar_canales() {
                      btrigger = 0;
                      btimer_trigger = 0;
                      omuestrear_on->value(0);
-                     goto salir;
+                     goto salir;                                    //Salir de la rutina
                 }
              }
-             else{
+             else{                                                  //Si ocurrio el evento de trigger         
                   bmuestreando = 1;
                   iespera_trigger = 1;
              }
          }             
      }
      
-     almacenar();
-     salir:
-     strcpy(cbyte_anterior,cbyte_actual);
+     almacenar();                                                   //Almacenar el dato que envío el hardware     
+ salir:
+     strcpy(cbyte_anterior,cbyte_actual);                           //Almacenar temporalmente el dato recibido para compararlo con el siguiente.
 }
 
 
-/**
- * Función para determinar si ocurrio el evento que dispara el muestreo
-*/
+/*******************************************************************************
+ * Analizador::trigger: Método para determinar si ocurrio el evento que dispara 
+ *                      el almacenamiento de datos; retorna un valor booleano
+ *                      (True/False).
+ * El análisis se realiza comparando los arreglos cbyte_actual[] con 
+ * cbyte_anterior[], en la posición seleccionada en la ventana de trigger.
+ * Se reviza el cambio de valor de la posición del arreglo que corresponde al 
+ * canal seleccionado. 
+*******************************************************************************/
+
 bool Analizador::trigger() {
-    if (oflancosubida->value()== 1){
-       if (cbyte_actual[int(oselector->value())-1] > cbyte_anterior [int(oselector->value())-1]){
-          btrigger=1;
-          iespera_trigger = 1;
+    if (oflancosubida->value()== 1){                                            //Si está comfigurado el cambio de nivel de 0 a 1
+       if (cbyte_actual[int(oselector->value())-1] > cbyte_anterior [int(oselector->value())-1]){   //Comparacion del cambio de nivel
+          btrigger=1;               //Se cumplio el evento
+          iespera_trigger = 1;                                                                     
           btimer_trigger = 0;
        }
        else {
-            btrigger=0;
+            btrigger=0;           //No se cumplio el evento                                              
        }
     }
-    else{
+    else{                                                                       //Si está comfigurado el cambio de nivel de 1 a 0
          if (cbyte_actual[int(oselector->value())] < cbyte_anterior [int(oselector->value())]){
-            btrigger=1;
+            btrigger=1;            //Se cumplio el evento
             iespera_trigger = 1;
             btimer_trigger = 0;
          }
          else {
-              btrigger=0;
+              btrigger=0;         //No se cumplio el evento 
          }
     }
-    return btrigger; 
+    return btrigger;             
 }
 
 
-/**
- * Función para almacenar las muestras
-*/
+/*******************************************************************************
+ * Analizador::almacenar: Método para almacenar los datos muestreados enviados
+ *                        por el hardware en un arreglo para posteriormente ser
+ *                        graficados.
+ *
+ *
+*******************************************************************************/
 void Analizador::almacenar() {
      if (idatapos > inum_muestras-1) {
            Fl::remove_timeout(cb_timer_ana, this);
