@@ -132,7 +132,8 @@ Analizador::Analizador() {
     odes_horizontal->scaleticks(0);
     odes_horizontal->labelsize(9);
     odes_horizontal->step(20);
-    odes_horizontal->range(0,400);
+   // odes_horizontal->range(0,400);
+    odes_horizontal->range(0,1000);
     
         
     omuestrear_on = new Fl_Light_Button(430,560,70,30,"Capturar");   //Botón que inicia el muestreo y captura de las señales.
@@ -661,44 +662,57 @@ bool Analizador::trigger() {
  * Analizador::almacenar: Método para almacenar los datos muestreados enviados
  *                        por el hardware en un arreglo para posteriormente ser
  *                        graficados.
- *
- *
+ * Mientras el arreglo no se haya llenado, se almacena en al arreglo el dato que
+ * envía el hardware; cuando el arreglo se  haya completado se termina el timer
+ * de solicitud de datos y se hace un llamado a la función para gráficar los 
+ * datos.
+ * graficar_datos(): Método en el que se recorre el arreglo almacenado y se en-
+ *                   vían los datos para ser graficados.
 *******************************************************************************/
 void Analizador::almacenar() {
-     if (idatapos > inum_muestras-1) {
-           Fl::remove_timeout(cb_timer_ana, this);
+     if (idatapos > inum_muestras-1) {                         //Si ya se completó el arreglo                 
+           Fl::remove_timeout(cb_timer_ana, this);             //Detener el timer de solicitud de datos
            btermino_muestreo = 1;
            omuestrear_on->value(1);
            omuestrear_on->box(FL_UP_BOX);
-           oscroll->activate();
+           oscroll->activate();                                //Activar el cursor para seleccionar dato
            idatapos = 0;
            bmuestreando = 0;
            btrigger = 0;
            btimer_trigger = 0;
            omuestrear_on->value(0);
-           graficar_datos();
+           graficar_datos();                                   //Graficar los datos almacenados.
      }
+     /* TODO (JuanPablo#1#): Revizar si toca colocarle  else{} para que el ultimo 
+                             dato no se almacene en basura. */
      
-     strcpy(pdata_analizador [idatapos], cbyte_actual);
+     strcpy(pdata_analizador [idatapos], cbyte_actual);     //Almacenar el dato en el arreglo
      idatapos++;
      bmuestreando = 1;
-     ocursor->redraw();
+     ocursor->redraw();                                     //Redibujar el cursor 
 }
 
 
-/**
- *
-*/
+/*******************************************************************************
+ * Analizador::cb_horizontal: Callback del botón de desplazameinto horizontal
+ *                            de las gráficas.
+ * Como por pantalla solo se pueden representar 20 muestras y el muestreo toma
+ * un número mayor, con este botón se desplazan las gráficas horizontalmente 
+ * a la izquierda para poder observar los demas datos muestreados.
+ * El indicador del número de la muestra tambien se va desplazando al mismo
+ * tiempo que las gráficas.
+ * El valor presentado en el display del dato, tambien debe ser actualizado con
+ * la posición de la muestra que está indicando el cursor.    
+*******************************************************************************/
 void Analizador::cb_horizontal(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
      pana->cb_horizontal_in();
 }
 
-/**
- * 
-*/
 void Analizador::cb_horizontal_in() {
-    otexto_muestra->inum_inicial = int(odes_horizontal->value()/20);
+    otexto_muestra->inum_inicial = int(odes_horizontal->value()/20);   //Desplazar al mismo tiempo que las graficas el número de muestra
+    
+    //Cambiar el dato con el que se inicia las gráficas a la izquierda de la pantalla del analizador
     apantalla_ch1->ipos_x = int(odes_horizontal->value());
     apantalla_ch1->redraw();
     apantalla_ch2->ipos_x = int(odes_horizontal->value());
@@ -715,8 +729,12 @@ void Analizador::cb_horizontal_in() {
     apantalla_ch7->redraw();
     apantalla_ch8->ipos_x = int(odes_horizontal->value());
     apantalla_ch8->redraw();
+    
+    //Actualizar el dato que queda señalado con el cursor y que se muestra en el display
     int ipos = int((odes_horizontal->value()/20));
     odato1->value(pdata_analizador[oscroll->value()+ipos]);
+    
+    //Redibujar todos los objetos.
     ogrilla->redraw();
     ocursor->redraw();
     otexto_muestra->redraw();

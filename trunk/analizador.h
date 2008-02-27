@@ -37,7 +37,7 @@
 #include <string>
 
 
-#define TAM_ALMACENADO 35
+#define TAM_ALMACENADO 40
 #define ESPERA_TRIGGER 20
 
 
