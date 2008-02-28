@@ -112,6 +112,19 @@ Analizador::Analizador() {
     apantalla_ch8->linetype(FL_SCOPE_LINE);
     apantalla_ch8->ScopeDataSize = 800;
     
+    // Habilitar las pantallas del analizador para gráficar
+    // Esta habilitación se debe hacer porque se usa la misma clase para gráficar que se usa en el osciloscopio pero con 
+    // algunas caracteristicas especiales que son propias del analizador. 
+    
+    apantalla_ch1->banalizador = 1;
+    apantalla_ch2->banalizador = 1;
+    apantalla_ch3->banalizador = 1;
+    apantalla_ch4->banalizador = 1;
+    apantalla_ch5->banalizador = 1;
+    apantalla_ch6->banalizador = 1;
+    apantalla_ch7->banalizador = 1;
+    apantalla_ch8->banalizador = 1;
+    
     ogroup_ana_botones = new Fl_Group(425,375,80,80,"");             // Agrupa los botones del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
@@ -154,7 +167,7 @@ Analizador::Analizador() {
     otrigger_on->labelsize(15);
     
     manual = new Fl_Help_Dialog;
-    manual->load("help_analizador.html");                            
+    manual->load("help_analizador.html");                                                    
           
     ogroup_ana->end();                                               //Fin del grupo de los elementos del analizador
     
@@ -745,25 +758,29 @@ void Analizador::cb_horizontal_in() {
 
 
 
-/**
- * Funcion para recorrer los buffers y graficar la informacion
-*/
+/*******************************************************************************
+ * Analizador::graficar_datos: Método para recorrer el arreglo donde están alma-
+ *                             cenados los datos muestrados que envío el hardwa-
+ *                             re.
+ * Para gráficar los datos, se recorre el arreglo que los contiene y se analiza 
+ * el caracter que contiene cada posición:
+ * si es '1': se envía 50000 como dato para gráficar.
+ * si es '0': se envía 10000 como dato para gráficar.
+ * El dato se gráfica por pixels y se tiene que enviar un número de veces que   
+ * depende de la cantidad de datos que se quieran visualizar en la pantalla o el
+ * tiempo de bit que se quiera representar en pantalla.
+ * Como la pantalla tiene 400 pixels de ancho y se quieren representar 20 datos 
+ * por pantalla, se debe repetir el dato para graficar 20 veces (igraf_datos).
+ * El proceso se debe hacer para los 8 canales. 
+*******************************************************************************/
 void Analizador::graficar_datos() {
      
-     apantalla_ch1->banalizador = 1;
-     apantalla_ch2->banalizador = 1;
-     apantalla_ch3->banalizador = 1;
-     apantalla_ch4->banalizador = 1;
-     apantalla_ch5->banalizador = 1;
-     apantalla_ch6->banalizador = 1;
-     apantalla_ch7->banalizador = 1;
-     apantalla_ch8->banalizador = 1;
      
-     for (int o=0; o<inum_muestras; o++) {
+     for (int o=0; o<inum_muestras; o++) {               // Ciclo para recorrer el arreglo que contiene las cadenas de caracteres con las muestras
              
          //Canal 1
-         if (pdata_analizador[o][0]=='1'){
-            for (int i=0; i<igraf_datos;i++){                   
+         if (pdata_analizador[o][0]=='1'){               //Si el dato es '1'.
+            for (int i=0; i<igraf_datos;i++){            //Ciclo para crear el tiempo de bit graficado; se hace enviando un numero constante de veces el mismo dato.        
                 apantalla_ch1->Add(50000);
             }
          }
@@ -849,39 +866,41 @@ void Analizador::graficar_datos() {
                   apantalla_ch8->Add(10000);
               }
          }
-         ocursor->redraw();
+         ocursor->redraw();                                 //Redibujar el cursor
      }
 }
 
 
-/**
- * 
-*/
+/*******************************************************************************
+ * Analizador::cb_help: Callback del botón que lanza la ayuda del uso del
+ *                      instrumento. 
+ * El Callaback consta de la función static e inline cb_help y cb_help_in.
+ * Se despliega una ventana de ayuda con un archivo en html con la guía de
+ * usuario del instrumento.
+*******************************************************************************/
 void Analizador::cb_help(Fl_Widget* pboton, void *pany){
      Analizador* pana=(Analizador*)pany;
      pana->cb_help_in();
 }
 
-/**
- * 
-*/
 void Analizador::cb_help_in(){
-
       manual->show();
 }
 
 
-/**
- * 
-*/
+/*******************************************************************************
+ * Analizador::cb_log_ana: Callback del botón que activa el almacenamiento en 
+ *                         archivos planos de texto de los datos capturados 
+ *                         para el analizador lógico.  
+ * El Callaback consta de la función static e inline cb_log_ana y cb_log_ana_in.
+ * analizador.txt: Archivo plano de texto que contiene los datos muestreados y 
+ *                 almacenados en el arreglo pdata_analizador[]. 
+*******************************************************************************/
 void Analizador::cb_log_ana(Fl_Widget* pboton, void *pany){
      Analizador* pana=(Analizador*)pany;
      pana->cb_log_ana_in();
 }
 
-/**
- * 
-*/
 void Analizador::cb_log_ana_in(){
     ofstream log("analizador.txt");
     for (int o=0; o<inum_muestras; o++) {
@@ -891,7 +910,8 @@ void Analizador::cb_log_ana_in(){
 }
 
 /*******************************************************************************
-*
+* Analizador::cbfrec1: Callback para la primera frecuencia de muestreo seleccio-
+*                      nada en el menú.
 *
 *******************************************************************************/
 
@@ -900,19 +920,19 @@ void Analizador::cbfrec1(Fl_Widget* pmenu, void *pany){
      pana->cbfrec1_in();
 }
 
-
 void Analizador::cbfrec1_in(){
      
 }
 
 /*******************************************************************************
-*
+* Analizador::cbfrec1: Callback para la segunda frecuencia de muestreo seleccio-
+*                      nada en el menú.
 *
 *******************************************************************************/
 
 void Analizador::cbfrec2(Fl_Widget* pmenu, void *pany){
      Analizador* pana = (Analizador*)pany;
-     pana->cbfrec1_in();
+     pana->cbfrec2_in();
 }
 
 
@@ -921,15 +941,15 @@ void Analizador::cbfrec2_in(){
 }
 
 /*******************************************************************************
-*
+* Analizador::cbfrec1: Callback para la tercera frecuencia de muestreo seleccio-
+*                      nada en el menú.
 *
 *******************************************************************************/
 
 void Analizador::cbfrec3(Fl_Widget* pmenu, void *pany){
      Analizador* pana = (Analizador*)pany;
-     pana->cbfrec1_in();
+     pana->cbfrec3_in();
 }
-
 
 void Analizador::cbfrec3_in(){
      
@@ -937,13 +957,14 @@ void Analizador::cbfrec3_in(){
 
 
 /*******************************************************************************
-*
+* Analizador::cbfrec1: Callback para la cuarta frecuencia de muestreo seleccio-
+*                      nada en el menú.
 *
 *******************************************************************************/
 
 void Analizador::cbfrec4(Fl_Widget* pmenu, void *pany){
      Analizador* pana = (Analizador*)pany;
-     pana->cbfrec1_in();
+     pana->cbfrec4_in();
 }
 
 
