@@ -85,12 +85,19 @@ void Fl_Scope::draw(){
 *       ptrjp y ptrjp2 para apuntar al arreglo con los datos para el canal 2. 
 *       
 * bdual: Si vale 1 indica que los datos que se van a graficar corresponden a 
-*        operaciones de suma o resta de los datos de los 2 canales o para graficar 
-*        figuras de lissajous.
+*        operaciones de suma o resta de los datos de los 2 canales del oscilos-
+*        copio o para graficar figuras de lissajous.
 *        Si vale 0 indica que se van a graficar los datos independientes de cada 
 *        canal.
-*        
-*
+* Se pueden gráficar varios tipos de datos de los 2 instrumentos Osciloscopio y 
+* Analizador Lógico, del osciloscopio se grafican los datos de cada uno de los 2
+* canales, ademas de las operaciones de suma, resta y X vs Y. 
+* bch1 : Si es TRUE (1), indica que el canal 1 del osciloscopio envía datos para
+*        gráficar; si es FALSE (0), indica que el canal no esta enviando datos.       
+* bch2 : Si es TRUE (1), indica que el canal 2 del osciloscopio envía datos para
+*        gráficar; si es FALSE (0), indica que el canal no esta enviando datos.
+* banalizador : Si es TRUE (1), indica que el analizador lógico envía datos para
+*               gráficar.
 *******************************************************************************/
 void Fl_Scope::draw(int xx, int yy, int ww, int hh){
      
@@ -102,7 +109,7 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
  int Yval,Yval2;
  int valor_y;
  
- fl_push_clip(xx,yy,ww-1,hh);                                     /* Establece el área de la gráfica */
+ fl_push_clip(xx,yy,ww-1,hh);                                   /* Establece el área de la gráfica */
  fl_draw_box(FL_DOWN_BOX,xx,yy,ww,hh,_BackColour);              /* Dibujo del Cuadro de grafica Screen */
  
  fl_color( FL_WHITE);                                           /* Ajustar el color para dibujar las divisiones del Screen*/
@@ -124,39 +131,39 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
              default:
              case FL_SCOPE_LINE:  
                   if(DataType==FL_SCOPE_UNSIGNED){ 
-                     if (bch1== 1 && bch2== 1){
+                     if (bch1== 1 && bch2== 1){                 /* Los dos canales del osciloscopio envían datos individualmente*/
                         fl_color( FL_YELLOW);                                                      
                         fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));
                         fl_color( FL_GREEN);
                         fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0)));
-                        xx= xx+4;
+                        xx= xx+4;                               /* La resolución de la pantalla es de 4 pixels*/        
                      }                                                    
-                     else if (bch1== 1 && bch2 == 0){
+                     else if (bch1== 1 && bch2 == 0){           /* Solamente el canal 1 del osciloscopio envía datos*/          
                           fl_color( FL_YELLOW);
                           fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
                           xx= xx+4;
                      }
-                     else if (bch2 == 1 && bch1== 0){
+                     else if (bch2 == 1 && bch1== 0){           /* Solamente el canal 2 del osciloscopio envía datos*/        
                           fl_color( FL_GREEN);
                           fl_line(xx+ipos_x,(yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)),xx+4+ipos_x,(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
                           xx= xx+4;
                      }
                      else{
-                          if (banalizador == 1){
+                          if (banalizador == 1){                /* El analizador lógico envía datos*/          
                              fl_color(_TraceColour);
-                             if (xx < 419+ipos_x){
+                             if (xx < 419+ipos_x){              /*Para que la gráfica no se salga de la pantalla*/
                                 fl_line(xx-ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx-ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0)));  
                                 xx++;
                              }
                           }
                      }  
                   }
-                  else{
+                  else{                                   /* No se usa porque todos los datos de los instrumentos son UNSIGNED*/                              
                        Yval=(int) (  (float)((int)*Ptr) * (float)hh/(65535.0/2.0));
                        Yval2=(int) (  (float)((int)*Ptr2) * (float)hh/(65535.0/2.0));
                   }
              break;
-             case FL_SCOPE_DOT:
+             case FL_SCOPE_DOT:                           /* Para graficar con puntos*/
                   if(DataType==FL_SCOPE_UNSIGNED){
                      fl_point(xx,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)) );
                   }
@@ -172,19 +179,19 @@ void Fl_Scope::draw(int xx, int yy, int ww, int hh){
       ptrjp2++;
       ptrjp++;
       
-      fl_color(_TraceColour);  
+      fl_color(_TraceColour);                                    /* Retornar al color de línea por defecto*/
     }
 }
 
 else if (bdual==1){                                              /* Si el oscilocpio esta en modo de operación dual*/
    if (ivez >0){                                                 /* Para que se grafique despues de la primera operacion entre los datos de las señales*/
       for(count=0;count<ScopeDataSize-1;count++){
-          if (blissajous == 1){
+          if (blissajous == 1){                                  /* Si se envían datos de X vs Y de los canales del Osciloscopio*/
              fl_color(FL_RED);
              fl_line((xx+ww)-(int)((float)*Ptr*((float)ww/65535.0)), (yy+hh) - (int)((float)*ptrjp * ((float)hh/65535.0)), 
                      (xx+ww)-(int)((float)*Ptr2*((float)ww/65535.0)),(yy+hh) - (int)((float)*ptrjp2 * ((float)hh/65535.0))); 
           }
-          else{
+          else{                                                  /* Si son operaciones de suma o resta de los canales del osciloscopio*/            
                fl_color(_TraceColour);
                fl_line(xx+ipos_x,(yy+hh) - (int)((float)*Ptr * ((float)hh/65535.0)),xx+1+ipos_x,(yy+hh) - (int)((float)*Ptr2 * ((float)hh/65535.0))); 
                //xx++;
@@ -237,10 +244,10 @@ int Fl_Scope::Add(int data){
  }
  
  switch(TraceType)  
-                                            /* Adicionar los datos al arreglo dependiendo el tipo de grafica*/
+                                            /* Adicionar los datos al arreglo dinámico dependiendo el tipo de grafica*/
  {
    default:
-   case FL_SCOPE_TRACE_SCROLL:
+   case FL_SCOPE_TRACE_SCROLL:              /* Desplazar los datos una posición y el dato nuevo se coloca al inicio del arreglo dinamico*/
         Ptr=Ptr2=ScopeData;
         Ptr2++;
         for(count=0;count<ScopeDataSize;count++){
@@ -249,7 +256,7 @@ int Fl_Scope::Add(int data){
         }
         *Ptr=data;
    break;
-   case FL_SCOPE_TRACE_LOOP_CLEAR:
+   case FL_SCOPE_TRACE_LOOP_CLEAR:          /* Se coloca en cero las posiciones del arreglo dinámico y el nuevo dato se coloca al inicio*/     
         if(ScopeDataPos==0) {
            Ptr=ScopeData;
            for(count=0;count<=ScopeDataSize;count++){
@@ -258,7 +265,7 @@ int Fl_Scope::Add(int data){
            }
         }
    break;  
-   case FL_SCOPE_TRACE_LOOP:
+   case FL_SCOPE_TRACE_LOOP:                 /*El nuevo dato se coloca incrementando en uno la posición en el arreglo*/        
         Ptr=ScopeData;
         Ptr+=ScopeDataPos;
         *Ptr=data;

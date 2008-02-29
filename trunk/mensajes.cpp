@@ -5,38 +5,63 @@
 #include <FL/fl_draw.H>
 #include "mensajes.h" // class's header file
 
-
+/*******************************************************************************
+* Mensajes::draw(): Método heredado para graficar.
+* Se debe sobrecargar este método para modificarlo ya que es heredado de la 
+* clase FL_WIDGET.
+* Solamente se envían como parametro al método sobrecargado la posición y tamaño
+* de los gráficos.
+*******************************************************************************/
 void Mensajes::draw(){
  draw(x(),y(),w(),h());
 }
 
-
+/*******************************************************************************
+* Mensajes::draw(int,int,int,int): Sobrecarga del método draw(), para dibujar  
+*                                  los números que indican el número de muestra
+*                                  graficado en el analizador lógico.
+* fpos: Variable que equivale a la mitad del tiempo de bit en la gráfica, el
+*       número se ubica en la mitad de la posición que ocupa la gráfica de una
+*       muestra.
+* Los números que se grafican se generan con un ciclo desde cero hasta el número
+* de muestras.
+* El número se posiciona en la mitad de cada posición de muestra graficada. 
+* inum_inicial : Número que inicia en la muestra que queda a la izquierda de la
+*                pantalla del instrumento.        
+*******************************************************************************/
 void Mensajes::draw(int xx, int yy, int ww, int hh){
      
      float fpos = inum_muestras/2;
-     fl_color(_TextColour);
-	 fl_font(FL_HELVETICA,10);
-	 for (int i=0;i<inum_muestras;i++){
-         itoa((i+inum_inicial),text,10);
-         if (i+inum_inicial > 9)
-            fl_draw(text,(fpos+(inum_muestras*i)+(xx-6)),yy);
-         else
+     fl_color(_TextColour);                                             //Color de los numero graficados
+	 fl_font(FL_HELVETICA,10);                                          //Tipo y tamaño de Fuente
+	 for (int i=0;i<inum_muestras;i++){                                 //Ciclo para generar los numeros
+         itoa((i+inum_inicial),text,10);                                //Convertir el número entero 
+         if (i+inum_inicial > 9)                                        //Si el número solo tiene un digito
+            fl_draw(text,(fpos+(inum_muestras*i)+(xx-6)),yy);           
+         else                                                           //Si el número tiene más de 1 digito se coloca 3 pixels más a tras para que quede centrado
             fl_draw(text,(fpos+(inum_muestras*i)+(xx-3)),yy);
      }
 }
 
 
-// class constructor
+/*******************************************************************************
+* Mensajes::Mensajes: Constructor de la clase Mensajes.
+* Genera y grafica la numeración de las muestras graficadas del analizador 
+* lógico.
+* Se inicializan las variables, color de los números y posición.
+*******************************************************************************/
 Mensajes::Mensajes(int X, int Y, int W, int H, const char *l):Fl_Widget(X,Y,W,H,l){                      
-     x(X);y(Y);
-     TextColour(Fl_Color(0));
-     strcpy(text,"   ");
-     inum_muestras = 20;
-     inum_inicial = 0;
+     x(X);y(Y);                         //Posición de los números
+     TextColour(Fl_Color(0));           //Color del texto
+     strcpy(text,"   ");                //Inicializacion de la cadena de caracteres que contiene el numero graficado
+     inum_muestras = 20;                //Número de muestras representadas en pantalla
+     inum_inicial = 0;                  //Número de muestra del extremo izquierdo de la pantalla del instrumento
 }
 
 
-// class destructor
+/*******************************************************************************
+* Mensajes::~Mensajes: destructor de la clase
+*******************************************************************************/
 Mensajes::~Mensajes(){
-	// insert your code here
+
 }

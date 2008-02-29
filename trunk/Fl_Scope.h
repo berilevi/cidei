@@ -91,7 +91,7 @@ protected:
   
 public:
 
-  long int ScopeDataSize;                           /* Tamaño de los arreglos de datos que se van a graficar*/
+  long int ScopeDataSize;                     /* Tamaño de los arreglos de datos que se van a graficar*/
 
   int *ScopeData;                             /* Apuntador al arreglo dinamico del canal 1 */
   

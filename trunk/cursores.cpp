@@ -4,29 +4,45 @@
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
 
-// class constructor
+/*******************************************************************************
+* Cursores::Cursores: Constructor de la clase Cursores.
+*                     Dibuja el cursor del instrumento analizador lógico para 
+*                     señalar un dato graficado en la pantalla y ver su repre-
+*                     sentación en 3  sistemas de nuemración.
+* Se inicializan las variables y la posición del cursor.
+*******************************************************************************/
 Cursores::Cursores(int X,int Y,int W,int H,const char *l): Fl_Scope(X,Y,W,H,l){
                        
-	x(X);y(Y);w(W);h(H);
-    bcursor = 0;
-    iposx = 0;
+	x(X);y(Y);w(W);h(H);     //Inicialización de la posición del cursor
+    bcursor = 0;             //Inicia deshabilitado el cursor
+    iposx = 0;               //Posición inicial del cursor.
 }
 
-
+/*******************************************************************************
+* Cursores::draw(): Método heredado para graficar.
+* Se debe sobrecargar este método para modificarlo ya que es heredado de la 
+* clase FL_SCOPE.
+* Solamente se envían como parametro al método sobrecargado la posición y tamaño
+* de los gráficos.  
+*******************************************************************************/
 void Cursores::draw(){
  draw(x(),y(),w(),h());
 }
 
+/*******************************************************************************
+* Cursores::draw(int,int,int,int): Sobrecarga del método draw(), para dibujar el 
+*                                  cursor del instrumento analizador lógico.
+* iposx: Valor ajustado por el usuario para posicionar el cursor. 
+*******************************************************************************/
 void Cursores::draw(int xx, int yy, int ww, int hh){
      fl_push_clip(xx,yy,ww,hh);
-     
-     fl_color(FL_YELLOW);
-     fl_line(xx+iposx, yy, xx+iposx, hh);
-          
+     fl_color(FL_YELLOW);                     //Color del cursor
+     fl_line(xx+iposx, yy, xx+iposx, hh);     //Dibujar la línea
      fl_pop_clip();
 }
 
-// class destructor
+/*******************************************************************************
+* Destructor de clase
+*******************************************************************************/ 
 Cursores::~Cursores(){
-	// insert your code here
 }

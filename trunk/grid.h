@@ -5,20 +5,26 @@
 
 #include "fl_scope.h" // inheriting class's header file
 
-// No description
-class grid : public Fl_Scope
-{
+/*******************************************************************************
+ * grid: Clase que representa las cuadriculas de las pantallas de los instrumen-
+ *       tos, que ayudan al usuario en la interpretación de las gráficas.
+ * Con esta clase se realizan las grillas de los instrumentos osciloscopio y 
+ * Analizador Lógico
+*******************************************************************************/
+class grid : public Fl_Scope{
+      
     Fl_Color _TraceColour;               /* Color de la traza */  
       
-	public:
-   
+	public:  
 		// class constructor
 		grid(int,int,int,int,const char * = 0);
 		// class destructor
 		~grid();
-		// activar grilla o ejes
+		// Activar grilla o ejes para el osciloscopio
 		bool bgrid;
+		// Activar o no la grilla del analizador lógico
 		bool bgrilla_analizador;
+		// Analizador Lógico prendido o apagado
 		bool banalizador_on;
 		
 		Fl_Color TraceColour(){return _TraceColour;};

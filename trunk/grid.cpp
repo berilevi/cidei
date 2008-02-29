@@ -5,98 +5,121 @@
 #include <FL/fl_draw.H>
 #include <FL/Enumerations.H>
 
-// class constructor
+/*******************************************************************************
+* grid::grid: Constructor de la clase grid.
+* Se inicializan las variables y el color de las lineas. 
+* La clase grid representa las lineas guía de las pantallas de los instrumentos
+* Osciloscopio y Analizador Lógico. 
+* - En el osciloscopio se hacen dos tipos de gráficas:
+*    - Ejes: Se dibujan los ejes coordenados (X, Y) que dividen en 4 partes 
+*            iguales la pantalla.
+*    - Grilla: Se dibuja una cuadricula de 10 x 8 en toda la pantalla.
+* - En el Analizador Lógico solo se hace un tipo de grilla que son líneas verti-
+*   cales que dividen en 20 partes iguales la pantalla del Analizador.     
+*******************************************************************************/
 grid::grid(int X,int Y,int W,int H,const char *l): Fl_Scope(X,Y,W,H,l){
                
-	x(X);y(Y);w(W);h(H);
-    bgrid = 0; 
-    bgrilla_analizador = 0;
-    banalizador_on = 1;
-    TraceColour(Fl_Color(27));
+	x(X);y(Y);w(W);h(H);                 //Posición y tamaño del área donde se van a dibujar las grillas
+    bgrid = 0;                           //Las grillas inician en estado desactivado.
+    bgrilla_analizador = 0;              //Grilla del analizador desactivada
+    banalizador_on = 1;                  
+    TraceColour(Fl_Color(27));           //Color de las líneas
     
 }
 
+/*******************************************************************************
+* grid::draw: Método para realizar las gráficas.
+*             Se debe sobrecargar este método para modificarlo ya que es hereda-
+*             do de la clase FL_SCOPE.
+* Solamente se envían como parametro al método sobrecargado la posición y tamaño
+* de los gráficos.    
+*******************************************************************************/
 
 void grid::draw(){
- draw(x(),y(),w(),h());
+ draw(x(),y(),w(),h());        //parámetros enviados a la sobrecarga del método.                                              
 }
+
+/*******************************************************************************
+* grid::draw(int, int, int, int): Sobrecarga del método draw para dibujar las
+*                                 líneas de grilla. 
+* bgrid : Si es TRUE (1), se grafica la cuadricula de 10 x 8 en la pantalla del 
+*         osciloscopio, esta grilla se dibuja con lineas puenteadas.
+*         si es FALSE (0), se grafican unicamente los ejes X Y en la pantalla del
+*         osciloscopio, estos se dibujan conlíneas continuas.
+* bgrilla_analizador : Si es TRUE (1), se grafica la grilla del analizador. 
+*******************************************************************************/
 
 void grid::draw(int xx, int yy, int ww, int hh){
     
    fl_push_clip(xx,yy,ww,hh); 
     
    fl_color(FL_WHITE);  
-  // fl_lighter(FL_WHITE); 
-   fl_line_style(FL_DOT);
+   fl_line_style(FL_DOT);                                   //Tipo de línea punteada                    
 
-if (bgrilla_analizador == 0 ){   
-   if (bgrid){
+if (bgrilla_analizador == 0 ){                              //Dibujar solo para osciloscopio                                                                  
+   if (bgrid){                                              //Grilla del osciloscopio activada          
+   
+      // Líneas Horizontales para la cuadricula del osciloscopio  
       fl_color(Fl_Color(22));
       fl_line(xx, (hh/8)+yy, ww+xx, (hh/8)+yy);
       fl_line(xx, (hh/4)+yy, ww+xx, (hh/4)+yy);
       fl_line(xx, (hh/2.6667)+yy, ww+xx, (hh/2.6667)+yy);
-      fl_line_style(0);
+      fl_line_style(0);                                     //Cambiar a linea continua para el eje X
       fl_line(xx, (hh/2)+yy, ww+xx, (hh/2)+yy);
-      fl_line_style(FL_DOT);
+      fl_line_style(FL_DOT);                                //Cambiar a linea punteada para las otras lineas horizontales 
       fl_line(xx, (hh/1.6)+yy, ww+xx, (hh/1.6)+yy);
       fl_line(xx, (hh/1.3333)+yy, ww+xx, (hh/1.3333)+yy);
       fl_line(xx, (hh/1.142857)+yy, ww+xx, (hh/1.142857)+yy);
    
+      // Líneas verticales para la cuadricula del osciloscopio
       fl_line((ww/10)+xx, yy, (ww/10)+xx, hh+yy);
       fl_line((ww/5)+xx, yy, (ww/5)+xx, hh+yy);
       fl_line((ww/3.3333)+xx, yy, (ww/3.333)+xx, hh+yy);
       fl_line((ww/2.5)+xx, yy, (ww/2.5)+xx, hh+yy);
-      fl_line_style(0);
+      fl_line_style(0);                                       //Cambiar a línea continua para el eje Y
       fl_line((ww/2)+xx, yy, (ww/2)+xx, hh+yy);
-      fl_line_style(FL_DOT);
+      fl_line_style(FL_DOT);                                  //Cambiar a línea punteada para las otras lineas verticales
       fl_line((ww/1.66667)+xx, yy, (ww/1.66667)+xx, hh+yy);
       fl_line((ww/1.42857)+xx, yy, (ww/1.42857)+xx, hh+yy);
       fl_line((ww/1.25)+xx, yy, (ww/1.25)+xx, hh+yy);
       fl_line((ww/1.1111)+xx, yy, (ww/1.1111)+xx, hh+yy);
-
    }
-   
-   else if (bgrid == 0 && banalizador_on == 0 ){
-        fl_line_style(0);
-        fl_line((ww/2)+12, yy, (ww/2)+12, hh+yy);
-        fl_line(xx, (hh/2)+yy, ww+12, (hh/2)+yy);
+   else if (bgrid == 0 && banalizador_on == 0 ){              //Si esta desactivada la grilla del osciloscopio solo de dibujan los ejes
+        fl_line_style(0);                                     //Linea Continua para dibujar los ejes
+        fl_line((ww/2)+12, yy, (ww/2)+12, hh+yy);             //Eje Y de la pantalla del osciloscopio
+        fl_line(xx, (hh/2)+yy, ww+12, (hh/2)+yy);             //Eje X de la pantalla del osciloscopio
    }
 }
-else {
+else {                                                        //Dibujar para el analizador lógico
      if (bgrid == 1){
-      fl_color(_TraceColour);
-      //fl_color(Fl_Color(22));          
-     //fl_lighter(FL_WHITE);
-     // fl_color(27);
-      fl_line((ww/20)+xx, yy, (ww/20)+xx, hh+yy);
-      fl_line((ww/10)+xx, yy, (ww/10)+xx, hh+yy);
-      fl_line((ww/6.66667)+xx, yy, (ww/6.66667)+xx, hh+yy);
-      fl_line((ww/5)+xx, yy, (ww/5)+xx, hh+yy);
-      fl_line((ww/4)+xx, yy, (ww/4)+xx, hh+yy);
-      fl_line((ww/3.3333)+xx, yy, (ww/3.333)+xx, hh+yy);
-      fl_line((ww/2.85714)+xx, yy, (ww/2.85714)+xx, hh+yy);
-      fl_line((ww/2.5)+xx, yy, (ww/2.5)+xx, hh+yy);
-      fl_line((ww/2.2222)+xx, yy, (ww/2.2222)+xx, hh+yy);
-      fl_line((ww/2)+xx, yy, (ww/2)+xx, hh+yy);
-      fl_line((ww/1.81818)+xx, yy, (ww/1.81818)+xx, hh+yy);
-      fl_line((ww/1.66667)+xx, yy, (ww/1.66667)+xx, hh+yy);
-      fl_line((ww/1.538461)+xx, yy, (ww/1.538461)+xx, hh+yy);
-      fl_line((ww/1.42857)+xx, yy, (ww/1.42857)+xx, hh+yy);
-      fl_line((ww/1.3333)+xx, yy, (ww/1.3333)+xx, hh+yy);
-      fl_line((ww/1.25)+xx, yy, (ww/1.25)+xx, hh+yy);
-      fl_line((ww/1.17647)+xx, yy, (ww/1.17647)+xx, hh+yy);
-      fl_line((ww/1.1111)+xx, yy, (ww/1.1111)+xx, hh+yy);
-      fl_line((ww/1.0526316)+xx, yy, (ww/1.0526316)+xx, hh+yy);
+          fl_color(_TraceColour);                             //Color de la grilla del analizador
+          
+          //Líneas verticales para la grilla del analizador lógico 
+          fl_line((ww/20)+xx, yy, (ww/20)+xx, hh+yy);
+          fl_line((ww/10)+xx, yy, (ww/10)+xx, hh+yy);
+          fl_line((ww/6.66667)+xx, yy, (ww/6.66667)+xx, hh+yy);
+          fl_line((ww/5)+xx, yy, (ww/5)+xx, hh+yy);
+          fl_line((ww/4)+xx, yy, (ww/4)+xx, hh+yy);
+          fl_line((ww/3.3333)+xx, yy, (ww/3.333)+xx, hh+yy);
+          fl_line((ww/2.85714)+xx, yy, (ww/2.85714)+xx, hh+yy);
+          fl_line((ww/2.5)+xx, yy, (ww/2.5)+xx, hh+yy);
+          fl_line((ww/2.2222)+xx, yy, (ww/2.2222)+xx, hh+yy);
+          fl_line((ww/2)+xx, yy, (ww/2)+xx, hh+yy);
+          fl_line((ww/1.81818)+xx, yy, (ww/1.81818)+xx, hh+yy);
+          fl_line((ww/1.66667)+xx, yy, (ww/1.66667)+xx, hh+yy);
+          fl_line((ww/1.538461)+xx, yy, (ww/1.538461)+xx, hh+yy);
+          fl_line((ww/1.42857)+xx, yy, (ww/1.42857)+xx, hh+yy);
+          fl_line((ww/1.3333)+xx, yy, (ww/1.3333)+xx, hh+yy);
+          fl_line((ww/1.25)+xx, yy, (ww/1.25)+xx, hh+yy);
+          fl_line((ww/1.17647)+xx, yy, (ww/1.17647)+xx, hh+yy);
+          fl_line((ww/1.1111)+xx, yy, (ww/1.1111)+xx, hh+yy);
+          fl_line((ww/1.0526316)+xx, yy, (ww/1.0526316)+xx, hh+yy);
       }
-      
 }
-     
-   fl_pop_clip();      
-        
+   fl_pop_clip();        
 }
 
 // class destructor
-grid::~grid()
-{
-	// insert your code here
+grid::~grid(){
+	
 }
