@@ -129,7 +129,7 @@ Analizador::Analizador() {
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
     ogroup_ana_botones->deactivate();
            
-    ofrec_muestreo = new Fl_Choice(430,400,70,20,"FrecMuestreo");    //Menú dde las frecuencias de muestreo
+    ofrec_muestreo = new Fl_Choice(430,400,70,20,"FrecMuestreo");    //Menú de las frecuencias de muestreo
     ofrec_muestreo->align(FL_ALIGN_TOP);
     ofrec_muestreo->labelsize(10);
     ofrec_muestreo->add("1",0,(Fl_Callback *)cbfrec1,this);
@@ -139,7 +139,7 @@ Analizador::Analizador() {
     
     ogroup_ana_botones->end();                                       //Fin del grupo de los botones del analizador
     
-    odes_horizontal = new Fl_Knob(430,460,70,70,"Desp. Hor.");       //Perilla para desplazar horizontalmente las gráficas
+    odes_horizontal = new Fl_Knob(430,460,70,70,"DespHor");          //Perilla para desplazar horizontalmente las gráficas
     odes_horizontal->color(147);
     odes_horizontal->type(8);
     odes_horizontal->scaleticks(0);

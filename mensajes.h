@@ -15,37 +15,46 @@ using namespace std;
 
 
 
-// Clase para mostrar mensajes en texto
+/******************************************************************************* 
+* Mensajes: Clase para numerar las muestras graficadas en el instrumento Anali-
+*           zador Lógico.
+* La clase grafica una numeración que indica que numero de muestra está grafica-
+* da en la pantalla del instrumento.
+* La numeración empieza en cero y termina en el número de muestras configurado 
+* en el objeto Analizador Lógico. 
+*******************************************************************************/
 class Mensajes : public Fl_Widget{
-      
-          int       _x,_y;                     /* Posicion del Texto */
-          Fl_Color _TextColour;                /* Color de texto */
-          char text[4];
+          
+          //Posicion del Texto 
+          int  _x,_y;
+          //Color de texto                          
+          Fl_Color _TextColour;               
+          //Número graficado
+          char text[4];                       
       
 protected:
-          
-          void draw(int,int,int,int);          /* Metodo para graficar*/
+          //Método sobrecargado para graficar
+          void draw(int,int,int,int);
+          //Método heredado para graficar          
           void draw();
+          //Posición de inicio en eje X
           void x(int X){ _x=X;};
-          void y(int Y){ _y=Y;};
-
+          //Posición de inicio en eje Y               
+          void y(int Y){ _y=Y;};              
 
 public:
-       
-        
-       
-       int inum_muestras;
-       
-       int x(){return _x;};                        /* Posicion horizontal del Texto */
-
-       int y(){return _y;};                        /* Posicion vertical del Texto */
-       
-       int inum_inicial;
-       
+       // Número de muestras que se grafican en la pantalla del analizador
+       int inum_muestras;                      
+       // Posicion horizontal del Texto 
+       int x(){return _x;};                    
+       // Posicion vertical del Texto 
+       int y(){return _y;};                    
+       // Número que se cooca en la primera posición a la izquierda de la pantalla
+       int inum_inicial;                       
+       // Método para modificar el color del texto
        Fl_Color TextColour(){return _TextColour;};
        void     TextColour(Fl_Color c){_TextColour=c;};
-       
-	   // class constructor
+	   //Constructor de clase
 	   Mensajes(int,int,int,int,const char * = 0);
        // class destructor
 	   ~Mensajes();

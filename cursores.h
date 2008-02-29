@@ -5,20 +5,28 @@
 
 #include "fl_scope.h" // inheriting class's header file
 
-// Clase para generar los cursores del instrumento Analizador Lógico
+/******************************************************************************* 
+*Cursores: Clase para generar el cursor del instrumento Analizador Lógico
+*          El cursor es una linea que el usuario posiciona sobre una muestra que
+*          ha sido graficada para visualizar el dato en su representación en 
+*          tres tipos de sistemas de numeración. 
+*******************************************************************************/
 class Cursores : public Fl_Scope
 {
 	public:
-		// class constructor
+		// Constructor de clase
 		Cursores(int,int,int,int,const char * = 0);
-		// class destructor
+		// Destructor de clase
 		~Cursores();
+		// Habiliata el uso del cursor
 		bool bcursor;
+		// Posición donde se debe graficar el cursor
 		int iposx;
 		
    protected:
-
+            //Sobrecarga del método draw().
             void draw(int,int,int,int);
+            //Método heredado para gráficar   
             void draw();
 };
 

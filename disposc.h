@@ -15,34 +15,48 @@ using namespace std;
 
 
 
-// Clase para mostrar mensajes en texto
+/*******************************************************************************
+* DispOsc: Clase para graficar en la pantalla del osciloscopio los valores de
+*          configuración de los canales y del instrumento.
+* Se grafican carcateres con la informacion que está configurada en el instru-
+* mento osciloscopio dentro de la pantalla.
+*******************************************************************************/
 class DispOsc : public Fl_Widget{
-      int       _x,_y;                     /* Posicion del Texto */
-      Fl_Color _TextColour;                /* Color de texto */
       
-
+      // Posicion del Texto 
+      int _x,_y;      
+      // Color de texto                
+      Fl_Color _TextColour;                
+      
 protected:
           
-          void draw(int,int,int,int);          /* Metodo para graficar*/
+          // Sobrecarga del método para graficar
+          void draw(int,int,int,int);         
+          // Método heredado para graficar 
           void draw();
+          //Métodos para asignar la posición de los mensajes graficados
           void x(int X){ _x=X;};
           void y(int Y){ _y=Y;};
 
 public:
        
-      char ccanal[4];                      /* Nombre del canal*/
-      char cv_div[10];                     /* Escala de voltios por división*/
-      char cacople[4];                     /* Tipo de acople*/
-      char ct_div[10];                     /* Escala de tiempo por división*/
-      char ctrigger[7];                    /* Canal fuente del trigger*/
-       
-       int x(){return _x;};                        /* Posicion horizontal del Texto */
-
-       int y(){return _y;};                        /* Posicion vertical del Texto */
-       
+      // Nombre del canal
+      char ccanal[4];                      
+      // Escala de voltios por división
+      char cv_div[10];                    
+      // Tipo de acople
+      char cacople[4];                    
+      // Escala de tiempo por división
+      char ct_div[10];                     
+      // Canal fuente del trigger
+      char ctrigger[7];                   
+      // Posicion horizontal del Texto 
+      int x(){return _x;};                        
+      // Posicion vertical del Texto 
+      int y(){return _y;};                        
+       //Método para asignar el color al texto
        Fl_Color TextColour(){return _TextColour;};
        void     TextColour(Fl_Color c){_TextColour=c;};
-       
 	   // class constructor
 	   DispOsc(int,int,int,int,const char * = 0);
        // class destructor
