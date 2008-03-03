@@ -58,15 +58,15 @@ class Osciloscopio : public Instrumento{
         //Instancia de Canal 2.
         Canal *canal2;	
         //Botón para prender/apagar el osciloscopio.
-        Fl_Light_Button *oosc_on;
+        Fl_Light_Button *ooscOn;
         //Botón para prender/apagar el canal 1.
-		Fl_Light_Button *och1_on;
+		Fl_Light_Button *och1On;
         //Botón para prender/apagar el canal 2.
-		Fl_Light_Button *och2_on;
+		Fl_Light_Button *och2On;
         //Botón de repetición para seleccionar el canal fuente del trigger.
-        Fl_Repeat_Button *osel_trigger;
+        Fl_Repeat_Button *oselTrigger;
         //Botón de repetición para seleccionar la operación entre señales en modo dual.
-        Fl_Repeat_Button *odual_menu;  
+        Fl_Repeat_Button *odualMenu; 
         //Botón para detener las gráficas que se presentan en la pantalla del osciloscopio.
         Fl_Light_Button *ostop;
         //Botón que habilita el ajuste automático del instrumento. 
