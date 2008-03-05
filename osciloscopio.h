@@ -70,44 +70,44 @@ class Osciloscopio : public Instrumento{
         //Botón para detener las gráficas que se presentan en la pantalla del osciloscopio.
         Fl_Light_Button *ostop;
         //Botón que habilita el ajuste automático del instrumento. 
-        Fl_Button *oauto_set;
+        Fl_Button *oautoSet;
         //Botón que habilita el almacenamiento en archivos planos de texto.
-        Fl_Button *olog_osc;
+        Fl_Button *ologOsc;
         //Botón que habilita la ayuda para el uso del instrumento. 
-        Fl_Button *ohelp_osc;
-        //Botón que habilita la ayuda flotante para el uso de los botones del instrumento. 
-        Fl_Check_Button *oayuda_osc;
+        Fl_Button *ohelpOsc;
+        //Botón que habilita la ayuda flotante para el uso de los botones del instrumento.
+        Fl_Check_Button *oayudaOsc;
         //Selector de la escala de tiempo por división.
-        Fl_Knob *otiempo_div;   
+        Fl_Knob *otiempoDiv;
         //Perilla para el desplazamiento horizontal de la señal graficada.
-        Fl_Knob *opos_y;
+        Fl_Knob *oposy;
         //Perilla de selección del nivel de disparo del trigger.
-        Fl_Knob *onivel_trigger;
+        Fl_Knob *onivelTrigger;
         //Pantalla del osciloscopio
 		Fl_Scope*  opantalla;
 		//Cuadricula de de la pantalla del osciloscopio. 
 		grid*  ogrilla;
 		//Texto de información de la configuracion del canal 1. 
-		DispOsc*  odisp_osc1;
-        //Texto de información de la configuracion del canal 2. 
-		DispOsc*  odisp_osc2;
+		DispOsc*  odispOsc1;
+        //Texto de información de la configuracion del canal 2.
+		DispOsc*  odispOsc2;
         //Variable que contiene el dato que se envía para graficar la señal del canal 1.
-		int idato_graf_ch1;
+		int idatoGrafCh1;
         //Variable que contiene el dato que se envía para graficar la señal del canal 2.
-		int idato_graf_ch2;
+		int idatoGrafCh2;
 		//Variable que contiene el valor pico a pico de la señal del canal 1.
-		int ivpp_ch1;
+		int ivppCh1;
         //Variable que contiene el valor pico a pico de la señal del canal 2.
-		int ivpp_ch2;
-        //Callback del timer para realizar la solicitud de los vectores de datos.  
-        static void cb_timer_vectores(void *);
-        inline void cb_timer_vectores_in();
-        //Callback del timer para realizar la solicitud de datos uno a uno.  
-        static void cb_timer(void *);
-        inline void cb_timer_in();  
+		int ivppCh2;
+        //Callback del timer para realizar la solicitud de los vectores de datos.
+        static void cbTimerVectores(void *);
+        inline void cbTimerVectoresIn();
+        //Callback del timer para realizar la solicitud de datos uno a uno.
+        static void cbTimer(void *);
+        inline void cbTimerIn();
         //Callback del botón de ayuda flotante de los botones del osciloscopio.  
-        static void cb_ayuda(Fl_Widget*, void *);
-        inline void cb_ayuda_in();       
+        static void cbAyuda(Fl_Widget*, void *);
+        inline void cbAyudaIn();     
     	
    private: 
         //Callback del botón que activa la ayuda del instrumento     
