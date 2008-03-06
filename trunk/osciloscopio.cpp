@@ -116,24 +116,24 @@ Osciloscopio::Osciloscopio(){
     //otiempoDiv->tooltip("Selector de las escalas de tiempo por división del instrumento");
     
     omenu_t_div = new Fl_Choice(635,330,80,20,"");                //Menú selector de la escala de tiempo por división
-    omenu_t_div->add("0.5s",0,(Fl_Callback *)cb_tdiv05s,this);
-    omenu_t_div->add("0.2s",0,(Fl_Callback *)cb_tdiv02s,this);
-    omenu_t_div->add("0.1s",0,(Fl_Callback *)cb_tdiv01s,this);               
-    omenu_t_div->add("50ms",0,(Fl_Callback *)cb_tdiv50ms,this);   //0              
-    omenu_t_div->add("20ms",0,(Fl_Callback *)cb_tdiv20ms,this);   //1
-    omenu_t_div->add("10ms",0,(Fl_Callback *)cb_tdiv10ms,this);   //2
-    omenu_t_div->add("5ms",0,(Fl_Callback *)cb_tdiv5ms,this);     //3
-    omenu_t_div->add("2ms",0,(Fl_Callback *)cb_tdiv2ms,this);     //4
-    omenu_t_div->add("1ms",0,(Fl_Callback *)cb_tdiv1ms,this);     //5
-    omenu_t_div->add("0.5ms",0,(Fl_Callback *)cb_tdiv05ms,this);  //6
-    omenu_t_div->add("0.2ms",0,(Fl_Callback *)cb_tdiv02ms,this);  //7
-    omenu_t_div->add("0.1ms",0,(Fl_Callback *)cb_tdiv01ms,this);  //8
-    omenu_t_div->add("50us",0,(Fl_Callback *)cb_tdiv50us,this);   //9
-    omenu_t_div->add("20us",0,(Fl_Callback *)cb_tdiv20us,this);   //A
-    omenu_t_div->add("10us",0,(Fl_Callback *)cb_tdiv10us,this);   //B   
-    omenu_t_div->add("5us",0,(Fl_Callback *)cb_tdiv5us,this);     //C
-    omenu_t_div->add("2us",0,(Fl_Callback *)cb_tdiv2us,this);     //D
-    omenu_t_div->add("1us",0,(Fl_Callback *)cb_tdiv1us,this);     //E
+    omenu_t_div->add("0.5s",0,(Fl_Callback *)cbTdiv05s,this);
+    omenu_t_div->add("0.2s",0,(Fl_Callback *)cbTdiv02s,this);            
+    omenu_t_div->add("0.1s",0,(Fl_Callback *)cbTdiv01s,this);            
+    omenu_t_div->add("50ms",0,(Fl_Callback *)cbTdiv50ms,this);  
+    omenu_t_div->add("20ms",0,(Fl_Callback *)cbTdiv20ms,this);  
+    omenu_t_div->add("10ms",0,(Fl_Callback *)cbTdiv10ms,this);  
+    omenu_t_div->add("5ms",0,(Fl_Callback *)cbTdiv5ms,this);  
+    omenu_t_div->add("2ms",0,(Fl_Callback *)cbTdiv2ms,this);  
+    omenu_t_div->add("1ms",0,(Fl_Callback *)cbTdiv1ms,this);  
+    omenu_t_div->add("0.5ms",0,(Fl_Callback *)cbTdiv05ms,this); 
+    omenu_t_div->add("0.2ms",0,(Fl_Callback *)cbTdiv02ms,this); 
+    omenu_t_div->add("0.1ms",0,(Fl_Callback *)cbTdiv01ms,this); 
+    omenu_t_div->add("50us",0,(Fl_Callback *)cbTdiv50us,this);  
+    omenu_t_div->add("20us",0,(Fl_Callback *)cbTdiv20us,this);    
+    omenu_t_div->add("10us",0,(Fl_Callback *)cbTdiv10us,this);  
+    omenu_t_div->add("5us",0,(Fl_Callback *)cbTdiv5us,this);    
+    omenu_t_div->add("2us",0,(Fl_Callback *)cbTdiv2us,this);    
+    omenu_t_div->add("1us",0,(Fl_Callback *)cbTdiv1us,this);     //E
     ogroup_tdiv->end();                                                   //Fin del grupo de controles de escala de tiempo por división
     
     ogroup_pos = new Fl_Group (415,218,100,110,"");                       //Inicio del grupo de controles de posición horizontal de las gráfica
@@ -219,12 +219,12 @@ Osciloscopio::Osciloscopio(){
     ogrilla_on->callback(cb_grilla, this);
     ostop->callback(cb_stop,this);
     oayudaOsc->callback(cbAyuda, this);
-    canal1->ovolt_div->callback(cb_volt_div1, this);
-    canal1->osel_acople->callback(cb_acople1, this);
+    canal1->ovolt_div->callback(cbVoltDiv1, this);
+    canal1->osel_acople->callback(cbAcople1, this);
     canal2->ovolt_div->callback(cb_volt_div2, this);
-    canal2->osel_acople->callback(cb_acople2, this);
-    ohelpOsc->callback(cb_help,this);
-    oautoSet->callback(cb_auto,this);
+    canal2->osel_acople->callback(cbAcople2, this);
+    ohelpOsc->callback(cbHelp,this);
+    oautoSet->callback(cbAuto,this);
 }
 
 
@@ -291,7 +291,7 @@ void Osciloscopio::cb_osc_on_in(){
             odispOsc1->redraw();
             isec_acople=1;
             opantalla->bch1 = 1;
-            muestreo_timer(1);                                   //Muestrear por vectores deacuerdo a la escala de tiempo por división.
+            muestreoTimer(1);                                   //Muestrear por vectores deacuerdo a la escala de tiempo por división.
          }                                                       
          else {                                                  //Si la respuesta fue NAK o error en la comunicación USB
               fl_message("Error de hardware");                   
@@ -479,7 +479,7 @@ void Osciloscopio::cb_ch1_on_in(){
               Encapsular('L','d','1',ct_div,0x00,0x00);            // Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
               if (bhardware){
-                 muestreo_timer(1);                                //Solicitar al hardware muestras por vectores
+                 muestreoTimer(1);                                //Solicitar al hardware muestras por vectores
               }
               else{
                    fl_message("Error de hardware");
@@ -490,7 +490,7 @@ void Osciloscopio::cb_ch1_on_in(){
                 //Encapsular('L','d','1','F',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
                 Transmision();
                 if (bhardware){
-                   muestreo_timer(2);                             //Solicitar al hardware muestras una a una.
+                   muestreoTimer(2);                             //Solicitar al hardware muestras una a una.
                 }
                 else{
                    fl_message("Error de hardware");
@@ -579,7 +579,7 @@ void Osciloscopio::cb_ch2_on_in(){
               Encapsular('L','d','1',ct_div,0x00,0x00);             //Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
               if (bhardware){
-                 muestreo_timer(1);                                 //Solicitar al hardware muestras por vectores
+                 muestreoTimer(1);                                 //Solicitar al hardware muestras por vectores
               }
               else{
                    fl_message("Error de hardware");
@@ -592,7 +592,7 @@ void Osciloscopio::cb_ch2_on_in(){
                 //Encapsular('L','d','1','F',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores
                 Transmision();
                 if (bhardware){
-                   muestreo_timer(2);                             //Solicitar al hardware muestras una a una
+                   muestreoTimer(2);                             //Solicitar al hardware muestras una a una
                 }
                 else{
                    fl_message("Error de hardware");
@@ -899,7 +899,7 @@ void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
         Fl::remove_timeout(cbTimerVectores,this); 
         Transmision();
         if (bhardware){
-           muestreo_timer(1);                                           //Solicitar envío de muestras en vectores 
+           muestreoTimer(1);                                           //Solicitar envío de muestras en vectores 
         }
         else
              fl_message("Error de hardware");
@@ -911,29 +911,28 @@ void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
           Fl::remove_timeout(cbTimerVectores,this);                
           Transmision();
           if (bhardware)
-             muestreo_timer(2);                                         //Solicitar envío de muestras en una a una
+             muestreoTimer(2);                                         //Solicitar envío de muestras en una a una
      }
 }
 
 /*******************************************************************************
- * Osciloscopio::cb_volt_div1: Callback del selector de la escala de volt/div
+ * Osciloscopio::cbVoltDiv1: Callback del selector de la escala de volt/div
  *                             del canal 1 del osciloscopio.
- * El Callaback consta de la función static e inline cb_volt_div1 y 
- * cb_volt_div1_in.
+ * El Callaback consta de la función static e inline cbVoltDiv1 y cbVoltDiv1In.
  * El selector "V_Div" del canal 1 controla las 12 opciones de escala de 
  * atenuación o amplificación de la señal sensada con el canal 1 del osciloscopio
  * con las cuales se va a visualizar la señal en la pantalla. 
  * Las opciones se envían en tramas del protocolo como caracteres hexadecimales
  * desde el '0' hasta 'C'.
 *******************************************************************************/
-void Osciloscopio::cb_volt_div1(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbVoltDiv1(Fl_Widget* psel, void *pany){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;          
-     posc->cb_volt_div1_in(pselector);
+     posc->cbVoltDiv1In(pselector);
 }
 
 
-void Osciloscopio::cb_volt_div1_in(Fl_Widget* psel){
+void Osciloscopio::cbVoltDiv1In(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      canal1->omenu_v_div->value(pselector->value());                
      if (int((pselector->value()))== 9){
@@ -1587,7 +1586,7 @@ void Osciloscopio::cb_log_osc_in(){
 
 
 /*******************************************************************************
- * Osciloscopio::muestreo_timer: Rutina para iniciar uno de los timers deacuerdo 
+ * Osciloscopio::muestreoTimer: Rutina para iniciar uno de los timers deacuerdo 
  *                               a la escala de tiempo por división seleccionada.
  * isel: Variable que indica la selección de timer.                              
  * isel = 1: Selecciona el timer para solicitar al hardware los cuatro vectores
@@ -1597,7 +1596,7 @@ void Osciloscopio::cb_log_osc_in(){
  *           señal presente en el(los) canal(es) activo(s).          
 *******************************************************************************/
 
-void Osciloscopio::muestreo_timer(int isel){
+void Osciloscopio::muestreoTimer(int isel){
      if (isel==1){
         Fl::add_timeout(0.2, cbTimerVectores, this);
      }
@@ -1608,9 +1607,9 @@ void Osciloscopio::muestreo_timer(int isel){
 
 
 /*******************************************************************************
- * Osciloscopio::cb_acople1: Callback del botón selector del modo de acople
+ * Osciloscopio::cbAcople1: Callback del botón selector del modo de acople
  *                           del canal 1 del osciloscopio. 
- * El Callaback consta de la función static e inline cb_acople1 y cb_acople1_in.
+ * El Callaback consta de la función static e inline cbAcople1 y cbAcople1In.
  * isec_acople : Variable que representa la selección del tipo de acople para
  *               el canal 1.
  * isec_acople = 0 : Acople AC.  
@@ -1618,12 +1617,12 @@ void Osciloscopio::muestreo_timer(int isel){
  * isec_acople = 2 : Acople GND.
 *******************************************************************************/
 
-void Osciloscopio::cb_acople1(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbAcople1(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;       
-     posc->cb_acople1_in();
+     posc->cbAcople1In();
 }
 
-void Osciloscopio::cb_acople1_in(){
+void Osciloscopio::cbAcople1In(){
   if (isec_acople==0){
      canal1->oacop_gnd->color(FL_GRAY);
      canal1->oacop_gnd->redraw();
@@ -1677,9 +1676,9 @@ void Osciloscopio::cb_acople1_in(){
 
 
 /*******************************************************************************
- * Osciloscopio::cb_acople2: Callback del botón selector del modo de acople
+ * Osciloscopio::cbAcople2: Callback del botón selector del modo de acople
  *                           del canal 2 del osciloscopio. 
- * El Callaback consta de la función static e inline cb_acople2 y cb_acople2_in.
+ * El Callaback consta de la función static e inline cbAcople2 y cbAcople2In.
  * isec_acople : Variable que representa la selección del tipo de acople para
  *               el canal 2.
  * isec_acople2 = 0 : Acople AC.  
@@ -1687,12 +1686,12 @@ void Osciloscopio::cb_acople1_in(){
  * isec_acople2 = 2 : Acople GND.
 *******************************************************************************/
 
-void Osciloscopio::cb_acople2(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbAcople2(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;       
-     posc->cb_acople2_in();
+     posc->cbAcople2In();
 }
 
-void Osciloscopio::cb_acople2_in(){
+void Osciloscopio::cbAcople2In(){
   if (isec_acople2==0){
      canal2->oacop_gnd->color(FL_GRAY);
      canal2->oacop_gnd->redraw();
@@ -1766,27 +1765,27 @@ void Osciloscopio::cbAyudaIn(){
 
 
 /*******************************************************************************
- * Osciloscopio::cb_help: Callback del botón que lanza la ayuda del uso del
+ * Osciloscopio::cbHelp: Callback del botón que lanza la ayuda del uso del
  *                        instrumento. 
- * El Callaback consta de la función static e inline cb_help y cb_help_in.
+ * El Callaback consta de la función static e inline cbHelp y cbHelpIn.
  * Se despliega una ventana de ayuda con un archivo en html con la guia de
  * usuario del instrumento.
 *******************************************************************************/
-void Osciloscopio::cb_help(Fl_Widget* pboton, void *any){
+void Osciloscopio::cbHelp(Fl_Widget* pboton, void *any){
      Osciloscopio* posc=(Osciloscopio*)any;
-     posc->cb_help_in();
+     posc->cbHelpIn();
 }
 
-void Osciloscopio::cb_help_in(){
+void Osciloscopio::cbHelpIn(){
       Manual_osc->show();
 }
 
 
 
 /*******************************************************************************
- * Osciloscopio::cb_auto: Callback del botón que ajusta automáticamente el
+ * Osciloscopio::cbAuto: Callback del botón que ajusta automáticamente el
  *                        instrumento. 
- * El Callaback consta de la función static e inline cb_auto y cb_auto_in.
+ * El Callaback consta de la función static e inline cbAuto y cbAutoIn.
  * Se debe configurar primero el acople del canal 1 en AC. 
  * La escala de Tiempo por división se configura en 50 mS/Div. en caso de que la
  * señal presente en el canal sea lenta.
@@ -1794,12 +1793,12 @@ void Osciloscopio::cb_help_in(){
  * voltios por división para que la señal se vea en las 4 divisiones centrales 
  * de la pantalla.  
 *******************************************************************************/
-void Osciloscopio::cb_auto(Fl_Widget* pboton, void *any){
+void Osciloscopio::cbAuto(Fl_Widget* pboton, void *any){
      Osciloscopio* posc=(Osciloscopio*)any;
-     posc->cb_auto_in();
+     posc->cbAutoIn();
 }
 
-void Osciloscopio::cb_auto_in(){
+void Osciloscopio::cbAutoIn(){
      
      canal1->oacop_dc->color(FL_GRAY);
      canal1->oacop_dc->redraw();
@@ -1821,7 +1820,7 @@ void Osciloscopio::cb_auto_in(){
      Fl::remove_timeout(cbTimerVectores,this);  
      Transmision();
      if (bhardware){
-         muestreo_timer(1);                                        //Solicitar envío de muestras en vectores 
+         muestreoTimer(1);                                        //Solicitar envío de muestras en vectores 
      }
      else
          fl_message("Error de hardware");
@@ -1831,14 +1830,14 @@ void Osciloscopio::cb_auto_in(){
                  if(canal1->ovolt_div->value() > 1){
                     canal1->omenu_v_div->value(canal1->omenu_v_div->value()-1);
                     canal1->ovolt_div->value(canal1->ovolt_div->value()-1);
-                    cb_volt_div1_in( canal1->ovolt_div);
+                    cbVoltDiv1In( canal1->ovolt_div);
                  }
               }
               else if (ivppCh1 <= 64){
                  if(canal1->ovolt_div->value() < 11){
                     canal1->omenu_v_div->value(canal1->omenu_v_div->value()+1);
                     canal1->ovolt_div->value(canal1->ovolt_div->value()+1);
-                    cb_volt_div1_in( canal1->ovolt_div);
+                    cbVoltDiv1In( canal1->ovolt_div);
                  } 
               }
           }
@@ -1899,220 +1898,220 @@ void Osciloscopio::vpp(int ivalor1, int ivalor2, int icanal){
 
 
 /*******************************************************************************
- * Osciloscopio::cb_tdivXXs: Callbacks del menú de tiempo por división para 
+ * Osciloscopio::cbTdivXXs: Callbacks del menú de tiempo por división para 
  *                           modificar la posición de la perilla selectora de la
  *                           escala de tiempo por división.
  * Están los 18 callbacks pertenecientes a cada una de las escalas que tiene el
  * menú. 
 *******************************************************************************/
 
-void Osciloscopio::cb_tdiv05s(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv05s(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05s_in(pselector);
+     posc->cbTdiv05sIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv05s_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv05sIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
-void Osciloscopio::cb_tdiv02s(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv02s(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv02s_in(pselector);
+     posc->cbTdiv02sIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv02s_in(Fl_Widget* psel){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     otiempoDiv->value(pselector->value());
-}
-
-
-void Osciloscopio::cb_tdiv01s(Fl_Widget* psel, void *pany){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv01s_in(pselector);
-}
-
-void Osciloscopio::cb_tdiv01s_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv02sIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-void Osciloscopio::cb_tdiv50ms(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv01s(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv50ms_in(pselector);
+     posc->cbTdiv01sIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv50ms_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv01sIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-void Osciloscopio::cb_tdiv20ms(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv50ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv20ms_in(pselector);
+     posc->cbTdiv50msIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv20ms_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv50msIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-void Osciloscopio::cb_tdiv10ms(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv20ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv10ms_in(pselector);
+     posc->cbTdiv20msIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv10ms_in(Fl_Widget* psel){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     otiempoDiv->value(pselector->value());
-}
-
-void Osciloscopio::cb_tdiv5ms(Fl_Widget* psel, void *pany){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv5ms_in(pselector);
-}
-
-void Osciloscopio::cb_tdiv5ms_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv20msIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-void Osciloscopio::cb_tdiv2ms(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv10ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv2ms_in(pselector);
+     posc->cbTdiv10msIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv2ms_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv10msIn(Fl_Widget* psel){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempoDiv->value(pselector->value());
+}
+
+void Osciloscopio::cbTdiv5ms(Fl_Widget* psel, void *pany){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cbTdiv5msIn(pselector);
+}
+
+void Osciloscopio::cbTdiv5msIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-void Osciloscopio::cb_tdiv1ms(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv2ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv1ms_in(pselector); 
+     posc->cbTdiv2msIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv1ms_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv2msIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-
-void Osciloscopio::cb_tdiv05ms(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv1ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv05ms_in(pselector);
+     posc->cbTdiv1msIn(pselector); 
 }
 
-void Osciloscopio::cb_tdiv05ms_in(Fl_Widget* psel){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     otiempoDiv->value(pselector->value());
-}
-
-void Osciloscopio::cb_tdiv02ms(Fl_Widget* psel, void *pany){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv02ms_in(pselector);
-}
-
-void Osciloscopio::cb_tdiv02ms_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv1msIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
 
-void Osciloscopio::cb_tdiv01ms(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv05ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv01ms_in(pselector);
+     posc->cbTdiv05msIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv01ms_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv05msIn(Fl_Widget* psel){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempoDiv->value(pselector->value());
+}
+
+void Osciloscopio::cbTdiv02ms(Fl_Widget* psel, void *pany){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cbTdiv02msIn(pselector);
+}
+
+void Osciloscopio::cbTdiv02msIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-void Osciloscopio::cb_tdiv50us(Fl_Widget* psel, void *pany){
+
+void Osciloscopio::cbTdiv01ms(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv50us_in(pselector);
+     posc->cbTdiv01msIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv50us_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv01msIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-void Osciloscopio::cb_tdiv20us(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv50us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv20us_in(pselector); 
+     posc->cbTdiv50usIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv20us_in(Fl_Widget* psel){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     otiempoDiv->value(pselector->value());
-}
-
-void Osciloscopio::cb_tdiv10us(Fl_Widget* psel, void *pany){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv10us_in(pselector);
-}
-
-void Osciloscopio::cb_tdiv10us_in(Fl_Widget* psel){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     otiempoDiv->value(pselector->value());
-}
-
-void Osciloscopio::cb_tdiv5us(Fl_Widget* psel, void *pany){
-     Fl_Choice *pselector = (Fl_Choice *)psel;
-     Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv5us_in(pselector);
-}
-
-void Osciloscopio::cb_tdiv5us_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv50usIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
 
-void Osciloscopio::cb_tdiv2us(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv20us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv2us_in(pselector); 
+     posc->cbTdiv20usIn(pselector); 
 }
 
-void Osciloscopio::cb_tdiv2us_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv20usIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }
 
-void Osciloscopio::cb_tdiv1us(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTdiv10us(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tdiv1us_in(pselector);
+     posc->cbTdiv10usIn(pselector);
 }
 
-void Osciloscopio::cb_tdiv1us_in(Fl_Widget* psel){
+void Osciloscopio::cbTdiv10usIn(Fl_Widget* psel){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempoDiv->value(pselector->value());
+}
+
+void Osciloscopio::cbTdiv5us(Fl_Widget* psel, void *pany){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cbTdiv5usIn(pselector);
+}
+
+void Osciloscopio::cbTdiv5usIn(Fl_Widget* psel){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempoDiv->value(pselector->value());
+}
+
+
+void Osciloscopio::cbTdiv2us(Fl_Widget* psel, void *pany){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cbTdiv2usIn(pselector); 
+}
+
+void Osciloscopio::cbTdiv2usIn(Fl_Widget* psel){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     otiempoDiv->value(pselector->value());
+}
+
+void Osciloscopio::cbTdiv1us(Fl_Widget* psel, void *pany){
+     Fl_Choice *pselector = (Fl_Choice *)psel;
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cbTdiv1usIn(pselector);
+}
+
+void Osciloscopio::cbTdiv1usIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      otiempoDiv->value(pselector->value());
 }

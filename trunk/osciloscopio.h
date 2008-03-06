@@ -110,80 +110,80 @@ class Osciloscopio : public Instrumento{
         inline void cbAyudaIn();     
     	
    private: 
-        //Callback del botón que activa la ayuda del instrumento     
-        static void cb_help(Fl_Widget*, void *);
-        inline void cb_help_in();   
-        //Callback del botón que activa el ajuste automático del instrumento    
-        static void cb_auto(Fl_Widget*, void *);
-        inline void cb_auto_in();
+        //Callback del botón que activa la ayuda del instrumento
+        static void cbHelp(Fl_Widget*, void *);
+        inline void cbHelpIn();
+        //Callback del botón que activa el ajuste automático del instrumento
+        static void cbAuto(Fl_Widget*, void *);
+        inline void cbAutoIn();
         //Callback del botón selector del acople del canal 1.
-		static void cb_acople1(Fl_Widget*, void *);
-		inline void cb_acople1_in();
+		static void cbAcople1(Fl_Widget*, void *);
+		inline void cbAcople1In();
         //Callback del botón selector de acople del canal 2.
-		static void cb_acople2(Fl_Widget*, void *);
-		inline void cb_acople2_in();
+		static void cbAcople2(Fl_Widget*, void *);
+		inline void cbAcople2In();
         //Callback del selector de la escala de volt/div del canal 1.
-		static void cb_volt_div1(Fl_Widget*, void *);
-		inline void cb_volt_div1_in(Fl_Widget*);  
+		static void cbVoltDiv1(Fl_Widget*, void *);
+		inline void cbVoltDiv1In(Fl_Widget*);
         //Callback del selector de la escala de volt/div del canal 2.
 		static void cb_volt_div2(Fl_Widget*, void *);
 		inline void cb_volt_div2_in(Fl_Widget*); 
-        //Rutina para solicitar las muestras de las señales por vectores o una a una. 
-		void muestreo_timer(int);
+        //Rutina para solicitar las muestras de las señales por vectores o una a una.
+		void muestreoTimer(int);
         //Callback del menú de tiempo por división en la escala de 0.5s.
-		static void cb_tdiv05s(Fl_Widget*, void *);
-		inline void cb_tdiv05s_in(Fl_Widget*);
+		static void cbTdiv05s(Fl_Widget*, void *);
+		inline void cbTdiv05sIn(Fl_Widget*);
         //Callback del menú de tiempo por división en la escala de 0.2s.
-		static void cb_tdiv02s(Fl_Widget*, void *);
-		inline void cb_tdiv02s_in(Fl_Widget*);
+		static void cbTdiv02s(Fl_Widget*, void *);
+		inline void cbTdiv02sIn(Fl_Widget*);
         //Callback del menú de tiempo por división en la escala de 0.1s.
-		static void cb_tdiv01s(Fl_Widget*, void *);
-		inline void cb_tdiv01s_in(Fl_Widget*);
+		static void cbTdiv01s(Fl_Widget*, void *);
+		inline void cbTdiv01sIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 50ms.
-		static void cb_tdiv50ms(Fl_Widget*, void *);
-		inline void cb_tdiv50ms_in(Fl_Widget*);
+		static void cbTdiv50ms(Fl_Widget*, void *);
+		inline void cbTdiv50msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 20ms.
-		static void cb_tdiv20ms(Fl_Widget*, void *);
-		inline void cb_tdiv20ms_in(Fl_Widget*);
+		static void cbTdiv20ms(Fl_Widget*, void *);
+		inline void cbTdiv20msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 10ms.
-		static void cb_tdiv10ms(Fl_Widget*, void *);
-		inline void cb_tdiv10ms_in(Fl_Widget*);
+		static void cbTdiv10ms(Fl_Widget*, void *);
+		inline void cbTdiv10msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 5ms.
-		static void cb_tdiv5ms(Fl_Widget*, void *);
-		inline void cb_tdiv5ms_in(Fl_Widget*);
+		static void cbTdiv5ms(Fl_Widget*, void *);
+		inline void cbTdiv5msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 2ms.
-		static void cb_tdiv2ms(Fl_Widget*, void *);
-		inline void cb_tdiv2ms_in(Fl_Widget*);
+		static void cbTdiv2ms(Fl_Widget*, void *);
+		inline void cbTdiv2msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 1ms.
-		static void cb_tdiv1ms(Fl_Widget*, void *);
-		inline void cb_tdiv1ms_in(Fl_Widget*);
+		static void cbTdiv1ms(Fl_Widget*, void *);
+		inline void cbTdiv1msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 0.5ms.
-		static void cb_tdiv05ms(Fl_Widget*, void *);
-		inline void cb_tdiv05ms_in(Fl_Widget*);
+		static void cbTdiv05ms(Fl_Widget*, void *);
+		inline void cbTdiv05msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 0.2ms.
-		static void cb_tdiv02ms(Fl_Widget*, void *);
-		inline void cb_tdiv02ms_in(Fl_Widget*);
+		static void cbTdiv02ms(Fl_Widget*, void *);
+		inline void cbTdiv02msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 0.1ms.
-		static void cb_tdiv01ms(Fl_Widget*, void *);
-		inline void cb_tdiv01ms_in(Fl_Widget*);
+		static void cbTdiv01ms(Fl_Widget*, void *);
+		inline void cbTdiv01msIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 50us.
-		static void cb_tdiv50us(Fl_Widget*, void *);
-		inline void cb_tdiv50us_in(Fl_Widget*);
+		static void cbTdiv50us(Fl_Widget*, void *);
+		inline void cbTdiv50usIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 20us por división
-		static void cb_tdiv20us(Fl_Widget*, void *);
-		inline void cb_tdiv20us_in(Fl_Widget*);
+		static void cbTdiv20us(Fl_Widget*, void *);
+		inline void cbTdiv20usIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 10us.
-		static void cb_tdiv10us(Fl_Widget*, void *);
-		inline void cb_tdiv10us_in(Fl_Widget*);
+		static void cbTdiv10us(Fl_Widget*, void *);
+		inline void cbTdiv10usIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 5us.
-		static void cb_tdiv5us(Fl_Widget*, void *);
-		inline void cb_tdiv5us_in(Fl_Widget*);
+		static void cbTdiv5us(Fl_Widget*, void *);
+		inline void cbTdiv5usIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 2us.
-		static void cb_tdiv2us(Fl_Widget*, void *);
-		inline void cb_tdiv2us_in(Fl_Widget*);
+		static void cbTdiv2us(Fl_Widget*, void *);
+		inline void cbTdiv2usIn(Fl_Widget*);
 		//Callback del menú de tiempo por división en la escala de 1us.
-		static void cb_tdiv1us(Fl_Widget*, void *);
-		inline void cb_tdiv1us_in(Fl_Widget*);
+		static void cbTdiv1us(Fl_Widget*, void *);
+		inline void cbTdiv1usIn(Fl_Widget*);
         //Rutina que recorre el arreglo de los datos y envía punto por punto los datos para graficar.
 		void recorrer_datos(int);
 		//Rutina que calcula el valor pico a pico de las señales.
