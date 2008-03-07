@@ -208,16 +208,16 @@ Osciloscopio::Osciloscopio(){
                 
     // Callbacks de los botones del osciloscopio            
                 
-    och1On->callback(cb_ch1_on,this);                                    //Callback del botón de prender/apagar el canal 1
-    och2On->callback(cb_ch2_on,this);                                    //Callback del botón de prender/apagar el canal 2
-    odualMenu->callback(cb_dual_menu, this);                             //Callback del botón que selecciona la operación suma, resta o xy
-    oselTrigger->callback(cb_sel_trigger, this);
-    otiempoDiv->callback(cb_tiempo_div, this);
-    oposy->callback(cb_pos_y, this);
-    ooscOn->callback(cb_osc_on, this);
-    ologOsc->callback(cb_log_osc, this);
-    ogrilla_on->callback(cb_grilla, this);
-    ostop->callback(cb_stop,this);
+    och1On->callback(cbCh1On,this);                                    //Callback del botón de prender/apagar el canal 1
+    och2On->callback(cbCh2On,this);                                    //Callback del botón de prender/apagar el canal 2
+    odualMenu->callback(cbDualMenu, this);                             //Callback del botón que selecciona la operación suma, resta o xy
+    oselTrigger->callback(cbSelTrigger, this);
+    otiempoDiv->callback(cbTiempoDiv, this);
+    oposy->callback(cbPosy, this);
+    ooscOn->callback(cbOscOn, this);
+    ologOsc->callback(cbLogOsc, this);
+    ogrilla_on->callback(cbGrilla, this);
+    ostop->callback(cbStop,this);
     oayudaOsc->callback(cbAyuda, this);
     canal1->ovolt_div->callback(cbVoltDiv1, this);
     canal1->osel_acople->callback(cbAcople1, this);
@@ -229,7 +229,7 @@ Osciloscopio::Osciloscopio(){
 
 
 /*******************************************************************************
-* Osciloscopio::cb_osc_on: Callback del botón que enciende/apaga el osciloscopio.
+* Osciloscopio::cbOscOn: Callback del botón que enciende/apaga el osciloscopio.
 *
 * Para los callbacks de los botones en las clases se deben tener 2 funciones que
 * van juntas y se debe tener en cuenta las siguientes caracteristicas.
@@ -240,19 +240,19 @@ Osciloscopio::Osciloscopio(){
 * el callback; la funcion inline no necesita parametros ya que tiene acceso a 
 * todos los métodos y variables de la clase. 
 *******************************************************************************/
-void Osciloscopio::cb_osc_on(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbOscOn(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;              //Casting  del apuntador void para que tenga el tamaño de un objeto Osciloscopio    
-     posc->cb_osc_on_in();                                //Llamado a la función inline sin argumentos.
+     posc->cbOscOnIn();                                //Llamado a la función inline sin argumentos.
 }
 
 /*******************************************************************************
-* Osciloscopio::cb_osc_on_in: Función inline del callback del botón que prende o  
-*                             apaga el osciloscopio.
+* Osciloscopio::cbOscOnIn: Función inline del callback del botón que prende o  
+*                          apaga el osciloscopio.
 * Al encender el osciloscopio se inicia con las siguientes configuraciones por 
 * defecto: canal 1 activado, 5 voltios por división, 1mS por división, acople ac
 * y fuente de trigger canal 1. 
 *******************************************************************************/
-void Osciloscopio::cb_osc_on_in(){
+void Osciloscopio::cbOscOnIn(){
       if (ooscOn->value()== 1){                               
          activar(1);                                            
          Encapsular('A','a','1','0',0x00,0x00);                 //Trama de encendido del canal 1.
@@ -395,21 +395,21 @@ void Osciloscopio::cb_osc_on_in(){
 
 
 /*******************************************************************************
-* Osciloscopio::cb_grilla: Callback del botón para activar o desactivar la 
+* Osciloscopio::cbGrilla: Callback del botón para activar o desactivar la 
 *                          cuadricula que permite realizar las mediciones en la 
 *                          pantalla del osciloscopio.
-* El Callaback consta de la función static e inline cb_grilla y cb_grilla_in.
+* El Callaback consta de la función static e inline cbGrilla y cbGrillaIn.
 * ogrilla->bgrid = 1 : Activa la cuadricula de 10 x 8 
 * ogrilla->bgrid = 0 : Desactiva la grilla de 10 x 8 y deja solo los ejes que 
 *                      dividen en 4 la pantalla. 
 *******************************************************************************/
 
-void Osciloscopio::cb_grilla(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbGrilla(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_grilla_in();
+     posc->cbGrillaIn();
 }
 
-void Osciloscopio::cb_grilla_in(){
+void Osciloscopio::cbGrillaIn(){
      if (ogrilla_on->value()==1){
         ogrilla->bgrid = 1;
      }
@@ -420,19 +420,19 @@ void Osciloscopio::cb_grilla_in(){
 }
 
 /*******************************************************************************
-* Osciloscopio::cb_stop: Callback del botón para detener las gráficas en la 
+* Osciloscopio::cbStop: Callback del botón para detener las gráficas en la 
 *                        pantalla del osciloscopio.
-* El Callaback consta de la función static e inline cb_stop y cb_stop_in.
-* Si el botón esta presionado no se hace llamado a la función recorrer_datos()
+* El Callaback consta de la función static e inline cbStop y cbStopIn.
+* Si el botón esta presionado no se hace llamado a la función recorrerDatos()
 * es decir no se envían datos para ser graficados.
 *******************************************************************************/
 
-void Osciloscopio::cb_stop(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbStop(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_stop_in();
+     posc->cbStopIn();
 }
 
-void Osciloscopio::cb_stop_in(){
+void Osciloscopio::cbStopIn(){
      if (ostop->value()==1){
         ostop->box(FL_DOWN_BOX);
      }
@@ -442,9 +442,9 @@ void Osciloscopio::cb_stop_in(){
 }
 
 /*******************************************************************************
-* Osciloscopio::cb_ch1_on: Callback del botón para encender o apagar el canal 1 
+* Osciloscopio::cbCh1On: Callback del botón para encender o apagar el canal 1 
 *                          del osciloscopio. 
-* El Callaback consta de la función static e inline cb_ch1_on y cb_ch1_on_in.
+* El Callaback consta de la función static e inline cbCh1On y cbCh1OnIn.
 * Para activar el canal se deben detener los timers de solicitud de muestras al
 * hardware que esten activos para reiniciar nuevamente sincronizados de acuerdo
 * con la escala de tiempo por divisíon que el usuario haya seleccionado.
@@ -452,12 +452,12 @@ void Osciloscopio::cb_stop_in(){
 * se activan las operaciones entre las dos señales.  
 *******************************************************************************/
 
-void Osciloscopio::cb_ch1_on(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbCh1On(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_ch1_on_in();
+     posc->cbCh1OnIn();
 }
 
-void Osciloscopio::cb_ch1_on_in(){
+void Osciloscopio::cbCh1OnIn(){
     if (och1On->value()== 1){
         Fl::remove_timeout(cbTimer,this);                        //Detener el timer de solicitud de datos uno a uno
         Fl::remove_timeout(cbTimerVectores,this);               //Detener el timer de solicitud de datos por vectores
@@ -517,7 +517,7 @@ void Osciloscopio::cb_ch1_on_in(){
              ox_y->color(FL_GRAY);
              ox_y->redraw();
              isec_dual=3;
-             cb_dual_menu_in();
+             cbDualMenuIn();
         }
         Encapsular('A','b','1','0',0x00,0x00);                         //Desactivar canal 1 en hardware
         opantalla->bch1 = 0;
@@ -536,9 +536,9 @@ void Osciloscopio::cb_ch1_on_in(){
 
 
 /*******************************************************************************
-* Osciloscopio::cb_ch2_on: Callback del botón para encender o apagar el canal 2 
+* Osciloscopio::cbCh2On: Callback del botón para encender o apagar el canal 2 
 *                          del osciloscopio. 
-* El Callaback consta de la función static e inline cb_ch2_on y cb_ch2_on_in.
+* El Callaback consta de la función static e inline cbCh2On y cbCh2OnIn.
 * Para activar el canal se deben detener los timers de solicitud de muestras al
 * hardware que esten activos para reiniciar nuevamente sincronizados de acuerdo
 * con la escala de tiempo por divisíon que el usuario haya seleccionado.
@@ -546,12 +546,12 @@ void Osciloscopio::cb_ch1_on_in(){
 * se activan las operaciones entre las dos señales.  
 *******************************************************************************/
 
-void Osciloscopio::cb_ch2_on(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbCh2On(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_ch2_on_in();
+     posc->cbCh2OnIn();
 }
 
-void Osciloscopio::cb_ch2_on_in(){
+void Osciloscopio::cbCh2OnIn(){
      if (och2On->value()== 1){
         Fl::remove_timeout(cbTimer,this);
         Fl::remove_timeout(cbTimerVectores,this);
@@ -619,7 +619,8 @@ void Osciloscopio::cb_ch2_on_in(){
              ox_y->color(FL_GRAY);
              ox_y->redraw();
              isec_dual=3;
-             cb_dual_menu_in();
+             //cb_dual_menu_in();
+             cbDualMenuIn();
         }
         Encapsular('B','b','1','0',0x00,0x00);                      //Desactivar canal 2 por hardware
         opantalla->bch2 = 0;
@@ -638,9 +639,9 @@ void Osciloscopio::cb_ch2_on_in(){
 
 
 /*******************************************************************************
-* Osciloscopio::cb_dual_menu: Callback del botón del menú de las funciones duales 
+* Osciloscopio::cbDualMenu: Callback del botón del menú de las funciones duales 
 *                             entre gráficas en el osciloscopio.
-* El Callaback consta de la función static e inline cb_dual_menu y cb_dual_menu_in.
+* El Callaback consta de la función static e inline cbDualMenu y cbDualMenuIn.
 * Esta secuencia se activa solo si los dos canales están activos.
 * Al presionar el botón "dual" se selecciona una de las 3 operaciones entre las
 * dos señales: Suma, Resta o X vs Y.
@@ -655,12 +656,12 @@ void Osciloscopio::cb_ch2_on_in(){
 *                son periodicas, se grafica la figura de lissajous resultante.
 *******************************************************************************/
 
-void Osciloscopio::cb_dual_menu(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbDualMenu(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_dual_menu_in();
+     posc->cbDualMenuIn();
 }
 
-void Osciloscopio::cb_dual_menu_in(){
+void Osciloscopio::cbDualMenuIn(){
      if (isec_dual==0){                                        //Activar función de gráfica canal1 + canal2
         ox_y->color(FL_GRAY);
         ox_y->redraw();
@@ -701,10 +702,10 @@ void Osciloscopio::cb_dual_menu_in(){
 }
 
 /*******************************************************************************
- * Osciloscopio::cb_sel_trigger: Callback del botón selector del canal fuente del 
+ * Osciloscopio::cbSelTrigger: Callback del botón selector del canal fuente del 
  *                               disparo (trigger) en el osciloscopio.  
- * El Callaback consta de la función static e inline cb_sel_trigger y 
- * cb_sel_trigger_in.
+ * El Callaback consta de la función static e inline cbSelTrigger y 
+ * cbSelTriggerIn.
  * Al presionar el boton "Trigger" se selecciona el canal en el cual se compara
  * el nivel del trigger ajustado por el usuario para iniciar el almacenamiento 
  * de datos.  
@@ -714,12 +715,12 @@ void Osciloscopio::cb_dual_menu_in(){
  * isec_trigger = 1: Canal 2 fuente del disparo.
 *******************************************************************************/
 
-void Osciloscopio::cb_sel_trigger(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbSelTrigger(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_sel_trigger_in();
+     posc->cbSelTriggerIn();
 }
 
-void Osciloscopio::cb_sel_trigger_in(){
+void Osciloscopio::cbSelTriggerIn(){
      if (isec_trigger==0){
         otrigger_ch2->color(FL_GRAY);
         otrigger_ch2->redraw();
@@ -742,10 +743,10 @@ void Osciloscopio::cb_sel_trigger_in(){
 }
 
 /*******************************************************************************
- * cb_tiempo_div: Callback del selector de escala de tiempo por división en el 
+ * cbTiempoDiv: Callback del selector de escala de tiempo por división en el 
  *                osciloscopio. 
- * El Callaback consta de la función static e inline cb_tiempo_div y 
- * cb_tiempo_div_in.
+ * El Callaback consta de la función static e inline cbTiempoDiv y 
+ * cbTiempoDivIn.
  * El selector "T_Div" controla las 18 opciones de escala de tiempo por división
  * que modifican la frecuencia de muestreo en el hardware.
  * Las opciones 0 y 1 son para frecuencias de muestreo muy bajas y se solicitan 
@@ -755,13 +756,13 @@ void Osciloscopio::cb_sel_trigger_in(){
  * las muestras en 4 vectores de 147 datos. 
 *******************************************************************************/
 
-void Osciloscopio::cb_tiempo_div(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbTiempoDiv(Fl_Widget* psel, void *pany){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_tiempo_div_in(pselector);
+     posc->cbTiempoDivIn(pselector);
 }
 
-void Osciloscopio::cb_tiempo_div_in(Fl_Widget* psel){
+void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      omenu_t_div->value(pselector->value());
      if (pselector->value()>=8){                                   // !!!!! Toca cambiarlo a >= 2 
@@ -1106,9 +1107,9 @@ void Osciloscopio::cb_volt_div2_in(Fl_Widget* psel){
 
 
 /*******************************************************************************
- * Osciloscopio::cb_pos_y: Callback de la perilla que configura la posición 
- *                         horizontal de la gráfica de la señal. 
- * El Callaback consta de la función static e inline cb_pos_y y cb_pos_y_in.
+ * Osciloscopio::cbPosy: Callback de la perilla que configura la posición 
+ *                       horizontal de la gráfica de la señal. 
+ * El Callaback consta de la función static e inline cbPosy y cbPosyIn.
  * El valor que el usuario configura con la perilla "Pos_x" se envía al objeto
  * opantalla y se le suma al punto de inicio de la gráfica en la pantalla para
  * generar el desplazamiento horizontal. 
@@ -1116,13 +1117,13 @@ void Osciloscopio::cb_volt_div2_in(Fl_Widget* psel){
  * si está activa. 
 *******************************************************************************/
 
-void Osciloscopio::cb_pos_y(Fl_Widget* psel, void *pany){
+void Osciloscopio::cbPosy(Fl_Widget* psel, void *pany){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_pos_y_in(pselector);
+     posc->cbPosyIn(pselector);
 }
 
-void Osciloscopio::cb_pos_y_in(Fl_Widget* psel){
+void Osciloscopio::cbPosyIn(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      pselector->value(floor(pselector->value()));
      opantalla->ipos_x =  int(pselector->value());
@@ -1148,13 +1149,13 @@ void Osciloscopio::cbTimerIn(){
      Encapsular('L','y','1','0',0x00,0x00);                               //Trama de solicitud al hardware de una muestra de la señal en los canales activos      
      Transmision();
      if (canal1->bestado && canal2->bestado){                             //Ambos canales activos 
-        recorrer_datos(3);
+        recorrerDatos(3);
      }
      else if (canal1->bestado== 1 && canal2->bestado== 0){
-          recorrer_datos(1);
+          recorrerDatos(1);
      }
      else if (canal1->bestado== 0 && canal2->bestado== 1){
-          recorrer_datos(2);
+          recorrerDatos(2);
      }
      if(otiempoDiv->value()== 0){
         Fl::repeat_timeout(0.5, cbTimer, this);                          //Repetición del timer.
@@ -1214,8 +1215,8 @@ void Osciloscopio::cbTimerVectoresIn(){
            Transmision();
            Encapsular('A', 'p', '1', '4',0x00,0x00);             
            Transmision();
-           if (ostop->value() == 0)                              // Si está presionado el botón de stop, no se envian los datos para ser graficados
-              recorrer_datos(1);
+           if (ostop->value() == 0)                              // Si está presionado el botón de stop, no se envian los datos para ser graficado
+              recorrerDatos(1);
         }
      }
      if (canal2->bestado==1 && canal1->bestado==0){
@@ -1231,7 +1232,7 @@ void Osciloscopio::cbTimerVectoresIn(){
            Encapsular('B', 'p', '1', '4',0x00,0x00);
            Transmision();
            if (ostop->value() == 0)
-              recorrer_datos(2);
+              recorrerDatos(2);
         }
      }
      if (canal1->bestado==1 && canal2->bestado==1){                    
@@ -1255,7 +1256,7 @@ void Osciloscopio::cbTimerVectoresIn(){
            Encapsular('B', 'p', '1', '4',0x00,0x00);
            Transmision();
            if (ostop->value() == 0)
-              recorrer_datos(3);
+              recorrerDatos(3);
         }
      }
     Fl::repeat_timeout(0.09, cbTimerVectores, this);           //Repetición del timer
@@ -1264,7 +1265,7 @@ void Osciloscopio::cbTimerVectoresIn(){
 
 
 /*******************************************************************************
- * Osciloscopio::recorrer_datos: Rutina que recorre el arreglo buf_osc_chx que
+ * Osciloscopio::recorrerDatos: Rutina que recorre el arreglo buf_osc_chx que
  *                               contiene las muestras de la señal y envía los 
  *                               datos al objeto opantalla para generar la 
  *                               gráfica de las señales. 
@@ -1287,7 +1288,7 @@ void Osciloscopio::cbTimerVectoresIn(){
  *              en el eje x de la pantalla, representando 0 voltios.  
 *******************************************************************************/
 
-void Osciloscopio::recorrer_datos(int num_canal){
+void Osciloscopio::recorrerDatos(int num_canal){
      int icont;
      char cvpp1 [4];
      char cvpp2 [4];
@@ -1555,22 +1556,22 @@ void Osciloscopio::recorrer_datos(int num_canal){
 
 
 /*******************************************************************************
- * Osciloscopio::cb_log_osc: Callback del botón que activa el almacenamiento en 
+ * Osciloscopio::cbLogOsc: Callback del botón que activa el almacenamiento en 
  *                           archivos planos de texto de los datos capturados 
  *                           para el osciloscopio.  
- * El Callaback consta de la función static e inline cb_log_osc y cb_log_osc_in.
+ * El Callaback consta de la función static e inline cbLogOsc y cbLogOscIn.
  * osc_ch1.txt: Archivo plano de texto que contiene los datos muestreados de la
  *              señal del canal 1. 
  * osc_ch2.txt: Archivo plano de texto que contiene los datos muestreados de la
  *              señal del canal 2.
 *******************************************************************************/
 
-void Osciloscopio::cb_log_osc(Fl_Widget* pboton, void *pany){
+void Osciloscopio::cbLogOsc(Fl_Widget* pboton, void *pany){
      Osciloscopio* posc=(Osciloscopio*)pany;
-     posc->cb_log_osc_in();
+     posc->cbLogOscIn();
 }
 
-void Osciloscopio::cb_log_osc_in(){
+void Osciloscopio::cbLogOscIn(){
     ofstream log("osc_ch1.txt");
     for(int icont=0;icont < 571; icont++){
          log << buf_osc_ch1[icont] << endl;             

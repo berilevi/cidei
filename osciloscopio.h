@@ -185,39 +185,39 @@ class Osciloscopio : public Instrumento{
 		static void cbTdiv1us(Fl_Widget*, void *);
 		inline void cbTdiv1usIn(Fl_Widget*);
         //Rutina que recorre el arreglo de los datos y envía punto por punto los datos para graficar.
-		void recorrer_datos(int);
+		void recorrerDatos(int);
 		//Rutina que calcula el valor pico a pico de las señales.
 		void vpp(int, int, int);
-		//Callback del botón para encender el canal 1. 
-		static void cb_ch1_on(Fl_Widget*, void *);
-		inline void cb_ch1_on_in();
+		//Callback del botón para encender el canal 1.
+		static void cbCh1On(Fl_Widget*, void *);
+		inline void cbCh1OnIn();
 		//Callback del botón para encender el canal 2.
-		static void cb_ch2_on(Fl_Widget*, void *);
-		inline void cb_ch2_on_in();
+		static void cbCh2On(Fl_Widget*, void *);
+		inline void cbCh2OnIn();
 		//Callback del botón para activar o desactivar la grilla.
-		static void cb_grilla(Fl_Widget*, void *);
-		inline void cb_grilla_in();
+		static void cbGrilla(Fl_Widget*, void *);
+		inline void cbGrillaIn();
 		//Callback del botón para detener las gráficas.
-		static void cb_stop(Fl_Widget*, void *);
-		inline void cb_stop_in();
+		static void cbStop(Fl_Widget*, void *);
+		inline void cbStopIn();
 		//Callback del botón de las operaciones entre las gráficas.
-		static void cb_dual_menu(Fl_Widget*, void *);
-		inline void cb_dual_menu_in();
+		static void cbDualMenu(Fl_Widget*, void *);
+		inline void cbDualMenuIn();
 		//Callback del botón selector de la fuente del disparo (trigger).
-		static void cb_sel_trigger(Fl_Widget*, void *);
-		inline void cb_sel_trigger_in();
+		static void cbSelTrigger(Fl_Widget*, void *);
+		inline void cbSelTriggerIn();
 		//Callback del botón que prende/apaga el osciloscopio
-		static void cb_osc_on(Fl_Widget*, void *);
-		inline void cb_osc_on_in();
-		//Callback del botón que activa el almacenamiento en archivos planos. 
-		static void cb_log_osc(Fl_Widget*, void *);
-		inline void cb_log_osc_in();
-		//Callback del botón selector de la escala de tiempo por división. 
-		static void cb_tiempo_div(Fl_Widget*, void *);
-		inline void cb_tiempo_div_in(Fl_Widget*);
+		static void cbOscOn(Fl_Widget*, void *);
+		inline void cbOscOnIn();
+		//Callback del botón que activa el almacenamiento en archivos planos.
+		static void cbLogOsc(Fl_Widget*, void *);
+		inline void cbLogOscIn();
+		//Callback del botón selector de la escala de tiempo por división.
+		static void cbTiempoDiv(Fl_Widget*, void *);
+		inline void cbTiempoDivIn(Fl_Widget*);
 		//Callback del botón selector de la posición vertical
-		static void cb_pos_y(Fl_Widget*, void *);
-		inline void cb_pos_y_in(Fl_Widget*);
+		static void cbPosy(Fl_Widget*, void *);
+		inline void cbPosyIn(Fl_Widget*);
 		//Variable que representa el color de fondo de la pantalla.
 		int icolor;
         //Indicador del modo de suma de señales de los dos canales  
@@ -226,6 +226,7 @@ class Osciloscopio : public Instrumento{
         Fl_Box *oresta;
         //Indicador del modo x vs y de las señales de los dos canales 
         Fl_Box *ox_y;
+        //Fl_Box *oxy;
         //Menu desplegable para seleccionar la escala de tiempo por división 
         Fl_Choice *omenu_t_div;
         //Indicador de activación del canal 1 como fuente de trigger  
