@@ -438,6 +438,10 @@ void Analizador::cb_scroll_cursor(Fl_Widget* pboton, void *pany) {
 }
 
 void Analizador::cb_scroll_cursor_in() { 
+    
+    char cdatoDecimal[6];
+    char cdatoHexa[6]; 
+     
     ocursor->iposx = ((inum_datos_grafica/2)+(inum_datos_grafica*oscroll->value())-2);  //Cálculo de la posición del cursor
     
     ocursor->redraw();                                   // Redibujar el cursor                              
@@ -461,8 +465,36 @@ void Analizador::cb_scroll_cursor_in() {
     if (orep_dato->value()==1){                                                         //Si el tipo de representación seleccionada es tipo binario
        odato1->value(pdata_analizador[oscroll->value()+ipos]);                          //Mostrar el dato seleccionado con el cursor en el cuadro de texto.
     }
+    else if (orep_dato->value()==0){
+         int idecimal = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);
+         itoa(idecimal,cdatoDecimal,10);
+         odato1->value(cdatoDecimal);
+    }
+    else if (orep_dato->value()==2){
+         int ihexa = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);
+         itoa(ihexa,cdatoHexa,16);
+         odato1->value(cdatoHexa);
+    }
       
 }
+
+/*******************************************************************************
+ * Analizador::bianrioadecimal: Método para convertir el dato señalado con el 
+ *                              cursor a un valor entero para visualizarlo.   
+ * Retorna el valor entero de la cadena de carácteres binarios 
+ *
+*******************************************************************************/
+int Analizador::bianrioadecimal(char cbinario[8]) {
+     int idatoDecimal=0;
+     for(int i = 7; i >= 0; i--){
+        if (cbinario[i]=='1'){
+           idatoDecimal= idatoDecimal+(pow(2,(7-i)));      
+        }
+     }
+     return idatoDecimal;
+}
+
+
 
 /*******************************************************************************
  * Analizador::cb_timer_ana: Callback del timer para realizar la solicitud 

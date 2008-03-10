@@ -35,7 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
-
+#include <math.h>
 
 #define TAM_ALMACENADO 40
 #define ESPERA_TRIGGER 20
@@ -203,6 +203,8 @@ class Analizador : public Instrumento {
 		bool trigger();
 		//Método para almacenar las muestras en el arreglopdata_analizador[].
 		void almacenar();
+		//Método para convertir los datos almacenados en caracteres binarios a un dato entero.
+		int bianrioadecimal(char [8]);
 		//Cuadro donde se muestra el valor señalado por el cursor.
 		Fl_Output *odato1;
 	    Fl_Output *odatoprueba;
