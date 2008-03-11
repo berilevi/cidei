@@ -44,7 +44,7 @@
 using namespace std;
 
 /*******************************************************************************
- * Analizador: Clase que representa las funcionees del instrumento Analizador
+ * Analizador: Clase que representa las funciones del instrumento Analizador
  *             Lógico.
  * El instrumento puede capturar el estado binario de un bus de señales digitales 
  * de 8 canales y el hardware lo envía en un dato hexadecimal de 2 carácteres.
@@ -80,8 +80,6 @@ class Analizador : public Instrumento {
 	    int idatapos;
 	    //Arreglo donde se almacenan las muestras en cadenas de caracteres de datos binarios de 8 bists
 	    char pdata_analizador [TAM_ALMACENADO][9];
-        //char **pdata_analizador hexadecimal;
-	    int idatosDecimal [TAM_ALMACENADO];
         //Objetos de la clase scope que representa la pantalla del analizador donde se grafica la señal digital.
 		Fl_Scope *apantalla_ch1, *apantalla_ch2, *apantalla_ch3, *apantalla_ch4, *apantalla_ch5,
                  *apantalla_ch6, *apantalla_ch7, *apantalla_ch8;

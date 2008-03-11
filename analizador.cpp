@@ -431,6 +431,32 @@ void Analizador::cb_bajada_in() {
  * El dato donde se posiciona el cursor es representado en el cuadro de texto
  * dependiendo el tipo de numeración escogido por el usuario para su representa-
  * cion: Binaria, Decimal ó Hexadecimal.
+ * orep_dato->value(): Opción seleccionada por el usuario para ver la represen-
+ *                     tación del dato señalado por el cursor.
+ *                     - 0 : Si el valor es cero, el usuario ha seleccionado ver
+ *                           el dato señalado por el cursor en representación
+ *                           Decimal.
+ *                     - 1 : Si el valor es uno, el usuario ha seleccionado ver
+ *                           el dato señalado por el cursor en representación
+ *                           binaria; este es el valor por defecto.
+ *                     - 2 : Si el valor es dos, el usuario ha seleccionado ver
+ *                           el dato señalado por el cursor en representación
+ *                           Hexadecimal.
+ * - Para mostrar el dato señalado en representación binaria, se coloca en el 
+ *   display la posición del arreglo pdata_analizador[], que el cursor está 
+ *   señalando.
+ * - Para mostrar el dato señalado en representación Decimal, se envía como 
+ *   parámetro al método bianrioadecimal(char [8]), la cadena de carácteres de 
+ *   la posición señalada por el cursor, donde se convierte en un dato decimal 
+ *   que es retornado y almacenado en la variable idecimal; El valor retornado 
+ *   se almacena en una cadena de carácteres cdatoDecimal[6], como dato decimal
+ *   para luego ser colocada en el display.
+ * - Para mostrar el dato señalado en representación Hexadecimal, se envía como 
+ *   parámetro al método bianrioadecimal(char [8]), la cadena de carácteres de 
+ *   la posición señalada por el cursor, donde se convierte en un dato decimal 
+ *   que es retornado y almacenado en la variable ihexa; El valor retornado 
+ *   se almacena en una cadena de carácteres cdatoHexa[6], como dato hexadecimal
+ *   para luego ser colocada en el display.   
 *******************************************************************************/
 void Analizador::cb_scroll_cursor(Fl_Widget* pboton, void *pany) {
      Analizador* pana=(Analizador*)pany;
@@ -464,16 +490,16 @@ void Analizador::cb_scroll_cursor_in() {
     int ipos = int((odes_horizontal->value()/20));                                      
     if (orep_dato->value()==1){                                                         //Si el tipo de representación seleccionada es tipo binario
        odato1->value(pdata_analizador[oscroll->value()+ipos]);                          //Mostrar el dato seleccionado con el cursor en el cuadro de texto.
-    }
+    }    
     else if (orep_dato->value()==0){
-         int idecimal = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);
-         itoa(idecimal,cdatoDecimal,10);
-         odato1->value(cdatoDecimal);
+         int idecimal = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);       //Llamada al método para convertirlo en dato decimal se envía como parametro la cadena de datos.
+         itoa(idecimal,cdatoDecimal,10);                                                //El dato decimal se convierte a cadena de caracteres decimales
+         odato1->value(cdatoDecimal);                                                   //Colocar el dato decimal en el display.
     }
     else if (orep_dato->value()==2){
-         int ihexa = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);
-         itoa(ihexa,cdatoHexa,16);
-         odato1->value(cdatoHexa);
+         int ihexa = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);          //Llamada al método para convertir a dato decimal.
+         itoa(ihexa,cdatoHexa,16);                                                      //El dato decimal se convierte en cadena de caracteres hexadecimales.
+         odato1->value(cdatoHexa);                                                      //Colocar el dato hexadecimal en el display.
     }
       
 }
@@ -481,8 +507,14 @@ void Analizador::cb_scroll_cursor_in() {
 /*******************************************************************************
  * Analizador::bianrioadecimal: Método para convertir el dato señalado con el 
  *                              cursor a un valor entero para visualizarlo.   
- * Retorna el valor entero de la cadena de carácteres binarios 
- *
+ * Retorna el valor entero de la cadena de carácteres binarios que llega como  
+ * parámetro.
+ * char cbinario[8]: Cadena de carácteres donde está almacenada la muestra en
+ *                   datos binarios que el cursor está señalando.
+ * Para convertir la cadena de carácteres binarios a un dato decimal, se recorre
+ * la cadena cbinario[] y en cada ocurrencia de un caracter '1', se realiza una
+ * operación de potencia  (2^x) donde x (el exponente) está relacionado con la 
+ * posición del caracter '1', dentro del arreglo. 
 *******************************************************************************/
 int Analizador::bianrioadecimal(char cbinario[8]) {
      int idatoDecimal=0;
@@ -566,8 +598,6 @@ void Analizador::separar_canales() {
      int ilong;
      int ipos_msb;
      int ipos_lsb;
-    // char cdatodecimal[9];
-    // char cdatohexa[9];
      
      // Convertir los carácteres que envía el hardware a numeros enteros
      
@@ -583,11 +613,7 @@ void Analizador::separar_canales() {
      else{                                               //Si es un dato hexadecimal entro '0' y '9'.
          ipos_lsb = int(buf_analizador[1]-48); 
      }
-     
-     //idatosDecimal[icont] = atoi(buf_analizador);
-     //itoa(atoi(buf_analizador),cdatodecimal,10);                  //convertir el dato a caracter para colocarlo en el cuadro de la rep del dato
-     //odatoprueba->value(cdatodecimal);
-     
+          
      // Guardar el número hexadecimal más significativo convertido a binario en una cadena de caracteres  
      itoa(ipos_msb,recibido_msb,2);
      ilong = strlen(recibido_msb);                                 
