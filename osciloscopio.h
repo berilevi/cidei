@@ -224,17 +224,16 @@ class Osciloscopio : public Instrumento{
         Fl_Box *osuma;
         //Indicador del modo de resta de señales de los dos canales 
         Fl_Box *oresta;
-        //Indicador del modo x vs y de las señales de los dos canales 
-        Fl_Box *ox_y;
-        //Fl_Box *oxy;
-        //Menu desplegable para seleccionar la escala de tiempo por división 
-        Fl_Choice *omenu_t_div;
-        //Indicador de activación del canal 1 como fuente de trigger  
-        Fl_Box *otrigger_ch1;
-        //Indicador de activación del canal 2 como fuente de trigger 
-        Fl_Box *otrigger_ch2;
+        //Indicador del modo x vs y de las señales de los dos canales
+        Fl_Box *oxy;
+        //Menu desplegable para seleccionar la escala de tiempo por división
+        Fl_Choice *omenuTdiv;
+        //Indicador de activación del canal 1 como fuente de trigger
+        Fl_Box *otriggerCh1;
+        //Indicador de activación del canal 2 como fuente de trigger
+        Fl_Box *otriggerCh2;
         //Botón para activar o desactivar la grilla.
-        Fl_Light_Button *ogrilla_on;
+        Fl_Light_Button *ogrillaOn;
         //Variable que almacena el caracter de la escala de tiempo por division  
         char ct_div;
         //Ventana de ayuda de uso del instrumento.

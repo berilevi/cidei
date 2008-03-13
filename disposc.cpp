@@ -37,7 +37,7 @@ void DispOsc::draw(int xx, int yy, int ww, int hh){
 	 fl_font(FL_HELVETICA_BOLD,12);
      fl_draw(ccanal,xx+10,yy+15);
      fl_draw(cv_div,xx+40,yy+15);
-     fl_draw(cacople,xx+90,yy+15);
+     fl_draw(cacople,xx+95,yy+15);
      fl_draw(ct_div,xx+10,yy+310);
      fl_draw(ctrigger,xx+80,yy+310);
 }
