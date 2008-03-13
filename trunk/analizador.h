@@ -205,7 +205,6 @@ class Analizador : public Instrumento {
 		int bianrioadecimal(char [8]);
 		//Cuadro donde se muestra el valor señalado por el cursor.
 		Fl_Output *odato1;
-	    Fl_Output *odatoprueba;
          
 };
 
