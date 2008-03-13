@@ -160,8 +160,6 @@ Analizador::Analizador() {
     odato1 = new Fl_Output(430,645,70,25,"");                        //Cuadro de texto con la representación numerica del dato señalado por el cursor
     odato1->textsize(12);
     
-    odatoprueba = new Fl_Output(430,670,70,25,"");                   
-    odatoprueba->textsize(12);
         
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger");      //Botón que saca la ventana de configuración del trigger
     otrigger_on->labelsize(15);
@@ -389,10 +387,6 @@ void Analizador::cb_subida_in() {
          oflancosubida->value(1);
          oflancosubida->box(FL_DOWN_BOX);
       }
-   /*   else {
-         oflancosubida->value(0);
-         oflancosubida->box(FL_UP_BOX);
-      }*/
 }
 
 /*******************************************************************************
@@ -415,10 +409,6 @@ void Analizador::cb_bajada_in() {
          oflancobajada->value(1);
          oflancobajada->box(FL_DOWN_BOX);
       }
-    /*  else {
-         oflancobajada->value(0);
-         oflancobajada->box(FL_UP_BOX);
-      }*/
 }
 
 
@@ -499,6 +489,7 @@ void Analizador::cb_scroll_cursor_in() {
     else if (orep_dato->value()==2){
          int ihexa = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);          //Llamada al método para convertir a dato decimal.
          itoa(ihexa,cdatoHexa,16);                                                      //El dato decimal se convierte en cadena de caracteres hexadecimales.
+         fl_message("pos es %d",oscroll->value()+ipos);
          odato1->value(cdatoHexa);                                                      //Colocar el dato hexadecimal en el display.
     }
       
@@ -754,13 +745,13 @@ void Analizador::almacenar() {
            omuestrear_on->value(0);
            graficar_datos();                                   //Graficar los datos almacenados.
      }
-     /* TODO (JuanPablo#1#): Revizar si toca colocarle  else{} para que el ultimo 
-                             dato no se almacene en basura. */
      
-     strcpy(pdata_analizador [idatapos], cbyte_actual);     //Almacenar el dato en el arreglo
-     idatapos++;
-     bmuestreando = 1;
-     ocursor->redraw();                                     //Redibujar el cursor 
+     else{
+          strcpy(pdata_analizador [idatapos], cbyte_actual);     //Almacenar el dato en el arreglo
+          idatapos++;
+          bmuestreando = 1;
+          ocursor->redraw();                                     //Redibujar el cursor 
+     }
 }
 
 
