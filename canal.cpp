@@ -7,54 +7,54 @@
 Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
              
      ncolor = ncolo;                                               //Color de la gráfica 
-     ogroup_ch = new Fl_Group (x,y,w,h,"");                        
-     ogroup_ch->box(FL_ENGRAVED_FRAME);
-     ogroup_ch->deactivate();
-     opos_x = new Fl_Knob ((x+85),(y+9),60,60,"Y-Pos");            //Botón para modificar la posición vertical de la gráfica
-     opos_x->labelsize(9);
-     opos_x->color(180);
-     opos_x->scaleticks(0);
-     opos_x->cursor(50);
-     opos_x->range(-100,100);
-     opos_x->step(1);
-     opos_x->round(1);
-     ovolt_div = new Fl_Knob ((x+10),(y+75),75,75,"Vol-Div");      //Selector de escala de Voltios por División
-     ovolt_div->step(1);
-     ovolt_div->labelsize(9);
-     ovolt_div->color(147);
-     ovolt_div->type(8);
-     ovolt_div->scaleticks(11);
-     ovolt_div->range(0,11);
-     omenu_v_div = new Fl_Choice((x+85),(y+105),60,18,"");    //Menú de las escalas de Voltios por División
-     omenu_v_div->labelsize(10);
-     omenu_v_div->align(FL_ALIGN_TOP);
-     omenu_v_div->add("5",0,(Fl_Callback *)cb_vdiv5,this);
-     omenu_v_div->add("2",0,(Fl_Callback *)cb_vdiv2,this);
-     omenu_v_div->add("1",0,(Fl_Callback *)cb_vdiv1,this);
-     omenu_v_div->add("05",0,(Fl_Callback *)cb_vdiv05,this);
-     omenu_v_div->add("02",0,(Fl_Callback *)cb_vdiv02,this);
-     omenu_v_div->add("01",0,(Fl_Callback *)cb_vdiv01,this);
-     omenu_v_div->add("50m",0,(Fl_Callback *)cb_vdiv50m,this);
-     omenu_v_div->add("20m",0,(Fl_Callback *)cb_vdiv20m,this);
-     omenu_v_div->add("10m",0,(Fl_Callback *)cb_vdiv10m,this);
-     omenu_v_div->add("5m",0,(Fl_Callback *)cb_vdiv5m,this);
-     omenu_v_div->add("2m",0,(Fl_Callback *)cb_vdiv2m,this);
-     omenu_v_div->add("1m",0,(Fl_Callback *)cb_vdiv1m,this);
-     osel_acople = new Fl_Repeat_Button((x+15),(y+180),45,18,"Acople");   //Botón selector del tipo de acople del canal.
-     osel_acople->labelsize(10);
-     oacop_gnd = new Fl_Box((x+120),(y+188),10,10,"Gnd");                 //Indicador de acople gnd del canal. 
-     oacop_gnd->labelsize(10);
-     oacop_gnd->box(FL_ENGRAVED_BOX);
-     oacop_gnd->align(FL_ALIGN_TOP);
-     oacop_dc  = new Fl_Box((x+100),(y+188),10,10,"Dc");                  //Indicador de acople Dc del canal
-     oacop_dc->labelsize(10);
-     oacop_dc->box(FL_ENGRAVED_BOX);
-     oacop_dc->align(FL_ALIGN_TOP);
-     oacop_ac  = new Fl_Box((x+78),(y+188),10,10,"Ac");                   //Indicador de acople Ac del canal
-     oacop_ac->labelsize(10);
-     oacop_ac->box(FL_ENGRAVED_BOX);
-     oacop_ac->align(FL_ALIGN_TOP);    
-     ogroup_ch->end();
+     ogroupCh = new Fl_Group (x,y,w,h,"");
+     ogroupCh->box(FL_ENGRAVED_FRAME);
+     ogroupCh->deactivate();
+     oposx = new Fl_Knob ((x+85),(y+9),60,60,"Y-Pos");            //Botón para modificar la posición vertical de la gráfica
+     oposx->labelsize(9);
+     oposx->color(180);
+     oposx->scaleticks(0);
+     oposx->cursor(50);
+     oposx->range(-100,100);
+     oposx->step(1);
+     oposx->round(1);
+     ovoltDiv = new Fl_Knob ((x+10),(y+75),75,75,"Vol-Div");      //Selector de escala de Voltios por División
+     ovoltDiv->step(1);
+     ovoltDiv->labelsize(9);
+     ovoltDiv->color(147);
+     ovoltDiv->type(8);
+     ovoltDiv->scaleticks(11);
+     ovoltDiv->range(0,11);
+     omenuvDiv = new Fl_Choice((x+85),(y+105),60,18,"");    //Menú de las escalas de Voltios por División
+     omenuvDiv->labelsize(10);
+     omenuvDiv->align(FL_ALIGN_TOP);
+     omenuvDiv->add("5",0,(Fl_Callback *)cbVdiv5,this);
+     omenuvDiv->add("2",0,(Fl_Callback *)cbVdiv2,this);
+     omenuvDiv->add("1",0,(Fl_Callback *)cbVdiv1,this);
+     omenuvDiv->add("05",0,(Fl_Callback *)cbVdiv05,this);
+     omenuvDiv->add("02",0,(Fl_Callback *)cbVdiv02,this);
+     omenuvDiv->add("01",0,(Fl_Callback *)cbVdiv01,this);
+     omenuvDiv->add("50m",0,(Fl_Callback *)cbVdiv50m,this);
+     omenuvDiv->add("20m",0,(Fl_Callback *)cbVdiv20m,this);
+     omenuvDiv->add("10m",0,(Fl_Callback *)cbVdiv10m,this);
+     omenuvDiv->add("5m",0,(Fl_Callback *)cbVdiv5m,this);
+     omenuvDiv->add("2m",0,(Fl_Callback *)cbVdiv2m,this);
+     omenuvDiv->add("1m",0,(Fl_Callback *)cbVdiv1m,this);
+     oselAcople = new Fl_Repeat_Button((x+15),(y+180),45,18,"Acople");   //Botón selector del tipo de acople del canal.
+     oselAcople->labelsize(10);
+     oacopGnd = new Fl_Box((x+120),(y+188),10,10,"Gnd");                 //Indicador de acople gnd del canal. 
+     oacopGnd->labelsize(10);
+     oacopGnd->box(FL_ENGRAVED_BOX);
+     oacopGnd->align(FL_ALIGN_TOP);
+     oacopDc  = new Fl_Box((x+100),(y+188),10,10,"Dc");                  //Indicador de acople Dc del canal
+     oacopDc->labelsize(10);
+     oacopDc->box(FL_ENGRAVED_BOX);
+     oacopDc->align(FL_ALIGN_TOP);
+     oacopAc  = new Fl_Box((x+78),(y+188),10,10,"Ac");                   //Indicador de acople Ac del canal
+     oacopAc->labelsize(10);
+     oacopAc->box(FL_ENGRAVED_BOX);
+     oacopAc->align(FL_ALIGN_TOP);
+     ogroupCh->end();
 }
  
 // class destructor
@@ -71,158 +71,158 @@ Canal::~Canal(){
  * menú. 
 *******************************************************************************/
 
-void Canal::cb_vdiv5(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv5(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv5_in(pselector);
+     pcanal->cbVdiv5In(pselector);
 }
 
-void Canal::cb_vdiv5_in(Fl_Widget* psel){
+void Canal::cbVdiv5In(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','1',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv2(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv2(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv2_in(pselector);
+     pcanal->cbVdiv2In(pselector);
 }
 
-void Canal::cb_vdiv2_in(Fl_Widget* psel){
+void Canal::cbVdiv2In(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','2',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv1(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv1(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv1_in(pselector);
+     pcanal->cbVdiv1In(pselector);
 }
 
-void Canal::cb_vdiv1_in(Fl_Widget* psel){
+void Canal::cbVdiv1In(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','3',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv05(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv05(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv05_in(pselector);
+     pcanal->cbVdiv05In(pselector);
 }
 
-void Canal::cb_vdiv05_in(Fl_Widget* psel){
+void Canal::cbVdiv05In(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','4',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv02(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv02(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv02_in(pselector);
+     pcanal->cbVdiv02In(pselector);
 }
 
-void Canal::cb_vdiv02_in(Fl_Widget* psel){
+void Canal::cbVdiv02In(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','5',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv01(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv01(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv01_in(pselector);
+     pcanal->cbVdiv01In(pselector);
 }
 
-void Canal::cb_vdiv01_in(Fl_Widget* psel){
+void Canal::cbVdiv01In(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','6',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv50m(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv50m(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv50m_in(pselector);
+     pcanal->cbVdiv50mIn(pselector);
 }
 
-void Canal::cb_vdiv50m_in(Fl_Widget* psel){
+void Canal::cbVdiv50mIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','7',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv20m(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv20m(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv20m_in(pselector);
+     pcanal->cbVdiv20mIn(pselector);
 }
 
-void Canal::cb_vdiv20m_in(Fl_Widget* psel){
+void Canal::cbVdiv20mIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','8',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv10m(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv10m(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv10m_in(pselector);
+     pcanal->cbVdiv10mIn(pselector);
 }
 
-void Canal::cb_vdiv10m_in(Fl_Widget* psel){
+void Canal::cbVdiv10mIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','9',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv5m(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv5m(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv5m_in(pselector);
+     pcanal->cbVdiv5mIn(pselector);
 }
 
-void Canal::cb_vdiv5m_in(Fl_Widget* psel){
+void Canal::cbVdiv5mIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','A',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv2m(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv2m(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv2m_in(pselector);
+     pcanal->cbVdiv2mIn(pselector);
 }
 
-void Canal::cb_vdiv2m_in(Fl_Widget* psel){
+void Canal::cbVdiv2mIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','B',0x00,0x00);
      Transmision();
 }
 
-void Canal::cb_vdiv1m(Fl_Widget* psel, void *pany){
+void Canal::cbVdiv1m(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Canal* pcanal=(Canal*)pany;
-     pcanal->cb_vdiv1m_in(pselector);
+     pcanal->cbVdiv1mIn(pselector);
 }
 
-void Canal::cb_vdiv1m_in(Fl_Widget* psel){
+void Canal::cbVdiv1mIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
-     ovolt_div->value(pselector->value());
+     ovoltDiv->value(pselector->value());
      Encapsular('A','c','1','C',0x00,0x00);
      Transmision();
 }

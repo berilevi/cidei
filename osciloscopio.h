@@ -42,17 +42,18 @@ class Osciloscopio : public Instrumento{
         // Destructor de clase
 		~Osciloscopio();
         //Agrupa la pantalla, los 2 canales y los demas controles del osciloscopìo
-        Fl_Group *ogroup_osc;
+        Fl_Group *ogroupOsc;
         //Agrupa los controles de tiempo por división en el osciloscopio.
-        Fl_Group *ogroup_tdiv;
+        Fl_Group *ogroupTdiv;
         //Agrupa los controles de seleccion de fuente y posición del trigger en el osciloscopio.
-        Fl_Group *ogroup_trigger;
+        Fl_Group *ogroupTrigger;
         //Agrupa el control de la posición horizontal de las gráficas.
-        Fl_Group *ogroup_pos;
+        Fl_Group *ogroupPos;
         //Agrupa las opciones de operaciones entre las gráficas cuando se encuantran activos los dos canales.
-        Fl_Group *ogroup_dual;
+        //Fl_Group *ogroup_dual;
+        Fl_Group *ogroupDual;
         //Caja para colocar el nombre del instrumento en la interfaz. 
-        Fl_Box *obox_nombre;
+        Fl_Box *oboxNombre;
         //Instancia de Canal 1. 
         Canal *canal1; 
         //Instancia de Canal 2.
@@ -234,10 +235,10 @@ class Osciloscopio : public Instrumento{
         Fl_Box *otriggerCh2;
         //Botón para activar o desactivar la grilla.
         Fl_Light_Button *ogrillaOn;
-        //Variable que almacena el caracter de la escala de tiempo por division  
-        char ct_div;
+        //Variable que almacena el caracter de la escala de tiempo por division
+        char ctDiv;
         //Ventana de ayuda de uso del instrumento.
-        Fl_Help_Dialog *Manual_osc; 
+        Fl_Help_Dialog *manualOsc;
 };
 
 #endif // OSCILOSCOPIO_H
