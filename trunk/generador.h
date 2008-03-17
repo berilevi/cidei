@@ -112,29 +112,29 @@ class Generador : public Instrumento
 		static void cbFrec1(Fl_Widget*, void *);
 		inline void cbFrec1In(Fl_Widget*);
 		//Calback para la escala de frecuencias hasta 100 Hertz
-		static void cb_frec100(Fl_Widget*, void *);
-		inline void cb_frec100_in(Fl_Widget*);
+		static void cbFrec100(Fl_Widget*, void *);
+		inline void cbFrec100In(Fl_Widget*);
 		// Calback para la escala de frecuencias hasta 500 Hertz
-		static void cb_frec500(Fl_Widget*, void *);
-		inline void cb_frec500_in(Fl_Widget*);
+		static void cbFrec500(Fl_Widget*, void *);
+		inline void cbFrec500In(Fl_Widget*);
 		// Calback para la escala de frecuencias hasta 1 KHz
-		static void cb_frec1k(Fl_Widget*, void *);
-		inline void cb_frec1k_in(Fl_Widget*);
+		static void cbFrec1k(Fl_Widget*, void *);
+		inline void cbFrec1kIn(Fl_Widget*);
 		//Calback para la escala de frecuencias hasta 100 KHz
-		static void cb_frec100k(Fl_Widget*, void *);
-		inline void cb_frec100k_in(Fl_Widget*);
+		static void cbFrec100k(Fl_Widget*, void *);
+		inline void cbFrec100kIn(Fl_Widget*);
 		//Calback para la escala de frecuencias hasta 500 KHz
-		static void cb_frec500k(Fl_Widget*, void *);
-		inline void cb_frec500k_in(Fl_Widget*);
+		static void cbFrec500k(Fl_Widget*, void *);
+		inline void cbFrec500kIn(Fl_Widget*);
 		//Calback para la escala de frecuencias hasta 1 MHz
-		static void cb_frec1m(Fl_Widget*, void *);
-		inline void cb_frec1m_in(Fl_Widget*);
+		static void cbFrec1m(Fl_Widget*, void *);
+		inline void cbFrec1mIn(Fl_Widget*);
 		//Callback del botón que selecciona la amplitud de la señal generada.
-		static void cb_amplitud(Fl_Widget*, void *);
-		inline void cb_amplitud_in();
+		static void cbAmplitud(Fl_Widget*, void *);
+		inline void cbAmplitudIn();
 		//Callback del botón que selecciona el nivel de offset de la señal generada.
-		static void cb_offset(Fl_Widget*, void *);
-		inline void cb_offset_in();
+		static void cbOffset(Fl_Widget*, void *);
+		inline void cbOffsetIn();
         
 };
 
