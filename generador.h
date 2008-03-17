@@ -39,29 +39,29 @@ class Generador : public Instrumento
 		~Generador();
 	private:
 		//valor de la frecuencia configurada en representación hexadecimal.
-		char frec_hexa [8];
-		//valor de la amplitud de la señal configurada en hexadecimal. 
-		char amplitud_hexa [8];
-		//valor del nivel de offset configurada en hexadecimal. 
-		char offset_hexa [8];
+		char frecHexa [8];
+		//valor de la amplitud de la señal configurada en hexadecimal.
+		char amplitudHexa [8];
+		//valor del nivel de offset configurada en hexadecimal.
+		char offsetHexa [8];
         //Grupo de los botones e indicadores del generador de señales
-		Fl_Group *ogroup_generador;
+		Fl_Group *ogroupGenerador;
 		//Grupo de los botones para ajustar la frecuencia de la señal generada
-		Fl_Group *ogroup_frecuencia;
+		Fl_Group *ogroupFrecuencia;
 		//Grupo de los botones e indicadores para seleccionar la señal generada
-		Fl_Group *ogroup_senal;
+		Fl_Group *ogroupSenal;
 		//Grupo de los botones para seleccionar la amplitud de la señal generada.
-		Fl_Group *ogroup_amplitud;
+		Fl_Group *ogroupAmplitud;
 		//Grupo de los botones para seleccionar el nivel de offset de la señal generada.
-		Fl_Group *ogroup_offset;
+		Fl_Group *ogroupOffset;
 		//Contiene el nombre del instrumento.
-	    Fl_Box *obox_nombre;
+	    Fl_Box *oboxNombre;
 		//Botón para prender el instrumento generador de señales.
-		Fl_Light_Button *ogen_on;
+		Fl_Light_Button *ogenOn;
 		//Display del generador donde se visualiza el valor de frecuencia configurado.
-		Fl_7Seg *odisp_gen;
+		Fl_7Seg *odispGen;
 		//Botón que habilita la ayuda al usuario sobre el manejo del instrumento.
-        Fl_Button *ohelp_gen;
+        Fl_Button *ohelpGen;
         //Botón de seleccion de tipo de señal seno.
         Fl_Button *oseno;
         //Botón de seleccion de tipo de señal cuadrada.
@@ -75,42 +75,42 @@ class Generador : public Instrumento
         // Indicador del valor de la frecuencia en la escala de MegaHertz.
         Fl_Box *oMeHz;
         // Botón de ajuste lineal de la frecuencia de la señal.
-        Fl_Knob *ofrec_gen;
+        Fl_Knob *ofrecGen;
         //Botón de ajuste lineal fino de la frecuencia de la señal .
-        Fl_Knob *ofrec_gen2;
+        Fl_Knob *ofrecGen2;
         //Indicador del Valor de la frecuencia de la señal seleccionada por el ususario.
-        Fl_Value_Input *ovalor_frec;
+        Fl_Value_Input *ovalorFrec;
         //Botón de ajuste lineal de la amplitud de la señal seleccionada por el ususario.
         Fl_Knob *oamplitud;
         // Display que muestra el valor de la amplitud de la señal seleccionada por el ususario.
-        Fl_Output *odisp_amplitud;
+        Fl_Output *odispAmplitud;
         //Botón de ajuste lineal del nivel de offset de la señal seleccionada por el ususario.
         Fl_Knob *ooffset;
         //Display que muestra el valor del nivel de offset de la señal seleccionada por el ususario.
-        Fl_Output *odisp_offset;  
-        //Menú selector de escalas de frecuencia.    
-        Fl_Choice *oescala_frecuencia;
+        Fl_Output *odispOffset; 
+        //Menú selector de escalas de frecuencia.
+        Fl_Choice *oescalaFrecuencia;
         //Callback del botón de encendido/apagado del generador de señales.
-		static void cb_generador_on(Fl_Widget*, void *);
-		inline void cb_generador_on_in();
+		static void cbGeneradorOn(Fl_Widget*, void *);
+		inline void cbGeneradorOnIn();
 		//Callback del botón de selección de señal seno.
-		static void cb_seno(Fl_Widget*, void *);
-		inline void cb_seno_in();
+		static void cbSeno(Fl_Widget*, void *);
+		inline void cbSenoIn();
 		//Callback del botón de selección de señal cuadrada.
-		static void cb_cuadrada(Fl_Widget*, void *);
-		inline void cb_cuadrada_in();
+		static void cbCuadrada(Fl_Widget*, void *);
+		inline void cbCuadradaIn();
 		//Callback del botón de selección de señal triángulo.
-		static void cb_triangulo(Fl_Widget*, void *);
-		inline void cb_triangulo_in();
+		static void cbTriangulo(Fl_Widget*, void *);
+		inline void cbTrianguloIn();
 		//Callback del botón que selecciona la frecuencia de la señal generada.
-		static void cb_frec_gen(Fl_Widget*, void *);
-		inline void cb_frec_gen_in();
+		static void cbFrecGen(Fl_Widget*, void *);
+		inline void cbFrecGenIn();
 		//Callback del botón que realiza el ajuste fino de la frecuencia de la señal generada.
-		static void cb_frecgen2(Fl_Widget*, void *);
-		inline void cb_frecgen2_in();
+		static void cbFrecgen2(Fl_Widget*, void *);
+		inline void cbFrecgen2In();
 		//Calback para la escala de frecuencias hasta 1 Hertz
-		static void cb_frec1(Fl_Widget*, void *);
-		inline void cb_frec1_in(Fl_Widget*);
+		static void cbFrec1(Fl_Widget*, void *);
+		inline void cbFrec1In(Fl_Widget*);
 		//Calback para la escala de frecuencias hasta 100 Hertz
 		static void cb_frec100(Fl_Widget*, void *);
 		inline void cb_frec100_in(Fl_Widget*);
