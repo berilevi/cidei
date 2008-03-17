@@ -17,40 +17,41 @@ Multimetro::Multimetro(){
                             
     //Fl_Tooltip::disable();
     Fl_Tooltip::enable();
-    fvalor_escalado = 0.0;
+    fvalorEscalado = 0.0;
     strcpy(cvalor,"0.000");                                                     //Inicialización del valor mostrado en el dsiplay
     strcpy(cnombre,"mult.txt"); 
     ogroup_mult = new Fl_Group (735,5,285,360,"");                              //Inicio del grupo de los elementos del multímetro
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
-    odisp_mult  = new Fl_7Seg (740,53,230,99);                                  //Display del multímetro
-    odisp_mult->color(FL_BLACK);
-    odisp_mult->thickness(5);
-    odisp_mult->dot_len(7);
-    odisp_mult->align_text(FL_ALIGN_RIGHT);
-    odisp_mult->segment_gap(2);
-    odisp_mult->value("00.0");
+    odispMult  = new Fl_7Seg (740,53,230,99);                                  //Display del multímetro
+    odispMult->color(FL_BLACK);
+    odispMult->thickness(5);
+    odispMult->dot_len(7);
+    odispMult->align_text(FL_ALIGN_RIGHT);
+    odispMult->segment_gap(2);
+    odispMult->value("00.0");
     ounidades = new Fl_Box (968,53,43,99,"VAC");                                   //Display de las unidades de medida
     ounidades->labelsize(20);
     ounidades->labelcolor(FL_WHITE);
     ounidades->box(FL_FLAT_BOX);
     ounidades->color(FL_BLACK);
-    ohelp_mult  = new Fl_Button (935,23,40,16,"Help");                          //Botón que inicia la ventana de ayuda de uso del instrumento.
-    ohelp_mult->labelsize(9);
-    ohelp_mult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
+    
+    ohelpMult  = new Fl_Button (935,23,40,16,"Help");                          //Botón que inicia la ventana de ayuda de uso del instrumento.
+    ohelpMult->labelsize(9);
+    ohelpMult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
     
     oayudaMult = new Fl_Check_Button(985,20,20,20,"");
     
-    ovolt_ac = new Fl_Button(765,189,63,35,"V_ac");                             //Botón que activa el instrumento voltímetro AC.   
-    ovolt_ac->clear();
-    ovolt_ac->box(FL_UP_BOX);
-    ovolt_dc = new Fl_Button(842,189,63,35,"V_dc");                             //Botón que activa el instrumento voltímetro DC.
-    ovolt_dc->box(FL_UP_BOX);
-    oamp_ac = new Fl_Button(922,190,63,35,"A_ac");                              //Botón que activa el instrumento Amperímetro AC.
-    oamp_ac->box(FL_UP_BOX);
-    oamp_dc = new Fl_Button(765,273,63,35,"A_dc");                              //Botón que activa el instrumento Amperímetro DC.
-    oamp_dc->box(FL_UP_BOX);
+    ovoltAc = new Fl_Button(765,189,63,35,"V_ac");                             //Botón que activa el instrumento voltímetro AC.   
+    ovoltAc->clear();
+    ovoltAc->box(FL_UP_BOX);
+    ovoltDc = new Fl_Button(842,189,63,35,"V_dc");                             //Botón que activa el instrumento voltímetro DC.
+    ovoltDc->box(FL_UP_BOX);
+    oampAc = new Fl_Button(922,190,63,35,"A_ac");                              //Botón que activa el instrumento Amperímetro AC.
+    oampAc->box(FL_UP_BOX);
+    oampDc = new Fl_Button(765,273,63,35,"A_dc");                              //Botón que activa el instrumento Amperímetro DC.
+    oampDc->box(FL_UP_BOX);
     oohm = new Fl_Button(842,273,63,35,"R");                                    //Botón que activa el instrumento Ohmetro.
     oohm->box(FL_UP_BOX);
     ocontinuidad = new Fl_Button(922,273,63,35,"Cont");                         //Botón que activa el instrumento Medidor de continuidad.
@@ -61,19 +62,19 @@ Multimetro::Multimetro(){
     
     ogroup_mult-> end();                                                        //Fin del grupo de elementos del multímetro
       
-    omult_on = new Fl_Light_Button(892,10,33,42,"ON");                          //Botón que enciende/apaga el instrumento
-    omult_on->labelsize(9); 
+    omultOn = new Fl_Light_Button(892,10,33,42,"ON");                          //Botón que enciende/apaga el instrumento
+    omultOn->labelsize(9); 
     
     // Callbacks de los diferentes botones del instrumento
-    omult_on->callback(cb_mult_on, this);
-    ovolt_ac->callback(cb_volt_ac, this);
-    ovolt_dc->callback(cb_volt_dc, this);
-    oamp_ac->callback(cb_amp_ac, this);
-    oamp_dc->callback(cb_amp_dc, this);
-    oohm->callback(cb_ohm, this);
-    ocontinuidad->callback(cb_cont, this);
-    ohelp_mult->callback(cb_help,this);
-    oayudaMult->callback(cb_ayuda,this);
+    omultOn->callback(cbMultOn, this);
+    ovoltAc->callback(cbVoltAc, this);
+    ovoltDc->callback(cbVoltDc, this);
+    oampAc->callback(cbAmpAc, this);
+    oampDc->callback(cbAmpDc, this);
+    oohm->callback(cbOhm, this);
+    ocontinuidad->callback(cbCont, this);
+    ohelpMult->callback(cbHelpMult,this);
+    oayudaMult->callback(cbAyudaMult,this);
 }
 
 // class destructor
@@ -82,42 +83,42 @@ Multimetro::~Multimetro(){
 
 
 /*******************************************************************************
- * Multimetro::cb_mult_on: Callback del botón que activa/desactiva el multímetro
- * El Callaback consta de la función static e inline cb_mult_on y cb_mult_on_in.
+ * Multimetro::cbMultOn: Callback del botón que activa/desactiva el multímetro
+ * El Callaback consta de la función static e inline cbMultOn y cbMultOnIn.
  * Al encender el instrumento se inicia el instrumento voltímetro AC por defecto 
 *******************************************************************************/
-void Multimetro::cb_mult_on(Fl_Widget* pboton, void *any){
+void Multimetro::cbMultOn(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_mult_on_in();
+     pmult->cbMultOnIn();
 }
 
-void Multimetro::cb_mult_on_in(){
-     if (omult_on->value()== 1){                                                //Encender Multímetro
+void Multimetro::cbMultOnIn(){
+     if (omultOn->value()== 1){                                                //Encender Multímetro
         activar(1);
         Encapsular('K','a','1','0',0x00,0x00);                                  //Trama de inicio de multímetro
         Transmision();
         if (bhardware){
            ogroup_mult->activate();
-           cb_volt_ac_in();                                                     //Inicio por defecto de voltímetro AC
+           cbVoltAcIn();                                                     //Inicio por defecto de voltímetro AC
            ounidades->label("VAC");
            ounidades->redraw();
         }
         else {
              fl_message("Error de hardware");
-             omult_on->value(0);
+             omultOn->value(0);
         }
      }
-     if (omult_on->value()== 0){                                                //Apagar el Multímetro
-        Fl::remove_timeout(cb_timer_mult, this);
+     if (omultOn->value()== 0){                                                //Apagar el Multímetro
+        Fl::remove_timeout(cbTimerMult, this);
         activar(0);
-        ovolt_ac->box(FL_UP_BOX);
-        ovolt_ac->clear();
-        ovolt_dc->box(FL_UP_BOX);
-        ovolt_dc->clear();
-        oamp_ac->box(FL_UP_BOX);
-        oamp_ac->clear();
-        oamp_dc->box(FL_UP_BOX);
-        oamp_dc->clear();
+        ovoltAc->box(FL_UP_BOX);
+        ovoltAc->clear();
+        ovoltDc->box(FL_UP_BOX);
+        ovoltDc->clear();
+        oampAc->box(FL_UP_BOX);
+        oampAc->clear();
+        oampDc->box(FL_UP_BOX);
+        oampDc->clear();
         oohm->box(FL_UP_BOX);
         oohm->clear();
         ocontinuidad->box(FL_UP_BOX);
@@ -128,44 +129,44 @@ void Multimetro::cb_mult_on_in(){
 }
 
 /*******************************************************************************
-* Multimetro::set_disp_mult: Método para colocar el valor de la medición en el 
+* Multimetro::setDispMult: Método para colocar el valor de la medición en el 
 *                            display del multímetro.
 * svalor : Cadena de caracteres con el valor de la medición realizada
 *******************************************************************************/
-void Multimetro::set_disp_mult(char svalor [4]){
-     odisp_mult->value((svalor));      
+void Multimetro::setDispMult(char svalor [4]){
+     odispMult->value((svalor));       
 }
 
 /*******************************************************************************
- * Multimetro::cb_timer_mult: Callback del timer para realizar la solicitud 
+ * Multimetro::cbTimerMult: Callback del timer para realizar la solicitud 
  *                            de datos del multímetro.  
- * El Callaback consta de la función static e inline cb_timer_mult y 
- * cb_timer_mult_in.
+ * El Callaback consta de la función static e inline cbTimerMult y 
+ * cbTimerMultIn.
  * Se envía una trama de solicitud de datos de multímetro al hardware Mu04.
- * escalar_valor(x): Función que se encarga de escalar el valor de la medida en 
+ * escalarValor(x): Función que se encarga de escalar el valor de la medida en 
  *                   la escala adecuada.
  *                   El paramétro es el valor de la escala que envía el hardware.
- * set_disp_mult(): Se envía el dato escalado para mostrarlo en el display.
+ * setDispMult(): Se envía el dato escalado para mostrarlo en el display.
  * Se repite el timer de solicitud de datos cada medio segundo. 
 *******************************************************************************/
 
-void Multimetro::cb_timer_mult(void *pany){
+void Multimetro::cbTimerMult(void *pany){
      Multimetro* pmult=(Multimetro*)pany;
-     pmult->cb_timer_mult_in();
+     pmult->cbTimerMultIn();
 }
 
-void Multimetro::cb_timer_mult_in(){
+void Multimetro::cbTimerMultIn(){
      Encapsular('K','p','1','0',0x00,0x00);
      Transmision();
-     escalar_valor(imult_escala);
-     set_disp_mult(cvalor);
+     escalarValor(imult_escala);
+     setDispMult(cvalor);
      ounidades->redraw();
-     Fl::repeat_timeout(0.5, cb_timer_mult, this);
+     Fl::repeat_timeout(0.5, cbTimerMult, this);
 }
 
 
 /*******************************************************************************
- * Multimetro::config_instrumento: Envia la trama de selección de instrumento al 
+ * Multimetro::configInstrumento: Envia la trama de selección de instrumento al 
  *                                 hardware para configurar el multímetro.
  * Este método es llamado en los callbacks de los botones que seleccionan cada
  * instrumento del multímetro.
@@ -179,44 +180,44 @@ void Multimetro::cb_timer_mult_in(){
  * Luego de configurar el instrumento se inicia el timer de solicitud de datos.
 *******************************************************************************/
 
-void Multimetro::config_instrumento(int instrumento){
+void Multimetro::configInstrumento(int instrumento){
      switch (instrumento) {
             case volt_ac:
                  Encapsular('K','q','1','2',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.05, cb_timer_mult, this);
+                 Fl::add_timeout(0.05, cbTimerMult, this);
                  break;
             case volt_dc:
                  Encapsular('K','q','1','1',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.05, cb_timer_mult, this);
+                 Fl::add_timeout(0.05, cbTimerMult, this);
                  break;
             case amp_ac:
                  Encapsular('K','q','1','4',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.05, cb_timer_mult, this);
+                 Fl::add_timeout(0.05, cbTimerMult, this);
                  break;
             case amp_dc:
                  Encapsular('K','q','1','3',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.05, cb_timer_mult, this); 
+                 Fl::add_timeout(0.05, cbTimerMult, this); 
                  break;
             case ohm:
                  Encapsular('K','q','1','5',0x00,0x00);
                  Transmision();
                  if (bhardware)
-                 Fl::add_timeout(0.05, cb_timer_mult, this); 
+                 Fl::add_timeout(0.05, cbTimerMult, this); 
                  break;
     }
 }
 
 
 /*******************************************************************************
- * Multimetro::escalar_valor: Calcula el valor de la medición en el rango de 
+ * Multimetro::escalarValor: Calcula el valor de la medición en el rango de 
  *                            escala en que se encuentre.
  * escala: Dato de escala enviada desde el hardware en la que se encuentra el
  *         valor de la medición.
@@ -225,325 +226,325 @@ void Multimetro::config_instrumento(int instrumento){
  * Por cada escala hay un Factor por el que se debe multiplicar para obtener el 
  * valor de la medición.  
 *******************************************************************************/
-void Multimetro::escalar_valor(int escala){
-     ivalor_conversion = atoi(buf_mult);
+void Multimetro::escalarValor(int escala){
+     ivalorConversion = atoi(buf_mult);
      switch (escala) {
             case 1:
                  if (instrument==volt_ac){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==amp_ac){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==ohm){
-                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                    fvalorEscalado = (ivalorConversion-256)*0.08;
                  }
                  else if (instrument==continuidad){
-                    fvalor_escalado = (ivalor_conversion-256)*0.078;
-                    /*if (fvalor_escalado < 1)
+                    fvalorEscalado = (ivalorConversion-256)*0.078;
+                    /*if (fvalorEscalado < 1)
                        Beep(1000,1000);*/
                  }
                  break; 
             case 2:
                  if (instrument==volt_ac){
-                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                    fvalorEscalado = (ivalorConversion-256)*0.01;
                  }
                  else if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                    fvalorEscalado = (ivalorConversion-256)*0.01;
                  }
                  else if (instrument==amp_ac){
-                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                    fvalorEscalado = (ivalorConversion-256)*0.01;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                    fvalorEscalado = (ivalorConversion-256)*0.01;
                  }
                  else if (instrument==ohm){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  break;
             case 3:
                  if (instrument==volt_ac){
-                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                    fvalorEscalado = (ivalorConversion-256)*0.08;
                  }
                  else if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                    fvalorEscalado = (ivalorConversion-256)*0.08;
                  }
                  else if (instrument==amp_ac){
-                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                    fvalorEscalado = (ivalorConversion-256)*0.08;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                    fvalorEscalado = (ivalorConversion-256)*0.08;
                  }
                  else if (instrument==ohm){
-                    fvalor_escalado = (ivalor_conversion-256)*7.81;
+                    fvalorEscalado = (ivalorConversion-256)*7.81;
                  }
                  break;
             case 4:
                  if (instrument==volt_ac){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==amp_ac){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==ohm){
-                    fvalor_escalado = (ivalor_conversion-256)*7812.5;
+                    fvalorEscalado = (ivalorConversion-256)*7812.5;
                  }
                  break;
             case 5:
                  if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*7.81;
+                    fvalorEscalado = (ivalorConversion-256)*7.81;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                    fvalorEscalado = (ivalorConversion-256)*0.08;
                  }
                  break;
             case 6:
                  if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  break;
             case 7:
                  if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                    fvalorEscalado = (ivalorConversion-256)*0.01;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.01;
+                    fvalorEscalado = (ivalorConversion-256)*0.01;
                  }
                  break;
             case 8:
                  if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                    fvalorEscalado = (ivalorConversion-256)*0.08;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.08;
+                    fvalorEscalado = (ivalorConversion-256)*0.08;
                  }
                  break;
             case 9:
                  if (instrument==volt_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  else if (instrument==amp_dc){
-                    fvalor_escalado = (ivalor_conversion-256)*0.78;
+                    fvalorEscalado = (ivalorConversion-256)*0.78;
                  }
                  break; 
      }
-     sprintf(cvalor,"%.3g",fvalor_escalado);
+     sprintf(cvalor,"%.3g",fvalorEscalado);
 }
 
 
 /*******************************************************************************
- * Multimetro::cb_volt_ac: Callback del botón que activa el medidor de voltaje 
+ * Multimetro::cbVoltAc: Callback del botón que activa el medidor de voltaje 
  *                         en AC.
- * El Callaback consta de la función static e inline cb_volt_ac y cb_volt_ac_in.
+ * El Callaback consta de la función static e inline cbVoltAc y cbVoltAcIn.
  * Los botones de selección de instrumento son excluyentes, es decir que cuando
  * se activa uno, los demas se desactivan.
- * Se realiza un llamado al método config_instrumento(), con el parametro
+ * Se realiza un llamado al método configInstrumento(), con el parametro
  * volt_ac.
 *******************************************************************************/
-void Multimetro::cb_volt_ac(Fl_Widget* pboton, void *any){
+void Multimetro::cbVoltAc(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_volt_ac_in();
+     pmult->cbVoltAcIn();
 }
 
-void Multimetro::cb_volt_ac_in(){
-     if (ovolt_ac->value()== 0){
-        Fl::remove_timeout(cb_timer_mult, this);
-        ovolt_dc->box(FL_UP_BOX);
-        ovolt_dc->clear();
-        oamp_ac->box(FL_UP_BOX);
-        oamp_ac->clear();
-        oamp_dc->box(FL_UP_BOX);
-        oamp_dc->clear();
+void Multimetro::cbVoltAcIn(){
+     if (ovoltAc->value()== 0){
+        Fl::remove_timeout(cbTimerMult, this);
+        ovoltDc->box(FL_UP_BOX);
+        ovoltDc->clear();
+        oampAc->box(FL_UP_BOX);
+        oampAc->clear();
+        oampDc->box(FL_UP_BOX);
+        oampDc->clear();
         oohm->box(FL_UP_BOX);
         oohm->clear();
         ocontinuidad->box(FL_UP_BOX);
-        ocontinuidad->clear();                     
-        ovolt_ac->box(FL_DOWN_BOX);
-        ovolt_ac->set();
+        ocontinuidad->clear();        
+        ovoltAc->box(FL_DOWN_BOX);
+        ovoltAc->set();
         instrument = volt_ac;
         ounidades->label("VAC");
-        config_instrumento(volt_ac);
+        configInstrumento(volt_ac);
      }
      else{
-          ovolt_ac->box(FL_UP_BOX);
-          ovolt_ac->clear();
+          ovoltAc->box(FL_UP_BOX);
+          ovoltAc->clear();
      }
 }
 
 
 /*******************************************************************************
- * Multimetro::cb_volt_dc: Callback del botón que activa el medidor de voltaje 
+ * Multimetro::cbVoltDc: Callback del botón que activa el medidor de voltaje 
  *                         en DC.
- * El Callaback consta de la función static e inline cb_volt_dc y cb_volt_dc_in.
+ * El Callaback consta de la función static e inline cbVoltDc y cbVoltDcIn.
  * Los botones de selección de instrumento son excluyentes, es decir que cuando
  * se activa uno, los demas se desactivan.
- * Se realiza un llamado al método config_instrumento(), con el parametro
+ * Se realiza un llamado al método configInstrumento(), con el parametro
  * volt_dc.
 *******************************************************************************/
 
-void Multimetro::cb_volt_dc(Fl_Widget* pboton, void *any){
+void Multimetro::cbVoltDc(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_volt_dc_in();
+     pmult->cbVoltDcIn();
 }
 
-void Multimetro::cb_volt_dc_in(){
-     if (ovolt_dc->value()== 0){
-        Fl::remove_timeout(cb_timer_mult, this);
-        ovolt_ac->box(FL_UP_BOX);
-        ovolt_ac->clear();
-        oamp_ac->box(FL_UP_BOX);
-        oamp_ac->clear();
-        oamp_dc->box(FL_UP_BOX);
-        oamp_dc->clear();
+void Multimetro::cbVoltDcIn(){
+     if (ovoltDc->value()== 0){
+        Fl::remove_timeout(cbTimerMult, this);
+        ovoltAc->box(FL_UP_BOX);
+        ovoltAc->clear();
+        oampAc->box(FL_UP_BOX);
+        oampAc->clear();
+        oampDc->box(FL_UP_BOX);
+        oampDc->clear();
         oohm->box(FL_UP_BOX);
         oohm->clear();
         ocontinuidad->box(FL_UP_BOX);
         ocontinuidad->clear();                     
-        ovolt_dc->box(FL_DOWN_BOX);
-        ovolt_dc->set();
+        ovoltDc->box(FL_DOWN_BOX);
+        ovoltDc->set();
         instrument = volt_dc;
         ounidades->label("VDC");
-        config_instrumento(volt_dc);
+        configInstrumento(volt_dc);
      }
      else{
-          ovolt_dc->box(FL_UP_BOX);
-          ovolt_dc->clear();
+          ovoltDc->box(FL_UP_BOX);
+          ovoltDc->clear();
      }
 }
 
 
 /*******************************************************************************
- * Multimetro::cb_amp_ac: Callback del botón que activa el medidor de corriente 
+ * Multimetro::cbAmpAc: Callback del botón que activa el medidor de corriente 
  *                         en AC.
- * El Callaback consta de la función static e inline cb_amp_ac y cb_amp_ac_in.
+ * El Callaback consta de la función static e inline cbAmpAc y cbAmpAcIn.
  * Los botones de selección de instrumento son excluyentes, es decir que cuando
  * se activa uno, los demas se desactivan.
- * Se realiza un llamado al método config_instrumento(), con el parametro
+ * Se realiza un llamado al método configInstrumento(), con el parametro
  * amp_ac.
 *******************************************************************************/
 
-void Multimetro::cb_amp_ac(Fl_Widget* pboton, void *any){
+void Multimetro::cbAmpAc(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_amp_ac_in();
+     pmult->cbAmpAcIn();
 }
 
-void Multimetro::cb_amp_ac_in(){
-    if (oamp_ac->value()== 0){
-        Fl::remove_timeout(cb_timer_mult, this);
+void Multimetro::cbAmpAcIn(){
+    if (oampAc->value()== 0){
+        Fl::remove_timeout(cbTimerMult, this);
         //fl_alert("Verifique las puntas de prueba");
-        ovolt_ac->box(FL_UP_BOX);
-        ovolt_ac->clear();
-        ovolt_dc->box(FL_UP_BOX);
-        ovolt_dc->clear();
-        oamp_dc->box(FL_UP_BOX);
-        oamp_dc->clear();
+        ovoltAc->box(FL_UP_BOX);
+        ovoltAc->clear();
+        ovoltDc->box(FL_UP_BOX);
+        ovoltDc->clear();
+        oampDc->box(FL_UP_BOX);
+        oampDc->clear();
         oohm->box(FL_UP_BOX);
         oohm->clear();
         ocontinuidad->box(FL_UP_BOX);
         ocontinuidad->clear();                     
-        oamp_ac->box(FL_DOWN_BOX);
-        oamp_ac->set();
+        oampAc->box(FL_DOWN_BOX);
+        oampAc->set();
         instrument = amp_ac;
         ounidades->label("AAC");
-        config_instrumento(amp_ac);
+        configInstrumento(amp_ac);
      }
      else{
-          oamp_ac->box(FL_UP_BOX);
-          oamp_ac->clear();
+          oampAc->box(FL_UP_BOX);
+          oampAc->clear();
      } 
 }
 
 
 /*******************************************************************************
- * Multimetro::cb_amp_dc: Callback del botón que activa el medidor de corriente 
+ * Multimetro::cbAmpDc: Callback del botón que activa el medidor de corriente 
  *                         en DC.
- * El Callaback consta de la función static e inline cb_amp_dc y cb_amp_dc_in.
+ * El Callaback consta de la función static e inline cbAmpDc y cbAmpDcIn.
  * Los botones de selección de instrumento son excluyentes, es decir que cuando
  * se activa uno, los demas se desactivan.
- * Se realiza un llamado al método config_instrumento(), con el parametro
+ * Se realiza un llamado al método configInstrumento(), con el parametro
  * amp_dc.
 *******************************************************************************/
 
-void Multimetro::cb_amp_dc(Fl_Widget* pboton, void *any){
+void Multimetro::cbAmpDc(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_amp_dc_in();
+     pmult->cbAmpDcIn();
 }
 
-void Multimetro::cb_amp_dc_in(){
-    if (oamp_dc->value()== 0){
-        Fl::remove_timeout(cb_timer_mult, this);
+void Multimetro::cbAmpDcIn(){
+    if (oampDc->value()== 0){
+        Fl::remove_timeout(cbTimerMult, this);
         fl_alert("Verifique las puntas de prueba");
-        ovolt_ac->box(FL_UP_BOX);
-        ovolt_ac->clear();
-        ovolt_dc->box(FL_UP_BOX);
-        ovolt_dc->clear();
-        oamp_ac->box(FL_UP_BOX);
-        oamp_ac->clear();
+        ovoltAc->box(FL_UP_BOX);
+        ovoltAc->clear();
+        ovoltDc->box(FL_UP_BOX);
+        ovoltDc->clear();
+        oampAc->box(FL_UP_BOX);
+        oampAc->clear();
         oohm->box(FL_UP_BOX);
         oohm->clear();
         ocontinuidad->box(FL_UP_BOX);
         ocontinuidad->clear();                     
-        oamp_dc->box(FL_DOWN_BOX);
-        oamp_dc->set();
+        oampDc->box(FL_DOWN_BOX);
+        oampDc->set();
         instrument = amp_dc;
         ounidades->label("ADC");
-        config_instrumento(amp_dc);
+        configInstrumento(amp_dc);
      }
      else{
-          oamp_dc->box(FL_UP_BOX);
-          oamp_dc->clear();
+          oampDc->box(FL_UP_BOX);
+          oampDc->clear();
      } 
 }
 
 
 /*******************************************************************************
- * Multimetro::cb_ohm: Callback del botón que activa el medidor de resistencia 
+ * Multimetro::cbOhm: Callback del botón que activa el medidor de resistencia 
  *  
- * El Callaback consta de la función static e inline cb_ohm y cb_ohm_in.
+ * El Callaback consta de la función static e inline cbOhm y cbOhmIn.
  * Los botones de selección de instrumento son excluyentes, es decir que cuando
  * se activa uno, los demas se desactivan.
- * Se realiza un llamado al método config_instrumento(), con el parametro
+ * Se realiza un llamado al método configInstrumento(), con el parametro
  * ohm.
 *******************************************************************************/
 
-void Multimetro::cb_ohm(Fl_Widget* pboton, void *any){
+void Multimetro::cbOhm(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_ohm_in();
+     pmult->cbOhmIn();
 }
 
-void Multimetro::cb_ohm_in(){
+void Multimetro::cbOhmIn(){
      if (oohm->value()== 0){
-        Fl::remove_timeout(cb_timer_mult, this);
-        ovolt_ac->box(FL_UP_BOX);
-        ovolt_ac->clear();
-        ovolt_dc->box(FL_UP_BOX);
-        ovolt_dc->clear();
-        oamp_dc->box(FL_UP_BOX);
-        oamp_dc->clear();
-        oamp_ac->box(FL_UP_BOX);
-        oamp_ac->clear();
+        Fl::remove_timeout(cbTimerMult, this);
+        ovoltAc->box(FL_UP_BOX);
+        ovoltAc->clear();
+        ovoltDc->box(FL_UP_BOX);
+        ovoltDc->clear();
+        oampDc->box(FL_UP_BOX);
+        oampDc->clear();
+        oampAc->box(FL_UP_BOX);
+        oampAc->clear();
         ocontinuidad->box(FL_UP_BOX);
         ocontinuidad->clear();                     
         oohm->box(FL_DOWN_BOX);
         oohm->set();
         instrument = ohm;
         ounidades->label("R");
-        config_instrumento(ohm);
+        configInstrumento(ohm);
      }
      else{
           oohm->box(FL_UP_BOX);
@@ -553,41 +554,41 @@ void Multimetro::cb_ohm_in(){
 
 
 /*******************************************************************************
- * Multimetro::cb_cont: Callback del botón que activa el medidor de continuidad 
+ * Multimetro::cbCont: Callback del botón que activa el medidor de continuidad 
  *  
- * El Callaback consta de la función static e inline cb_cont y cb_cont_in.
+ * El Callaback consta de la función static e inline cbCont y cbContIn.
  * Los botones de selección de instrumento son excluyentes, es decir que cuando
  * se activa uno, los demas se desactivan.
- * Se realiza un llamado al método config_instrumento(), con el parametro
+ * Se realiza un llamado al método configInstrumento(), con el parametro
  * ohm.
  * La medición de continuidad se realiza con el ohmetro y se verifica si el 
  * valor de resistencia es menor que un (1) Ohmio entonces se activa un sonido 
  * indicador de continuidad.
 *******************************************************************************/
 
-void Multimetro::cb_cont(Fl_Widget* pboton, void *any){
+void Multimetro::cbCont(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_cont_in();
+     pmult->cbContIn();
 }
 
-void Multimetro::cb_cont_in(){
+void Multimetro::cbContIn(){
      if (ocontinuidad->value()== 0){
-        Fl::remove_timeout(cb_timer_mult, this);
-        ovolt_ac->box(FL_UP_BOX);
-        ovolt_ac->clear();
-        ovolt_dc->box(FL_UP_BOX);
-        ovolt_dc->clear();
-        oamp_dc->box(FL_UP_BOX);
-        oamp_dc->clear();
-        oamp_ac->box(FL_UP_BOX);
-        oamp_ac->clear();
+        Fl::remove_timeout(cbTimerMult, this);
+        ovoltAc->box(FL_UP_BOX);
+        ovoltAc->clear();
+        ovoltDc->box(FL_UP_BOX);
+        ovoltDc->clear();
+        oampDc->box(FL_UP_BOX);
+        oampDc->clear();
+        oampAc->box(FL_UP_BOX);
+        oampAc->clear();
         oohm->box(FL_UP_BOX);
         oohm->clear();                     
         ocontinuidad->box(FL_DOWN_BOX);
         ocontinuidad->set();
         instrument = continuidad;
         ounidades->label("Cont");
-        config_instrumento(ohm);
+        configInstrumento(ohm);
        // Beep(1000,1000);
      }
      else{
@@ -598,34 +599,34 @@ void Multimetro::cb_cont_in(){
 
 
 /*******************************************************************************
- * Multimetro::cb_help: Callback del botón que lanza la ayuda del uso del
+ * Multimetro::cbHelpMult: Callback del botón que lanza la ayuda del uso del
  *                      instrumento. 
- * El Callaback consta de la función static e inline cb_help y cb_help_in.
+ * El Callaback consta de la función static e inline cbHelpMult y cbHelpMultIn.
  * Se despliega una ventana de ayuda con un archivo en html con la guía de
  * usuario del instrumento.
 *******************************************************************************/
 
-void Multimetro::cb_help(Fl_Widget* pboton, void *any){
+void Multimetro::cbHelpMult(Fl_Widget* pboton, void *any){
      Multimetro* pmult=(Multimetro*)any;
-     pmult->cb_help_in();
+     pmult->cbHelpMultIn();
 }
 
-void Multimetro::cb_help_in(){
+void Multimetro::cbHelpMultIn(){
       manualMult->show();
 }
 
 
 /*******************************************************************************
- * Multimetro::cb_ayuda: Callback del botón que activa los globos de ayuda
+ * Multimetro::cbAyudaMult: Callback del botón que activa los globos de ayuda
  *                       flotante para cada botón del multímetro.
- * El Callaback consta de la función static e inline cb_ayuda y cb_ayuda_in.
+ * El Callaback consta de la función static e inline cbAyudaMult y cbAyudaMultIn.
 *******************************************************************************/
-void Multimetro::cb_ayuda(Fl_Widget* pboton, void *pany){
+void Multimetro::cbAyudaMult(Fl_Widget* pboton, void *pany){
      Multimetro* pmult=(Multimetro*)pany;
-     pmult->cb_ayuda_in();
+     pmult->cbAyudaMultIn();
 }
 
-void Multimetro::cb_ayuda_in(){
+void Multimetro::cbAyudaMultIn(){
      if (oayudaMult->value() == 1){
         Fl_Tooltip::enable();
      }
