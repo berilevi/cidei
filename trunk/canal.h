@@ -32,66 +32,60 @@ class Canal : public Instrumento{
 		// class destructor
 		~Canal();
 		// Selector de la escala de voltios por división.
-		Fl_Knob *ovolt_div;
-		//Selector del acople. 
-		Fl_Repeat_Button *osel_acople;
+		Fl_Knob *ovoltDiv;
+		//Selector del acople.
+		Fl_Repeat_Button *oselAcople;
 		//Grupo de los diferentes botones y selectores que componen el canal.
-		Fl_Group *ogroup_ch;
-		//Grupo del selector de posicion de la grafica del canal.
-		Fl_Group *ogroup_pos;
-		// Grupo de los selectores de la escala de votios por division del canal.
-		Fl_Group *ogroup_v_div;
-		//Grupo de los selectores del tipo de acople del canal.
-		Fl_Group *ogroup_acople;
+		Fl_Group *ogroupCh;
 		// Variable que representa el color de la gráfica de la señal adquirida por el canal.
 		int ncolor;
-		//Menu desplegable para seleccionar la escala de voltios por división del canal  
-        Fl_Choice *omenu_v_div;
-		// Indicador luminoso del estado activo el acople gnd del canal  
-        Fl_Box *oacop_gnd;
-		// Indicador luminoso del estado activo el acople ac del canal   
-        Fl_Box *oacop_ac;
-		// Indicador luminoso del estado activo el acople dc del canal   
-        Fl_Box *oacop_dc;
-        // Perilla para ajustar la posición vertical de la señal.   
-        Fl_Knob *opos_x;
+		//Menu desplegable para seleccionar la escala de voltios por división del canal
+        Fl_Choice *omenuvDiv;
+		// Indicador luminoso del estado activo el acople gnd del canal
+        Fl_Box *oacopGnd;
+		// Indicador luminoso del estado activo el acople ac del canal
+        Fl_Box *oacopAc;
+		// Indicador luminoso del estado activo el acople dc del canal
+        Fl_Box *oacopDc;
+        // Perilla para ajustar la posición vertical de la señal.
+        Fl_Knob *oposx;
    private:
         // Calback para la escala de 5 voltios por división
-		static void cb_vdiv5(Fl_Widget*, void *);
-		inline void cb_vdiv5_in(Fl_Widget*);
+		static void cbVdiv5(Fl_Widget*, void *);
+		inline void cbVdiv5In(Fl_Widget*);
 		// Calback para la escala de 2 voltios por división
-		static void cb_vdiv2(Fl_Widget*, void *);
-		inline void cb_vdiv2_in(Fl_Widget*);
+		static void cbVdiv2(Fl_Widget*, void *);
+		inline void cbVdiv2In(Fl_Widget*);
 		//Calback para la escala de 1 voltio por división
-		static void cb_vdiv1(Fl_Widget*, void *);
-		inline void cb_vdiv1_in(Fl_Widget*);
+		static void cbVdiv1(Fl_Widget*, void *);
+		inline void cbVdiv1In(Fl_Widget*);
 		//Calback para la escala de 0.5 voltios por división
-		static void cb_vdiv05(Fl_Widget*, void *);
-		inline void cb_vdiv05_in(Fl_Widget*);
+		static void cbVdiv05(Fl_Widget*, void *);
+		inline void cbVdiv05In(Fl_Widget*);
 		//Calback para la escala de 0.2 voltios por división
-		static void cb_vdiv02(Fl_Widget*, void *);
-		inline void cb_vdiv02_in(Fl_Widget*);
+		static void cbVdiv02(Fl_Widget*, void *);
+		inline void cbVdiv02In(Fl_Widget*);
 		//Calback para la escala de 0.1 voltios por división
-		static void cb_vdiv01(Fl_Widget*, void *);
-		inline void cb_vdiv01_in(Fl_Widget*);
+		static void cbVdiv01(Fl_Widget*, void *);
+		inline void cbVdiv01In(Fl_Widget*);
 		// Calback para la escala de 50m voltios por división
-		static void cb_vdiv50m(Fl_Widget*, void *);
-		inline void cb_vdiv50m_in(Fl_Widget*);
+		static void cbVdiv50m(Fl_Widget*, void *);
+		inline void cbVdiv50mIn(Fl_Widget*);
 		// Calback para la escala de 20m voltios por división
-		static void cb_vdiv20m(Fl_Widget*, void *);
-		inline void cb_vdiv20m_in(Fl_Widget*);
+		static void cbVdiv20m(Fl_Widget*, void *);
+		inline void cbVdiv20mIn(Fl_Widget*);
 		//Calback para la escala de 10m voltios por división
-		static void cb_vdiv10m(Fl_Widget*, void *);
-		inline void cb_vdiv10m_in(Fl_Widget*);
+		static void cbVdiv10m(Fl_Widget*, void *);
+		inline void cbVdiv10mIn(Fl_Widget*);
 		//Calback para la escala de 5m voltios por división
-		static void cb_vdiv5m(Fl_Widget*, void *);
-		inline void cb_vdiv5m_in(Fl_Widget*);
+		static void cbVdiv5m(Fl_Widget*, void *);
+		inline void cbVdiv5mIn(Fl_Widget*);
 		// Calback para la escala de 2m voltios por división
-		static void cb_vdiv2m(Fl_Widget*, void *);
-		inline void cb_vdiv2m_in(Fl_Widget*);
+		static void cbVdiv2m(Fl_Widget*, void *);
+		inline void cbVdiv2mIn(Fl_Widget*);
 		// Calback para la escala de 1m voltio por división
-		static void cb_vdiv1m(Fl_Widget*, void *);
-		inline void cb_vdiv1m_in(Fl_Widget*);
+		static void cbVdiv1m(Fl_Widget*, void *);
+		inline void cbVdiv1mIn(Fl_Widget*);
 
 };
 

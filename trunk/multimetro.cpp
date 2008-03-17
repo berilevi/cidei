@@ -56,8 +56,8 @@ Multimetro::Multimetro(){
     ocontinuidad = new Fl_Button(922,273,63,35,"Cont");                         //Botón que activa el instrumento Medidor de continuidad.
     ocontinuidad->box(FL_UP_BOX);
     
-    Manual = new Fl_Help_Dialog;
-    Manual->load("help_multimetro.html");                                       //Ventana de ayuda de uso del multímetro
+    manualMult = new Fl_Help_Dialog;
+    manualMult->load("help_multimetro.html");                                       //Ventana de ayuda de uso del multímetro
     
     ogroup_mult-> end();                                                        //Fin del grupo de elementos del multímetro
       
@@ -611,7 +611,7 @@ void Multimetro::cb_help(Fl_Widget* pboton, void *any){
 }
 
 void Multimetro::cb_help_in(){
-      Manual->show();
+      manualMult->show();
 }
 
 
