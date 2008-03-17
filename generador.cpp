@@ -76,12 +76,12 @@ Generador::Generador(){
     oescalaFrecuencia->labelsize(13);
     oescalaFrecuencia->align(FL_ALIGN_TOP);
     oescalaFrecuencia->add("1 Hz",0,(Fl_Callback *)cbFrec1,this);             
-    oescalaFrecuencia->add("100 Hz",0,(Fl_Callback *)cb_frec100,this);
-    oescalaFrecuencia->add("500 Hz",0,(Fl_Callback *)cb_frec500,this);
-    oescalaFrecuencia->add("1 KHz",0,(Fl_Callback *)cb_frec1k,this);
-    oescalaFrecuencia->add("100 KHz",0,(Fl_Callback *)cb_frec100k,this);
-    oescalaFrecuencia->add("500 KHz",0,(Fl_Callback *)cb_frec500k,this);
-    oescalaFrecuencia->add("1 MHz",0,(Fl_Callback *)cb_frec1m,this);
+    oescalaFrecuencia->add("100 Hz",0,(Fl_Callback *)cbFrec100,this);
+    oescalaFrecuencia->add("500 Hz",0,(Fl_Callback *)cbFrec500,this);
+    oescalaFrecuencia->add("1 KHz",0,(Fl_Callback *)cbFrec1k,this);
+    oescalaFrecuencia->add("100 KHz",0,(Fl_Callback *)cbFrec100k,this);
+    oescalaFrecuencia->add("500 KHz",0,(Fl_Callback *)cbFrec500k,this);
+    oescalaFrecuencia->add("1 MHz",0,(Fl_Callback *)cbFrec1m,this);
        
     ovalorFrec = new Fl_Value_Input(900,655,100,25,"");                        //Caja de texto para configurar por teclado el valor de frecuencia
     ovalorFrec->type(FL_FLOAT_INPUT);
@@ -129,8 +129,8 @@ Generador::Generador(){
     otriangulo->callback(cbTriangulo,this);
     ofrecGen->callback(cbFrecGen, this);
     ofrecGen2->callback(cbFrecgen2, this);
-    oamplitud->callback(cb_amplitud, this);
-    ooffset->callback(cb_offset, this);
+    oamplitud->callback(cbAmplitud, this);
+    ooffset->callback(cbOffset, this);
 
 }
 
@@ -349,7 +349,7 @@ void Generador::cbFrecgen2In(){
 
 
 /*******************************************************************************
- * Generador::cb_amplitud: Callback del botón que selecciona la amplitud de la 
+ * Generador::cbAmplitud: Callback del botón que selecciona la amplitud de la 
  *                         señal generada.
  * camplitud[]: Cadena de carácteres que contiene la amplitud configurada para
  *              mostrarla en el diplay de amplitud.
@@ -361,12 +361,12 @@ void Generador::cbFrecgen2In(){
  * El dato de amplitud se encapsula en "trama_control[]" en la que se envía al 
  * hardware la amplitud configurada por el usuario.
 *******************************************************************************/
-void Generador::cb_amplitud(Fl_Widget* pboton, void *any){
+void Generador::cbAmplitud(Fl_Widget* pboton, void *any){
      Generador* pgener=(Generador*)any;
-     pgener->cb_amplitud_in();
+     pgener->cbAmplitudIn();
 }
 
-void Generador::cb_amplitud_in(){
+void Generador::cbAmplitudIn(){
      char camplitud [10];
      sprintf(camplitud, "%.3g", oamplitud->value());
      odispAmplitud->value(camplitud);
@@ -402,7 +402,7 @@ void Generador::cb_amplitud_in(){
 
 
 /*******************************************************************************
- * Generador::cb_offset: Callback del botón que selecciona el nivel de offset de 
+ * Generador::cbOffset: Callback del botón que selecciona el nivel de offset de 
  *                       la señal generada.
  * coffset[]: Cadena de carácteres que contiene el valor de nivel de offset  
  *            configurado por el usuario para ser visualizado en el display de
@@ -416,13 +416,13 @@ void Generador::cb_amplitud_in(){
  * La cadena de caracteres offsetHexa[], se encapsula en la trama de protocolo
  * trama_control[] para configurar nivel de offset.
 *******************************************************************************/
-void Generador::cb_offset(Fl_Widget* pboton, void *any)
+void Generador::cbOffset(Fl_Widget* pboton, void *any)
 {
      Generador* pgener=(Generador*)any;
-     pgener->cb_offset_in();
+     pgener->cbOffsetIn();
 }
 
-void Generador::cb_offset_in(){
+void Generador::cbOffsetIn(){
      char coffset [10];
      sprintf(coffset, "%.2g", ooffset->value());                      //Almacenar en formato de dos decimales el valor configurado de nivel de offset          
      odispOffset->value(coffset);
@@ -480,13 +480,13 @@ void Generador::cbFrec1In(Fl_Widget* psel){
      odispGen->value("0.0");
 }
 
-void Generador::cb_frec100(Fl_Widget* psel, void *pany){
+void Generador::cbFrec100(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Generador* pgener=(Generador*)pany;
-     pgener->cb_frec100_in(pselector);
+     pgener->cbFrec100In(pselector);
 }
 
-void Generador::cb_frec100_in(Fl_Widget* psel){
+void Generador::cbFrec100In(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrecGen->range(0,100);
      ofrecGen->value(0);
@@ -497,13 +497,13 @@ void Generador::cb_frec100_in(Fl_Widget* psel){
 }
 
 
-void Generador::cb_frec500(Fl_Widget* psel, void *pany){
+void Generador::cbFrec500(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Generador* pgener=(Generador*)pany;
-     pgener->cb_frec500_in(pselector);
+     pgener->cbFrec500In(pselector);
 }
 
-void Generador::cb_frec500_in(Fl_Widget* psel){
+void Generador::cbFrec500In(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrecGen->range(0,500);
      ofrecGen->value(0);
@@ -514,13 +514,13 @@ void Generador::cb_frec500_in(Fl_Widget* psel){
 }
 
 
-void Generador::cb_frec1k(Fl_Widget* psel, void *pany){
+void Generador::cbFrec1k(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Generador* pgener=(Generador*)pany;
-     pgener->cb_frec1k_in(pselector);
+     pgener->cbFrec1kIn(pselector);
 }
 
-void Generador::cb_frec1k_in(Fl_Widget* psel){
+void Generador::cbFrec1kIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrecGen->range(0,1000);
      ofrecGen->value(0);
@@ -530,13 +530,13 @@ void Generador::cb_frec1k_in(Fl_Widget* psel){
      odispGen->value("0.0");
 }
 
-void Generador::cb_frec100k(Fl_Widget* psel, void *pany){
+void Generador::cbFrec100k(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Generador* pgener=(Generador*)pany;
-     pgener->cb_frec100k_in(pselector);
+     pgener->cbFrec100kIn(pselector);
 }
 
-void Generador::cb_frec100k_in(Fl_Widget* psel){
+void Generador::cbFrec100kIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrecGen->range(0,100000);
      ofrecGen->value(0);
@@ -546,13 +546,13 @@ void Generador::cb_frec100k_in(Fl_Widget* psel){
      odispGen->value("0.0");
 }
 
-void Generador::cb_frec500k(Fl_Widget* psel, void *pany){
+void Generador::cbFrec500k(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Generador* pgener=(Generador*)pany;
-     pgener->cb_frec500k_in(pselector);
+     pgener->cbFrec500kIn(pselector);
 }
 
-void Generador::cb_frec500k_in(Fl_Widget* psel){
+void Generador::cbFrec500kIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrecGen->range(0,500000);
      ofrecGen->value(0);
@@ -562,13 +562,13 @@ void Generador::cb_frec500k_in(Fl_Widget* psel){
      odispGen->value("0.0");
 }
 
-void Generador::cb_frec1m(Fl_Widget* psel, void *pany){
+void Generador::cbFrec1m(Fl_Widget* psel, void *pany){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      Generador* pgener=(Generador*)pany;
-     pgener->cb_frec1m_in(pselector);
+     pgener->cbFrec1mIn(pselector);
 }
 
-void Generador::cb_frec1m_in(Fl_Widget* psel){
+void Generador::cbFrec1mIn(Fl_Widget* psel){
      Fl_Choice *pselector = (Fl_Choice *)psel;
      ofrecGen->range(0,1000000);
      ofrecGen->value(0);
