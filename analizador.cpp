@@ -23,8 +23,8 @@ bool btermino_muestreo = 0;                                   //Variable que ind
 *******************************************************************************/
 Analizador::Analizador() {                 
     
-    idatapos = 0;                                                  //Inicializar la posición del arreglo pdata_analizador[], donde se van a almacenar los datos.             
-    inum_muestras = TAM_ALMACENADO;                                //Inicializar el contador de muestras almacenadas.
+    idatapos = 0;                                                  //Inicializar la posición del arreglo pdataAnalizador[], donde se van a almacenar los datos.             
+    inumMuestras = TAM_ALMACENADO;                                //Inicializar el contador de muestras almacenadas.
     igraf_datos = 20;                                              //Número de puntos graficados en pantalla por cada tiempo de muestreo.
     btimer_trigger = 0;
     btrigger = 0;
@@ -36,16 +36,16 @@ Analizador::Analizador() {
     ogroup_ana->box(FL_UP_BOX);
     ogroup_ana->deactivate(); 
      
-    apantalla_ch1 = new Fl_Scope(20,420,400,34,"");                // Canal 1
-    apantalla_ch2 = new Fl_Scope(20,452,400,34,"");                // Canal 2
-    apantalla_ch3 = new Fl_Scope(20,484,400,34,"");                // Canal 3
-    apantalla_ch4 = new Fl_Scope(20,516,400,34,"");                // Canal 4
-    apantalla_ch5 = new Fl_Scope(20,548,400,34,"");                // Canal 5
-    apantalla_ch6 = new Fl_Scope(20,580,400,34,"");                // Canal 6
-    apantalla_ch7 = new Fl_Scope(20,612,400,34,"");                // Canal 7
-    apantalla_ch8 = new Fl_Scope(20,644,400,34,"");                // Canal 8
+    apantallaCh1 = new Fl_Scope(20,420,400,34,"");                // Canal 1
+    apantallaCh2 = new Fl_Scope(20,452,400,34,"");                // Canal 2
+    apantallaCh3 = new Fl_Scope(20,484,400,34,"");                // Canal 3
+    apantallaCh4 = new Fl_Scope(20,516,400,34,"");                // Canal 4
+    apantallaCh5 = new Fl_Scope(20,548,400,34,"");                // Canal 5
+    apantallaCh6 = new Fl_Scope(20,580,400,34,"");                // Canal 6
+    apantallaCh7 = new Fl_Scope(20,612,400,34,"");                // Canal 7
+    apantallaCh8 = new Fl_Scope(20,644,400,34,"");                // Canal 8
     
-    otexto_muestra = new Mensajes(20,417,400,20,"");               //Indicador del número de muestra 
+    otextoMuestra = new Mensajes(20,417,400,20,"");               //Indicador del número de muestra 
     
     ogrilla = new grid(18,420,400,255,"");                         //Grilla del analizador
     ogrilla->bgrilla_analizador= 0;
@@ -71,59 +71,59 @@ Analizador::Analizador() {
     
     // Configuraciones de las gráficas de los 8 canales
     
-    apantalla_ch1->TraceColour(FL_RED);
-    apantalla_ch1->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch1->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    apantalla_ch1->linetype(FL_SCOPE_LINE);
-    apantalla_ch1->ScopeDataSize = 800;
-    apantalla_ch2->TraceColour(FL_RED);
-    apantalla_ch2->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch2->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    apantalla_ch2->linetype(FL_SCOPE_LINE);
-    apantalla_ch2->ScopeDataSize = 800;
-    apantalla_ch3->TraceColour(FL_RED);
-    apantalla_ch3->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch3->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    apantalla_ch3->linetype(FL_SCOPE_LINE);
-    apantalla_ch3->ScopeDataSize = 800;
-    apantalla_ch4->TraceColour(FL_RED);
-    apantalla_ch4->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch4->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    apantalla_ch4->linetype(FL_SCOPE_LINE);
-    apantalla_ch4->ScopeDataSize = 800;
-    apantalla_ch5->TraceColour(FL_RED);
-    apantalla_ch5->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch5->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    apantalla_ch5->linetype(FL_SCOPE_LINE);
-    apantalla_ch5->ScopeDataSize = 800;
-    apantalla_ch6->TraceColour(FL_RED);
-    apantalla_ch6->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch6->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    apantalla_ch6->linetype(FL_SCOPE_LINE);
-    apantalla_ch6->ScopeDataSize = 800;
-    apantalla_ch7->TraceColour(FL_RED);
-    apantalla_ch7->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch7->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    apantalla_ch7->linetype(FL_SCOPE_LINE);
-    apantalla_ch7->ScopeDataSize = 800;
-    apantalla_ch8->TraceColour(FL_RED);
-    apantalla_ch8->tracetype(FL_SCOPE_TRACE_LOOP);
-    apantalla_ch8->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
-    apantalla_ch8->linetype(FL_SCOPE_LINE);
-    apantalla_ch8->ScopeDataSize = 800;
+    apantallaCh1->TraceColour(FL_RED);
+    apantallaCh1->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantallaCh1->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    apantallaCh1->linetype(FL_SCOPE_LINE);
+    apantallaCh1->ScopeDataSize = 800;
+    apantallaCh2->TraceColour(FL_RED);
+    apantallaCh2->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantallaCh2->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    apantallaCh2->linetype(FL_SCOPE_LINE);
+    apantallaCh2->ScopeDataSize = 800;
+    apantallaCh3->TraceColour(FL_RED);
+    apantallaCh3->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantallaCh3->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    apantallaCh3->linetype(FL_SCOPE_LINE);
+    apantallaCh3->ScopeDataSize = 800;
+    apantallaCh4->TraceColour(FL_RED);
+    apantallaCh4->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantallaCh4->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    apantallaCh4->linetype(FL_SCOPE_LINE);
+    apantallaCh4->ScopeDataSize = 800;
+    apantallaCh5->TraceColour(FL_RED);
+    apantallaCh5->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantallaCh5->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    apantallaCh5->linetype(FL_SCOPE_LINE);
+    apantallaCh5->ScopeDataSize = 800;
+    apantallaCh6->TraceColour(FL_RED);
+    apantallaCh6->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantallaCh6->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    apantallaCh6->linetype(FL_SCOPE_LINE);
+    apantallaCh6->ScopeDataSize = 800;
+    apantallaCh7->TraceColour(FL_RED);
+    apantallaCh7->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantallaCh7->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    apantallaCh7->linetype(FL_SCOPE_LINE);
+    apantallaCh7->ScopeDataSize = 800;
+    apantallaCh8->TraceColour(FL_RED);
+    apantallaCh8->tracetype(FL_SCOPE_TRACE_LOOP);
+    apantallaCh8->redrawmode(FL_SCOPE_REDRAW_ALWAYS);
+    apantallaCh8->linetype(FL_SCOPE_LINE);
+    apantallaCh8->ScopeDataSize = 800;
     
     // Habilitar las pantallas del analizador para gráficar
     // Esta habilitación se debe hacer porque se usa la misma clase para gráficar que se usa en el osciloscopio pero con 
     // algunas caracteristicas especiales que son propias del analizador. 
     
-    apantalla_ch1->banalizador = 1;
-    apantalla_ch2->banalizador = 1;
-    apantalla_ch3->banalizador = 1;
-    apantalla_ch4->banalizador = 1;
-    apantalla_ch5->banalizador = 1;
-    apantalla_ch6->banalizador = 1;
-    apantalla_ch7->banalizador = 1;
-    apantalla_ch8->banalizador = 1;
+    apantallaCh1->banalizador = 1;
+    apantallaCh2->banalizador = 1;
+    apantallaCh3->banalizador = 1;
+    apantallaCh4->banalizador = 1;
+    apantallaCh5->banalizador = 1;
+    apantallaCh6->banalizador = 1;
+    apantallaCh7->banalizador = 1;
+    apantallaCh8->banalizador = 1;
     
     ogroup_ana_botones = new Fl_Group(425,375,80,80,"");             // Agrupa los botones del analizador
     ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
@@ -164,8 +164,8 @@ Analizador::Analizador() {
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger");      //Botón que saca la ventana de configuración del trigger
     otrigger_on->labelsize(15);
     
-    manual = new Fl_Help_Dialog;
-    manual->load("help_analizador.html");                                                    
+    manualAnalizador = new Fl_Help_Dialog;
+    manualAnalizador->load("help_analizador.html");                                                    
           
     ogroup_ana->end();                                               //Fin del grupo de los elementos del analizador
     
@@ -251,14 +251,14 @@ void Analizador::cb_ana_on_in() {
         Fl::remove_timeout(cb_timer_ana, this);
         activar(0);
         ogroup_ana->deactivate();
-        apantalla_ch1->banalizador = 0;
-        apantalla_ch2->banalizador = 0;
-        apantalla_ch3->banalizador = 0;
-        apantalla_ch4->banalizador = 0;
-        apantalla_ch5->banalizador = 0;
-        apantalla_ch6->banalizador = 0;
-        apantalla_ch7->banalizador = 0;
-        apantalla_ch8->banalizador = 0;
+        apantallaCh1->banalizador = 0;
+        apantallaCh2->banalizador = 0;
+        apantallaCh3->banalizador = 0;
+        apantallaCh4->banalizador = 0;
+        apantallaCh5->banalizador = 0;
+        apantallaCh6->banalizador = 0;
+        apantallaCh7->banalizador = 0;
+        apantallaCh8->banalizador = 0;
         ocursor->iposx = 0;
         ogroup_ana_botones->deactivate();
         oflancosubida->value(0);
@@ -433,7 +433,7 @@ void Analizador::cb_bajada_in() {
  *                           el dato señalado por el cursor en representación
  *                           Hexadecimal.
  * - Para mostrar el dato señalado en representación binaria, se coloca en el 
- *   display la posición del arreglo pdata_analizador[], que el cursor está 
+ *   display la posición del arreglo pdataAnalizador[], que el cursor está 
  *   señalando.
  * - Para mostrar el dato señalado en representación Decimal, se envía como 
  *   parámetro al método bianrioadecimal(char [8]), la cadena de carácteres de 
@@ -464,14 +464,14 @@ void Analizador::cb_scroll_cursor_in() {
     
     //Redibujar las gráficas en todos los canales
     
-    apantalla_ch1->redraw();
-    apantalla_ch2->redraw();
-    apantalla_ch3->redraw();
-    apantalla_ch4->redraw();
-    apantalla_ch5->redraw();
-    apantalla_ch6->redraw();
-    apantalla_ch7->redraw();
-    apantalla_ch8->redraw();
+    apantallaCh1->redraw();
+    apantallaCh2->redraw();
+    apantallaCh3->redraw();
+    apantallaCh4->redraw();
+    apantallaCh5->redraw();
+    apantallaCh6->redraw();
+    apantallaCh7->redraw();
+    apantallaCh8->redraw();
     
     ogrilla->redraw();                                   // Redibujar la grilla                               
     
@@ -479,15 +479,15 @@ void Analizador::cb_scroll_cursor_in() {
     
     int ipos = int((odes_horizontal->value()/20));                                      
     if (orep_dato->value()==1){                                                         //Si el tipo de representación seleccionada es tipo binario
-       odato1->value(pdata_analizador[oscroll->value()+ipos]);                          //Mostrar el dato seleccionado con el cursor en el cuadro de texto.
+       odato1->value(pdataAnalizador[oscroll->value()+ipos]);                          //Mostrar el dato seleccionado con el cursor en el cuadro de texto.
     }    
     else if (orep_dato->value()==0){
-         int idecimal = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);       //Llamada al método para convertirlo en dato decimal se envía como parametro la cadena de datos.
+         int idecimal = bianrioadecimal(pdataAnalizador[oscroll->value()+ipos]);       //Llamada al método para convertirlo en dato decimal se envía como parametro la cadena de datos.
          itoa(idecimal,cdatoDecimal,10);                                                //El dato decimal se convierte a cadena de caracteres decimales
          odato1->value(cdatoDecimal);                                                   //Colocar el dato decimal en el display.
     }
     else if (orep_dato->value()==2){
-         int ihexa = bianrioadecimal(pdata_analizador[oscroll->value()+ipos]);          //Llamada al método para convertir a dato decimal.
+         int ihexa = bianrioadecimal(pdataAnalizador[oscroll->value()+ipos]);          //Llamada al método para convertir a dato decimal.
          itoa(ihexa,cdatoHexa,16);                                                      //El dato decimal se convierte en cadena de caracteres hexadecimales.
          fl_message("pos es %d",oscroll->value()+ipos);
          odato1->value(cdatoHexa);                                                      //Colocar el dato hexadecimal en el display.
@@ -732,7 +732,7 @@ bool Analizador::trigger() {
  *                   vían los datos para ser graficados.
 *******************************************************************************/
 void Analizador::almacenar() {
-     if (idatapos > inum_muestras-1) {                         //Si ya se completó el arreglo                 
+     if (idatapos > inumMuestras-1) {                         //Si ya se completó el arreglo                 
            Fl::remove_timeout(cb_timer_ana, this);             //Detener el timer de solicitud de datos
            btermino_muestreo = 1;
            omuestrear_on->value(1);
@@ -747,7 +747,7 @@ void Analizador::almacenar() {
      }
      
      else{
-          strcpy(pdata_analizador [idatapos], cbyte_actual);     //Almacenar el dato en el arreglo
+          strcpy(pdataAnalizador [idatapos], cbyte_actual);     //Almacenar el dato en el arreglo
           idatapos++;
           bmuestreando = 1;
           ocursor->redraw();                                     //Redibujar el cursor 
@@ -772,34 +772,34 @@ void Analizador::cb_horizontal(Fl_Widget* pboton, void *pany) {
 }
 
 void Analizador::cb_horizontal_in() {
-    otexto_muestra->inum_inicial = int(odes_horizontal->value()/20);   //Desplazar al mismo tiempo que las graficas el número de muestra
+    otextoMuestra->inum_inicial = int(odes_horizontal->value()/20);   //Desplazar al mismo tiempo que las graficas el número de muestra
     
     //Cambiar el dato con el que se inicia las gráficas a la izquierda de la pantalla del analizador
-    apantalla_ch1->ipos_x = int(odes_horizontal->value());
-    apantalla_ch1->redraw();
-    apantalla_ch2->ipos_x = int(odes_horizontal->value());
-    apantalla_ch2->redraw();
-    apantalla_ch3->ipos_x = int(odes_horizontal->value());
-    apantalla_ch3->redraw();
-    apantalla_ch4->ipos_x = int(odes_horizontal->value());
-    apantalla_ch4->redraw();
-    apantalla_ch5->ipos_x = int(odes_horizontal->value());
-    apantalla_ch5->redraw();
-    apantalla_ch6->ipos_x = int(odes_horizontal->value());
-    apantalla_ch6->redraw();
-    apantalla_ch7->ipos_x = int(odes_horizontal->value());
-    apantalla_ch7->redraw();
-    apantalla_ch8->ipos_x = int(odes_horizontal->value());
-    apantalla_ch8->redraw();
+    apantallaCh1->ipos_x = int(odes_horizontal->value());
+    apantallaCh1->redraw();
+    apantallaCh2->ipos_x = int(odes_horizontal->value());
+    apantallaCh2->redraw();
+    apantallaCh3->ipos_x = int(odes_horizontal->value());
+    apantallaCh3->redraw();
+    apantallaCh4->ipos_x = int(odes_horizontal->value());
+    apantallaCh4->redraw();
+    apantallaCh5->ipos_x = int(odes_horizontal->value());
+    apantallaCh5->redraw();
+    apantallaCh6->ipos_x = int(odes_horizontal->value());
+    apantallaCh6->redraw();
+    apantallaCh7->ipos_x = int(odes_horizontal->value());
+    apantallaCh7->redraw();
+    apantallaCh8->ipos_x = int(odes_horizontal->value());
+    apantallaCh8->redraw();
     
     //Actualizar el dato que queda señalado con el cursor y que se muestra en el display
     int ipos = int((odes_horizontal->value()/20));
-    odato1->value(pdata_analizador[oscroll->value()+ipos]);
+    odato1->value(pdataAnalizador[oscroll->value()+ipos]);
     
     //Redibujar todos los objetos.
     ogrilla->redraw();
     ocursor->redraw();
-    otexto_muestra->redraw();
+    otextoMuestra->redraw();
     ogroup_ana->redraw();
     obox_nombre->redraw();
     oana_on->redraw();
@@ -825,94 +825,94 @@ void Analizador::cb_horizontal_in() {
 void Analizador::graficar_datos() {
      
      
-     for (int o=0; o<inum_muestras; o++) {               // Ciclo para recorrer el arreglo que contiene las cadenas de caracteres con las muestras
+     for (int o=0; o<inumMuestras; o++) {               // Ciclo para recorrer el arreglo que contiene las cadenas de caracteres con las muestras
              
          //Canal 1
-         if (pdata_analizador[o][0]=='1'){               //Si el dato es '1'.
+         if (pdataAnalizador[o][0]=='1'){               //Si el dato es '1'.
             for (int i=0; i<igraf_datos;i++){            //Ciclo para crear el tiempo de bit graficado; se hace enviando un numero constante de veces el mismo dato.        
-                apantalla_ch1->Add(50000);
+                apantallaCh1->Add(50000);
             }
          }
-         else if (pdata_analizador[o][0]=='0'){             
+         else if (pdataAnalizador[o][0]=='0'){             
               for (int i=0; i<igraf_datos;i++){ 
-                  apantalla_ch1->Add(10000);
+                  apantallaCh1->Add(10000);
               }
          }
          //Canal 2
-         if (pdata_analizador[o][1]=='1'){                
+         if (pdataAnalizador[o][1]=='1'){                
             for (int i=0; i<igraf_datos;i++){ 
-                apantalla_ch2->Add(50000);
+                apantallaCh2->Add(50000);
             }
          }
-         else if (pdata_analizador[o][1]=='0'){              
+         else if (pdataAnalizador[o][1]=='0'){              
               for (int i=0; i<igraf_datos;i++){ 
-                  apantalla_ch2->Add(10000);
+                  apantallaCh2->Add(10000);
               }
          }
          //Canal 3
-         if (pdata_analizador[o][2]=='1'){                 
+         if (pdataAnalizador[o][2]=='1'){                 
             for (int i=0; i<igraf_datos;i++){ 
-                apantalla_ch3->Add(50000);
+                apantallaCh3->Add(50000);
             }
          }
-         else if (pdata_analizador[o][2]=='0'){              
+         else if (pdataAnalizador[o][2]=='0'){              
               for (int i=0; i<igraf_datos;i++){ 
-                  apantalla_ch3->Add(10000);
+                  apantallaCh3->Add(10000);
               }
          }
          //Canal 4
-         if (pdata_analizador[o][3]=='1'){                 
+         if (pdataAnalizador[o][3]=='1'){                 
             for (int i=0; i<igraf_datos;i++){ 
-                apantalla_ch4->Add(50000);
+                apantallaCh4->Add(50000);
             }
          }
-         else if (pdata_analizador[o][3]=='0'){                 
+         else if (pdataAnalizador[o][3]=='0'){                 
               for (int i=0; i<igraf_datos;i++){ 
-                  apantalla_ch4->Add(10000);
+                  apantallaCh4->Add(10000);
               }
          }
          //Canal 5
-         if (pdata_analizador[o][4]=='1'){            
+         if (pdataAnalizador[o][4]=='1'){            
             for (int i=0; i<igraf_datos;i++){ 
-                apantalla_ch5->Add(50000);
+                apantallaCh5->Add(50000);
             }
          }
-         else if (pdata_analizador[o][4]=='0'){               
+         else if (pdataAnalizador[o][4]=='0'){               
               for (int i=0; i<igraf_datos;i++){ 
-                  apantalla_ch5->Add(10000);
+                  apantallaCh5->Add(10000);
               }
          }
          //Canal 6
-         if (pdata_analizador[o][5]=='1'){                
+         if (pdataAnalizador[o][5]=='1'){                
             for (int i=0; i<igraf_datos;i++){ 
-                apantalla_ch6->Add(50000);
+                apantallaCh6->Add(50000);
             }
          }
-         else if (pdata_analizador[o][5]=='0'){                 
+         else if (pdataAnalizador[o][5]=='0'){                 
               for (int i=0; i<igraf_datos;i++){ 
-                  apantalla_ch6->Add(10000);
+                  apantallaCh6->Add(10000);
               }
          }
          //Canal 7
-         if (pdata_analizador[o][6]=='1'){                
+         if (pdataAnalizador[o][6]=='1'){                
             for (int i=0; i<igraf_datos;i++){ 
-                apantalla_ch7->Add(50000);
+                apantallaCh7->Add(50000);
             }
          }
-         else if (pdata_analizador[o][6]=='0'){                
+         else if (pdataAnalizador[o][6]=='0'){                
               for (int i=0; i<igraf_datos;i++){ 
-                  apantalla_ch7->Add(10000);
+                  apantallaCh7->Add(10000);
               }
          }
          //Canal 8
-         if (pdata_analizador[o][7]=='1'){                  
+         if (pdataAnalizador[o][7]=='1'){                  
             for (int i=0; i<igraf_datos;i++){ 
-                apantalla_ch8->Add(50000);
+                apantallaCh8->Add(50000);
             }
          }
-         else if (pdata_analizador[o][7]=='0'){             
+         else if (pdataAnalizador[o][7]=='0'){             
               for (int i=0; i<igraf_datos;i++){ 
-                  apantalla_ch8->Add(10000);
+                  apantallaCh8->Add(10000);
               }
          }
          ocursor->redraw();                                 //Redibujar el cursor
@@ -933,7 +933,7 @@ void Analizador::cb_help(Fl_Widget* pboton, void *pany){
 }
 
 void Analizador::cb_help_in(){
-      manual->show();
+      manualAnalizador->show();
 }
 
 
@@ -943,7 +943,7 @@ void Analizador::cb_help_in(){
  *                         para el analizador lógico.  
  * El Callaback consta de la función static e inline cb_log_ana y cb_log_ana_in.
  * analizador.txt: Archivo plano de texto que contiene los datos muestreados y 
- *                 almacenados en el arreglo pdata_analizador[]. 
+ *                 almacenados en el arreglo pdataAnalizador[]. 
 *******************************************************************************/
 void Analizador::cb_log_ana(Fl_Widget* pboton, void *pany){
      Analizador* pana=(Analizador*)pany;
@@ -952,8 +952,8 @@ void Analizador::cb_log_ana(Fl_Widget* pboton, void *pany){
 
 void Analizador::cb_log_ana_in(){
     ofstream log("analizador.txt");
-    for (int o=0; o<inum_muestras; o++) {
-        log << pdata_analizador[o] << endl;
+    for (int o=0; o<inumMuestras; o++) {
+        log << pdataAnalizador[o] << endl;
     }
 	log.close(); 
 }
