@@ -73,22 +73,22 @@ class Analizador : public Instrumento {
 		// class destructor
 		~Analizador();
 		//Número de muestras que se pueden almacenar.
-	    int inum_muestras;
+	    int inumMuestras;
 	    // Ventana de ayuda de uso del instrumento.
-        Fl_Help_Dialog *manual; 
+        Fl_Help_Dialog *manualAnalizador; 
 		//Contador de datos almacenados en el arreglo
 	    int idatapos;
 	    //Arreglo donde se almacenan las muestras en cadenas de caracteres de datos binarios de 8 bists
-	    char pdata_analizador [TAM_ALMACENADO][9];
+	    char pdataAnalizador [TAM_ALMACENADO][9];
         //Objetos de la clase scope que representa la pantalla del analizador donde se grafica la señal digital.
-		Fl_Scope *apantalla_ch1, *apantalla_ch2, *apantalla_ch3, *apantalla_ch4, *apantalla_ch5,
-                 *apantalla_ch6, *apantalla_ch7, *apantalla_ch8;
+		Fl_Scope *apantallaCh1, *apantallaCh2, *apantallaCh3, *apantallaCh4, *apantallaCh5,
+                 *apantallaCh6, *apantallaCh7, *apantallaCh8;
         //Cursor para identificar el dato graficado
 	    Cursores *ocursor; 
         //Grilla del analizador 
 		grid*  ogrilla;       
 	    //Número de la muestra.
-	    Mensajes *otexto_muestra; 
+        Mensajes *otextoMuestra; 
         //Botón para activar el disparo por flanco de subida
 	    Fl_Button *oflancosubida;
 	    //Botón para activar el disparo por flanco de bajada
@@ -156,7 +156,7 @@ class Analizador : public Instrumento {
 		//Callback del scroll que dezplaza el cursor del instrumento
 		static void cb_scroll_cursor(Fl_Widget*, void *);
 		inline void cb_scroll_cursor_in();
-		//Método que recorre el arreglo pdata_analizador[] y gráfica sus datos en los canales en pantalla
+		//Método que recorre el arreglo pdataAnalizador[] y gráfica sus datos en los canales en pantalla
 		void graficar_datos();
 		
   private:
@@ -199,7 +199,7 @@ class Analizador : public Instrumento {
 		bool btimer_trigger;
 		//Método para determinar si ocurrio el evento que dispara el muestreo
 		bool trigger();
-		//Método para almacenar las muestras en el arreglopdata_analizador[].
+		//Método para almacenar las muestras en el arreglopdataAnalizador[].
 		void almacenar();
 		//Método para convertir los datos almacenados en caracteres binarios a un dato entero.
 		int bianrioadecimal(char [8]);
