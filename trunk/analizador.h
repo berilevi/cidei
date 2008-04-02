@@ -4,7 +4,6 @@
 #define ANALIZADOR_H
 
 #include "instrumento.h" // inheriting class's header file
-#include "Fl_7Seg.H"     // inheriting class's header file
 #include <FL/Fl.H>
 #include "fl_Knob.h"
 #include <FL/Fl_Group.H>
@@ -75,7 +74,7 @@ class Analizador : public Instrumento {
 		//Número de muestras que se pueden almacenar.
 	    int inumMuestras;
 	    // Ventana de ayuda de uso del instrumento.
-        Fl_Help_Dialog *manualAnalizador; 
+        //Fl_Help_Dialog *manualAnalizador; 
 		//Contador de datos almacenados en el arreglo
 	    int idatapos;
 	    //Arreglo donde se almacenan las muestras en cadenas de caracteres de datos binarios de 8 bists

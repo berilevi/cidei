@@ -47,13 +47,15 @@ void *runhilo4(void *threadid)
 
 int main (int argc, char ** argv)
 {
-  Fl_Double_Window *window;
+  Fl_Double_Window *window, *windowMult;
   Analizador *ana;
   Generador *gene;
   //Osciloscopio *osc;
   Multimetro *mult;
   
   Fl_Box *box_mult;
+  Fl_Box *box_osc;
+  
   
   int t =0;
   int u =0;
@@ -64,7 +66,6 @@ int main (int argc, char ** argv)
   window = new Fl_Double_Window (0,0,1024, 708);
   ana = new Analizador();
   gene = new Generador();
-  //osc = new Osciloscopio();
   mult = new Multimetro();
 
   /*rc=pthread_create(&thread, NULL, runhilo, (void *)t);
@@ -120,17 +121,20 @@ int main (int argc, char ** argv)
       } */
   
   box_mult = new Fl_Box(735,12,285,360,"");
+  box_osc = new Fl_Box(5,12,725,360,"");
   
   fl_register_images();
-  Fl_PNG_Image jpg("mult.png");      // load jpeg image into ram
+  Fl_PNG_Image jpg("mult.png");      // Cargar la mascara en RAM
+  Fl_PNG_Image jpgosc("osc.png");
   box_mult->image(jpg);
+  box_osc->image(jpgosc);
  
   
   
   window->end ();
   
   window->show (argc, argv);
-  
+ 
   
   return(Fl::run());
   

@@ -5,7 +5,10 @@
 
 // Constructor de la clase
 Instrumento::Instrumento(){
-
+    
+    //manuales = new Fl_Help_Dialog; 
+    //manuales->load("help_osciloscopio.html"); 
+    //manuales->hide();                     
     strcpy(vid_pid, "vid_04d8&pid_000a");       // Product & Vendor ID
     strcpy(out_pipe, "\\MCHP_EP3");             // End Point de salida 
     strcpy(in_pipe, "\\MCHP_EP3");              // End Point de salida
@@ -17,6 +20,7 @@ Instrumento::Instrumento(){
     ch2_muestreado = 0;                         // Inicializar el estado del muestreo del canal 2 del osciloscopio
     idato_osc_ch1 =0;                           // Dato muestreado uno a uno por el canal 1 del osciloscopio
     idato_osc_ch2 =0;                           // Dato muestreado uno a uno por el canal 2 del osciloscopio
+     
 }
 
 // Destructor de clase
