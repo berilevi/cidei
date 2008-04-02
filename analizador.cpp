@@ -2,10 +2,8 @@
 
 #include "analizador.h" // class's header file
 
-//int isec_numdatos = 0;                                      
 int iespera_trigger = 0;                                      //Contador de veces que debe esperar el instrumento antes de que ocurra el evento del trigger 
-int inum_datos_grafica = 0;                                   //Contador del número máximo de datos representados en pantalla.                                   
-//int icont = 0;                                                //Contador para llenar los arreglos de datos decimales y hexadecimal.
+int inum_datos_grafica = 0;                                   //Contador del número máximo de datos representados en pantalla.
 char  cbyte_anterior[] = "00000000";                          //Almacena el byte muestreado en t-1.
 bool bconf_trigger = 0;                                       //Variable que indica si fue o no configurado el almacenamiento con trigger.
 bool btermino_muestreo = 0;                                   //Variable que indica si terminó o no el muestreo.
@@ -145,8 +143,7 @@ Analizador::Analizador() {
     odes_horizontal->scaleticks(0);
     odes_horizontal->labelsize(9);
     odes_horizontal->step(20);
-   // odes_horizontal->range(0,400);
-    odes_horizontal->range(0,1000);
+    odes_horizontal->range(0,400);
     
         
     omuestrear_on = new Fl_Light_Button(430,560,70,30,"Capturar");   //Botón que inicia el muestreo y captura de las señales.
@@ -164,8 +161,8 @@ Analizador::Analizador() {
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger");      //Botón que saca la ventana de configuración del trigger
     otrigger_on->labelsize(15);
     
-    manualAnalizador = new Fl_Help_Dialog;
-    manualAnalizador->load("help_analizador.html");                                                    
+    //manualAnalizador = new Fl_Help_Dialog;
+    //manualAnalizador->load("help_analizador.html");                                                    
           
     ogroup_ana->end();                                               //Fin del grupo de los elementos del analizador
     
@@ -489,7 +486,6 @@ void Analizador::cb_scroll_cursor_in() {
     else if (orep_dato->value()==2){
          int ihexa = bianrioadecimal(pdataAnalizador[oscroll->value()+ipos]);          //Llamada al método para convertir a dato decimal.
          itoa(ihexa,cdatoHexa,16);                                                      //El dato decimal se convierte en cadena de caracteres hexadecimales.
-         fl_message("pos es %d",oscroll->value()+ipos);
          odato1->value(cdatoHexa);                                                      //Colocar el dato hexadecimal en el display.
     }
       
@@ -933,7 +929,7 @@ void Analizador::cb_help(Fl_Widget* pboton, void *pany){
 }
 
 void Analizador::cb_help_in(){
-      manualAnalizador->show();
+      //manualAnalizador->show();
 }
 
 

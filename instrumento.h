@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Tooltip.H>
+#include <FL/Fl_Help_Dialog.h>
 
 using namespace std;
 
@@ -83,12 +84,13 @@ class Instrumento {
 		//La función Encapsular organiza la trama que se envía al hardware a través de USB.
 		void Encapsular(char, char, char, char, char,char);
 		//La función Desencapsular organiza los datos enviados desde el hardware a los instrumentos de software a través de USB.
-		void Desencapsular(BYTE []);
-		
+		void Desencapsular(BYTE []);		
 		//Esta variable representa el estado funcional del hardware del instrumento.
 		bool bhardware;
 		//Esta variable contiene el nombre del archivo de texto donde se almacenan los datos del instrumento.
 		char cnombre [12];
+		//Pantalla de manuales de uso de los instrumentos
+		//Fl_Help_Dialog *manuales;
 };
 
 #endif // INSTRUMENTO_H

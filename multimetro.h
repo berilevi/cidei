@@ -52,7 +52,7 @@ class Multimetro : public Instrumento
              continuidad
         };   
 		//Ventana de ayuda de uso del instrumento.
-        Fl_Help_Dialog *manualMult;      
+        //Fl_Help_Dialog *manualMult;      
 		//Variable que almacena el valor entero de la medicion realizada con el hardware
 		long int ivalorConversion;
 		//Variable que almacena el valor ye escalado que se presentará al usuario.

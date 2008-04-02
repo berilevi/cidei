@@ -77,7 +77,8 @@ class Osciloscopio : public Instrumento{
         //Botón que habilita la ayuda para el uso del instrumento. 
         Fl_Button *ohelpOsc;
         //Botón que habilita la ayuda flotante para el uso de los botones del instrumento.
-        Fl_Check_Button *oayudaOsc;
+        //Fl_Check_Button *oayudaOsc;
+        Fl_Button *oayudaOsc;
         //Selector de la escala de tiempo por división.
         Fl_Knob *otiempoDiv;
         //Perilla para el desplazamiento horizontal de la señal graficada.
@@ -238,7 +239,7 @@ class Osciloscopio : public Instrumento{
         //Variable que almacena el caracter de la escala de tiempo por division
         char ctDiv;
         //Ventana de ayuda de uso del instrumento.
-        Fl_Help_Dialog *manualOsc;
+        Fl_Help_Dialog *manual;
 };
 
 #endif // OSCILOSCOPIO_H

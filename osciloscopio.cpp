@@ -28,7 +28,7 @@ bool bacopleGnd2 = 0;     // Variable global que indica si el canal 2 está en ac
 *******************************************************************************/
 Osciloscopio::Osciloscopio(){
                                
-   // Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
+    Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
    // strcpy(cnombre,"osc.txt");                                    // Nombre del para el archivo de texto donde se almacenan los datos
                                                     
     
@@ -56,7 +56,7 @@ Osciloscopio::Osciloscopio(){
     
     och1On = new Fl_Light_Button(420,15,35,15,"ON");             // Botón para activar/desactivar el canal 1
     och1On->labelsize(10);
-    //och1On->tooltip("Botón para activar o desactivar el uso del canal 1");
+    och1On->tooltip("Botón para activar o desactivar el uso del canal 1");
     
     och2On = new Fl_Light_Button(578,15,35,15,"ON");             // Botón para activar/desactivar el canal 2
     och2On->labelsize(10);
@@ -88,23 +88,27 @@ Osciloscopio::Osciloscopio(){
     //ogroup_dual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
     ogroupDual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
     
-    oautoSet  = new Fl_Button (290,13,40,17,"Auto");             // Botón para activar el ajuste automático del instrumento
+    oautoSet  = new Fl_Button (370,8,40,17,"Auto");             // Botón para activar el ajuste automático del instrumento
     oautoSet->labelsize(9);
     
-    ologOsc  = new Fl_Button (340,8,40,14,"Log");                // Boton para activar el almacenamiento en archivo de texto los datos
+    //ologOsc  = new Fl_Button (340,8,40,14,"Log");                // Boton para activar el almacenamiento en archivo de texto los datos
+    ologOsc = new Fl_Button (240,8,38,30,"log");
     ologOsc->labelsize(9);
    // ologOsc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
     
-    ohelpOsc  = new Fl_Button (340,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
+    ohelpOsc  = new Fl_Button (370,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
     ohelpOsc->labelsize(9);
     //ohelpOsc->tooltip("Botón para iniciar el archivo de ayuda de uso del instrumento ");
     
-    oayudaOsc  = new Fl_Check_Button (385,13,20,16,"a");         // Activa las ayudas flotantes de los botones del instrumento
+    //oayudaOsc  = new Fl_Check_Button (385,13,20,16,"a");         // Activa las ayudas flotantes de los botones del instrumento
+    oayudaOsc  = new Fl_Button (330,8,38,30,"?");
     oayudaOsc->labelsize(12);
     //oayudaOsc->tooltip("CheckBox para iniciar las ayudas flotantes del uso del los botones del instrumento");
     
-    ogrillaOn = new Fl_Light_Button(240,13,45,17,"Grilla");      // Activa/desactiva la cuadricula de la pantalla del instrumento   
+    //ogrillaOn = new Fl_Light_Button(240,13,45,17,"Grilla");      // Activa/desactiva la cuadricula de la pantalla del instrumento   
+    ogrillaOn = new Fl_Light_Button(285,8,38,30,"Grid");
     ogrillaOn->labelsize(10);
+    ogrillaOn->tooltip("Cuadricula");
     
     ogroupTdiv = new Fl_Group (620,218,106,142,"");              //Inicia el grupo de los controles de tiempo por división
     ogroupTdiv->box(FL_ENGRAVED_FRAME);
@@ -193,8 +197,8 @@ Osciloscopio::Osciloscopio(){
     odispOsc1->TextColour(FL_YELLOW);
     odispOsc2->TextColour(FL_GREEN);
     
-    manualOsc = new Fl_Help_Dialog;                                      // Ventana de ayuda que sale al presionar el botón help
-    manualOsc->load("help_osciloscopio.html");                           // Cargar el archivo html que contiene la ayuda.
+    manual = new Fl_Help_Dialog;                                      // Ventana de ayuda que sale al presionar el botón help
+    manual->load("helpOsciloscopio.html");                           // Cargar el archivo html que contiene la ayuda.
     
     ogroupOsc->end();                                                    //Fin del grupo de los elementos del osciloscopio
     
@@ -299,7 +303,7 @@ void Osciloscopio::cbOscOnIn(){
             muestreoTimer(1);                                   //Muestrear por vectores deacuerdo a la escala de tiempo por división.
          }                                                       
          else {                                                  //Si la respuesta fue NAK o error en la comunicación USB
-              fl_message("Error de hardware");                   
+              fl_message("Error de conexión de hardware");                   
               ooscOn->value(0);                                 //Osciloscopio desactivado
               ooscOn->box(FL_UP_BOX);                           //Restablecer el botón para un nuevo intento
          }  
@@ -1765,9 +1769,9 @@ void Osciloscopio::cbAyudaIn(){
      if (oayudaOsc->value() == 1){
         Fl_Tooltip::enable();
      }
-     else{
-         Fl_Tooltip::disable(); 
-     }
+    // else{
+    //     Fl_Tooltip::disable(); 
+    // }
 }
 
 
@@ -1784,7 +1788,7 @@ void Osciloscopio::cbHelp(Fl_Widget* pboton, void *any){
 }
 
 void Osciloscopio::cbHelpIn(){
-      manualOsc->show();
+     // manual->show();
 }
 
 
