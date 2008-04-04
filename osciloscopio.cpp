@@ -62,9 +62,7 @@ Osciloscopio::Osciloscopio(){
     och2On->labelsize(10);
     //och2On->tooltip("Botón para activar o desactivar el uso del canal 2");
     
-    /*ogroup_dual = new Fl_Group (415,330,200,30,"");              //Inicio del grupo de los controles de las operaciones en modo dual
-    ogroup_dual->box(FL_ENGRAVED_FRAME);
-    ogroup_dual->deactivate();*/
+    
     ogroupDual = new Fl_Group (415,330,200,30,"");              //Inicio del grupo de los controles de las operaciones en modo dual
     ogroupDual->box(FL_ENGRAVED_FRAME);
     ogroupDual->deactivate();
@@ -84,8 +82,7 @@ Osciloscopio::Osciloscopio(){
     oxy = new Fl_Box(570,345,10,10,"XY");                       // Indicador de la operación x vs y 
     oxy->labelsize(9);
     oxy->box(FL_ENGRAVED_BOX);
-    oxy->align(FL_ALIGN_TOP);
-    //ogroup_dual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
+    oxy->align(FL_ALIGN_TOP);  
     ogroupDual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
     
     oautoSet  = new Fl_Button (370,8,40,17,"Auto");             // Botón para activar el ajuste automático del instrumento

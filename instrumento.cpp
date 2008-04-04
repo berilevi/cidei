@@ -5,10 +5,7 @@
 
 // Constructor de la clase
 Instrumento::Instrumento(){
-    
-    //manuales = new Fl_Help_Dialog; 
-    //manuales->load("help_osciloscopio.html"); 
-    //manuales->hide();                     
+                        
     strcpy(vid_pid, "vid_04d8&pid_000a");       // Product & Vendor ID
     strcpy(out_pipe, "\\MCHP_EP3");             // End Point de salida 
     strcpy(in_pipe, "\\MCHP_EP3");              // End Point de salida

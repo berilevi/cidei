@@ -121,7 +121,7 @@ int main (int argc, char ** argv)
       } */
   
   box_mult = new Fl_Box(735,12,285,360,"");
-  box_osc = new Fl_Box(5,12,725,360,"");
+  box_osc = new Fl_Box(7,12,725,360,"");
   
   fl_register_images();
   Fl_PNG_Image jpg("mult.png");      // Cargar la mascara en RAM
