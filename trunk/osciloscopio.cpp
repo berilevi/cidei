@@ -54,11 +54,11 @@ Osciloscopio::Osciloscopio(){
     canal1 = new Canal(415,9,152,205,"",255);                     // Instancia de canal para crear el objeto canal 1
     canal2 = new Canal(573,9,152,205,"",250);                     // Instancia de canal para crear el objeto canal 2
     
-    och1On = new Fl_Light_Button(420,15,35,15,"ON");             // Botón para activar/desactivar el canal 1
+    och1On = new Fl_Light_Button(424,15,49,15,"ON");             // Botón para activar/desactivar el canal 1
     och1On->labelsize(10);
     och1On->tooltip("Botón para activar o desactivar el uso del canal 1");
     
-    och2On = new Fl_Light_Button(578,15,35,15,"ON");             // Botón para activar/desactivar el canal 2
+    och2On = new Fl_Light_Button(586,15,49,15,"ON");             // Botón para activar/desactivar el canal 2
     och2On->labelsize(10);
     //och2On->tooltip("Botón para activar o desactivar el uso del canal 2");
     
@@ -110,7 +110,7 @@ Osciloscopio::Osciloscopio(){
     ogroupTdiv = new Fl_Group (620,218,106,142,"");              //Inicia el grupo de los controles de tiempo por división
     ogroupTdiv->box(FL_ENGRAVED_FRAME);
     ogroupTdiv->deactivate();
-    otiempoDiv = new Fl_Knob (633,230,80,80,"TDIV");            //Selector de la escala de tiempo por división
+    otiempoDiv = new Fl_Knob (633,257,89,89,"TDIV");            //Selector de la escala de tiempo por división
     otiempoDiv->color(147);
     otiempoDiv->type(8);
     otiempoDiv->labelsize(9);
@@ -120,7 +120,7 @@ Osciloscopio::Osciloscopio(){
     otiempoDiv->round(1);
     //otiempoDiv->tooltip("Selector de las escalas de tiempo por división del instrumento");
     
-    omenuTdiv = new Fl_Choice(635,330,80,20,"");                //Menú selector de la escala de tiempo por división
+    omenuTdiv = new Fl_Choice(635,234,80,20,"");                //Menú selector de la escala de tiempo por división
     omenuTdiv->add("0.5s",0,(Fl_Callback *)cbTdiv05s,this);
     omenuTdiv->add("0.2s",0,(Fl_Callback *)cbTdiv02s,this);            
     omenuTdiv->add("0.1s",0,(Fl_Callback *)cbTdiv01s,this);            
@@ -145,7 +145,7 @@ Osciloscopio::Osciloscopio(){
     ogroupPos = new Fl_Group (415,218,100,110,"");                       //Inicio del grupo de controles de posición horizontal de las gráfica
     ogroupPos->box(FL_ENGRAVED_FRAME);
     ogroupPos->deactivate();
-    oposy = new Fl_Knob (435,250,60,60,"XPos");                         //Perilla de dezplazamiento horizontal de las gráficas
+    oposy = new Fl_Knob (436,248,60,60,"XPos");                         //Perilla de dezplazamiento horizontal de las gráficas
     oposy->color(180);
     oposy->scaleticks(0);
     oposy->cursor(40);

@@ -55,6 +55,8 @@ int main (int argc, char ** argv)
   
   Fl_Box *box_mult;
   Fl_Box *box_osc;
+  Fl_Box *box_analizador;
+  Fl_Box *box_generador;
   
   
   int t =0;
@@ -122,12 +124,19 @@ int main (int argc, char ** argv)
   
   box_mult = new Fl_Box(735,12,285,360,"");
   box_osc = new Fl_Box(7,12,725,360,"");
+  //box_analizador = new Fl_Box(5,370,505,330,"");
+  //box_generador = new Fl_Box(515,370,505,330,"");
   
   fl_register_images();
   Fl_PNG_Image jpg("mult.png");      // Cargar la mascara en RAM
   Fl_PNG_Image jpgosc("osc.png");
+  //Fl_PNG_Image jpgan("analizador.png");
+  //Fl_PNG_Image jpggen("generador.png");
+  
   box_mult->image(jpg);
   box_osc->image(jpgosc);
+  //box_analizador->image(jpgan);
+  //box_generador->image(jpggen);
  
   
   
