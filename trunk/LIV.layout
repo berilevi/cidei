@@ -5,7 +5,7 @@
 	<Expand folder="/Headers"/>
 </CodeBlocks_layout_file>
 [Editors]
-Focused=6
+Focused=27
 Order=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27
 [Editor_0]
 Open=1
@@ -51,7 +51,7 @@ TopLine=1
 LeftChar=1
 [Editor_6]
 Open=1
-Top=1
+Top=0
 CursorCol=34
 CursorRow=45
 TopLine=25
@@ -198,7 +198,7 @@ Open=1
 Top=0
 [Editor_27]
 Open=1
-Top=0
+Top=1
 CursorCol=23
 CursorRow=8
 TopLine=5
