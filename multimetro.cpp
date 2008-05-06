@@ -47,11 +47,7 @@ Multimetro::Multimetro(){
     
     ovoltAc = new Fl_Button(762,169,80,25,"V_ac");                              //Botón que activa el instrumento voltímetro AC.   
     ovoltAc->clear();    
-    boxVac = new Fl_Box(762,169,80,25,"");
     ovoltAc->box(FL_UP_BOX);
-   // fl_register_images();
-   // Fl_PNG_Image jpgvacg("vacg.png");      // Cargar la mascara en RAM
-   // boxVac->image(jpgvacg);
     ovoltDc = new Fl_Button(912,169,80,25,"V_dc");                              //Botón que activa el instrumento voltímetro DC.
     ovoltDc->box(FL_UP_BOX);
     oampAc = new Fl_Button(762,228,80,25,"A_ac");                               //Botón que activa el instrumento Amperímetro AC.
@@ -83,6 +79,7 @@ Multimetro::Multimetro(){
     ocontinuidad->callback(cbCont, this);
     ohelpMult->callback(cbHelpMult,this);
     oayudaMult->callback(cbAyudaMult,this);
+    
 }
 
 // class destructor

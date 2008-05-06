@@ -10,13 +10,9 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      ogroupCh = new Fl_Group (x,y,w,h,"");
      ogroupCh->box(FL_ENGRAVED_FRAME);
      ogroupCh->deactivate();
-     //oposx = new Fl_Knob ((x+1),(y+67),60,60,"Y-Pos");            //Botón para modificar la posición vertical de la gráfica
      oposx = new Fl_Dial ((x+7),(y+88),40,40,"Y-Pos");            //Botón para modificar la posición vertical de la gráfica
      oposx->labelsize(9);
      oposx->box(FL_NO_BOX);
-     //oposx->color(180);
-     //oposx->scaleticks(0);
-     //oposx->cursor(50);
      oposx->range(-100,100);
      oposx->step(1);
      oposx->round(1);
@@ -30,7 +26,6 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      omenuvDiv = new Fl_Choice((x+58),(y+30),92,29,"");    //Menú de las escalas de Voltios por División
      omenuvDiv->labelsize(10);
      omenuvDiv->align(FL_ALIGN_TOP);
-     omenuvDiv->down_box();
      omenuvDiv->add("5",0,(Fl_Callback *)cbVdiv5,this);
      omenuvDiv->add("2",0,(Fl_Callback *)cbVdiv2,this);
      omenuvDiv->add("1",0,(Fl_Callback *)cbVdiv1,this);

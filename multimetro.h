@@ -98,8 +98,6 @@ private:
         Fl_Check_Button *oayudaMult;
 		//Botón de activación del medidor de voltaje en ac.
 		Fl_Button *ovoltAc;
-		//
-		Fl_Box *boxVac;
 		//Botón de activación del medidor de voltaje en dc.
 	    Fl_Button *ovoltDc;
 	    //Botón de activación del medidor de corriente en ac.
