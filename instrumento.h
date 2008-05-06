@@ -20,6 +20,7 @@ using namespace std;
 //#pragma argsused*/
 
 #define SIZE_DATA 150          // Maximo tamaño del vector recibido desde el hardawre 
+#define SIZE_OSC 512           // Maximo tamaño del vector recibido desde el hardawre 
 
 
 /*******************************************************************************
@@ -55,12 +56,14 @@ class Instrumento {
 	    bool ch2_muestreado;
 		//Buffer donde se almacenan los datos enviados por el hardware del canal 1 del osciloscopio.
 	    int buf_osc_ch1[572];
-		//Variable donde se almacena el dato muestreado uno a uno por el hardware del canal 1 del osciloscopio. 
+		//int buf_osc_ch1[SIZE_OSC];
+        //Variable donde se almacena el dato muestreado uno a uno por el hardware del canal 1 del osciloscopio. 
 	    int idato_osc_ch1;
 		//Variable donde se almacena el dato muestreado uno a uno por el hardware del canal 2 del osciloscopio. 
 	    int idato_osc_ch2;
 		//Buffer donde se almacenan los datos enviados por el hardware del canal 2 del osciloscopio.
 	    int buf_osc_ch2[572];
+	    //int buf_osc_ch2[SIZE_OSC];
 		//Buffer donde se almacena la información desencapsulada enviada por el hardware del Multímetro.
 	    char buf_mult[4];
 		//Buffer donde se almacena la información desencapsulada enviada por el hardware del Analizador Lógico.

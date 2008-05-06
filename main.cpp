@@ -55,6 +55,8 @@ int main (int argc, char ** argv)
   
   Fl_Box *box_mult;
   Fl_Box *box_osc;
+  Fl_Box *boxNomOsc;
+  Fl_Box *boxOscOn;
   Fl_Box *box_analizador;
   Fl_Box *box_generador;
   
@@ -123,19 +125,25 @@ int main (int argc, char ** argv)
       } */
   
   box_mult = new Fl_Box(735,12,285,360,"");
-  box_osc = new Fl_Box(7,12,725,360,"");
+  box_osc = new Fl_Box(6,12,725,360,"");
+  //boxNomOsc = new Fl_Box(29,12,195,22,"OSCILOSCOPIO");
+  boxOscOn = new Fl_Box(255,16,30,30,"");
   box_analizador = new Fl_Box(6,376,505,330,"");
   //box_generador = new Fl_Box(517,375,505,330,"");
   
   fl_register_images();
   Fl_PNG_Image jpg("mult.png");      // Cargar la mascara en RAM
-  Fl_PNG_Image jpgosc("osc.png");
-  Fl_PNG_Image jpgan("analizador.png");
+  //Fl_PNG_Image jpgosc("osc.png");
+  //Fl_PNG_Image jpgnomosc("nomosc.png");
+  //Fl_PNG_Image jpgoscon("oscon.png");
+  //Fl_PNG_Image jpgan("analizador.png");
   //Fl_PNG_Image jpggen("generador.png");
   
   box_mult->image(jpg);
-  box_osc->image(jpgosc);
-  box_analizador->image(jpgan);
+  //box_osc->image(jpgosc);
+  //boxNomOsc->image(jpgnomosc);
+  //boxOscOn->image(jpgoscon);
+  //box_analizador->image(jpgan);
   //box_generador->image(jpggen);
  
   

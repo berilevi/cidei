@@ -85,32 +85,32 @@ Osciloscopio::Osciloscopio(){
     oxy->align(FL_ALIGN_TOP);  
     ogroupDual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
     
-    oautoSet  = new Fl_Button (370,8,40,17,"Auto");             // Botón para activar el ajuste automático del instrumento
+    oautoSet  = new Fl_Button (370,8,5,5,"");             // Botón para activar el ajuste automático del instrumento
     oautoSet->labelsize(9);
     
     //ologOsc  = new Fl_Button (340,8,40,14,"Log");                // Boton para activar el almacenamiento en archivo de texto los datos
-    ologOsc = new Fl_Button (240,8,38,30,"log");
+    ologOsc = new Fl_Button (328,8,38,30,"log");
     ologOsc->labelsize(9);
    // ologOsc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
     
-    ohelpOsc  = new Fl_Button (370,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
-    ohelpOsc->labelsize(9);
+    //ohelpOsc  = new Fl_Button (370,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
+    //ohelpOsc->labelsize(9);
     //ohelpOsc->tooltip("Botón para iniciar el archivo de ayuda de uso del instrumento ");
     
     //oayudaOsc  = new Fl_Check_Button (385,13,20,16,"a");         // Activa las ayudas flotantes de los botones del instrumento
-    oayudaOsc  = new Fl_Button (330,8,38,30,"?");
+    oayudaOsc  = new Fl_Button (370,8,38,30,"?");
     oayudaOsc->labelsize(12);
     //oayudaOsc->tooltip("CheckBox para iniciar las ayudas flotantes del uso del los botones del instrumento");
     
     //ogrillaOn = new Fl_Light_Button(240,13,45,17,"Grilla");      // Activa/desactiva la cuadricula de la pantalla del instrumento   
-    ogrillaOn = new Fl_Light_Button(285,8,38,30,"Grid");
+    ogrillaOn = new Fl_Light_Button(290,8,38,30,"Grid");
     ogrillaOn->labelsize(10);
     ogrillaOn->tooltip("Cuadricula");
     
     ogroupTdiv = new Fl_Group (620,218,106,142,"");              //Inicia el grupo de los controles de tiempo por división
     ogroupTdiv->box(FL_ENGRAVED_FRAME);
     ogroupTdiv->deactivate();
-    otiempoDiv = new Fl_Knob (633,257,89,89,"TDIV");            //Selector de la escala de tiempo por división
+    otiempoDiv = new Fl_Knob (635,270,78,78,"TDIV");            //Selector de la escala de tiempo por división
     otiempoDiv->color(147);
     otiempoDiv->type(8);
     otiempoDiv->labelsize(9);
@@ -120,7 +120,7 @@ Osciloscopio::Osciloscopio(){
     otiempoDiv->round(1);
     //otiempoDiv->tooltip("Selector de las escalas de tiempo por división del instrumento");
     
-    omenuTdiv = new Fl_Choice(635,234,80,20,"");                //Menú selector de la escala de tiempo por división
+    omenuTdiv = new Fl_Choice(628,225,95,26,"");                //Menú selector de la escala de tiempo por división
     omenuTdiv->add("0.5s",0,(Fl_Callback *)cbTdiv05s,this);
     omenuTdiv->add("0.2s",0,(Fl_Callback *)cbTdiv02s,this);            
     omenuTdiv->add("0.1s",0,(Fl_Callback *)cbTdiv01s,this);            
@@ -145,7 +145,7 @@ Osciloscopio::Osciloscopio(){
     ogroupPos = new Fl_Group (415,218,100,110,"");                       //Inicio del grupo de controles de posición horizontal de las gráfica
     ogroupPos->box(FL_ENGRAVED_FRAME);
     ogroupPos->deactivate();
-    oposy = new Fl_Knob (436,248,60,60,"XPos");                         //Perilla de dezplazamiento horizontal de las gráficas
+    oposy = new Fl_Knob (448,220,60,60,"XPos");                         //Perilla de dezplazamiento horizontal de las gráficas
     oposy->color(180);
     oposy->scaleticks(0);
     oposy->cursor(40);
@@ -154,8 +154,8 @@ Osciloscopio::Osciloscopio(){
     //oposy->tooltip("Boton de posicionamiento horizontal de las gráficas");
     ogroupPos->end();                                                    //Fin del grupo de controles de posición horizontal de las gráficas    
     
-    ostop = new Fl_Light_Button(420,222,35,30,"");                        //Botón para detención de las gráficas
-    ostop->label("@|>");
+    ostop = new Fl_Light_Button(420,282,23,23,"");                        //Botón para detención de las gráficas
+    //ostop->label("@|>");
     //ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
     
     ogroupTrigger = new Fl_Group (520,218,95,110,"");                    //Inicio del grupo de controles del trigger del instrumento        
@@ -183,7 +183,7 @@ Osciloscopio::Osciloscopio(){
     onivelTrigger->range(0,10);
     ogroupTrigger->end();                                                // Fin del grupo de controles del trigger
                 
-    opantalla = new Fl_Scope(12,40,400,320,"");                           // Instancia de scope para la pantalla del osciloscopio
+    opantalla = new Fl_Scope(10,43,400,320,"");                           // Instancia de scope para la pantalla del osciloscopio
     opantalla->tracetype(FL_SCOPE_TRACE_LOOP);                            // Forma en que se colocan los datos para graficar
     opantalla->redrawmode(FL_SCOPE_REDRAW_ALWAYS);                        // La gráfica se redibuja cuando se adiciona cada dato                        
     opantalla->linetype(FL_SCOPE_LINE);                                   // La gráfica se forma con lineas entre dos puntos
@@ -195,12 +195,12 @@ Osciloscopio::Osciloscopio(){
     odispOsc2->TextColour(FL_GREEN);
     
     manual = new Fl_Help_Dialog;                                      // Ventana de ayuda que sale al presionar el botón help
-    manual->load("helpOsciloscopio.html");                           // Cargar el archivo html que contiene la ayuda.
+    manual->load("helpOsciloscopio.html");                            // Cargar el archivo html que contiene la ayuda.
     
     ogroupOsc->end();                                                    //Fin del grupo de los elementos del osciloscopio
     
     
-    ogrilla = new grid(12,40,400,320,"");                                 //Instancia de la cuadricula para la pantalla 
+    ogrilla = new grid(10,43,400,320,"");                                 //Instancia de la cuadricula para la pantalla 
     ogrilla->banalizador_on = 0;                                          //En cero para que no se active la grilla del analizador
     
     oboxNombre = new Fl_Box(15,8,175,30,"OSCILOSCOPIO");                 //Cuadro para colocar el nombre del instrumento
@@ -208,9 +208,10 @@ Osciloscopio::Osciloscopio(){
     oboxNombre->labelfont(FL_HELVETICA_BOLD);
     oboxNombre->labelsize(20);
     
-    ooscOn = new Fl_Light_Button(195,8,38,30,"ON");                      //Botón para encender o apagar el osciloscopio
+    ooscOn = new Fl_Light_Button(250,8,38,30,"");                      //Botón para encender o apagar el osciloscopio
     //ooscOn->tooltip("Botón para encender o apagar el osciloscopio");
-    ooscOn->labelsize(10);           
+    ooscOn->box(FL_NO_BOX);
+    //ooscOn->labelsize(10);           
                 
     // Callbacks de los botones del osciloscopio            
                 
@@ -229,8 +230,8 @@ Osciloscopio::Osciloscopio(){
     canal1->oselAcople->callback(cbAcople1, this);
     canal2->ovoltDiv->callback(cb_volt_div2, this);
     canal2->oselAcople->callback(cbAcople2, this);
-    ohelpOsc->callback(cbHelp,this);
-    oautoSet->callback(cbAuto,this);
+    //ohelpOsc->callback(cbHelp,this);
+   // oautoSet->callback(cbAuto,this);
 }
 
 
@@ -774,37 +775,37 @@ void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
     // if (pselector->value()>=3){                                   // !!!!! Toca cambiarlo a >= 2 
        /*                                                            // !!! agregar las tramas de protocolo faltantes 
        if (pselector->value()== 3){
-           ctDiv = '0';  
+           ctDiv = 'E';  
            strcpy(odispOsc1->ct_div,"50mS/Dv");
            odispOsc1->redraw();                                   
         } 
         else if (pselector->value() == 4){
-            ctDiv = '1';
+            ctDiv = 'D';
             strcpy(odispOsc1->ct_div,"20mS/Dv");
             odispOsc1->redraw();                                    
         } 
         else if (pselector->value() == 5){
-            ctDiv = '2';
+            ctDiv = 'C';
             strcpy(odispOsc1->ct_div,"10mS/Dv");
             odispOsc1->redraw();                                   
         } 
         else if (pselector->value() == 6){
-            ctDiv = '3';
+            ctDiv = 'B';
             strcpy(odispOsc1->ct_div,"5mS/Dv");
             odispOsc1->redraw();                                    
         } 
         else if (pselector->value() == 7){
-            ctDiv = '4';
+            ctDiv = 'A';
             strcpy(odispOsc1->ct_div,"2mS/Dv");
             odispOsc1->redraw();                                     
         } 
         else if (pselector->value() == 8){
-            ctDiv = '5';
+            ctDiv = '9';
             strcpy(odispOsc1->ct_div,"1mS/Dv");
             odispOsc1->redraw();                                    
         }   
         else if (pselector->value() == 9){
-            ctDiv = '6';
+            ctDiv = '8';
             strcpy(odispOsc1->ct_div,"0.5mS/Dv");
             odispOsc1->redraw();                                    
         }
@@ -814,37 +815,37 @@ void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
             odispOsc1->redraw();                                  
         }
         else if (pselector->value() == 11){
-            ctDiv = '8';
+            ctDiv = '6';
             strcpy(odispOsc1->ct_div,"0.1mS/Dv");
             odispOsc1->redraw();                                    
         }
         else if (pselector->value() == 12){
-            ctDiv = '9';
+            ctDiv = '5';
             strcpy(odispOsc1->ct_div,"50uS/Dv");
             odispOsc1->redraw();                                     
         }
         else if (pselector->value() == 13){
-            ctDiv = 'A';
+            ctDiv = '4';
             strcpy(odispOsc1->ct_div,"20uS/Dv");
             odispOsc1->redraw();                                     
         }
         else if (pselector->value() == 14){
-            ctDiv = 'B';
+            ctDiv = '3';
             strcpy(odispOsc1->ct_div,"10uS/Dv");
             odispOsc1->redraw();                                     
         }
         else if (pselector->value() == 15){
-            ctDiv = 'C';
+            ctDiv = '2';
             strcpy(odispOsc1->ct_div,"5uS/Dv");
             odispOsc1->redraw();                                     
         }
         else if (pselector->value() == 16){
-            ctDiv = 'D';
+            ctDiv = '1';
             strcpy(odispOsc1->ct_div,"2uS/Dv");
             odispOsc1->redraw();                                     
         }
         else if (pselector->value() == 17){
-            ctDiv = 'E';
+            ctDiv = '0';
             strcpy(odispOsc1->ct_div,"1uS/Dv");
             odispOsc1->redraw();                                     
         }
@@ -1310,6 +1311,7 @@ void Osciloscopio::recorrerDatos(int num_canal){
                  odispOsc1->redraw();
             }
             else{
+                 //for(icont=0;icont < SIZE_OSC-1 ; icont++){
                  for(icont=0;icont < 571; icont++){
                      opantalla->Add((canal1->oposx->value()*255)+33000,255); 
                      ogrilla->redraw();
@@ -1333,7 +1335,7 @@ void Osciloscopio::recorrerDatos(int num_canal){
                  }
             }
             else{
-                 //for(icont=0;icont < DATA_OSC-1; icont++){
+                 //for(icont=0;icont < SIZE_OSC-1 ; icont++){
                  for(icont=0;icont < 571; icont++){
                      idatoGrafCh1 = buf_osc_ch1[icont];
                      vpp(idatoGrafCh1,0,1); 
@@ -1357,6 +1359,7 @@ void Osciloscopio::recorrerDatos(int num_canal){
                  odispOsc2->redraw();
             }
             else{
+                 //for(icont=0;icont < SIZE_OSC-1 ; icont++){
                  for(icont=0;icont < 571; icont++){
                      opantalla->Add(255,(canal2->oposx->value()*255)+33000); 
                      ogrilla->redraw();
@@ -1380,7 +1383,7 @@ void Osciloscopio::recorrerDatos(int num_canal){
                   }
              }
              else{
-                  //for(icont=0;icont < DATA_OSC-1; icont++){ 
+                  //for(icont=0;icont < SIZE_OSC-1 ; icont++){
                   for(icont=0;icont < 571; icont++){ 
                      idatoGrafCh2 = buf_osc_ch2[icont];
                      vpp(0,idatoGrafCh2,2);
@@ -1476,7 +1479,7 @@ void Osciloscopio::recorrerDatos(int num_canal){
                   }
              }
              else{
-                  //for(icont=0;icont < DATA_OSC-1; icont++){
+                  //for(icont=0;icont < SIZE_OSC-1 ; icont++){
                   for(icont=0;icont < 571; icont++){
                      idatoGrafCh1 = buf_osc_ch1[icont];
                      idatoGrafCh2 = buf_osc_ch2[icont];
@@ -1779,14 +1782,14 @@ void Osciloscopio::cbAyudaIn(){
  * Se despliega una ventana de ayuda con un archivo en html con la guia de
  * usuario del instrumento.
 *******************************************************************************/
-void Osciloscopio::cbHelp(Fl_Widget* pboton, void *any){
+/*void Osciloscopio::cbHelp(Fl_Widget* pboton, void *any){
      Osciloscopio* posc=(Osciloscopio*)any;
      posc->cbHelpIn();
 }
 
-void Osciloscopio::cbHelpIn(){
+/*void Osciloscopio::cbHelpIn(){
      // manual->show();
-}
+}*/
 
 
 

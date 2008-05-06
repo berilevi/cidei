@@ -6,6 +6,7 @@
 #include "instrumento.h"                        //inheriting class's header file
 #include <FL/Fl_Group.H>                   
 #include "fl_Knob.h"
+#include <FL/Fl_Dial.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Repeat_Button.H>
 #include <Fl/fl_Light_Button.h>
@@ -48,7 +49,8 @@ class Canal : public Instrumento{
 		// Indicador luminoso del estado activo el acople dc del canal
         Fl_Box *oacopDc;
         // Perilla para ajustar la posición vertical de la señal.
-        Fl_Knob *oposx;
+        //Fl_Knob *oposx;
+        Fl_Dial *oposx;
    private:
         // Calback para la escala de 5 voltios por división
 		static void cbVdiv5(Fl_Widget*, void *);
