@@ -144,44 +144,56 @@ void Instrumento::Desencapsular(BYTE recibida []){
      switch (recibida [1]){
             case 'A':                                                    //Informacion Canal 1
                  if (recibida [2] == '1'){                               //Primer vector de datos para canal 1
+                   //for (icont = 4; icont < 132; icont++){              //**Para el vector de 512 datos**
                    for (icont = 4; icont < 147; icont++){
                         buf_osc_ch1[icont-4]=int(recibida[icont]);
                     }
                  }
                  else if (recibida [2] == '2'){                          //Segundo vector de datos para el canal 1
+                      //for (icont = 4; icont < 132; icont++){
                       for (icont = 4; icont < 147; icont++){
+                          //buf_osc_ch1[(icont-4)+128]=int(recibida[icont]);
                           buf_osc_ch1[(icont-4)+143]=int(recibida[icont]);
                       }
                  }
                  else if (recibida [2] == '3'){                           //Tercer vector de datos para el canal 1
                       for (icont = 4; icont < 147; icont++){
+                          //buf_osc_ch1[(icont-4)+256]=int(recibida[icont]);
                           buf_osc_ch1[(icont-4)+286]=int(recibida[icont]);
                       }
                  }
                  else if (recibida [2] == '4'){                           //Cuarto vector de datos para el canal 1
                       for (icont = 4; icont < 147; icont++){
+                          //buf_osc_ch1[(icont-4)+385]=int(recibida[icont]);
                           buf_osc_ch1[(icont-4)+429]=int(recibida[icont]);
                       }
                  }
             break;
             case 'B':                                                     //Informacion para Canal 2
                  if (recibida [2] == '1'){                                //Primer vector de datos para canal 2
+                    //for (icont = 4; icont < 132; icont++){
                     for (icont = 4; icont < 147; icont++){
                         buf_osc_ch2[icont-4]=int(recibida[icont]);
                     }
                  }
                  else if (recibida [2] == '2'){                           //Segundo vector de datos para canal 2
+                      //for (icont = 4; icont < 132; icont++){
                       for (icont = 4; icont < 147; icont++){
+                          //buf_osc_ch2[(icont-4)+128]=int(recibida[icont]);
                           buf_osc_ch2[(icont-4)+143]=int(recibida[icont]);
                       }
                  }
                  else if (recibida [2] == '3'){                           //Tercer vector de datos para canal 2
+                      //for (icont = 4; icont < 132; icont++){
                       for (icont = 4; icont < 147; icont++){
+                          //buf_osc_ch2[(icont-4)+256]=int(recibida[icont]);
                           buf_osc_ch2[(icont-4)+286]=int(recibida[icont]);
                       }
                  }
                  else if (recibida [2] == '4'){                           //Cuarto vector de datos para canal 2
+                      //for (icont = 4; icont < 132; icont++){
                       for (icont = 4; icont < 147; icont++){
+                          //buf_osc_ch2[(icont-4)+385]=int(recibida[icont]);
                           buf_osc_ch2[(icont-4)+429]=int(recibida[icont]);
                       }
                  } 

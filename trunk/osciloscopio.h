@@ -60,6 +60,7 @@ class Osciloscopio : public Instrumento{
         Canal *canal2;	
         //Botón para prender/apagar el osciloscopio.
         Fl_Light_Button *ooscOn;
+        //Fl_Button *ooscOn;
         //Botón para prender/apagar el canal 1.
 		Fl_Light_Button *och1On;
         //Botón para prender/apagar el canal 2.
@@ -113,8 +114,8 @@ class Osciloscopio : public Instrumento{
     	
    private: 
         //Callback del botón que activa la ayuda del instrumento
-        static void cbHelp(Fl_Widget*, void *);
-        inline void cbHelpIn();
+       // static void cbHelp(Fl_Widget*, void *);
+       // inline void cbHelpIn();
         //Callback del botón que activa el ajuste automático del instrumento
         static void cbAuto(Fl_Widget*, void *);
         inline void cbAutoIn();
