@@ -8,24 +8,28 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
              
      ncolor = ncolo;                                               //Color de la gráfica 
      ogroupCh = new Fl_Group (x,y,w,h,"");
-     ogroupCh->box(FL_ENGRAVED_FRAME);
+     //ogroupCh->box(FL_ENGRAVED_FRAME);
+     ogroupCh->box(FL_NO_BOX);
      ogroupCh->deactivate();
-     oposx = new Fl_Dial ((x+7),(y+88),40,40,"Y-Pos");            //Botón para modificar la posición vertical de la gráfica
+     oposx = new Fl_Dial ((x+7),(y+88),40,40,"");            //Botón para modificar la posición vertical de la gráfica
      oposx->labelsize(9);
      oposx->box(FL_NO_BOX);
      oposx->range(-100,100);
      oposx->step(1);
      oposx->round(1);
-     ovoltDiv = new Fl_Knob ((x+62),(y+67),80,80,"Vol-Div");      //Selector de escala de Voltios por División
+     //ovoltDiv = new Fl_Knob ((x+62),(y+67),80,80,"Vol-Div");      //Selector de escala de Voltios por División
+     ovoltDiv = new Fl_Dial ((x+62),(y+67),80,80,"");      //Selector de escala de Voltios por División
+     ovoltDiv->box(FL_NO_BOX);
      ovoltDiv->step(1);
      ovoltDiv->labelsize(9);
-     ovoltDiv->color(147);
-     ovoltDiv->type(8);
-     ovoltDiv->scaleticks(11);
+     //ovoltDiv->color(147);
+     //ovoltDiv->type(8);
+     //ovoltDiv->scaleticks(11);
      ovoltDiv->range(0,11);
      omenuvDiv = new Fl_Choice((x+58),(y+30),92,29,"");    //Menú de las escalas de Voltios por División
      omenuvDiv->labelsize(10);
      omenuvDiv->align(FL_ALIGN_TOP);
+     //omenuvDiv->color(Fl_Color(180));
      omenuvDiv->add("5",0,(Fl_Callback *)cbVdiv5,this);
      omenuvDiv->add("2",0,(Fl_Callback *)cbVdiv2,this);
      omenuvDiv->add("1",0,(Fl_Callback *)cbVdiv1,this);

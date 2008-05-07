@@ -33,7 +33,8 @@ class Canal : public Instrumento{
 		// class destructor
 		~Canal();
 		// Selector de la escala de voltios por división.
-		Fl_Knob *ovoltDiv;
+		//Fl_Knob *ovoltDiv;
+		Fl_Dial *ovoltDiv;
 		//Selector del acople.
 		Fl_Repeat_Button *oselAcople;
 		//Grupo de los diferentes botones y selectores que componen el canal.

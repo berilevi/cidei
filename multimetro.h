@@ -17,7 +17,8 @@
 #include <iostream>
 #include <string>
 
-
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Box.H>
 
 #include <windows.h> 
@@ -68,6 +69,10 @@ class Multimetro : public Instrumento
 		void setDispMult(char [4]);
 		//Agrupa los botones e indicadores del multímetro.
 	    Fl_Group *ogroup_mult;
+	    //Box para colocar la mascara del multímetro.
+	    Fl_Box *boxgroup;
+	    //Mascara del multímetro.
+	    Fl_PNG_Image *imultimetro;
 		// class constructor
 		Multimetro();
 		// class destructor
@@ -98,6 +103,8 @@ private:
         Fl_Check_Button *oayudaMult;
 		//Botón de activación del medidor de voltaje en ac.
 		Fl_Button *ovoltAc;
+		//Imagen del botón de voltaje ac.
+		Fl_PNG_Image *multVac;
 		//Botón de activación del medidor de voltaje en dc.
 	    Fl_Button *ovoltDc;
 	    //Botón de activación del medidor de corriente en ac.

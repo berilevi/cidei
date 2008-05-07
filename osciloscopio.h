@@ -19,6 +19,9 @@
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Box.H>
 
 #include <fstream>
 #include <math.h>
@@ -43,6 +46,10 @@ class Osciloscopio : public Instrumento{
 		~Osciloscopio();
         //Agrupa la pantalla, los 2 canales y los demas controles del osciloscopìo
         Fl_Group *ogroupOsc;
+        //
+        Fl_Box *oboxgroupOsc;
+        //Mascara del osciloscopio.
+	    Fl_PNG_Image *iosciloscopio;
         //Agrupa los controles de tiempo por división en el osciloscopio.
         Fl_Group *ogroupTdiv;
         //Agrupa los controles de seleccion de fuente y posición del trigger en el osciloscopio.
