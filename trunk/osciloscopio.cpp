@@ -48,15 +48,15 @@ Osciloscopio::Osciloscopio(){
     icont_datos = 0;
     
     iosciloscopio = new Fl_PNG_Image("osc.png");            
-    ogroupOsc = new Fl_Group (5,5,725,360,"");                   // Inicia el grupo de los elementos del osciloscopio
+    ogroupOsc = new Fl_Group (5,5,724,360,"");                   // Inicia el grupo de los elementos del osciloscopio
     ogroupOsc->box(FL_ENGRAVED_FRAME);                 
     ogroupOsc->box(FL_UP_BOX);
     ogroupOsc->deactivate();
     
-    oboxgroupOsc = new Fl_Box(4,12,725,360,"");
+    oboxgroupOsc = new Fl_Box(4,12,725,359,"");
                            
-    canal1 = new Canal(415,9,152,205,"",255);                     // Instancia de canal para crear el objeto canal 1
-    canal2 = new Canal(573,9,152,205,"",250);                     // Instancia de canal para crear el objeto canal 2
+    canal1 = new Canal(415,9,152,190,"",255);                     // Instancia de canal para crear el objeto canal 1
+    canal2 = new Canal(575,9,152,190,"",250);                     // Instancia de canal para crear el objeto canal 2
     
     och1On = new Fl_Light_Button(417,12,49,15,"ON");             // Botón para activar/desactivar el canal 1
     och1On->labelsize(10);
@@ -67,23 +67,24 @@ Osciloscopio::Osciloscopio(){
     //och2On->tooltip("Botón para activar o desactivar el uso del canal 2");
     
     
-    ogroupDual = new Fl_Group (415,330,200,30,"");              //Inicio del grupo de los controles de las operaciones en modo dual
-    ogroupDual->box(FL_ENGRAVED_FRAME);
+    ogroupDual = new Fl_Group (412,320,204,40,"");              //Inicio del grupo de los controles de las operaciones en modo dual
+    //ogroupDual->box(FL_ENGRAVED_FRAME);
+    ogroupDual->box(FL_NO_BOX);
     ogroupDual->deactivate();
-    odualMenu = new Fl_Repeat_Button(425,336,40,18,"Dual");      //Botón para seleccionar la operación dual suma resta o lissajous 
+    odualMenu = new Fl_Repeat_Button(440,331,51,16,"Dual");      //Botón para seleccionar la operación dual suma resta o lissajous 
     odualMenu->labelsize(10);
     odualMenu->deactivate();
     //odualMenu->tooltip("Botón para seleccionar la operación dual de las gráficas");
     
-    osuma = new Fl_Box(490,345,10,10,"Suma");                     // Indicador de la operación de suma de las dos señales
+    osuma = new Fl_Box(536,331,16,16,"Suma");                     // Indicador de la operación de suma de las dos señales
     osuma->labelsize(10);
     osuma->box(FL_ENGRAVED_BOX);
     osuma->align(FL_ALIGN_TOP);
-    oresta = new Fl_Box(530,345,10,10,"Resta");                   // Indicador de la operación de resta de las dos señales
+    oresta = new Fl_Box(559,331,16,16,"Resta");                   // Indicador de la operación de resta de las dos señales
     oresta->labelsize(10);
     oresta->box(FL_ENGRAVED_BOX);
     oresta->align(FL_ALIGN_TOP);
-    oxy = new Fl_Box(570,345,10,10,"XY");                       // Indicador de la operación x vs y 
+    oxy = new Fl_Box(584,331,16,16,"XY");                       // Indicador de la operación x vs y 
     oxy->labelsize(9);
     oxy->box(FL_ENGRAVED_BOX);
     oxy->align(FL_ALIGN_TOP);  
@@ -111,20 +112,22 @@ Osciloscopio::Osciloscopio(){
     ogrillaOn->labelsize(10);
     ogrillaOn->tooltip("Cuadricula");
     
-    ogroupTdiv = new Fl_Group (620,218,106,142,"");              //Inicia el grupo de los controles de tiempo por división
+    ogroupTdiv = new Fl_Group (622,203,100,156,"");              //Inicia el grupo de los controles de tiempo por división
     ogroupTdiv->box(FL_ENGRAVED_FRAME);
     ogroupTdiv->deactivate();
-    otiempoDiv = new Fl_Knob (635,270,78,78,"TDIV");            //Selector de la escala de tiempo por división
-    otiempoDiv->color(147);
-    otiempoDiv->type(8);
+    //otiempoDiv = new Fl_Knob (635,270,78,78,"TDIV");            //Selector de la escala de tiempo por división
+    otiempoDiv = new Fl_Dial (641,279,63,63,"");
+    //otiempoDiv->color(147);
+    otiempoDiv->box(FL_NO_BOX);
+    otiempoDiv->type(3);
     otiempoDiv->labelsize(9);
-    otiempoDiv->scaleticks(17);
+    //otiempoDiv->scaleticks(17);
     otiempoDiv->range(0,17);
     otiempoDiv->step(1);
     otiempoDiv->round(1);
     //otiempoDiv->tooltip("Selector de las escalas de tiempo por división del instrumento");
     
-    omenuTdiv = new Fl_Choice(628,225,95,26,"");                //Menú selector de la escala de tiempo por división
+    omenuTdiv = new Fl_Choice(628,226,90,22,"");                //Menú selector de la escala de tiempo por división
     omenuTdiv->add("0.5s",0,(Fl_Callback *)cbTdiv05s,this);
     omenuTdiv->add("0.2s",0,(Fl_Callback *)cbTdiv02s,this);            
     omenuTdiv->add("0.1s",0,(Fl_Callback *)cbTdiv01s,this);            
@@ -146,44 +149,43 @@ Osciloscopio::Osciloscopio(){
    
     ogroupTdiv->end();                                                   //Fin del grupo de controles de escala de tiempo por división
     
-    ogroupPos = new Fl_Group (415,218,100,110,"");                       //Inicio del grupo de controles de posición horizontal de las gráfica
-    ogroupPos->box(FL_ENGRAVED_FRAME);
+    ogroupPos = new Fl_Group (411,205,100,110,"");                       //Inicio del grupo de controles de posición horizontal de las gráfica
+    //ogroupPos->box(FL_ENGRAVED_FRAME);
+    ogroupPos->box(FL_NO_BOX);
     ogroupPos->deactivate();
-    oposy = new Fl_Knob (448,220,60,60,"XPos");                         //Perilla de dezplazamiento horizontal de las gráficas
-    oposy->color(180);
-    oposy->scaleticks(0);
-    oposy->cursor(40);
+    //oposy = new Fl_Knob (448,220,60,60,"XPos");                         //Perilla de dezplazamiento horizontal de las gráficas
+    oposy = new Fl_Dial (453,227,45,45,"");
+    oposy->box(FL_NO_BOX);
     oposy->labelsize(10);
     oposy->range(-100,100);
     //oposy->tooltip("Boton de posicionamiento horizontal de las gráficas");
     ogroupPos->end();                                                    //Fin del grupo de controles de posición horizontal de las gráficas    
     
-    ostop = new Fl_Light_Button(420,282,23,23,"");                        //Botón para detención de las gráficas
+    ostop = new Fl_Light_Button(419,282,23,22,"");                        //Botón para detención de las gráficas
     //ostop->label("@|>");
     //ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
     
-    ogroupTrigger = new Fl_Group (520,218,95,110,"");                    //Inicio del grupo de controles del trigger del instrumento        
-    ogroupTrigger->box(FL_ENGRAVED_FRAME);
+    ogroupTrigger = new Fl_Group (518,204,98,110,"");                    //Inicio del grupo de controles del trigger del instrumento        
+    //ogroupTrigger->box(FL_ENGRAVED_FRAME);
+    ogroupTrigger->box(FL_NO_BOX);
     ogroupTrigger->deactivate();
-    oselTrigger = new Fl_Repeat_Button(528,230,40,18,"Trigger");         //Botón para seleccionar el canal que es la fuente del disparo
+    oselTrigger = new Fl_Repeat_Button(541,213,50,14,"Trigger");         //Botón para seleccionar el canal que es la fuente del disparo
     oselTrigger->labelsize(10);
     //oselTrigger->tooltip("Botón para seleccionar el canal fuente del trigger");
         
-    otriggerCh1 = new Fl_Box(577,225,10,10,"Ch1");                       //Indicador de canal 1 fuente del trigger      
+    otriggerCh1 = new Fl_Box(527,234,26,15,"Ch1");                       //Indicador de canal 1 fuente del trigger      
     otriggerCh1->labelsize(10);
     otriggerCh1->box(FL_ENGRAVED_BOX);
     otriggerCh1->align(FL_ALIGN_RIGHT);
     
-    otriggerCh2 = new Fl_Box(577,245,10,10,"Ch2");                       //Indicador de canal 2 fuente del trigger
+    otriggerCh2 = new Fl_Box(579,234,26,15,"");                       //Indicador de canal 2 fuente del trigger
     otriggerCh2->labelsize(10);
     otriggerCh2->box(FL_ENGRAVED_BOX);
     otriggerCh2->align(FL_ALIGN_RIGHT);
     
-    onivelTrigger = new Fl_Knob (540,255,57,57,"Nivel");                 //Perilla para seleccionar el nivel del trigger
-    onivelTrigger->color(180);
-    onivelTrigger->scaleticks(0);
-    onivelTrigger->cursor(40);
-    onivelTrigger->labelsize(10);
+    //onivelTrigger = new Fl_Knob (540,255,57,57,"Nivel");                 //Perilla para seleccionar el nivel del trigger
+    onivelTrigger = new Fl_Dial (556,259,45,45,"");
+    onivelTrigger->box(FL_NO_BOX);
     onivelTrigger->range(0,10);
     ogroupTrigger->end();                                                // Fin del grupo de controles del trigger
                 
