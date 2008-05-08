@@ -9,6 +9,7 @@
 #include "canal.h"  
 #include "DispOsc.h"                         
 #include "fl_Knob.h"
+#include <FL/Fl_Dial.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Help_Dialog.h>
 #include <FL/Fl_Group.H>  
@@ -21,7 +22,6 @@
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_PNG_Image.H>
-#include <FL/Fl_Box.H>
 
 #include <fstream>
 #include <math.h>
@@ -88,11 +88,14 @@ class Osciloscopio : public Instrumento{
         //Fl_Check_Button *oayudaOsc;
         Fl_Button *oayudaOsc;
         //Selector de la escala de tiempo por división.
-        Fl_Knob *otiempoDiv;
+        //Fl_Knob *otiempoDiv;
+        Fl_Dial *otiempoDiv;
         //Perilla para el desplazamiento horizontal de la señal graficada.
-        Fl_Knob *oposy;
+        //Fl_Knob *oposy;
+        Fl_Dial *oposy;
         //Perilla de selección del nivel de disparo del trigger.
-        Fl_Knob *onivelTrigger;
+        //Fl_Knob *onivelTrigger;
+        Fl_Dial *onivelTrigger;
         //Pantalla del osciloscopio
 		Fl_Scope*  opantalla;
 		//Cuadricula de de la pantalla del osciloscopio. 
