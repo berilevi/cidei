@@ -28,11 +28,15 @@ Analizador::Analizador() {
     btrigger = 0;
     bmuestreando = 0;
     inum_datos_grafica = 400/igraf_datos;                          //Número de muestras graficadas por pantalla.
+    
+    ianaliza = new Fl_PNG_Image("analizador.png");  
      
     ogroup_ana = new Fl_Group(5,370,505,330,"");                   //Inicio del grupo de componentes del analizador
     ogroup_ana->box(FL_ENGRAVED_FRAME);
     ogroup_ana->box(FL_UP_BOX);
     ogroup_ana->deactivate(); 
+    
+    oboxAna = new Fl_Box(5,377,505,330,"");
      
     apantallaCh1 = new Fl_Scope(20,420,400,34,"");                // Canal 1
     apantallaCh2 = new Fl_Scope(20,452,400,34,"");                // Canal 2
@@ -49,6 +53,7 @@ Analizador::Analizador() {
     ogrilla->bgrilla_analizador= 0;
     
     oscroll = new Fl_Scrollbar(10,680,420,10,"");                  //Scroll que posiciona el cursor. 
+   // oscroll = new Fl_Slider(10,680,420,10,"");
     oscroll->type(FL_HORIZONTAL);
     oscroll->range(0,19);
     oscroll->linesize(1);
@@ -161,6 +166,8 @@ Analizador::Analizador() {
     otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger");      //Botón que saca la ventana de configuración del trigger
     otrigger_on->labelsize(15);
     
+    oboxAna->image(ianaliza);
+    
     //manualAnalizador = new Fl_Help_Dialog;
     //manualAnalizador->load("help_analizador.html");                                                    
           
@@ -181,10 +188,10 @@ Analizador::Analizador() {
     
     ogroup_trigger->end();                                           //Fin del grupo de elementos de configuración del trigger
         
-    obox_nombre = new Fl_Box(12,375,223,30,"ANALIZADOR LÓGICO");
+    /*obox_nombre = new Fl_Box(12,375,223,30,"ANALIZADOR LÓGICO");
     obox_nombre->box(FL_ENGRAVED_FRAME);
     obox_nombre->labelfont(FL_HELVETICA_BOLD);
-    obox_nombre->labelsize(20);
+    obox_nombre->labelsize(20);*/
     
     oana_on = new Fl_Light_Button(240,375,38,30,"ON");               //Botón para prender o apagar el instrumento
     oana_on->labelsize(9);

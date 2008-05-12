@@ -4,6 +4,7 @@
 #define GENERADOR_H
 
 #include "instrumento.h"                    //Inheriting class's header file
+#include <FL/Fl.H>
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <Fl/fl_Button.h>
@@ -15,9 +16,13 @@
 #include <FL/Fl_Value_Input.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Output.H>
-#include <FL/Fl_Box.H>
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_PNG_Image.H>
 #include <math.h>
+#include <windows.H>
 
+using namespace std;
+ 
 //Factor por el que se debe multiplicar el valor del botón de frecuencia para 
 //obtener el valor en la escala del chip generador de señales.
 #define FACTOR 0.18626451561698509610066226162263                       
@@ -46,6 +51,10 @@ class Generador : public Instrumento
 		char offsetHexa [8];
         //Grupo de los botones e indicadores del generador de señales
 		Fl_Group *ogroupGenerador;
+		//Box para colocar la mascara del generador.
+	    Fl_Box *boxgroupgen;
+	    //Mascara del generador de señales.
+	    Fl_PNG_Image *igen;
 		//Grupo de los botones para ajustar la frecuencia de la señal generada
 		Fl_Group *ogroupFrecuencia;
 		//Grupo de los botones e indicadores para seleccionar la señal generada
