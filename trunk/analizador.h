@@ -20,14 +20,18 @@
 #include "mensajes.h"
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Shared_Image.H>
-#include <FL/Fl_JPEG_Image.H>
+//#include <FL/Fl_JPEG_Image.H>
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Value_Slider.H>
+#include <FL/Fl_Slider.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Help_Dialog.h>
+//#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_PNG_Image.H>
+//#include <FL/Fl_Box.H>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -35,6 +39,7 @@
 #include <stdlib.h>
 #include <string>
 #include <math.h>
+#include <windows.h> 
 
 #define TAM_ALMACENADO 40
 #define ESPERA_TRIGGER 20
@@ -96,6 +101,10 @@ class Analizador : public Instrumento {
         Fl_Spinner *oselector;
         //Agrupa los botones e indicadores del analizador
 	    Fl_Group *ogroup_ana;
+	    //Box para colocar la mascara del multímetro.
+	    Fl_Box *oboxAna;
+	    //Mascara del analizador.
+	    Fl_PNG_Image *ianaliza;
 	    //Contiene el nombre del instrumento
 	    Fl_Box *obox_nombre;
         //Botón para prender/apagar el instrumento analizador
@@ -116,6 +125,7 @@ class Analizador : public Instrumento {
         Fl_Choice *ofrec_muestreo;
         //Scroll para desplazar los datos graficados.  
         Fl_Scrollbar *oscroll;
+        //Fl_Slider *oscroll;
         //Botón para desplazar la grafica horizontalmente  
         Fl_Knob *odes_horizontal;
 	    //Agrupa las herramientas e indicadores del analizador

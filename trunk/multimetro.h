@@ -5,7 +5,6 @@
 
 #include "instrumento.h" // inheriting class's header file
 #include "Fl_7Seg.H"     // inheriting class's header file
-//#include "SevenSegment.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
