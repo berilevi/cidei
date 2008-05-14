@@ -50,11 +50,11 @@ int main (int argc, char ** argv)
   int f =0;
   int rc, rc2, rc3, rc4;
   
-  window = new Fl_Double_Window (0,0,1024, 708);
+  window = new Fl_Double_Window (0,0,1024,708);
   //window->color(Fl_Color());
   ana = new Analizador();
   mult = new Multimetro();
-  //gene = new Generador();
+  gene = new Generador();
   //manuales = new Fl_Help_Dialog;
   
 
