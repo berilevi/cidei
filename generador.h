@@ -10,7 +10,7 @@
 #include <Fl/fl_Button.h>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Repeat_Button.H>
-#include "Fl_7Seg.H"                        //Class's header file
+//#include "Fl_7Seg.H"                        //Class's header file
 #include "fl_Knob.h"
 #include <FL/Fl_Counter.H>
 #include <FL/Fl_Value_Input.H>
@@ -68,7 +68,8 @@ class Generador : public Instrumento
 		//Botón para prender el instrumento generador de señales.
 		Fl_Light_Button *ogenOn;
 		//Display del generador donde se visualiza el valor de frecuencia configurado.
-		Fl_7Seg *odispGen;
+	//	Fl_7Seg *odispGen;
+		Fl_Box * odisplayGen;
 		//Botón que habilita la ayuda al usuario sobre el manejo del instrumento.
         Fl_Button *ohelpGen;
         //Botón de seleccion de tipo de señal seno.
