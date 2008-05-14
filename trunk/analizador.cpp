@@ -52,8 +52,7 @@ Analizador::Analizador() {
     ogrilla = new grid(18,420,400,255,"");                         //Grilla del analizador
     ogrilla->bgrilla_analizador= 0;
     
-    oscroll = new Fl_Scrollbar(10,680,420,10,"");                  //Scroll que posiciona el cursor. 
-    //oscroll = new Fl_Slider(10,680,420,10,"");
+    oscroll = new Fl_Scrollbar(10,685,420,10,"");                  //Scroll que posiciona el cursor. 
     oscroll->type(FL_HORIZONTAL);
     oscroll->range(0,19);
     oscroll->linesize(1);
@@ -154,17 +153,17 @@ Analizador::Analizador() {
     omuestrear_on = new Fl_Light_Button(430,560,70,30,"Capturar");   //Botón que inicia el muestreo y captura de las señales.
     omuestrear_on->labelsize(13);
     
-    orep_dato = new Fl_Choice(430,620,70,20,"");                     //Menú de las representaciones numericas del dato señalado por el cursor
+    orep_dato = new Fl_Choice(422,645,83,22,"");                     //Menú de las representaciones numericas del dato señalado por el cursor
     orep_dato->add("Decimal");
     orep_dato->add("Binario");
     orep_dato->add("Hexadecimal");
     
-    odato1 = new Fl_Output(430,645,70,25,"");                        //Cuadro de texto con la representación numerica del dato señalado por el cursor
+    odato1 = new Fl_Output(430,670,70,20,"");                        //Cuadro de texto con la representación numerica del dato señalado por el cursor
     odato1->textsize(12);
     
         
-    otrigger_on = new Fl_Light_Button(430,595,70,20,"Trigger");      //Botón que saca la ventana de configuración del trigger
-    otrigger_on->labelsize(15);
+    otrigger_on = new Fl_Light_Button(430,620,40,18,"Trigger");      //Botón que saca la ventana de configuración del trigger
+    otrigger_on->labelsize(10);
     
     oboxAna->image(ianaliza);
     

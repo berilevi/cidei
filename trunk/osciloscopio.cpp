@@ -209,9 +209,9 @@ Osciloscopio::Osciloscopio(){
     
     
     ogrilla = new grid(7,43,400,320,"");                                 //Instancia de la cuadricula para la pantalla 
-    ogrilla->banalizador_on = 0;                                          //En cero para que no se active la grilla del analizador
+    ogrilla->banalizador_on = 0;                                         //En cero para que no se active la grilla del analizador
     
-    /*oboxNombre = new Fl_Box(15,8,175,30,"");                 //Cuadro para colocar el nombre del instrumento
+    /*oboxNombre = new Fl_Box(15,8,175,30,"");                           //Cuadro para colocar el nombre del instrumento
     oboxNombre->box(FL_ENGRAVED_FRAME);
     oboxNombre->labelfont(FL_HELVETICA_BOLD);
     oboxNombre->labelsize(20);*/
@@ -283,15 +283,15 @@ void Osciloscopio::cbOscOnIn(){
             canal1->activar(1);
             canal1->oposx->value(0);
             canal1->ogroupCh->activate();
-            canal1->ogroupCh->box(FL_UP_BOX);
-            ogroupTdiv->box(FL_UP_BOX);
-            ogroupTrigger->box(FL_UP_BOX);
+            //canal1->ogroupCh->box(FL_UP_BOX);
+            //ogroupTdiv->box(FL_UP_BOX);
+            //ogroupTrigger->box(FL_UP_BOX);
             otriggerCh1->color(FL_RED);
             otriggerCh1->redraw();
             btrigger1 = 1;
             isec_trigger = 1;
-            ogroupPos->box(FL_UP_BOX);
-            ogroupDual->box(FL_UP_BOX);
+            //ogroupPos->box(FL_UP_BOX);
+            //ogroupDual->box(FL_UP_BOX);
             otiempoDiv->value(8);
             omenuTdiv->value(8);
             canal1->ovoltDiv->value(0);
@@ -318,10 +318,10 @@ void Osciloscopio::cbOscOnIn(){
       if (ooscOn->value()== 0){                                 //Presionar el botón para apagar el instrumento
          Fl::remove_timeout(cbTimer, this);                     //Terminar el timer de solicitud de datos uno a uno 
          Fl::remove_timeout(cbTimerVectores, this);            //Terminar el timer de solicitud de datos por vectores
-         ogroupTdiv->box(FL_ENGRAVED_BOX);
-         ogroupTrigger->box(FL_ENGRAVED_BOX);
-         ogroupPos->box(FL_ENGRAVED_BOX);
-         ogroupDual->box(FL_ENGRAVED_BOX);
+         ogroupTdiv->box(FL_NO_BOX);
+         ogroupTrigger->box(FL_NO_BOX);
+         ogroupPos->box(FL_NO_BOX);
+         ogroupDual->box(FL_NO_BOX);
          oayudaOsc->value(0);
          Encapsular('A','b','1','0',0x00,0x00);                  //Trama para apagar el canal 1
          opantalla->bch1 = 0;
@@ -330,7 +330,7 @@ void Osciloscopio::cbOscOnIn(){
             och1On->value(0);
             canal1->activar(0);
             canal1->~Canal();
-            canal1->ogroupCh->box(FL_ENGRAVED_BOX);
+            canal1->ogroupCh->box(FL_NO_BOX);
             canal1->ogroupCh->deactivate();
          }
          else {
@@ -343,7 +343,7 @@ void Osciloscopio::cbOscOnIn(){
            och2On->value(0);
            canal2->activar(0);
            canal2->~Canal();
-           canal2->ogroupCh->box(FL_ENGRAVED_BOX);
+           canal2->ogroupCh->box(FL_NO_BOX);
            canal2->ogroupCh->deactivate();
            odualMenu->deactivate();
          }
@@ -481,7 +481,7 @@ void Osciloscopio::cbCh1OnIn(){
         if (bhardware){
            canal1->activar(1);
            canal1->ogroupCh->activate();
-           canal1->ogroupCh->box(FL_UP_BOX);
+           //canal1->ogroupCh->box(FL_UP_BOX);
            opantalla->bch1 = 1;
            strcpy(odispOsc1->cacople,"AC");
            strcpy(odispOsc1->ccanal,"Ch1");
@@ -575,7 +575,7 @@ void Osciloscopio::cbCh2OnIn(){
         if (bhardware){
            canal2->activar(1);
            canal2->ogroupCh->activate();
-           canal2->ogroupCh->box(FL_UP_BOX);
+           //canal2->ogroupCh->box(FL_UP_BOX);
            canal2->oacopAc->color(FL_RED);
            canal2->oacopAc->redraw();
            isec_acople2 = 1;
@@ -1145,6 +1145,7 @@ void Osciloscopio::cbPosyIn(Fl_Widget* psel){
      opantalla->redraw(); 
      odispOsc1->redraw();
      odispOsc2->redraw(); 
+     oboxgroupOsc->redraw();
 }
 
 /*******************************************************************************
