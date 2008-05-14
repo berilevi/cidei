@@ -53,7 +53,7 @@ Analizador::Analizador() {
     ogrilla->bgrilla_analizador= 0;
     
     oscroll = new Fl_Scrollbar(10,680,420,10,"");                  //Scroll que posiciona el cursor. 
-   // oscroll = new Fl_Slider(10,680,420,10,"");
+    //oscroll = new Fl_Slider(10,680,420,10,"");
     oscroll->type(FL_HORIZONTAL);
     oscroll->range(0,19);
     oscroll->linesize(1);
