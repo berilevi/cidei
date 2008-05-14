@@ -21,13 +21,14 @@ Generador::Generador(){
 	ogroupGenerador = new Fl_Group (515,370,505,330,"");                       //Inicio de grupo de objetos que hacen parte del generador
 	ogroupGenerador->box(FL_UP_BOX);
 	ogroupGenerador->deactivate();
-	odispGen = new Fl_7Seg(520,410,320,100,"");                                //Display 7 segmentos donde se visualiza la frecuencia configurada 
+	/*odispGen = new Fl_7Seg(520,410,320,100,"");                                //Display 7 segmentos donde se visualiza la frecuencia configurada 
     odispGen->box(FL_EMBOSSED_FRAME);
     odispGen->color(FL_BLACK);
     odispGen->thickness(5);
     odispGen->dot_len(5);
-    odispGen->align_text(FL_ALIGN_RIGHT);
-    odispGen->value("000.0");
+    odispGen->align_text(FL_ALIGN_RIGHT);*/
+    //odispGen->value("000.0");
+    odisplayGen = new Fl_Box(520,410,320,100,"");
     omHz = new Fl_Box(843,420,10,10,"mHz");                                     //Indicador de escala de miliHertz
     omHz->labelsize(10);
     omHz->box(FL_ENGRAVED_BOX);
@@ -305,7 +306,8 @@ void Generador::cbFrecGenIn(){
      itoa(ofrecGen->value(),cfrecuencia,10);                                  
      //odispGen->value(cfrecuencia);
      sprintf(pruebafrec, "%.6g", ofrecGen->value()); //Valor de la frecuencia guardado en formato de 6 decimales.                         
-     odispGen->value(pruebafrec);
+     //odispGen->value(pruebafrec);
+     odisplayGen->label(pruebafrec);
      itoa(ifrechardware,frecHexa,16);                //Conversión del valor entero en una cadena de caracteres con el valor hexadecimal.    
      ilong = strlen(frecHexa);
      for (int icont = 8; icont > 0; icont --){        //Ciclo para encapsular el valor de frecuencia configurado en la trama para enviar la hardware.
@@ -478,7 +480,7 @@ void Generador::cbFrec1In(Fl_Widget* psel){
      ofrecGen->value(0);
      ofrecGen2->range(0,0.1);
      ofrecGen2->value(0);
-     odispGen->value("0.0");
+     //odispGen->value("0.0");
 }
 
 void Generador::cbFrec100(Fl_Widget* psel, void *pany){
@@ -494,7 +496,7 @@ void Generador::cbFrec100In(Fl_Widget* psel){
      ofrecGen2->range(0,10);
      ofrecGen2->step(0.1);
      ofrecGen2->value(0);
-     odispGen->value("0.0");
+     //odispGen->value("0.0");
 }
 
 
@@ -511,7 +513,7 @@ void Generador::cbFrec500In(Fl_Widget* psel){
      ofrecGen2->range(0,50);
      ofrecGen2->step(0.1);
      ofrecGen2->value(0);
-     odispGen->value("0.0");
+     //odispGen->value("0.0");
 }
 
 
@@ -528,7 +530,7 @@ void Generador::cbFrec1kIn(Fl_Widget* psel){
      ofrecGen2->range(0,100);
      ofrecGen2->step(0.1);
      ofrecGen2->value(0);
-     odispGen->value("0.0");
+     //odispGen->value("0.0");
 }
 
 void Generador::cbFrec100k(Fl_Widget* psel, void *pany){
@@ -544,7 +546,7 @@ void Generador::cbFrec100kIn(Fl_Widget* psel){
      ofrecGen2->range(0,100);
      ofrecGen2->step(0.1);
      ofrecGen2->value(0);
-     odispGen->value("0.0");
+     //odispGen->value("0.0");
 }
 
 void Generador::cbFrec500k(Fl_Widget* psel, void *pany){
@@ -560,7 +562,7 @@ void Generador::cbFrec500kIn(Fl_Widget* psel){
      ofrecGen2->range(0,500);
      ofrecGen2->step(0.1);
      ofrecGen2->value(0);
-     odispGen->value("0.0");
+     //odispGen->value("0.0");
 }
 
 void Generador::cbFrec1m(Fl_Widget* psel, void *pany){
@@ -576,7 +578,7 @@ void Generador::cbFrec1mIn(Fl_Widget* psel){
      ofrecGen2->range(0,1000);
      ofrecGen2->step(0.1);
      ofrecGen2->value(0);
-     odispGen->value("0.0");
+     //odispGen->value("0.0");
 }
 
 
