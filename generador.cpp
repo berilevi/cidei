@@ -17,18 +17,23 @@ char cfrecuencia [9];                        // Cadena de caracteres con el valo
 *******************************************************************************/
 Generador::Generador(){
 
-    //igen = new Fl_PNG_Image("generador.png");                   
+    igen = new Fl_PNG_Image("generador.png");                   
 	ogroupGenerador = new Fl_Group (515,370,505,330,"");                       //Inicio de grupo de objetos que hacen parte del generador
 	ogroupGenerador->box(FL_UP_BOX);
 	ogroupGenerador->deactivate();
-	/*odispGen = new Fl_7Seg(520,410,320,100,"");                                //Display 7 segmentos donde se visualiza la frecuencia configurada 
+	boxgroupgen = new Fl_Box(515,377,505,330,"");
+	/*odispGen = new Fl_7Seg(520,410,320,100,"");                              //Display 7 segmentos donde se visualiza la frecuencia configurada 
     odispGen->box(FL_EMBOSSED_FRAME);
     odispGen->color(FL_BLACK);
     odispGen->thickness(5);
     odispGen->dot_len(5);
     odispGen->align_text(FL_ALIGN_RIGHT);*/
     //odispGen->value("000.0");
-    odisplayGen = new Fl_Box(520,410,320,100,"");
+    odisplayGen = new Fl_Box(520,410,320,100,"0.000");
+    odisplayGen->labelsize(80);
+    odisplayGen->labelcolor(FL_WHITE);
+    odisplayGen->box(FL_FLAT_BOX);
+    odisplayGen->color(FL_BLACK);
     omHz = new Fl_Box(843,420,10,10,"mHz");                                     //Indicador de escala de miliHertz
     omHz->labelsize(10);
     omHz->box(FL_ENGRAVED_BOX);
@@ -112,6 +117,8 @@ Generador::Generador(){
     ooffset->range(-5,5);
     odispOffset = new Fl_Output(660,650,70,20,"");                             //Display de nivel de offset
     ogroupOffset->end();                                                       //Fin del grupo de controles de nivel de offset
+    
+    //boxgroupgen->image(igen);
     
  	ogroupGenerador-> end();                                                   //Fin del grupo de controles del generador
 	
