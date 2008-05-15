@@ -165,7 +165,7 @@ Analizador::Analizador() {
     otrigger_on = new Fl_Light_Button(430,620,40,18,"Trigger");      //Botón que saca la ventana de configuración del trigger
     otrigger_on->labelsize(10);
     
-    oboxAna->image(ianaliza);
+    //oboxAna->image(ianaliza);
     
     //manualAnalizador = new Fl_Help_Dialog;
     //manualAnalizador->load("help_analizador.html");                                                    
