@@ -11,19 +11,20 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      //ogroupCh->box(FL_ENGRAVED_FRAME);
      ogroupCh->box(FL_NO_BOX);
      ogroupCh->deactivate();
-     oposx = new Fl_Dial ((x+7),(y+88),40,40,"");            //Botón para modificar la posición vertical de la gráfica
+     oposx = new Fl_Dial ((x+4),(y+87),42,42,"");            //Botón para modificar la posición vertical de la gráfica
      oposx->labelsize(9);
      oposx->box(FL_NO_BOX);
      oposx->range(-100,100);
      oposx->step(1);
      oposx->round(1);
      //ovoltDiv = new Fl_Knob ((x+62),(y+67),80,80,"Vol-Div");      //Selector de escala de Voltios por División
-     ovoltDiv = new Fl_Dial ((x+62),(y+67),80,80,"");      //Selector de escala de Voltios por División
+     ovoltDiv = new Fl_Dial ((x+69),(y+77),62,62,"");      //Selector de escala de Voltios por División
      ovoltDiv->box(FL_NO_BOX);
+     ovoltDiv->angles(30,330);
      ovoltDiv->step(1);
      ovoltDiv->labelsize(9);
-     //ovoltDiv->color(147);
-     //ovoltDiv->type(8);
+     ovoltDiv->color(147);
+     ovoltDiv->type(8);
      //ovoltDiv->scaleticks(11);
      ovoltDiv->range(0,11);
      omenuvDiv = new Fl_Choice((x+55),(y+34),91,21,"");    //Menú de las escalas de Voltios por División
