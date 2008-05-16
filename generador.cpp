@@ -29,57 +29,63 @@ Generador::Generador(){
     odispGen->dot_len(5);
     odispGen->align_text(FL_ALIGN_RIGHT);*/
     //odispGen->value("000.0");
-    odisplayGen = new Fl_Box(520,410,320,100,"0.000");
+    odisplayGen = new Fl_Box(522,408,320,100,"0.000");
     odisplayGen->labelsize(80);
     odisplayGen->labelcolor(FL_WHITE);
     odisplayGen->box(FL_FLAT_BOX);
     odisplayGen->color(FL_BLACK);
-    omHz = new Fl_Box(843,420,10,10,"mHz");                                     //Indicador de escala de miliHertz
+    omHz = new Fl_Box(861,416,25,13,"");                                     //Indicador de escala de miliHertz
     omHz->labelsize(10);
     omHz->box(FL_ENGRAVED_BOX);
     omHz->align(FL_ALIGN_RIGHT);
-    oHz = new Fl_Box(843,450,10,10,"Hz");                                       //Indicador de escala de Hertz
+    oHz = new Fl_Box(861,449,25,13,"");                                       //Indicador de escala de Hertz
     oHz->labelsize(10);
     oHz->box(FL_ENGRAVED_BOX);
     oHz->align(FL_ALIGN_RIGHT);
-    oMeHz = new Fl_Box(843,480,10,10,"MHz");                                    //Indicador de escala de MegaHertz
+    oMeHz = new Fl_Box(861,481,25,13,"");                                    //Indicador de escala de MegaHertz
     oMeHz->labelsize(10);
     oMeHz->box(FL_ENGRAVED_BOX);
     oMeHz->align(FL_ALIGN_RIGHT);
-    ohelpGen  = new Fl_Button (825,382,40,18,"Help");                          //Botón que inicia la ayuda de uso del instrumento
+    ohelpGen  = new Fl_Button (520,375,412,28,"");                          //Botón que inicia la ayuda de uso del instrumento
     ohelpGen->labelsize(10);
     
-    ogroupSenal = new Fl_Group (755,520,120,170,"");                           //Inicio del grupo de botones de selección de tipo de señal
-    ogroupSenal->box(FL_ENGRAVED_BOX);
-	ogroupSenal->deactivate();
-    oseno = new Fl_Button(780,540,70,35,"Seno");                                //Botón de selección de señal seno.
+    ogroupSenal = new Fl_Group (778,512,122,180,"");                           //Inicio del grupo de botones de selección de tipo de señal
+    //ogroupSenal->box(FL_ENGRAVED_FRAME);
+	ogroupSenal->box(FL_NO_BOX);
+    ogroupSenal->deactivate();
+    oseno = new Fl_Button(798,540,78,25,"Seno");                                //Botón de selección de señal seno.
     oseno->labelsize(12);
-    ocuadrada = new Fl_Button(780,585,70,35,"Cuadrada");                        //Botón de selección de señal cuadrada.
+    ocuadrada = new Fl_Button(798,598,78,25,"Cuadrada");                        //Botón de selección de señal cuadrada.
     ocuadrada->labelsize(12);
-    otriangulo = new Fl_Button(780,635,70,35,"Triangulo");                      //Botón de selección de señal triángulo.
+    otriangulo = new Fl_Button(798,656,78,25,"Triangulo");                      //Botón de selección de señal triángulo.
     otriangulo->labelsize(12);
     ogroupSenal->end();                                                        //Fin del grupo de botones selctores de tipo de señal.
     
-    ogroupFrecuencia = new Fl_Group (885,380,130,310,"");                      //Inicio del grupo de botones de configuración de frecuencia.
-    ogroupFrecuencia->box(FL_ENGRAVED_BOX);
+    ogroupFrecuencia = new Fl_Group (905,406,110,286,"");                      //Inicio del grupo de botones de configuración de frecuencia.
+    //ogroupFrecuencia->box(FL_ENGRAVED_FRAME);
+    ogroupFrecuencia->box(FL_NO_BOX);
 	ogroupFrecuencia->deactivate();
-    ofrecGen = new Fl_Knob (900,440,100,100,"Frecuencia");                     //Ajuste grueso de frecuencia.
-    ofrecGen->color(147);
+    //ofrecGen = new Fl_Knob (900,440,100,100,"Frecuencia");                     //Ajuste grueso de frecuencia.
+    ofrecGen = new Fl_Dial (958,502,42,42,"");
+    //ofrecGen->color(147);
+    ofrecGen->box(FL_NO_BOX);
     ofrecGen->type(8);
-    ofrecGen->scaleticks(0);
+    //ofrecGen->scaleticks(0);
     ofrecGen->labelsize(9);
     ofrecGen->step(0.1);
     ofrecGen->range(0,1);
     
-    ofrecGen2 = new Fl_Knob (915,565,70,70,"Ajuste Fino");                     //Ajuste fino de frecuencia.
+    //ofrecGen2 = new Fl_Knob (915,565,70,70,"Ajuste Fino");                     //Ajuste fino de frecuencia.
+    ofrecGen2 = new Fl_Dial (958,600,42,42,"");
     ofrecGen2->color(147);
+    ofrecGen2->box(FL_NO_BOX);
     ofrecGen2->type(8);
-    ofrecGen2->scaleticks(0);
+    //ofrecGen2->scaleticks(0);
     ofrecGen2->labelsize(9);
     ofrecGen2->step(0.01);
     ofrecGen2->range(0,1);
     
-    oescalaFrecuencia = new Fl_Choice(890,410,120,20,"Rango");                 //Menú de escalas de frecuencia
+    oescalaFrecuencia = new Fl_Choice(920,430,80,20,"");                 //Menú de escalas de frecuencia
     oescalaFrecuencia->labelsize(13);
     oescalaFrecuencia->align(FL_ALIGN_TOP);
     oescalaFrecuencia->add("1 Hz",0,(Fl_Callback *)cbFrec1,this);             
@@ -90,44 +96,50 @@ Generador::Generador(){
     oescalaFrecuencia->add("500 KHz",0,(Fl_Callback *)cbFrec500k,this);
     oescalaFrecuencia->add("1 MHz",0,(Fl_Callback *)cbFrec1m,this);
        
-    ovalorFrec = new Fl_Value_Input(900,655,100,25,"");                        //Caja de texto para configurar por teclado el valor de frecuencia
+    ovalorFrec = new Fl_Value_Input(920,655,90,20,"");                        //Caja de texto para configurar por teclado el valor de frecuencia
     ovalorFrec->type(FL_FLOAT_INPUT);
     ogroupFrecuencia->end();                                                   //Fin del grupo de controles de frecuencia
     
-    ogroupAmplitud = new Fl_Group (525,520,110,170,"");                        //Inicio del grupo de controles de amplitud
-    ogroupAmplitud->box(FL_ENGRAVED_BOX);
+    ogroupAmplitud = new Fl_Group (521,513,123,180,"");                        //Inicio del grupo de controles de amplitud
+    //ogroupAmplitud->box(FL_ENGRAVED_FRAME);
+    ogroupAmplitud->box(FL_NO_BOX);
 	ogroupAmplitud->deactivate();
-    oamplitud = new Fl_Knob (540,550,80,80,"Amplitud");                         //Botón de ajuste de la amplitud de la señal
+    //oamplitud = new Fl_Knob (540,556,62,62,"Amplitud");                         //Botón de ajuste de la amplitud de la señal
+    oamplitud = new Fl_Dial (552,556,62,62,"");
     oamplitud->color(180);
+    oamplitud->box(FL_NO_BOX);
     oamplitud->type(8); 
-    oamplitud->scaleticks(0);
+    //oamplitud->scaleticks(0);
     oamplitud->labelsize(11);
     oamplitud->range(0,5);
     odispAmplitud = new Fl_Output(545,650,70,20,"");                           //Display del valor de la amplitud.
     ogroupAmplitud->end();                                                     //Fin del grupo de controles de amplitud
     
-    ogroupOffset = new Fl_Group (640,520,110,170,"");                          //Inicio del grupo de controles de nivel de offset
-    ogroupOffset->box(FL_ENGRAVED_BOX);
+    ogroupOffset = new Fl_Group (650,513,124,180,"");                          //Inicio del grupo de controles de nivel de offset
+    //ogroupOffset->box(FL_ENGRAVED_FRAME);
+    ogroupOffset->box(FL_NO_BOX);
 	ogroupOffset->deactivate();
-    ooffset = new Fl_Knob (655,550,80,80,"Offset");                             //Perilla de ajuste de nivel de offset.
+    //ooffset = new Fl_Knob (655,550,80,80,"Offset");                             //Perilla de ajuste de nivel de offset.
+    ooffset = new Fl_Dial (682,556,62,62,"");
     ooffset->color(180);
+    ooffset->box(FL_NO_BOX);
     ooffset->type(8);
-    ooffset->scaleticks(0); 
+    //ooffset->scaleticks(0); 
     ooffset->labelsize(11);
     ooffset->range(-5,5);
     odispOffset = new Fl_Output(660,650,70,20,"");                             //Display de nivel de offset
     ogroupOffset->end();                                                       //Fin del grupo de controles de nivel de offset
     
-    //boxgroupgen->image(igen);
+    boxgroupgen->image(igen);
     
  	ogroupGenerador-> end();                                                   //Fin del grupo de controles del generador
 	
-	oboxNombre = new Fl_Box(520,375,254,30,"GENERADOR DE SEÑALES");            
+	/*oboxNombre = new Fl_Box(520,375,254,30,"");            
     oboxNombre->box(FL_ENGRAVED_FRAME);
     oboxNombre->labelfont(FL_HELVETICA_BOLD);
-    oboxNombre->labelsize(19);
+    oboxNombre->labelsize(19);*/
 	
-	ogenOn = new Fl_Light_Button(780,375,38,30,"ON");                          //Botón para prender/apagar el generador  
+	ogenOn = new Fl_Light_Button(938,375,35,28,"ON");                          //Botón para prender/apagar el generador  
     ogenOn->labelsize(9);     
     
     // Callbacks de los botones del generador de señales

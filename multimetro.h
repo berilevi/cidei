@@ -63,7 +63,8 @@ class Multimetro : public Instrumento
 		//Variable representa el valor de la medición realizada con algun instrumento del multímetro
 		char cvalor[7];
 		//Display del multímetro donde el usuario observa el resultado de la medición.
-		Fl_7Seg *odispMult;
+		//Fl_7Seg *odispMult;
+		Fl_Box *odispMult;
 		// Método para colocar el valor de la medición en el display.
 		void setDispMult(char [4]);
 		//Agrupa los botones e indicadores del multímetro.

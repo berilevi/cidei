@@ -28,13 +28,20 @@ Multimetro::Multimetro(){
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
     boxgroup = new Fl_Box(735,12,285,360,"");
-    odispMult  = new Fl_7Seg (738,42,230,99);                                   //Display del multímetro
+    /*odispMult  = new Fl_7Seg (738,42,230,99);                                   //Display del multímetro
     odispMult->color(FL_BLACK);
     odispMult->thickness(5);
     odispMult->dot_len(7);
     odispMult->align_text(FL_ALIGN_RIGHT);
     odispMult->segment_gap(2);
-    odispMult->value("00.0");
+    odispMult->value("00.0");*/
+    
+    odispMult  = new Fl_Box (738,42,230,99,"0.00");
+    odispMult->box(FL_FLAT_BOX);
+    odispMult->color(FL_BLACK);
+    odispMult->labelcolor(FL_WHITE);
+    odispMult->labelsize(80);
+    
     ounidades = new Fl_Box (968,42,50,99,"VAC");                                //Display de las unidades de medida
     ounidades->labelsize(20);
     ounidades->labelcolor(FL_WHITE);
@@ -145,7 +152,8 @@ void Multimetro::cbMultOnIn(){
 * svalor : Cadena de caracteres con el valor de la medición realizada
 *******************************************************************************/
 void Multimetro::setDispMult(char svalor [4]){
-     odispMult->value((svalor));       
+    // odispMult->value((svalor));
+    odispMult->label((svalor));       
 }
 
 /*******************************************************************************
