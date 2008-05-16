@@ -6,6 +6,7 @@
 #include "instrumento.h" // inheriting class's header file
 #include <FL/Fl.H>
 #include "fl_Knob.h"
+#include <FL/Fl_Dial.H>
 #include <FL/Fl_Group.H>
 #include <Fl/fl_Light_Button.h>
 #include <Fl/fl_Button.h>
@@ -127,7 +128,8 @@ class Analizador : public Instrumento {
         Fl_Scrollbar *oscroll;
         //Fl_Slider *oscroll;
         //Botón para desplazar la grafica horizontalmente  
-        Fl_Knob *odes_horizontal;
+        //Fl_Knob *odes_horizontal;
+        Fl_Dial *odes_horizontal;
 	    //Agrupa las herramientas e indicadores del analizador
         Fl_Group *ogroup_ana_botones;
         //Ventana de opciones de trigger.

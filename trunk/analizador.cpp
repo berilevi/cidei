@@ -59,16 +59,16 @@ Analizador::Analizador() {
     oscroll->step(1);
     oscroll->deactivate();
     
-    olog_ana = new Fl_Button(340,375,40,15,"Log");                 //Botón que activa el alamacenamiento en archivo plano de texto.
+    olog_ana = new Fl_Button(431,374,35,27,"Log");                 //Botón que activa el alamacenamiento en archivo plano de texto.
     olog_ana->labelsize(10);
     
-    ohelp_ana = new Fl_Button(340,390,40,15,"Help");               //Botón que lanza el archivo de ayuda del instrumento.
+    ohelp_ana = new Fl_Button(10,374,334,27,"");               //Botón que lanza el archivo de ayuda del instrumento.
     ohelp_ana->labelsize(10);
     
-    oayuda_ana = new Fl_Check_Button(385,382,20,16,"?");           //Check button que activa la ayuda de los botones del analizador.
+    oayuda_ana = new Fl_Check_Button(475,382,20,16,"?");           //Check button que activa la ayuda de los botones del analizador.
     oayuda_ana->labelsize(12);
     
-    ogrilla_on = new Fl_Light_Button(285,380,45,17,"Grilla");      //Botón que activa la grilla del instrumento.
+    ogrilla_on = new Fl_Light_Button(391,374,35,27,"Grid");      //Botón que activa la grilla del instrumento.
     ogrilla_on->labelsize(10);
     
     // Configuraciones de las gráficas de los 8 canales
@@ -128,10 +128,10 @@ Analizador::Analizador() {
     apantallaCh8->banalizador = 1;
     
     ogroup_ana_botones = new Fl_Group(425,375,80,80,"");             // Agrupa los botones del analizador
-    ogroup_ana_botones->box(FL_ENGRAVED_FRAME); 
+    ogroup_ana_botones->box(FL_NO_BOX); 
     ogroup_ana_botones->deactivate();
            
-    ofrec_muestreo = new Fl_Choice(430,400,70,20,"FrecMuestreo");    //Menú de las frecuencias de muestreo
+    ofrec_muestreo = new Fl_Choice(422,489,83,20,"");    //Menú de las frecuencias de muestreo
     ofrec_muestreo->align(FL_ALIGN_TOP);
     ofrec_muestreo->labelsize(10);
     ofrec_muestreo->add("1",0,(Fl_Callback *)cbfrec1,this);
@@ -141,31 +141,33 @@ Analizador::Analizador() {
     
     ogroup_ana_botones->end();                                       //Fin del grupo de los botones del analizador
     
-    odes_horizontal = new Fl_Knob(430,460,70,70,"DespHor");          //Perilla para desplazar horizontalmente las gráficas
-    odes_horizontal->color(147);
+    //odes_horizontal = new Fl_Knob(430,460,70,70,"DespHor");          //Perilla para desplazar horizontalmente las gráficas
+    odes_horizontal = new Fl_Dial(430,542,70,70,"");
+    //odes_horizontal->color(147);
     odes_horizontal->type(8);
-    odes_horizontal->scaleticks(0);
-    odes_horizontal->labelsize(9);
-    odes_horizontal->step(20);
+    //odes_horizontal->scaleticks(0);
+    //odes_horizontal->labelsize(9);
+    //odes_horizontal->step(20);
+    odes_horizontal->box(FL_NO_BOX);
     odes_horizontal->range(0,400);
     
         
-    omuestrear_on = new Fl_Light_Button(430,560,70,30,"Capturar");   //Botón que inicia el muestreo y captura de las señales.
+    omuestrear_on = new Fl_Light_Button(430,418,70,19,"Capturar");   //Botón que inicia el muestreo y captura de las señales.
     omuestrear_on->labelsize(13);
     
-    orep_dato = new Fl_Choice(422,645,83,22,"");                     //Menú de las representaciones numericas del dato señalado por el cursor
+    orep_dato = new Fl_Choice(422,645,85,22,"");                     //Menú de las representaciones numericas del dato señalado por el cursor
     orep_dato->add("Decimal");
     orep_dato->add("Binario");
     orep_dato->add("Hexadecimal");
     
-    odato1 = new Fl_Output(430,670,70,20,"");                        //Cuadro de texto con la representación numerica del dato señalado por el cursor
+    odato1 = new Fl_Output(430,670,75,20,"");                        //Cuadro de texto con la representación numerica del dato señalado por el cursor
     odato1->textsize(12);
     
         
-    otrigger_on = new Fl_Light_Button(430,620,40,18,"Trigger");      //Botón que saca la ventana de configuración del trigger
-    otrigger_on->labelsize(10);
+    otrigger_on = new Fl_Light_Button(440,625,49,14,"Trigger");      //Botón que saca la ventana de configuración del trigger
+    otrigger_on->labelsize(9);
     
-    //oboxAna->image(ianaliza);
+    oboxAna->image(ianaliza);
     
     //manualAnalizador = new Fl_Help_Dialog;
     //manualAnalizador->load("help_analizador.html");                                                    
@@ -192,7 +194,7 @@ Analizador::Analizador() {
     obox_nombre->labelfont(FL_HELVETICA_BOLD);
     obox_nombre->labelsize(20);*/
     
-    oana_on = new Fl_Light_Button(240,375,38,30,"ON");               //Botón para prender o apagar el instrumento
+    oana_on = new Fl_Light_Button(351,374,35,27,"ON");               //Botón para prender o apagar el instrumento
     oana_on->labelsize(9);
     
     ocursor = new Cursores(20,420,400,674);                          //Cursor de la pantalla del instrumento

@@ -12,6 +12,7 @@
 #include <FL/Fl_Repeat_Button.H>
 //#include "Fl_7Seg.H"                        //Class's header file
 #include "fl_Knob.h"
+#include <FL/Fl_Dial.H>
 #include <FL/Fl_Counter.H>
 #include <FL/Fl_Value_Input.H>
 #include <FL/Fl_Choice.H>
@@ -85,17 +86,21 @@ class Generador : public Instrumento
         // Indicador del valor de la frecuencia en la escala de MegaHertz.
         Fl_Box *oMeHz;
         // Botón de ajuste lineal de la frecuencia de la señal.
-        Fl_Knob *ofrecGen;
+        //Fl_Knob *ofrecGen;
+        Fl_Dial *ofrecGen;
         //Botón de ajuste lineal fino de la frecuencia de la señal .
-        Fl_Knob *ofrecGen2;
+        //Fl_Knob *ofrecGen2;
+        Fl_Dial *ofrecGen2;
         //Indicador del Valor de la frecuencia de la señal seleccionada por el ususario.
         Fl_Value_Input *ovalorFrec;
         //Botón de ajuste lineal de la amplitud de la señal seleccionada por el ususario.
-        Fl_Knob *oamplitud;
+        //Fl_Knob *oamplitud;
+        Fl_Dial *oamplitud;
         // Display que muestra el valor de la amplitud de la señal seleccionada por el ususario.
         Fl_Output *odispAmplitud;
         //Botón de ajuste lineal del nivel de offset de la señal seleccionada por el ususario.
-        Fl_Knob *ooffset;
+        //Fl_Knob *ooffset;
+        Fl_Dial *ooffset;
         //Display que muestra el valor del nivel de offset de la señal seleccionada por el ususario.
         Fl_Output *odispOffset; 
         //Menú selector de escalas de frecuencia.
