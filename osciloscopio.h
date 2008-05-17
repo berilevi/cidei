@@ -82,6 +82,8 @@ class Osciloscopio : public Instrumento{
         Fl_Button *oautoSet;
         //Botón que habilita el almacenamiento en archivos planos de texto.
         Fl_Button *ologOsc;
+        //
+        Fl_PNG_Image *iguardar;
         //Botón que habilita la ayuda para el uso del instrumento. 
         Fl_Button *ohelpOsc;
         //Botón que habilita la ayuda flotante para el uso de los botones del instrumento.

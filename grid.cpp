@@ -86,8 +86,8 @@ if (bgrilla_analizador == 0 ){                              //Dibujar solo para 
    }
    else if (bgrid == 0 && banalizador_on == 0 ){              //Si esta desactivada la grilla del osciloscopio solo de dibujan los ejes
         fl_line_style(0);                                     //Linea Continua para dibujar los ejes
-        fl_line((ww/2)+12, yy, (ww/2)+12, hh+yy);             //Eje Y de la pantalla del osciloscopio
-        fl_line(xx, (hh/2)+yy, ww+12, (hh/2)+yy);             //Eje X de la pantalla del osciloscopio
+        fl_line((ww/2)+xx, yy, (ww/2)+xx, hh+yy);                   //Eje Y de la pantalla del osciloscopio
+        fl_line(xx, (hh/2)+yy, ww+xx, (hh/2)+yy);             //Eje X de la pantalla del osciloscopio
    }
 }
 else {                                                        //Dibujar para el analizador lógico

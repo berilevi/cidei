@@ -60,15 +60,15 @@ Multimetro::Multimetro(){
     multVac = new Fl_PNG_Image("vacg.png");
     //ovoltAc->image(multVac);
     ovoltAc->box(FL_UP_BOX);
-    ovoltDc = new Fl_Button(912,169,80,25,"V_dc");                              //Botón que activa el instrumento voltímetro DC.
+    ovoltDc = new Fl_Button(913,169,80,25,"V_dc");                              //Botón que activa el instrumento voltímetro DC.
     ovoltDc->box(FL_UP_BOX);
-    oampAc = new Fl_Button(762,228,80,25,"A_ac");                               //Botón que activa el instrumento Amperímetro AC.
+    oampAc = new Fl_Button(762,229,80,25,"A_ac");                               //Botón que activa el instrumento Amperímetro AC.
     oampAc->box(FL_UP_BOX);
-    oampDc = new Fl_Button(912,228,80,25,"A_dc");                               //Botón que activa el instrumento Amperímetro DC.
+    oampDc = new Fl_Button(913,229,80,25,"A_dc");                               //Botón que activa el instrumento Amperímetro DC.
     oampDc->box(FL_UP_BOX);
     oohm = new Fl_Button(762,323,80,25,"R");                                    //Botón que activa el instrumento Ohmetro.
     oohm->box(FL_UP_BOX);
-    ocontinuidad = new Fl_Button(912,323,80,25,"Cont");                         //Botón que activa el instrumento Medidor de continuidad.
+    ocontinuidad = new Fl_Button(913,325,80,25,"Cont");                         //Botón que activa el instrumento Medidor de continuidad.
     ocontinuidad->box(FL_UP_BOX);
     boxgroup->image(imultimetro); 
     //manualMult = new Fl_Help_Dialog;

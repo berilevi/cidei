@@ -95,6 +95,7 @@ void Instrumento::Transmision(){
         MPUSBClose(myOutPipe);                                                        //Cerrar los pipes al terminar cada comunicacion 
         MPUSBClose(myInPipe);
         myOutPipe = myInPipe = INVALID_HANDLE_VALUE;                                  //Dejar listos los pipes para la siguiente transmisión   
+        return;   
    }
 }
 
