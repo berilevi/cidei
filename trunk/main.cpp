@@ -52,6 +52,7 @@ int main (int argc, char ** argv)
   
   window = new Fl_Double_Window (0,0,1024,708);
   //window->color(Fl_Color());
+  //window->cursor(FL_CURSOR_HAND);
   ana = new Analizador();
   mult = new Multimetro();
   gene = new Generador();
