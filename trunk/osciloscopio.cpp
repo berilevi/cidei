@@ -197,7 +197,11 @@ Osciloscopio::Osciloscopio(){
     //onivelTrigger = new Fl_Knob (540,255,57,57,"Nivel");                 //Perilla para seleccionar el nivel del trigger
     onivelTrigger = new Fl_Dial (556,259,45,45,"");
     onivelTrigger->box(FL_NO_BOX);
-    onivelTrigger->range(0,10);
+    onivelTrigger->range(1,255);
+    onivelTrigger->round(1);
+    
+    odisptrig = new Fl_Output(525,270,29,15,"");
+    
     ogroupTrigger->end();                                                // Fin del grupo de controles del trigger
                 
     opantalla = new Fl_Scope(7,43,400,320,"");                           // Instancia de scope para la pantalla del osciloscopio
@@ -238,6 +242,7 @@ Osciloscopio::Osciloscopio(){
     och2On->callback(cbCh2On,this);                                    //Callback del botón de prender/apagar el canal 2
     odualMenu->callback(cbDualMenu, this);                             //Callback del botón que selecciona la operación suma, resta o xy
     oselTrigger->callback(cbSelTrigger, this);
+    onivelTrigger->callback(cbNivelTrigger, this);
     otiempoDiv->callback(cbTiempoDiv, this);
     oposy->callback(cbPosy, this);
     ooscOn->callback(cbOscOn, this);
@@ -748,25 +753,77 @@ void Osciloscopio::cbSelTrigger(Fl_Widget* pboton, void *pany){
 
 void Osciloscopio::cbSelTriggerIn(){
      if (isec_trigger==0){
-        otriggerCh2->color(FL_GRAY);
-        otriggerCh2->redraw();
-        otriggerCh1->color(FL_RED);
-        otriggerCh1->redraw();
-        strcpy(odispOsc1->ctrigger,"Trg-Ch1");
-        odispOsc1->redraw();
-        /* TODO (JuanPablo#1#): Encapsular trama de canal fuente de trigger */
+        Encapsular('L','f','1','1',0x00,0x00);
+        Transmision();
+        if (bhardware == 1){
+           otriggerCh2->color(FL_GRAY);
+           otriggerCh2->redraw();
+           otriggerCh1->color(FL_RED);
+           otriggerCh1->redraw();
+           strcpy(odispOsc1->ctrigger,"Trg-Ch1");
+           odispOsc1->redraw();
+        }
+        else {
+             fl_message("Error de hardware");
+       }
      }
      if (isec_trigger==1){
-        otriggerCh1->color(FL_GRAY);
-        otriggerCh1->redraw();
-        otriggerCh2->color(FL_RED);
-        otriggerCh2->redraw();
-        strcpy(odispOsc1->ctrigger,"Trg-Ch2");
-        odispOsc1->redraw();
-        isec_trigger=-1;
+        Encapsular('L','f','1','2',0x00,0x00);
+        Transmision();
+        if (bhardware == 1){                  
+           otriggerCh1->color(FL_GRAY);
+           otriggerCh1->redraw();
+           otriggerCh2->color(FL_RED);
+           otriggerCh2->redraw();
+           strcpy(odispOsc1->ctrigger,"Trg-Ch2");
+           odispOsc1->redraw();
+           isec_trigger=-1;
+        }
+        else {
+             fl_message("Error de hardware");
+       }
      }
      isec_trigger++;
 }
+
+
+/*******************************************************************************
+ * Osciloscopio::cbNivelTrigger: Callback del botón selector del nivel del 
+ *                               disparo (trigger) en el osciloscopio.  
+ * El Callaback consta de la función static e inline cbNivelTrigger y 
+ * cbNivelTriggerIn.
+ * El nivel del "Trigger" se selecciona con el valor configurado por el usuario
+ * en la perilla "nivel de trigger", este valor se compara con la señal muestreada
+ * para iniciar el almacenamiento de datos.
+*******************************************************************************/
+
+void Osciloscopio::cbNivelTrigger(Fl_Widget* psel, void *pany){
+     Fl_Knob *pselector = (Fl_Knob *)psel;
+     Osciloscopio* posc=(Osciloscopio*)pany;
+     posc->cbNivelTriggerIn(pselector);
+}
+
+void Osciloscopio::cbNivelTriggerIn(Fl_Widget* psel){
+    int ilong=0;
+    char cnivel1;
+    char cnivel2;
+    Fl_Dial *pselector = (Fl_Dial *)psel;
+    itoa(pselector->value(),cNivelTrigg,16);
+    ilong = strlen(cNivelTrigg);
+    if (ilong < 2){
+       cnivel1='0';
+       cnivel2=cNivelTrigg[0]; 
+    }
+    else {
+         cnivel1=cNivelTrigg[0]; 
+         cnivel2=cNivelTrigg[1]; 
+    } 
+    odisptrig->value(cNivelTrigg);
+    //Encapsular('L','g','2','2',cnivel1,);
+    //Transmision();
+
+}
+
 
 /*******************************************************************************
  * cbTiempoDiv: Callback del selector de escala de tiempo por división en el 

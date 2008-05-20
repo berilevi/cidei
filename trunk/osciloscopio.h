@@ -9,6 +9,7 @@
 #include "canal.h"  
 #include "DispOsc.h"                         
 #include "fl_Knob.h"
+#include <FL/Fl_Output.H>
 #include <FL/Fl_Dial.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Help_Dialog.h>
@@ -221,6 +222,9 @@ class Osciloscopio : public Instrumento{
 		//Callback del botón selector de la fuente del disparo (trigger).
 		static void cbSelTrigger(Fl_Widget*, void *);
 		inline void cbSelTriggerIn();
+		//Callback del botón selector del nivel del disparo (trigger).
+		static void cbNivelTrigger(Fl_Widget*, void *);
+		inline void cbNivelTriggerIn(Fl_Widget*);
 		//Callback del botón que prende/apaga el osciloscopio
 		static void cbOscOn(Fl_Widget*, void *);
 		inline void cbOscOnIn();
@@ -251,8 +255,12 @@ class Osciloscopio : public Instrumento{
         Fl_Light_Button *ogrillaOn;
         //Variable que almacena el caracter de la escala de tiempo por division
         char ctDiv;
+        //Variable que almacena los caracter hexadecimales del nivel del trigger
+        char cNivelTrigg [3];
         //Ventana de ayuda de uso del instrumento.
         Fl_Help_Dialog *manual;
+        //
+        Fl_Output *odisptrig;
 };
 
 #endif // OSCILOSCOPIO_H
