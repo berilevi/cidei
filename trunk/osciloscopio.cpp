@@ -47,8 +47,8 @@ Osciloscopio::Osciloscopio(){
     ivppCh2 = 0;
     icont_datos = 0;
     
-    iosciloscopio = new Fl_PNG_Image("osc.png");
-    iguardar = new Fl_PNG_Image("guardar.png");            
+    //iosciloscopio = new Fl_PNG_Image("osc.png");
+    //iguardar = new Fl_PNG_Image("guardar.png");            
     ogroupOsc = new Fl_Group (5,5,724,360,"");                   // Inicia el grupo de los elementos del osciloscopio
     ogroupOsc->box(FL_ENGRAVED_FRAME);                 
     ogroupOsc->box(FL_UP_BOX);
@@ -121,9 +121,9 @@ Osciloscopio::Osciloscopio(){
     ogrillaOn->labelsize(10);
     ogrillaOn->tooltip("Cuadricula");
     
-    ogroupTdiv = new Fl_Group (622,203,100,156,"");              //Inicia el grupo de los controles de tiempo por división
-    ogroupTdiv->box(FL_ENGRAVED_FRAME);
-    ogroupTdiv->deactivate();
+   // ogroupTdiv = new Fl_Group (622,203,100,156,"");              //Inicia el grupo de los controles de tiempo por división
+   // ogroupTdiv->box(FL_ENGRAVED_FRAME);
+   // ogroupTdiv->deactivate();
     //otiempoDiv = new Fl_Knob (635,270,78,78,"TDIV");            //Selector de la escala de tiempo por división
     otiempoDiv = new Fl_Dial (641,279,63,63,"");
     //otiempoDiv->color(147);
@@ -132,6 +132,7 @@ Osciloscopio::Osciloscopio(){
     otiempoDiv->labelsize(9);
     //otiempoDiv->scaleticks(17);
     otiempoDiv->range(0,17);
+    otiempoDiv->angles(30,330);
     otiempoDiv->step(1);
     otiempoDiv->round(1);
     //otiempoDiv->tooltip("Selector de las escalas de tiempo por división del instrumento");
@@ -156,7 +157,7 @@ Osciloscopio::Osciloscopio(){
     omenuTdiv->add("2us",0,(Fl_Callback *)cbTdiv2us,this);    
     omenuTdiv->add("1us",0,(Fl_Callback *)cbTdiv1us,this);   
    
-    ogroupTdiv->end();                                                   //Fin del grupo de controles de escala de tiempo por división
+   // ogroupTdiv->end();                                                   //Fin del grupo de controles de escala de tiempo por división
     
     ogroupPos = new Fl_Group (411,205,100,110,"");                       //Inicio del grupo de controles de posición horizontal de las gráfica
     //ogroupPos->box(FL_ENGRAVED_FRAME);
@@ -217,6 +218,8 @@ Osciloscopio::Osciloscopio(){
     
     manual = new Fl_Help_Dialog;                                      // Ventana de ayuda que sale al presionar el botón help
     manual->load("helpOsciloscopio.html");                            // Cargar el archivo html que contiene la ayuda.
+    
+    iosciloscopio = new Fl_PNG_Image("osc.png");
     
     oboxgroupOsc->image(iosciloscopio);
     
@@ -291,7 +294,7 @@ void Osciloscopio::cbOscOnIn(){
          if (bhardware==1){                                     //Si la respuesta fue ack la orden fue reconocida por el hardware
             activar(1);                                         //Activar el instrumento virtual osciloscopio
             ogroupOsc->activate(); 
-            ogroupTdiv->activate();
+         //   ogroupTdiv->activate();
             ogroupTrigger->activate();
             ogroupPos->activate(); 
             ogroupDual->activate();
@@ -335,7 +338,7 @@ void Osciloscopio::cbOscOnIn(){
       if (ooscOn->value()== 0 && bestado == 1){                                 //Presionar el botón para apagar el instrumento
          Fl::remove_timeout(cbTimer, this);                     //Terminar el timer de solicitud de datos uno a uno 
          Fl::remove_timeout(cbTimerVectores, this);            //Terminar el timer de solicitud de datos por vectores
-         ogroupTdiv->box(FL_NO_BOX);
+        // ogroupTdiv->box(FL_NO_BOX);
          ogroupTrigger->box(FL_NO_BOX);
          ogroupPos->box(FL_NO_BOX);
          ogroupDual->box(FL_NO_BOX);
@@ -372,7 +375,7 @@ void Osciloscopio::cbOscOnIn(){
          opantalla->bch1 = 0;
          opantalla->TraceColour(FL_BLACK);
          ogroupOsc->deactivate(); 
-         ogroupTdiv->deactivate();
+     //    ogroupTdiv->deactivate();
          odualMenu->deactivate();
          isec_trigger = 0;
          otriggerCh1->color(FL_GRAY);
@@ -556,7 +559,7 @@ void Osciloscopio::cbCh1OnIn(){
         Transmision();
         if (bhardware){
            canal1->activar(0);
-           canal1->ogroupCh->box(FL_ENGRAVED_BOX);
+           canal1->ogroupCh->box(FL_NO_BOX);
            canal1->ogroupCh->deactivate();
            odualMenu->deactivate();
         }
@@ -658,7 +661,7 @@ void Osciloscopio::cbCh2OnIn(){
         Transmision();
         if (bhardware){
            canal2->activar(0);
-           canal2->ogroupCh->box(FL_ENGRAVED_BOX);
+           canal2->ogroupCh->box(FL_NO_BOX);
            canal2->ogroupCh->deactivate();
            odualMenu->deactivate();
         }
