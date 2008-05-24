@@ -75,13 +75,13 @@ int main (int argc, char ** argv)
       
 
   
-  box_mult = new Fl_Box(735,12,285,360,"");
+/*  box_mult = new Fl_Box(735,12,285,360,"");
   boxVacMult = new Fl_Box(762,178,80,25,"");
   box_osc = new Fl_Box(6,12,725,360,"");
   boxNomOsc = new Fl_Box(29,20,195,22,"");
   boxOscOn = new Fl_Box(255,16,30,30,"");
   box_analizador = new Fl_Box(6,376,505,330,"");
-  box_generador = new Fl_Box(517,375,505,330,"");
+  box_generador = new Fl_Box(517,375,505,330,"");*/
   
   //boxNomOsc->callback(cb_help);
   
@@ -91,7 +91,7 @@ int main (int argc, char ** argv)
  // Fl_PNG_Image jpgosc("osc.png");
  // Fl_PNG_Image jpgnomosc("oscNom.png");
   //Fl_PNG_Image jpgoscon("oscon.png");
-  //Fl_PNG_Image jpgan("analizador.png");
+ // Fl_PNG_Image jpgan("analizador.png");
   //Fl_PNG_Image jpggen("generador.png");
   
  // box_mult->image(jpg);
@@ -99,7 +99,7 @@ int main (int argc, char ** argv)
  // box_osc->image(jpgosc);
 // boxNomOsc->image(jpgnomosc);
   //boxOscOn->image(jpgoscon);
-  //box_analizador->image(jpgan);
+ // box_analizador->image(jpgan);
   //box_generador->image(jpggen);
  
   

@@ -46,8 +46,8 @@ Generador::Generador(){
     oMeHz->labelsize(10);
     oMeHz->box(FL_ENGRAVED_BOX);
     oMeHz->align(FL_ALIGN_RIGHT);
-    ohelpGen  = new Fl_Button (520,375,412,28,"");                          //Botón que inicia la ayuda de uso del instrumento
-    ohelpGen->labelsize(10);
+    //ohelpGen  = new Fl_Button (520,375,412,28,"");                          //Botón que inicia la ayuda de uso del instrumento
+    //ohelpGen->labelsize(10);
     
     ogroupSenal = new Fl_Group (778,512,122,180,"");                           //Inicio del grupo de botones de selección de tipo de señal
     //ogroupSenal->box(FL_ENGRAVED_FRAME);
