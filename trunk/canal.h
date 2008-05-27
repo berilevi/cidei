@@ -13,6 +13,10 @@
 #include <FL/Fl_Ask.H>
 #include <FL/Fl_Box.H>
 
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Box.H>
+
 
 /*******************************************************************************
  * Canal: Representa las funcionalidades de los canales del osciloscopio.
@@ -39,6 +43,10 @@ class Canal : public Instrumento{
 		Fl_Repeat_Button *oselAcople;
 		//Grupo de los diferentes botones y selectores que componen el canal.
 		Fl_Group *ogroupCh;
+		//Box para colocar la mascara del canal.
+	    Fl_Box *boxCanal;
+	    //Mascara del canal.
+	    Fl_PNG_Image *icanal;
 		// Variable que representa el color de la gráfica de la señal adquirida por el canal.
 		int ncolor;
 		//Menu desplegable para seleccionar la escala de voltios por división del canal

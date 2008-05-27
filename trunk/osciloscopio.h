@@ -85,6 +85,16 @@ class Osciloscopio : public Instrumento{
         Fl_Button *ologOsc;
         //
         Fl_PNG_Image *iguardar;
+        //
+        Fl_Box *oboxguardar;
+        //
+        Fl_PNG_Image *ionosc;
+        //
+        Fl_Box *oboxOnOsc;
+        //
+        Fl_PNG_Image *igrilla;
+        //
+        Fl_Box *oboxGrid;
         //Botón que habilita la ayuda para el uso del instrumento. 
         Fl_Button *ohelpOsc;
         //Botón que habilita la ayuda flotante para el uso de los botones del instrumento.
@@ -143,7 +153,13 @@ class Osciloscopio : public Instrumento{
 		inline void cbVoltDiv1In(Fl_Widget*);
         //Callback del selector de la escala de volt/div del canal 2.
 		static void cb_volt_div2(Fl_Widget*, void *);
-		inline void cb_volt_div2_in(Fl_Widget*); 
+		inline void cb_volt_div2_in(Fl_Widget*);
+        //Callback del selector de posición vertical del canal 1.
+		static void cbPosVert1(Fl_Widget*, void *);
+		inline void cbPosVert1In(Fl_Widget*); 
+		//Callback del selector de posición vertical del canal 2.
+		static void cbPosVert2(Fl_Widget*, void *);
+		inline void cbPosVert2In(Fl_Widget*); 
         //Rutina para solicitar las muestras de las señales por vectores o una a una.
 		void muestreoTimer(int);
         //Callback del menú de tiempo por división en la escala de 0.5s.

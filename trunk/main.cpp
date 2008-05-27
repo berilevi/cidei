@@ -53,14 +53,16 @@ int main (int argc, char ** argv)
   window = new Fl_Double_Window (0,0,1024,708);
   //window->color(Fl_Color());
   //window->cursor(FL_CURSOR_HAND);
-  ana = new Analizador();
-  mult = new Multimetro();
-  gene = new Generador();
+  osc = new Osciloscopio();
+ //ana = new Analizador();
+ // mult = new Multimetro();
+ // gene = new Generador();
+ // osc = new Osciloscopio();
   //manuales = new Fl_Help_Dialog;
   
 
 
-  rc2=pthread_create(&thread1, NULL, runhilo2, (void *)u);
+ /* rc2=pthread_create(&thread1, NULL, runhilo2, (void *)u);
         if (rc2){
            fl_message("ERROR; return code from pthread_create() is %d\n", rc2);
            exit(-1);
@@ -72,7 +74,7 @@ int main (int argc, char ** argv)
          printf("ERROR; return code from pthread_join() is %d\n", rc2);
          exit(-1);
       }
-      
+      */
 
   
 /*  box_mult = new Fl_Box(735,12,285,360,"");
