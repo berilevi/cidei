@@ -134,9 +134,9 @@ Analizador::Analizador() {
     ofrec_muestreo->add("4",0,(Fl_Callback *)cbfrec4,this);
     
     //odes_horizontal = new Fl_Knob(430,460,70,70,"DespHor");          //Perilla para desplazar horizontalmente las gráficas
-    odesHorizontal = new Fl_Dial(430,542,70,70,"");
+    odesHorizontal = new Fl_Dial(428,540,77,77,"");
     //odes_horizontal->color(147);
-    odesHorizontal->type(8);
+    //odesHorizontal->type(0);
     //odes_horizontal->scaleticks(0);
     //odes_horizontal->labelsize(9);
     odesHorizontal->step(20);

@@ -10,7 +10,8 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      ogroupCh = new Fl_Group (x,y,w,h,"");
      //ogroupCh->box(FL_ENGRAVED_FRAME);
      ogroupCh->box(FL_NO_BOX);
-     ogroupCh->deactivate();
+     //ogroupCh->deactivate();
+    // boxCanal = new Fl_Box(x,y+7,w,h,"");
      oposx = new Fl_Dial ((x+4),(y+87),42,42,"");            //Botón para modificar la posición vertical de la gráfica
      oposx->labelsize(9);
      oposx->box(FL_NO_BOX);
@@ -23,7 +24,7 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      ovoltDiv->angles(30,330);
      ovoltDiv->step(1);
      ovoltDiv->labelsize(9);
-     ovoltDiv->color(147);
+    // ovoltDiv->color(147);
      ovoltDiv->type(8);
      //ovoltDiv->scaleticks(11);
      ovoltDiv->range(0,11);
@@ -44,19 +45,26 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      omenuvDiv->add("1m",0,(Fl_Callback *)cbVdiv1m,this);
      oselAcople = new Fl_Repeat_Button((x+4),(y+167),41,15,"");   //Botón selector del tipo de acople del canal.
      oselAcople->labelsize(10);
-     oselAcople->box(FL_NO_BOX);
-     oacopGnd = new Fl_Box((x+110),(y+166),25,18,"GND");                 //Indicador de acople gnd del canal. 
-     oacopGnd->labelsize(11);
+     oselAcople->box(FL_ENGRAVED_FRAME);
+     oacopGnd = new Fl_Box((x+110),(y+166),28,18,"GND");                 //Indicador de acople gnd del canal. 
+     oacopGnd->labelfont(FL_HELVETICA_BOLD);
+     oacopGnd->labelsize(13);
      oacopGnd->box(FL_FLAT_BOX);
      //oacopGnd->align(FL_ALIGN_TOP);
      oacopDc  = new Fl_Box((x+86),(y+166),19,18,"DC");                  //Indicador de acople Dc del canal
-     oacopDc->labelsize(11);
+     oacopDc->labelfont(FL_HELVETICA_BOLD);
+     oacopDc->labelsize(13);
      oacopDc->box(FL_FLAT_BOX);
      //oacopDc->align(FL_ALIGN_TOP);
      oacopAc  = new Fl_Box((x+62),(y+166),19,18,"AC");                   //Indicador de acople Ac del canal
-     oacopAc->labelsize(11);
+     oacopAc->labelfont(FL_HELVETICA_BOLD);
+     oacopAc->labelsize(13);
      oacopAc->box(FL_FLAT_BOX);
      //oacopAc->align(FL_ALIGN_TOP);
+     
+  //   icanal = new Fl_PNG_Image("canal.png");
+   //  boxCanal->image(icanal);
+     
      ogroupCh->end();
 }
  
