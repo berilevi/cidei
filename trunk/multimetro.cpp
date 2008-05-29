@@ -22,7 +22,7 @@ Multimetro::Multimetro(){
     strcpy(cvalor,"0.000");                                                     //Inicialización del valor mostrado en el dsiplay
     strcpy(cnombre,"mult.txt"); 
     
-    imultimetro = new Fl_PNG_Image("mult.png");
+    //imultimetro = new Fl_PNG_Image("mult.png");
     ogroup_mult = new Fl_Group (735,5,285,360,"");                              //Inicio del grupo de los elementos del multímetro
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
@@ -35,6 +35,8 @@ Multimetro::Multimetro(){
     odispMult->align_text(FL_ALIGN_RIGHT);
     odispMult->segment_gap(2);
     odispMult->value("00.0");*/
+    
+      
     
     odispMult  = new Fl_Box (738,42,230,99,"0.00");
     odispMult->box(FL_FLAT_BOX);
@@ -55,14 +57,17 @@ Multimetro::Multimetro(){
     
     oayudaMult = new Fl_Check_Button(985,20,20,20,"");
     
-    ovoltAc = new Fl_Button(762,169,80,25,"V_ac");                              //Botón que activa el instrumento voltímetro AC.   
-    ovoltAc->clear();   
-    multVac = new Fl_PNG_Image("vacg.png");
+    
+    
+    
+    ovoltAc = new Fl_Button(762,169,80,25,"");                              //Botón que activa el instrumento voltímetro AC.   
+    //ovoltAc->clear();   
+   // multVac = new Fl_PNG_Image("vacg.png");
     //ovoltAc->image(multVac);
     ovoltAc->box(FL_UP_BOX);
-    ovoltDc = new Fl_Button(913,169,80,25,"V_dc");                              //Botón que activa el instrumento voltímetro DC.
+    ovoltDc = new Fl_Button(913,169,80,25,"");                              //Botón que activa el instrumento voltímetro DC.
     ovoltDc->box(FL_UP_BOX);
-    oampAc = new Fl_Button(762,229,80,25,"A_ac");                               //Botón que activa el instrumento Amperímetro AC.
+    oampAc = new Fl_Button(762,229,80,25,"");                               //Botón que activa el instrumento Amperímetro AC.
     oampAc->box(FL_UP_BOX);
     oampDc = new Fl_Button(913,229,80,25,"A_dc");                               //Botón que activa el instrumento Amperímetro DC.
     oampDc->box(FL_UP_BOX);
@@ -70,9 +75,25 @@ Multimetro::Multimetro(){
     oohm->box(FL_UP_BOX);
     ocontinuidad = new Fl_Button(913,325,80,25,"Cont");                         //Botón que activa el instrumento Medidor de continuidad.
     ocontinuidad->box(FL_UP_BOX);
-    boxgroup->image(imultimetro); 
+    
+    boxVac = new Fl_Box(762,177,80,25,"");
+    boxVdc = new Fl_Box(913,177,80,25,"");
+    boxAac = new Fl_Box(762,237,80,25,"");
+    
     //manualMult = new Fl_Help_Dialog;
     //manualMult->load("help_multimetro.html");                                 //Ventana de ayuda de uso del multímetro
+    
+    imultimetro = new Fl_PNG_Image("mult.png");
+    boxgroup->image(imultimetro); 
+    
+    iVoltAc = new Fl_PNG_Image("vacy.png");
+    boxVac->image(iVoltAc);
+    
+    iVoltDc = new Fl_PNG_Image("vdc.png");
+    boxVdc->image(iVoltDc);
+    
+    iAmpAc = new Fl_PNG_Image("aac.png");
+    boxAac->image(iAmpAc);
     
     ogroup_mult-> end();                                                        //Fin del grupo de elementos del multímetro
       

@@ -109,7 +109,7 @@ Osciloscopio::Osciloscopio(){
    // ologOsc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
    
    oboxGrid = new Fl_Box(290,18,34,27,"");
-   oboxguardar = new Fl_Box(328,18,34,27,"");
+   oboxguardar = new Fl_Box(329,18,34,27,"");
    oboxOnOsc = new Fl_Box(251,18,34,27,"");
    
     
