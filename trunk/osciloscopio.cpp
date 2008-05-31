@@ -46,9 +46,7 @@ Osciloscopio::Osciloscopio(){
     ivppCh1 = 0;
     ivppCh2 = 0;
     icont_datos = 0;
-    
-    //iosciloscopio = new Fl_PNG_Image("osc.png");
-    //iguardar = new Fl_PNG_Image("on.png");            
+              
     ogroupOsc = new Fl_Group (5,5,724,360,"");                   // Inicia el grupo de los elementos del osciloscopio
     ogroupOsc->box(FL_ENGRAVED_FRAME);                 
     ogroupOsc->box(FL_UP_BOX);
@@ -59,15 +57,21 @@ Osciloscopio::Osciloscopio(){
     canal1 = new Canal(415,9,152,190,"",255);                     // Instancia de canal para crear el objeto canal 1
     canal2 = new Canal(575,9,152,190,"",250);                     // Instancia de canal para crear el objeto canal 2
     
-    och1On = new Fl_Light_Button(415,11,54,18,"Ch1 1");             // Botón para activar/desactivar el canal 1
-    och1On->labelsize(10);
+    //och1On = new Fl_Light_Button(415,11,54,18,"Ch1 1");             // Botón para activar/desactivar el canal 1
+    och1On = new Fl_Button(415,11,54,18,"CH 1");
+    och1On->type(FL_TOGGLE_BUTTON);
+    och1On->labelfont(FL_HELVETICA_BOLD);
+    och1On->labelsize(14);
     och1On->box(FL_ENGRAVED_FRAME);
-    och1On->tooltip("Botón para activar o desactivar el uso del canal 1");
+   // och1On->tooltip("Botón para activar o desactivar el uso del canal 1");
     
-    och2On = new Fl_Light_Button(575,11,54,18,"Ch 2");             // Botón para activar/desactivar el canal 2
-    och2On->labelsize(10);
+    //och2On = new Fl_Light_Button(575,11,54,18,"Ch 2");             // Botón para activar/desactivar el canal 2
+    och2On = new Fl_Button(575,11,54,18,"CH 2");
+    och2On->type(FL_TOGGLE_BUTTON);
+    och2On->labelfont(FL_HELVETICA_BOLD);
+    och2On->labelsize(14);
     och2On->box(FL_ENGRAVED_FRAME);
-    och2On->tooltip("Botón para activar o desactivar el uso del canal 2");
+    //och2On->tooltip("Botón para activar o desactivar el uso del canal 2");
     
     
     //ogroupDual = new Fl_Group (412,320,204,40,"");              //Inicio del grupo de los controles de las operaciones en modo dual
@@ -106,11 +110,12 @@ Osciloscopio::Osciloscopio(){
     ologOsc->box(FL_ENGRAVED_FRAME);
     ologOsc->labelsize(9);
     ologOsc->image(iguardar); 
-   // ologOsc->tooltip("Botón para iniciar a archivar los datos de las gráficas");
+    //ologOsc->tooltip("Botón para archivar los datos de las gráficas");
    
    oboxGrid = new Fl_Box(290,18,34,27,"");
    oboxguardar = new Fl_Box(329,18,34,27,"");
    oboxOnOsc = new Fl_Box(251,18,34,27,"");
+   
    
     
     //ohelpOsc  = new Fl_Button (370,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
@@ -122,12 +127,15 @@ Osciloscopio::Osciloscopio(){
     oayudaOsc->box(FL_ENGRAVED_FRAME);
     oayudaOsc->labelsize(12);
     //oayudaOsc->tooltip("CheckBox para iniciar las ayudas flotantes del uso del los botones del instrumento");
+    oboxPreg = new Fl_Box(368,18,34,27,"");
     
     //ogrillaOn = new Fl_Light_Button(240,13,45,17,"Grilla");      // Activa/desactiva la cuadricula de la pantalla del instrumento   
-    ogrillaOn = new Fl_Light_Button(290,10,34,27,"");
+    //ogrillaOn = new Fl_Light_Button(290,10,34,27,"");
+    ogrillaOn = new Fl_Button(290,10,34,27,"");
     ogrillaOn->box(FL_ENGRAVED_FRAME);
+    ogrillaOn->type(FL_TOGGLE_BUTTON);
     ogrillaOn->labelsize(10);
-    ogrillaOn->tooltip("Cuadricula");
+    //ogrillaOn->tooltip("Cuadricula");
     
    // ogroupTdiv = new Fl_Group (622,203,100,156,"");              //Inicia el grupo de los controles de tiempo por división
    // ogroupTdiv->box(FL_ENGRAVED_FRAME);
@@ -180,10 +188,14 @@ Osciloscopio::Osciloscopio(){
     //oposy->tooltip("Boton de posicionamiento horizontal de las gráficas");
   //  ogroupPos->end();                                                    //Fin del grupo de controles de posición horizontal de las gráficas    
     
-    ostop = new Fl_Light_Button(417,280,27,27,"");                        //Botón para detención de las gráficas
-    ostop->box(FL_FLAT_BOX);
+    //ostop = new Fl_Light_Button(417,280,27,27,"");                        //Botón para detención de las gráficas
+    ostop = new Fl_Button(417,280,27,27,"");
+    ostop->type(FL_TOGGLE_BUTTON);
+    ostop->box(FL_NO_BOX);
     //ostop->label("@|>");
     //ostop->tooltip("Botón para detener la imagen graficada en el osciloscopio");
+    oboxStop = new Fl_Box(417,288,27,27,"");
+    
     
  //   ogroupTrigger = new Fl_Group (518,204,98,110,"");                    //Inicio del grupo de controles del trigger del instrumento        
     //ogroupTrigger->box(FL_ENGRAVED_FRAME);
@@ -245,7 +257,12 @@ Osciloscopio::Osciloscopio(){
     igrilla= new Fl_PNG_Image("grid.png");     
     oboxGrid->image(igrilla);
     
+    ipause = new Fl_PNG_Image("pause.png");
+    iplay =  new Fl_PNG_Image("play.png");
+    oboxStop->image(ipause);
     
+    ipreg = new Fl_PNG_Image("pregunta.png");
+    oboxPreg->image(ipreg);
     
     ogroupOsc->end();                                                    //Fin del grupo de los elementos del osciloscopio
     
@@ -253,14 +270,16 @@ Osciloscopio::Osciloscopio(){
     ogrilla = new grid(7,43,400,320,"");                                 //Instancia de la cuadricula para la pantalla 
     ogrilla->banalizador_on = 0;                                         //En cero para que no se active la grilla del analizador
     
-    /*oboxNombre = new Fl_Box(15,8,175,30,"");                           //Cuadro para colocar el nombre del instrumento
+    oboxNombre = new Fl_Box(10,8,237,30,"OSCILOSCOPIO");                           //Cuadro para colocar el nombre del instrumento
     oboxNombre->box(FL_ENGRAVED_FRAME);
     oboxNombre->labelfont(FL_HELVETICA_BOLD);
-    oboxNombre->labelsize(20);*/
+    oboxNombre->labelsize(22);
     
-    ooscOn = new Fl_Light_Button(251,10,34,27,"");                      //Botón para encender o apagar el osciloscopio
+    //ooscOn = new Fl_Light_Button(251,10,34,27,"");                      //Botón para encender o apagar el osciloscopio
     //ooscOn->tooltip("Botón para encender o apagar el osciloscopio");
+    ooscOn = new Fl_Button(251,10,34,27,"");
     ooscOn->box(FL_ENGRAVED_FRAME);
+    ooscOn->type(FL_TOGGLE_BUTTON);
     //ooscOn->labelsize(10);           
                 
     // Callbacks de los botones del osciloscopio            
@@ -324,10 +343,12 @@ void Osciloscopio::cbOscOnIn(){
       //      ogroupTrigger->activate();
        //     ogroupPos->activate(); 
      //       ogroupDual->activate();
+            canal2->ogroupCh->deactivate();  
             och1On->value(1);
             canal1->activar(1);
             canal1->oposx->value(0);
             canal1->ogroupCh->activate();
+            
             //canal1->ogroupCh->box(FL_UP_BOX);
             //ogroupTdiv->box(FL_UP_BOX);
             //ogroupTrigger->box(FL_UP_BOX);
@@ -495,10 +516,10 @@ void Osciloscopio::cbStop(Fl_Widget* pboton, void *pany){
 
 void Osciloscopio::cbStopIn(){
      if (ostop->value()==1){
-        ostop->box(FL_DOWN_BOX);
+        oboxStop->image(ipause);
      }
      else{
-         ostop->box(FL_UP_BOX);
+        oboxStop->image(iplay);
      }
 }
 

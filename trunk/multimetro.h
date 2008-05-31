@@ -63,7 +63,6 @@ class Multimetro : public Instrumento
 		//Variable representa el valor de la medición realizada con algun instrumento del multímetro
 		char cvalor[7];
 		//Display del multímetro donde el usuario observa el resultado de la medición.
-		//Fl_7Seg *odispMult;
 		Fl_Box *odispMult;
 		// Método para colocar el valor de la medición en el display.
 		void setDispMult(char [4]);
@@ -73,6 +72,10 @@ class Multimetro : public Instrumento
 	    Fl_Box *boxgroup;
 	    //Mascara del multímetro.
 	    Fl_PNG_Image *imultimetro;
+	    //Imagen del botón de prender el multímetro
+        Fl_PNG_Image *ionMult;
+        //Box para colocar la imagen del botón prender
+        Fl_Box *oboxOnMult;
 		// class constructor
 		Multimetro();
 		// class destructor
@@ -123,10 +126,22 @@ private:
 	    Fl_PNG_Image *iAmpAc;
 	    //Botón de activación del medidor de corriente en dc.
 	    Fl_Button *oampDc;
+	    //
+		Fl_Box *boxAdc;
+	    //Mascara del amp dc.
+	    Fl_PNG_Image *iAmpDc;
 	    //Botón de activación del medidor de resistencia.
 	    Fl_Button *oohm;
+	    //
+		Fl_Box *boxOhm;
+	    //Mascara del ohmetro.
+	    Fl_PNG_Image *iOhm;
 	    //Botón de activación del medidor de continuidad.
 	    Fl_Button *ocontinuidad;
+	    //
+		Fl_Box *boxCont;
+	    //Mascara del medidor de continuidad.
+	    Fl_PNG_Image *iCont;
 	    //Callback del botón que activa el medidor de voltaje en ac.
         static void cbVoltAc(Fl_Widget*, void *);
         inline void cbVoltAcIn();
@@ -146,7 +161,8 @@ private:
         static void cbCont(Fl_Widget*, void *);
         inline void cbContIn();
 	    //Boton para encender el instrumento multimetro.
-        Fl_Light_Button *omultOn;
+        //Fl_Light_Button *omultOn;
+        Fl_Button *omultOn;
         // Widget para colocar en texto las unidades de medida de la medición realizada con el multímetro.
         Fl_Box *ounidades;
 };
