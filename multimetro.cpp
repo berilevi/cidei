@@ -50,10 +50,10 @@ Multimetro::Multimetro(){
     ounidades->box(FL_FLAT_BOX);
     ounidades->color(FL_BLACK);
     
-    ohelpMult  = new Fl_Button (935,23,40,16,"Help");                           //Botón que inicia la ventana de ayuda de uso del instrumento.
-    ohelpMult->labelsize(9);
-    ohelpMult->box(FL_NO_BOX);
-    ohelpMult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
+   // ohelpMult  = new Fl_Button (935,23,40,16,"Help");                           //Botón que inicia la ventana de ayuda de uso del instrumento.
+   // ohelpMult->labelsize(9);
+    //ohelpMult->box(FL_NO_BOX);
+   // ohelpMult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
     
     oayudaMult = new Fl_Check_Button(985,20,20,20,"");
     
@@ -69,19 +69,27 @@ Multimetro::Multimetro(){
     ovoltDc->box(FL_UP_BOX);
     oampAc = new Fl_Button(762,229,80,25,"");                               //Botón que activa el instrumento Amperímetro AC.
     oampAc->box(FL_UP_BOX);
-    oampDc = new Fl_Button(913,229,80,25,"A_dc");                               //Botón que activa el instrumento Amperímetro DC.
+    oampDc = new Fl_Button(913,229,80,25,"");                               //Botón que activa el instrumento Amperímetro DC.
     oampDc->box(FL_UP_BOX);
-    oohm = new Fl_Button(762,323,80,25,"R");                                    //Botón que activa el instrumento Ohmetro.
+    oohm = new Fl_Button(762,323,80,25,"");                                    //Botón que activa el instrumento Ohmetro.
     oohm->box(FL_UP_BOX);
-    ocontinuidad = new Fl_Button(913,325,80,25,"Cont");                         //Botón que activa el instrumento Medidor de continuidad.
+    ocontinuidad = new Fl_Button(913,325,80,25,"");                         //Botón que activa el instrumento Medidor de continuidad.
     ocontinuidad->box(FL_UP_BOX);
     
+    oboxOnMult = new Fl_Box(942,17,33,27,"");
     boxVac = new Fl_Box(762,177,80,25,"");
     boxVdc = new Fl_Box(913,177,80,25,"");
     boxAac = new Fl_Box(762,237,80,25,"");
+    boxAdc = new Fl_Box(913,237,80,25,"");
+    boxOhm = new Fl_Box(762,331,80,25,"");
+    boxCont = new Fl_Box(913,332,80,24,"");
     
     //manualMult = new Fl_Help_Dialog;
     //manualMult->load("help_multimetro.html");                                 //Ventana de ayuda de uso del multímetro
+    
+    
+    ionMult = new Fl_PNG_Image("onmult.png"); 
+    oboxOnMult->image(ionMult);
     
     imultimetro = new Fl_PNG_Image("mult.png");
     boxgroup->image(imultimetro); 
@@ -95,11 +103,23 @@ Multimetro::Multimetro(){
     iAmpAc = new Fl_PNG_Image("aac.png");
     boxAac->image(iAmpAc);
     
+    iAmpDc = new Fl_PNG_Image("adc.png");
+    boxAdc->image(iAmpDc);
+    
+    iOhm = new Fl_PNG_Image("ohm.png");
+    boxOhm->image(iOhm);
+    
+    iCont = new Fl_PNG_Image("cont.png");
+    boxCont->image(iCont);
+    
     ogroup_mult-> end();                                                        //Fin del grupo de elementos del multímetro
       
      
-    omultOn = new Fl_Light_Button(942,10,33,27,"ON");                          //Botón que enciende/apaga el instrumento
-    omultOn->labelsize(9); 
+    //omultOn = new Fl_Light_Button(942,10,33,27,"");                          //Botón que enciende/apaga el instrumento
+    omultOn = new Fl_Button(942,10,33,27,"");
+    omultOn->type(FL_TOGGLE_BUTTON);
+    omultOn->box(FL_ENGRAVED_FRAME);
+    //omultOn->labelsize(9); 
     
     
     
@@ -111,7 +131,7 @@ Multimetro::Multimetro(){
     oampDc->callback(cbAmpDc, this);
     oohm->callback(cbOhm, this);
     ocontinuidad->callback(cbCont, this);
-    ohelpMult->callback(cbHelpMult,this);
+   // ohelpMult->callback(cbHelpMult,this);
     oayudaMult->callback(cbAyudaMult,this);
     
 }
