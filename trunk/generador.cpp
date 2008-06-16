@@ -176,7 +176,7 @@ void Generador::cbGeneradorOnIn(){
         activar(1);
         Encapsular('I','a','1','0',0x00,0x00);
         Transmision();
-        if (bhardware){
+        if (bhardware==1){
            ogroupGenerador->activate();
            ogroupFrecuencia->activate();
            ogroupOffset->activate();
@@ -221,7 +221,7 @@ void Generador::cbSenoIn(){
         otriangulo->value(0);
         Encapsular('I','i','1','1',0x00,0x00);                                  //Trama tipo de señal seno
         Transmision();
-        if (bhardware){                                                         //Si la respuesta fue ack.
+        if (bhardware==1){                                                         //Si la respuesta fue ack.
            otriangulo->value(0);
            oseno->value(1);
            oseno->box(FL_DOWN_BOX);
@@ -252,7 +252,7 @@ void Generador::cbCuadradaIn(){
         otriangulo->value(0);
         Encapsular('I','i','1','3',0x00,0x00);                                  //Trama tipo de señal cuadrada
         Transmision();
-        if (bhardware){                   
+        if (bhardware==1){                   
            ocuadrada->value(1);
            ocuadrada->box(FL_DOWN_BOX);
         }
@@ -281,7 +281,7 @@ void Generador::cbTrianguloIn(){
         ocuadrada->value(0);
         Encapsular('I','i','1','2',0x00,0x00);                                  //Trama de tipo de señal triángulo
         Transmision();
-        if (bhardware){                   
+        if (bhardware==1){                   
            otriangulo->value(1);
            otriangulo->box(FL_DOWN_BOX);
         }

@@ -29,10 +29,10 @@ bool bacopleGnd2 = 0;     // Variable global que indica si el canal 2 está en ac
 Osciloscopio::Osciloscopio(){
                                
     Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
-   // strcpy(cnombre,"osc.txt");                                    // Nombre del para el archivo de texto donde se almacenan los datos
+    //strcpy(cnombre,"osc.txt");                                    // Nombre del para el archivo de texto donde se almacenan los datos
                                                     
     
-    //    Inicialización de las variables globales
+    //Inicialización de las variables globales
     ctDiv = '1';                                                   // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
     isec_trigger = 0;                                                      
     isec_acople = 0;          
@@ -63,7 +63,7 @@ Osciloscopio::Osciloscopio(){
     och1On->labelfont(FL_HELVETICA_BOLD);
     och1On->labelsize(14);
     och1On->box(FL_ENGRAVED_FRAME);
-   // och1On->tooltip("Botón para activar o desactivar el uso del canal 1");
+    // och1On->tooltip("Botón para activar o desactivar el uso del canal 1");
     
     //och2On = new Fl_Light_Button(575,11,54,18,"Ch 2");             // Botón para activar/desactivar el canal 2
     och2On = new Fl_Button(575,11,54,18,"CH 2");
@@ -76,7 +76,7 @@ Osciloscopio::Osciloscopio(){
     
     //ogroupDual = new Fl_Group (412,320,204,40,"");              //Inicio del grupo de los controles de las operaciones en modo dual
     //ogroupDual->box(FL_ENGRAVED_FRAME);
-   // ogroupDual->box(FL_NO_BOX);
+    // ogroupDual->box(FL_NO_BOX);
    // ogroupDual->deactivate();
     odualMenu = new Fl_Repeat_Button(440,331,53,17,"");      //Botón para seleccionar la operación dual suma resta o lissajous 
     odualMenu->box(FL_ENGRAVED_FRAME);
@@ -99,10 +99,10 @@ Osciloscopio::Osciloscopio(){
     oxy->labelsize(12);
     oxy->box(FL_FLAT_BOX);
     //oxy->align(FL_ALIGN_TOP);  
-   // ogroupDual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
+    // ogroupDual->end();                                           // Fin del grupo de controles de las operaciones en modo dual   
     
-  //  oautoSet  = new Fl_Button (370,8,5,5,"");             // Botón para activar el ajuste automático del instrumento
-  //  oautoSet->labelsize(9);
+    //  oautoSet  = new Fl_Button (370,8,5,5,"");             // Botón para activar el ajuste automático del instrumento
+    //  oautoSet->labelsize(9);
     
     
     //ologOsc  = new Fl_Button (340,8,40,14,"Log");                // Boton para activar el almacenamiento en archivo de texto los datos
@@ -137,9 +137,9 @@ Osciloscopio::Osciloscopio(){
     ogrillaOn->labelsize(10);
     //ogrillaOn->tooltip("Cuadricula");
     
-   // ogroupTdiv = new Fl_Group (622,203,100,156,"");              //Inicia el grupo de los controles de tiempo por división
-   // ogroupTdiv->box(FL_ENGRAVED_FRAME);
-   // ogroupTdiv->deactivate();
+    // ogroupTdiv = new Fl_Group (622,203,100,156,"");              //Inicia el grupo de los controles de tiempo por división
+    // ogroupTdiv->box(FL_ENGRAVED_FRAME);
+    // ogroupTdiv->deactivate();
     //otiempoDiv = new Fl_Knob (635,270,78,78,"TDIV");            //Selector de la escala de tiempo por división
     otiempoDiv = new Fl_Dial (641,279,63,63,"");
     //otiempoDiv->color(147);
@@ -545,7 +545,7 @@ void Osciloscopio::cbCh1OnIn(){
         Fl::remove_timeout(cbTimerVectores,this);               //Detener el timer de solicitud de datos por vectores
         Encapsular('A','a','1','0',0x00,0x00);                    //Activar canal 1 en el hardware
         Transmision();
-        if (bhardware){
+        if (bhardware==1){
            canal1->activar(1);
            canal1->ogroupCh->activate();
            //canal1->ogroupCh->box(FL_UP_BOX);
@@ -560,7 +560,7 @@ void Osciloscopio::cbCh1OnIn(){
            //if (otiempoDiv->value() >= 3){                       // !!!! Toca cambiarlo a >= 2 
               Encapsular('L','d','1',ctDiv,0x00,0x00);            // Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
-              if (bhardware){
+              if (bhardware==1){
                  muestreoTimer(1);                                //Solicitar al hardware muestras por vectores
               }
               else{
@@ -571,7 +571,7 @@ void Osciloscopio::cbCh1OnIn(){
                 Encapsular('L','d','1','B',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
                 //Encapsular('L','d','1','F',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
                 Transmision();
-                if (bhardware){
+                if (bhardware==1){
                    muestreoTimer(2);                             //Solicitar al hardware muestras una a una.
                 }
                 else{
@@ -604,7 +604,7 @@ void Osciloscopio::cbCh1OnIn(){
         Encapsular('A','b','1','0',0x00,0x00);                         //Desactivar canal 1 en hardware
         opantalla->bch1 = 0;
         Transmision();
-        if (bhardware){
+        if (bhardware==1){
            canal1->activar(0);
            canal1->ogroupCh->box(FL_NO_BOX);
            canal1->ogroupCh->deactivate();
@@ -639,7 +639,7 @@ void Osciloscopio::cbCh2OnIn(){
         Fl::remove_timeout(cbTimerVectores,this);
         Encapsular('B','a','1','0',0x00,0x00);                      //Activar canal 2 en hardware
         Transmision();
-        if (bhardware){
+        if (bhardware==1){
            canal2->activar(1);
            canal2->ogroupCh->activate();
            //canal2->ogroupCh->box(FL_UP_BOX);
@@ -660,7 +660,7 @@ void Osciloscopio::cbCh2OnIn(){
            //if (otiempoDiv->value() >= 3){                        // !!!! Toca cambiarlo a >= 2
               Encapsular('L','d','1',ctDiv,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
-              if (bhardware){
+              if (bhardware==1){
                  muestreoTimer(1);                                 //Solicitar al hardware muestras por vectores
               }
               else{
@@ -673,7 +673,7 @@ void Osciloscopio::cbCh2OnIn(){
                 Encapsular('L','d','1','B',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
                 //Encapsular('L','d','1','F',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores
                 Transmision();
-                if (bhardware){
+                if (bhardware==1){
                    muestreoTimer(2);                             //Solicitar al hardware muestras una a una
                 }
                 else{
@@ -706,7 +706,7 @@ void Osciloscopio::cbCh2OnIn(){
         Encapsular('B','b','1','0',0x00,0x00);                      //Desactivar canal 2 por hardware
         opantalla->bch2 = 0;
         Transmision();
-        if (bhardware){
+        if (bhardware==1){
            canal2->activar(0);
            canal2->ogroupCh->box(FL_NO_BOX);
            canal2->ogroupCh->deactivate();
@@ -1039,7 +1039,7 @@ void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
         Fl::remove_timeout(cbTimer,this);
         Fl::remove_timeout(cbTimerVectores,this); 
         Transmision();
-        if (bhardware){
+        if (bhardware==1){
            muestreoTimer(1);                                           //Solicitar envío de muestras en vectores 
         }
         else
@@ -1051,7 +1051,7 @@ void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
           Fl::remove_timeout(cbTimer,this);
           Fl::remove_timeout(cbTimerVectores,this);                
           Transmision();
-          if (bhardware)
+          if (bhardware==1)
              muestreoTimer(2);                                         //Solicitar envío de muestras en una a una
      }
      ogrilla->redraw(); 
@@ -1287,6 +1287,7 @@ void Osciloscopio::cbPosyIn(Fl_Widget* psel){
      odispOsc1->redraw();
      odispOsc2->redraw(); 
      ogroupOsc->redraw();
+     oboxNombre->redraw();
 }
 
 
@@ -1308,6 +1309,7 @@ void Osciloscopio::cbPosVert1In(Fl_Widget* psel){
      ogrilla->redraw(); 
      opantalla->redraw(); 
      odispOsc1->redraw();
+     oboxNombre->redraw();
      //odispOsc2->redraw(); 
      ogroupOsc->redraw();
 }
@@ -1331,6 +1333,7 @@ void Osciloscopio::cbPosVert2In(Fl_Widget* psel){
      ogrilla->redraw(); 
      opantalla->redraw(); 
      //odispOsc1->redraw();
+     oboxNombre->redraw();
      odispOsc2->redraw(); 
      ogroupOsc->redraw();
 }
@@ -1412,7 +1415,7 @@ void Osciloscopio::cbTimerVectoresIn(){
      if (canal1->bestado == 1 && canal2->bestado==0){
         Encapsular('L', 'p', '1', '0',0x00,0x00);                //Trama Osc14   
         Transmision();
-        if (ch1_muestreado){                                     //El hardware termino de adquirir las muetras del canal 1
+        if (ch1_muestreado==1){                                     //El hardware termino de adquirir las muetras del canal 1
            Encapsular('A', 'p', '1', '1',0x00,0x00);             //Trama Osc16 
            Transmision();
            Encapsular('A', 'p', '1', '2',0x00,0x00);             
@@ -1428,7 +1431,7 @@ void Osciloscopio::cbTimerVectoresIn(){
      if (canal2->bestado==1 && canal1->bestado==0){
         Encapsular('L', 'p', '1', '0',0x00,0x00);
         Transmision();
-        if (ch2_muestreado){                                     //El hardware termino de adquirir las muetras del canal 2
+        if (ch2_muestreado==1){                                     //El hardware termino de adquirir las muetras del canal 2
            Encapsular('B', 'p', '1', '1',0x00,0x00);             //Trama Osc16
            Transmision();
            Encapsular('B', 'p', '1', '2',0x00,0x00);
@@ -1466,6 +1469,7 @@ void Osciloscopio::cbTimerVectoresIn(){
         }
      }
     Fl::repeat_timeout(0.09, cbTimerVectores, this);           //Repetición del timer
+    //Fl::repeat_timeout(5, cbTimerVectores, this);           //Repetición del timer
 }
 
 
@@ -1838,7 +1842,7 @@ void Osciloscopio::cbAcople1In(){
      bacopleGnd1 = 0;
      Encapsular('A', 'e', '1', '2',0x00,0x00);
      Transmision();
-     if (bhardware){
+     if (bhardware==1){
         canal1->oacopAc->labelcolor(FL_RED);
         canal1->oacopAc->redraw();
         strcpy(odispOsc1->cacople,"AC");
@@ -1854,7 +1858,8 @@ void Osciloscopio::cbAcople1In(){
      canal1->oacopAc->redraw();
      Encapsular('A', 'e', '1', '1',0x00,0x00);
      Transmision();
-     if (bhardware){
+     if (bhardware==1){
+        //odisptrig->value(trama_control);
         canal1->oacopDc->labelcolor(FL_RED);
         canal1->oacopDc->redraw();
         strcpy(odispOsc1->cacople,"DC");
@@ -1869,7 +1874,7 @@ void Osciloscopio::cbAcople1In(){
      canal1->oacopDc->redraw();
      Encapsular('A', 'e', '1', '3',0x00,0x00);
      Transmision();
-      if (bhardware){
+      if (bhardware==1){
          canal1->oacopGnd->labelcolor(FL_RED);
          canal1->oacopGnd->redraw();
          bacopleGnd1 = 1;
@@ -1913,7 +1918,7 @@ void Osciloscopio::cbAcople2In(){
      bacopleGnd2 = 0;
      Encapsular('B', 'e', '1', '2',0x00,0x00);
      Transmision();
-     if (bhardware){
+     if (bhardware==1){
         canal2->oacopAc->labelcolor(FL_RED);
         canal2->oacopAc->redraw();
         strcpy(odispOsc2->cacople,"AC");
@@ -1928,7 +1933,7 @@ void Osciloscopio::cbAcople2In(){
      canal2->oacopAc->redraw();
      Encapsular('B', 'e', '1', '1',0x00,0x00);
      Transmision();
-     if (bhardware){
+     if (bhardware==1){
         canal2->oacopDc->labelcolor(FL_RED);
         canal2->oacopDc->redraw();
         strcpy(odispOsc2->cacople,"DC");
@@ -1943,7 +1948,7 @@ void Osciloscopio::cbAcople2In(){
      canal2->oacopDc->redraw();
      Encapsular('B', 'e', '1', '3',0x00,0x00);
      Transmision();
-      if (bhardware){
+      if (bhardware==1){
          canal2->oacopGnd->labelcolor(FL_RED);
          canal2->oacopGnd->redraw();
          bacopleGnd2 = 1;
@@ -2029,7 +2034,7 @@ void Osciloscopio::cbAutoIn(){
      canal1->oacopGnd->redraw();
      Encapsular('A', 'e', '1', '2',0x00,0x00);                     // Configurar acople ac 
      Transmision();
-     if (bhardware){
+     if (bhardware==1){
         canal1->oacopAc->color(FL_RED);
         canal1->oacopAc->redraw();
      }
@@ -2042,7 +2047,7 @@ void Osciloscopio::cbAutoIn(){
      Fl::remove_timeout(cbTimer,this);
      Fl::remove_timeout(cbTimerVectores,this);  
      Transmision();
-     if (bhardware){
+     if (bhardware==1){
          muestreoTimer(1);                                        //Solicitar envío de muestras en vectores 
      }
      else

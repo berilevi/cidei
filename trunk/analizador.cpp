@@ -236,7 +236,7 @@ void Analizador::cb_ana_on_in() {
         activar(1);
         Encapsular('C','a','1','0',0x00,0x00);             //Trama de encendido del instrumento.
         Transmision();
-        if (bhardware){
+        if (bhardware==1){
            ogroup_ana->activate();
            orep_dato->value(1);                            //Representación Binaria
            oselector->value(1);                            //Frecuencia de muestreo más baja.
