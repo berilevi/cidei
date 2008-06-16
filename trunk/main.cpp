@@ -54,9 +54,9 @@ int main (int argc, char ** argv)
   //window->color(Fl_Color());
   //window->cursor(FL_CURSOR_HAND);
   osc = new Osciloscopio();
- //ana = new Analizador();
+ ana = new Analizador();
   mult = new Multimetro();
- // gene = new Generador();
+  gene = new Generador();
  // osc = new Osciloscopio();
   //manuales = new Fl_Help_Dialog;
   
