@@ -57,7 +57,7 @@ void grid::draw(int xx, int yy, int ww, int hh){
    fl_line_style(FL_DOT);                                   //Tipo de línea punteada                    
 
 if (bgrilla_analizador == 0 ){                              //Dibujar solo para osciloscopio                                                                  
-   if (bgrid){                                              //Grilla del osciloscopio activada          
+   if (bgrid==1){                                              //Grilla del osciloscopio activada          
    
       // Líneas Horizontales para la cuadricula del osciloscopio  
       fl_color(Fl_Color(22));

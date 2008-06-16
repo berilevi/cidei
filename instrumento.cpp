@@ -2,7 +2,6 @@
 
 #include "instrumento.h"                        // Archivo de cabecera de clase
 
-
 // Constructor de la clase
 Instrumento::Instrumento(){
                         
@@ -16,13 +15,11 @@ Instrumento::Instrumento(){
     ch1_muestreado = 0;                         // Inicializar el estado del muestreo del canal 1 del osciloscopio
     ch2_muestreado = 0;                         // Inicializar el estado del muestreo del canal 2 del osciloscopio
     idato_osc_ch1 =0;                           // Dato muestreado uno a uno por el canal 1 del osciloscopio
-    idato_osc_ch2 =0;                           // Dato muestreado uno a uno por el canal 2 del osciloscopio
-     
+    idato_osc_ch2 =0;                           // Dato muestreado uno a uno por el canal 2 del osciloscopio     
 }
 
 // Destructor de clase
 Instrumento::~Instrumento(){
-
 }
 
 // Asigna el valor a la variable bestado que representa si el instrumento está activo.
@@ -34,7 +31,6 @@ void Instrumento::activar(bool bx){
 void Instrumento::Sethardware(bool x){
 	bhardware = x;
 }
-
 
 /*******************************************************************************
 * Instrumento::archivar: Genera un archivo plano con los datos enviados por el 
@@ -77,6 +73,9 @@ void Instrumento::Transmision(){
       DWORD RecvLength=190;                                                           //Longitud maxima del buffer que recibe los datos de transmision        
       DWORD SentDataLength;                                                           
       
+      //if (trama_control[2]=='e'){
+        // fl_message("trama acople: %s", trama_control);
+      //}    
     
       MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,100);                     //Transmitir la trama al hardware
       fflush(stdin);                                                                  //Limpiar el buffer de salida
@@ -84,6 +83,8 @@ void Instrumento::Transmision(){
       MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);                            //Recibir lo que transmite el hardware
       MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);
   
+      //fl_message("trama recibida: %s", receive_buf);
+      
       Desencapsular(receive_buf);                                                     //Desencapsular la trama enviada desde el hardware
              
       MPUSBClose(myOutPipe);                                                          //Cerrar los pipes al terminar cada comunicacion 
@@ -260,6 +261,7 @@ void Instrumento::Desencapsular(BYTE recibida []){
             case 'J':                                                     //Pruebas de conectividad de LIV
                  if (recibida [2]== 0x06){                                //ACK
                     Sethardware(true);
+                    //fl_message("trama recibida: %s", receive_buf);
                  }
                  else if (recibida [2] == 0x15){                          //NACK
                       Sethardware(false);

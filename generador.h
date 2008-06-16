@@ -10,7 +10,6 @@
 #include <Fl/fl_Button.h>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Repeat_Button.H>
-//#include "Fl_7Seg.H"                        //Class's header file
 #include "fl_Knob.h"
 #include <FL/Fl_Dial.H>
 #include <FL/Fl_Counter.H>

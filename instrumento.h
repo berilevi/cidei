@@ -7,6 +7,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <FL/Fl_Ask.H>
+#include <FL/Fl_Output.H>
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Help_Dialog.h>
 

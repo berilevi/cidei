@@ -156,7 +156,7 @@ void Multimetro::cbMultOnIn(){
         activar(1);
         Encapsular('K','a','1','0',0x00,0x00);                                  //Trama de inicio de multímetro
         Transmision();
-        if (bhardware){
+        if (bhardware==1){
            ogroup_mult->activate();
            cbVoltAcIn();                                                     //Inicio por defecto de voltímetro AC
            ounidades->label("VAC");
@@ -245,31 +245,31 @@ void Multimetro::configInstrumento(int instrumento){
             case volt_ac:
                  Encapsular('K','q','1','2',0x00,0x00);
                  Transmision();
-                 if (bhardware)
+                 if (bhardware==1)
                  Fl::add_timeout(0.05, cbTimerMult, this);
                  break;
             case volt_dc:
                  Encapsular('K','q','1','1',0x00,0x00);
                  Transmision();
-                 if (bhardware)
+                 if (bhardware==1)
                  Fl::add_timeout(0.05, cbTimerMult, this);
                  break;
             case amp_ac:
                  Encapsular('K','q','1','4',0x00,0x00);
                  Transmision();
-                 if (bhardware)
+                 if (bhardware==1)
                  Fl::add_timeout(0.05, cbTimerMult, this);
                  break;
             case amp_dc:
                  Encapsular('K','q','1','3',0x00,0x00);
                  Transmision();
-                 if (bhardware)
+                 if (bhardware==1)
                  Fl::add_timeout(0.05, cbTimerMult, this); 
                  break;
             case ohm:
                  Encapsular('K','q','1','5',0x00,0x00);
                  Transmision();
-                 if (bhardware)
+                 if (bhardware==1)
                  Fl::add_timeout(0.05, cbTimerMult, this); 
                  break;
     }
