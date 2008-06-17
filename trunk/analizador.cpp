@@ -113,6 +113,7 @@ Analizador::Analizador() {
     
     
     olog_ana = new Fl_Button(431,374,35,27,"Log");                 //Botón que activa el alamacenamiento en archivo plano de texto.
+    olog_ana->box(FL_ENGRAVED_FRAME);
     olog_ana->labelsize(10);
     
     //ohelp_ana = new Fl_Button(10,374,334,27,"");               //Botón que lanza el archivo de ayuda del instrumento.
@@ -121,8 +122,11 @@ Analizador::Analizador() {
     oayuda_ana = new Fl_Check_Button(475,382,20,16,"?");           //Check button que activa la ayuda de los botones del analizador.
     oayuda_ana->labelsize(12);
     
-    ogrilla_on = new Fl_Light_Button(391,374,35,27,"Grid");      //Botón que activa la grilla del instrumento.
-    ogrilla_on->labelsize(10);
+    //ogrilla_on = new Fl_Light_Button(391,374,35,27,"Grid");      //Botón que activa la grilla del instrumento.
+    ogrilla_on = new Fl_Button(391,374,35,27,"G");      //Botón que activa la grilla del instrumento.
+    ogrilla_on->box(FL_ENGRAVED_FRAME);
+    ogrilla_on->type(FL_TOGGLE_BUTTON);
+    //ogrilla_on->labelsize(10);
     
            
     ofrec_muestreo = new Fl_Choice(422,489,83,20,"");    //Menú de las frecuencias de muestreo
@@ -189,8 +193,11 @@ Analizador::Analizador() {
     obox_nombre->labelfont(FL_HELVETICA_BOLD);
     obox_nombre->labelsize(20);*/
     
-    oana_on = new Fl_Light_Button(351,374,35,27,"ON");               //Botón para prender o apagar el instrumento
-    oana_on->labelsize(9);
+    //oana_on = new Fl_Light_Button(351,374,35,27,"ON");               //Botón para prender o apagar el instrumento
+    oana_on = new Fl_Button(351,374,35,27,"ON");               //Botón para prender o apagar el instrumento
+    oana_on->box(FL_ENGRAVED_FRAME);
+    oana_on->type(FL_TOGGLE_BUTTON);
+    //oana_on->labelsize(9);
     
     ocursor = new Cursores(20,420,400,674);                          //Cursor de la pantalla del instrumento
     

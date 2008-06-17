@@ -830,7 +830,7 @@ void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      omenuTdiv->value(pselector->value());
      //if (pselector->value()>=8){                                   // !!!!! Toca cambiarlo a >= 2 
-     if (pselector->value()>=2){                                   // !!!!! Toca cambiarlo a >= 2 
+     if (pselector->value()>=3){                                   // !!!!! Toca cambiarlo a >= 2 
                                                                    // !!! agregar las tramas de protocolo faltantes 
        if (pselector->value()== 3){
            ctDiv = 'E';  
@@ -1270,7 +1270,7 @@ void Osciloscopio::cbPosVert2In(Fl_Widget* psel){
  * El Callaback consta de la función static e inline cbTimer y cbTimerIn.
  * Cada vez que ocurre el timer se envía la trama de solicitud de muestra, luego 
  * el dato se envía para ser graficado; la repetición del timer se realiza 
- * deacuerdo a la escala de tiempo por división que se haya seleccionado. 
+ * de acuerdo a la escala de tiempo por división que se haya seleccionado. 
 *******************************************************************************/
 
 void Osciloscopio::cbTimer(void *pany){
@@ -1522,8 +1522,8 @@ void Osciloscopio::recorrerDatos(int num_canal){
         }                 
      }
      if (num_canal == 3){         
-             if (otiempoDiv->value()<8){                                      // !!!!!!!!!Toca cambiarlo a < 2
-             //if (otiempoDiv->value()<3){                             // !!!!!!!!!Toca cambiarlo a < 2
+             //if (otiempoDiv->value()<8){                                      // !!!!!!!!!Toca cambiarlo a < 2
+             if (otiempoDiv->value()<2){                             // !!!!!!!!!Toca cambiarlo a < 2
                   opantalla->TraceColour(Fl_Color(canal2->ncolor)); 
                   idatoGrafCh2 = idato_osc_ch2;  
                   idatoGrafCh1 = idato_osc_ch1; 
