@@ -22,22 +22,12 @@ Multimetro::Multimetro(){
     strcpy(cvalor,"0.000");                                                     //Inicialización del valor mostrado en el dsiplay
     strcpy(cnombre,"mult.txt"); 
     
-    //imultimetro = new Fl_PNG_Image("mult.png");
     ogroup_mult = new Fl_Group (735,5,285,360,"");                              //Inicio del grupo de los elementos del multímetro
     ogroup_mult->box(FL_ENGRAVED_FRAME);
     ogroup_mult->box(FL_UP_BOX);
     ogroup_mult->deactivate();
     boxgroup = new Fl_Box(735,12,285,360,"");
-    /*odispMult  = new Fl_7Seg (738,42,230,99);                                   //Display del multímetro
-    odispMult->color(FL_BLACK);
-    odispMult->thickness(5);
-    odispMult->dot_len(7);
-    odispMult->align_text(FL_ALIGN_RIGHT);
-    odispMult->segment_gap(2);
-    odispMult->value("00.0");*/
-    
-      
-    
+
     odispMult  = new Fl_Box (738,42,230,99,"0.00");
     odispMult->box(FL_FLAT_BOX);
     odispMult->color(FL_BLACK);
@@ -61,20 +51,23 @@ Multimetro::Multimetro(){
     
     
     ovoltAc = new Fl_Button(762,169,80,25,"");                              //Botón que activa el instrumento voltímetro AC.   
-    //ovoltAc->clear();   
-   // multVac = new Fl_PNG_Image("vacg.png");
-    //ovoltAc->image(multVac);
-    ovoltAc->box(FL_UP_BOX);
+    ovoltAc->box(FL_ENGRAVED_FRAME);
+    ovoltAc->type(FL_TOGGLE_BUTTON);
     ovoltDc = new Fl_Button(913,169,80,25,"");                              //Botón que activa el instrumento voltímetro DC.
-    ovoltDc->box(FL_UP_BOX);
+    ovoltDc->box(FL_ENGRAVED_FRAME);
+    ovoltDc->type(FL_TOGGLE_BUTTON);
     oampAc = new Fl_Button(762,229,80,25,"");                               //Botón que activa el instrumento Amperímetro AC.
-    oampAc->box(FL_UP_BOX);
+    oampAc->box(FL_ENGRAVED_FRAME);
+    oampAc->type(FL_TOGGLE_BUTTON);
     oampDc = new Fl_Button(913,229,80,25,"");                               //Botón que activa el instrumento Amperímetro DC.
-    oampDc->box(FL_UP_BOX);
+    oampDc->box(FL_ENGRAVED_FRAME);
+    oampDc->type(FL_TOGGLE_BUTTON);
     oohm = new Fl_Button(762,323,80,25,"");                                    //Botón que activa el instrumento Ohmetro.
-    oohm->box(FL_UP_BOX);
+    oohm->box(FL_ENGRAVED_FRAME);
+    oohm->type(FL_TOGGLE_BUTTON);
     ocontinuidad = new Fl_Button(913,325,80,25,"");                         //Botón que activa el instrumento Medidor de continuidad.
-    ocontinuidad->box(FL_UP_BOX);
+    ocontinuidad->box(FL_ENGRAVED_FRAME);
+    ocontinuidad->type(FL_TOGGLE_BUTTON);
     
     oboxOnMult = new Fl_Box(942,17,33,27,"");
     boxVac = new Fl_Box(762,177,80,25,"");
@@ -193,7 +186,6 @@ void Multimetro::cbMultOnIn(){
 * svalor : Cadena de caracteres con el valor de la medición realizada
 *******************************************************************************/
 void Multimetro::setDispMult(char svalor [4]){
-    // odispMult->value((svalor));
     odispMult->label((svalor));       
 }
 
