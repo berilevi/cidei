@@ -112,11 +112,12 @@ class Analizador : public Instrumento {
 	    //Contiene el nombre del instrumento
 	    //Fl_Box *obox_nombre;
         //Botón para prender/apagar el instrumento analizador
-        Fl_Light_Button *oana_on;
+        Fl_Button *oana_on;
         //Botón para iniciar el muestreo en el instrumento analizador
         Fl_Light_Button *omuestrear_on;
         // Botón para activar la grilla en el instrumento 
-        Fl_Light_Button *ogrilla_on;
+        //Fl_Light_Button *ogrilla_on;
+        Fl_Button *ogrilla_on;
         // Botón que habilita el almacenamiento de datos en archivos planos de texto.
         Fl_Button *olog_ana;
         //Botón que habilita la ayuda para el uso del instrumento.
