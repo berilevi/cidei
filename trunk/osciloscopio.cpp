@@ -53,6 +53,11 @@ Osciloscopio::Osciloscopio(){
     ogroupOsc->deactivate();
     
     oboxgroupOsc = new Fl_Box(4,12,725,359,"");
+    
+    oboxNombre = new Fl_Box(10,8,237,30,"OSCILOSCOPIO");                           //Cuadro para colocar el nombre del instrumento
+    oboxNombre->box(FL_ENGRAVED_FRAME);
+    oboxNombre->labelfont(FL_HELVETICA_BOLD);
+    oboxNombre->labelsize(22);
                            
     canal1 = new Canal(415,9,152,190,"",255);                     // Instancia de canal para crear el objeto canal 1
     canal2 = new Canal(575,9,152,190,"",250);                     // Instancia de canal para crear el objeto canal 2
@@ -97,8 +102,6 @@ Osciloscopio::Osciloscopio(){
    oboxguardar = new Fl_Box(329,18,34,27,"");
    oboxOnOsc = new Fl_Box(251,18,34,27,"");
    
-   
-    
     //ohelpOsc  = new Fl_Button (370,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
     //ohelpOsc->labelsize(9);
     //ohelpOsc->tooltip("Botón para iniciar el archivo de ayuda de uso del instrumento ");
@@ -190,10 +193,9 @@ Osciloscopio::Osciloscopio(){
     manual = new Fl_Help_Dialog;                                      // Ventana de ayuda que sale al presionar el botón help
     manual->load("helpOsciloscopio.html");                            // Cargar el archivo html que contiene la ayuda.
     
-    
-    ionosc = new Fl_PNG_Image("on.png"); 
+    ionosc = new Fl_PNG_Image("on.png");
+    ionoscred = new Fl_PNG_Image("onRed.png"); 
     oboxOnOsc->image(ionosc);
-    
     
     iosciloscopio = new Fl_PNG_Image("osc.png");
     oboxgroupOsc->image(iosciloscopio);
@@ -213,16 +215,14 @@ Osciloscopio::Osciloscopio(){
     
     ogroupOsc->end();                                                    //Fin del grupo de los elementos del osciloscopio
     
-    
     ogrilla = new grid(7,43,400,320,"");                                 //Instancia de la cuadricula para la pantalla 
     ogrilla->banalizador_on = 0;                                         //En cero para que no se active la grilla del analizador
     
-    oboxNombre = new Fl_Box(10,8,237,30,"OSCILOSCOPIO");                           //Cuadro para colocar el nombre del instrumento
+    /*oboxNombre = new Fl_Box(10,8,237,30,"OSCILOSCOPIO");                           //Cuadro para colocar el nombre del instrumento
     oboxNombre->box(FL_ENGRAVED_FRAME);
     oboxNombre->labelfont(FL_HELVETICA_BOLD);
-    oboxNombre->labelsize(22);
+    oboxNombre->labelsize(22);*/
     
-
     ooscOn = new Fl_Button(251,10,34,27,"");
     ooscOn->box(FL_ENGRAVED_FRAME);
     ooscOn->type(FL_TOGGLE_BUTTON);       
@@ -284,6 +284,7 @@ void Osciloscopio::cbOscOnIn(){
          if (bhardware==1){                                     //Si la respuesta fue ack la orden fue reconocida por el hardware
             activar(1);                                         //Activar el instrumento virtual osciloscopio
             ogroupOsc->activate(); 
+            oboxOnOsc->image(ionoscred);
             canal2->ogroupCh->deactivate();  
             och1On->value(1);
             canal1->activar(1);
@@ -325,6 +326,7 @@ void Osciloscopio::cbOscOnIn(){
          if (bhardware==1){
             och1On->value(0);
             canal1->activar(0);
+            oboxOnOsc->image(ionosc);
             canal1->~Canal();
             canal1->ogroupCh->box(FL_NO_BOX);
             canal1->ogroupCh->deactivate();
@@ -481,7 +483,6 @@ void Osciloscopio::cbCh1OnIn(){
            if (canal2->bestado== 1){                              //Si el canal 2 ya está activo se habilitan las operaciones entre las dos señales
               odualMenu->activate();
            }
-           //if (otiempoDiv->value() >= 8){                         // !!!! Toca cambiarlo a >= 2 
            if (otiempoDiv->value() >= 3){                       // !!!! Toca cambiarlo a >= 2 
               Encapsular('L','d','1',ctDiv,0x00,0x00);            // Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
@@ -492,8 +493,7 @@ void Osciloscopio::cbCh1OnIn(){
                    fl_message("Error de hardware");
               }
            }
-           else {
-                //Encapsular('L','d','1','B',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
+           else { 
                 Encapsular('L','d','1','F',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
                 Transmision();
                 if (bhardware==1){
@@ -579,8 +579,7 @@ void Osciloscopio::cbCh2OnIn(){
            odispOsc2->redraw();
            if (canal1->bestado== 1){
               odualMenu->activate();                               //Si el canal 1 está activo se habilitan las operaciones entre las dos señales 
-           }
-           //if (otiempoDiv->value() >= 8){                          // !!!!  Toca cambiarlo a >= 2  
+           } 
            if (otiempoDiv->value() >= 3){                        // !!!! Toca cambiarlo a >= 2
               Encapsular('L','d','1',ctDiv,0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
               Transmision();
@@ -594,7 +593,6 @@ void Osciloscopio::cbCh2OnIn(){
            else {
                 Fl::remove_timeout(cbTimer,this);
                 Fl::remove_timeout(cbTimerVectores,this);
-                //Encapsular('L','d','1','B',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores 
                 Encapsular('L','d','1','F',0x00,0x00);            //Configurar escala de Tiempo por division muestreo por vectores
                 Transmision();
                 if (bhardware==1){
@@ -798,6 +796,7 @@ void Osciloscopio::cbNivelTriggerIn(Fl_Widget* psel){
      odispOsc1->redraw();
      odispOsc2->redraw(); 
      ogroupOsc->redraw();
+     oboxNombre->redraw();
     
     odisptrig->value(cNivelTrigg);
     //Encapsular('L','g','2','2',cnivel1,);
@@ -829,9 +828,7 @@ void Osciloscopio::cbTiempoDiv(Fl_Widget* psel, void *pany){
 void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
      Fl_Knob *pselector = (Fl_Knob *)psel;
      omenuTdiv->value(pselector->value());
-     //if (pselector->value()>=8){                                   // !!!!! Toca cambiarlo a >= 2 
      if (pselector->value()>=3){                                   // !!!!! Toca cambiarlo a >= 2 
-                                                                   // !!! agregar las tramas de protocolo faltantes 
        if (pselector->value()== 3){
            ctDiv = 'E';  
            strcpy(odispOsc1->ct_div,"50mS/Dv");
@@ -970,7 +967,6 @@ void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
              fl_message("Error de hardware");
      }
      else {
-          //Encapsular('L','d','1','B',0x00,0x00);                        // !!!!!cambiar 'B' por 'F' //Trama de configuración de escala de Tiempo por division mayor de 0.1s
           Encapsular('L','d','1','F',0x00,0x00);                        // !!!!!cambiar 'B' por 'F' //Trama de configuración de escala de Tiempo por division mayor de 0.1s
           Fl::remove_timeout(cbTimer,this);
           Fl::remove_timeout(cbTimerVectores,this);                
@@ -983,6 +979,7 @@ void Osciloscopio::cbTiempoDivIn(Fl_Widget* psel){
      odispOsc1->redraw();
      odispOsc2->redraw(); 
      ogroupOsc->redraw();
+     oboxNombre->redraw();
 }
 
 /*******************************************************************************
@@ -1082,6 +1079,7 @@ void Osciloscopio::cbVoltDiv1In(Fl_Widget* psel){
      odispOsc1->redraw();
      odispOsc2->redraw(); 
      ogroupOsc->redraw();
+     oboxNombre->redraw();
 }
 
 
@@ -1182,6 +1180,7 @@ void Osciloscopio::cb_volt_div2_in(Fl_Widget* psel){
      odispOsc1->redraw();
      odispOsc2->redraw(); 
      ogroupOsc->redraw();
+     oboxNombre->redraw();
 }
 
 
@@ -1234,7 +1233,6 @@ void Osciloscopio::cbPosVert1In(Fl_Widget* psel){
      opantalla->redraw(); 
      odispOsc1->redraw();
      oboxNombre->redraw();
-     //odispOsc2->redraw(); 
      ogroupOsc->redraw();
 }
 
@@ -1256,9 +1254,9 @@ void Osciloscopio::cbPosVert2(Fl_Widget* psel, void *pany){
 void Osciloscopio::cbPosVert2In(Fl_Widget* psel){
      ogrilla->redraw(); 
      opantalla->redraw(); 
-     //odispOsc1->redraw();
      oboxNombre->redraw();
      odispOsc2->redraw(); 
+     ogroupOsc->redraw();
      ogroupOsc->redraw();
 }
 
@@ -1299,22 +1297,6 @@ void Osciloscopio::cbTimerIn(){
      if(otiempoDiv->value()== 2){
         Fl::repeat_timeout(0.1, cbTimer, this);
      }
-     // Se quitan los siguientes por el cambio.
-    /* if(otiempoDiv->value()== 3){
-        Fl::repeat_timeout(0.05, cbTimer, this);
-     }
-     if(otiempoDiv->value()== 4){
-        Fl::repeat_timeout(0.02, cbTimer, this);
-     }
-     if(otiempoDiv->value()== 5){
-        Fl::repeat_timeout(0.01, cbTimer, this);
-     }
-     if(otiempoDiv->value()== 6){
-        Fl::repeat_timeout(0.005, cbTimer, this);
-     }
-     if(otiempoDiv->value()== 7){
-        Fl::repeat_timeout(0.002, cbTimer, this);
-     }*/
 }
 
 
@@ -1429,15 +1411,13 @@ void Osciloscopio::recorrerDatos(int num_canal){
         opantalla->TraceColour(Fl_Color(canal1->ncolor));
         free(opantalla->ScopeData2);
         if (bacopleGnd1 == 1){
-           //if (otiempoDiv->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
-            if (otiempoDiv->value()<2){                             // !!!!!!!!!Toca cambiarlo a < 2 
+            if (otiempoDiv->value()<2){                           
                  opantalla->Add((canal1->oposx->value()*255)+33000,255); 
                  ogrilla->redraw();
                  odispOsc1->redraw();
             }
             else{
-                 //for(icont=0;icont < SIZE_OSC-1 ; icont++){
-                 for(icont=0;icont < 571; icont++){
+                 for(icont=0;icont < SIZE_OSC-1 ; icont++){
                      opantalla->Add((canal1->oposx->value()*255)+33000,255); 
                      ogrilla->redraw();
                      odispOsc1->redraw();            
@@ -1445,7 +1425,6 @@ void Osciloscopio::recorrerDatos(int num_canal){
             }              
         }
         else{                         
-            //if (otiempoDiv->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
             if (otiempoDiv->value()<2){                             // !!!!!!!!!Toca cambiarlo a < 2 
                  icont_datos ++;
                  idatoGrafCh1 = idato_osc_ch1;
@@ -1460,9 +1439,8 @@ void Osciloscopio::recorrerDatos(int num_canal){
                  }
             }
             else{
-                 //for(icont=0;icont < SIZE_OSC-1 ; icont++){
-                 for(icont=0;icont < 571; icont++){
-                     idatoGrafCh1 = buf_osc_ch1[icont];
+                 for(icont=0;icont < SIZE_OSC-1 ; icont++){
+                     idatoGrafCh1 = bufOscCh1[icont];
                      vpp(idatoGrafCh1,0,1); 
                      opantalla->Add((canal1->oposx->value()*255)+(idatoGrafCh1*255),255);
                      ogrilla->redraw(); 
@@ -1477,23 +1455,20 @@ void Osciloscopio::recorrerDatos(int num_canal){
      if (num_canal == 2){
         opantalla->TraceColour(Fl_Color(canal2->ncolor)); 
         if (bacopleGnd2 == 1){
-            //if (otiempoDiv->value()<8){                             // !!!!!!!!!Toca cambiarlo a < 2 
             if (otiempoDiv->value()<2){                             // !!!!!!!!!Toca cambiarlo a < 2
                  opantalla->Add(255,(canal2->oposx->value()*255)+33000); 
                  ogrilla->redraw();
                  odispOsc2->redraw();
             }
             else{
-                 //for(icont=0;icont < SIZE_OSC-1 ; icont++){
-                 for(icont=0;icont < 571; icont++){
+                 for(icont=0;icont < SIZE_OSC-1 ; icont++){
                      opantalla->Add(255,(canal2->oposx->value()*255)+33000); 
                      ogrilla->redraw();
                      odispOsc2->redraw();              
                  }
             }              
         }
-        else {                               
-             //if (otiempoDiv->value()<8){                                  // !!!!!!!!!Toca cambiarlo a < 2 
+        else {                                
              if (otiempoDiv->value()<2){                             // !!!!!!!!!Toca cambiarlo a < 2
                   icont_datos ++;
                   idatoGrafCh2 = idato_osc_ch2;
@@ -1508,8 +1483,7 @@ void Osciloscopio::recorrerDatos(int num_canal){
                   }
              }
              else{
-                  //for(icont=0;icont < SIZE_OSC-1 ; icont++){
-                  for(icont=0;icont < 571; icont++){ 
+                  for(icont=0;icont < SIZE_OSC-1 ; icont++){
                      idatoGrafCh2 = buf_osc_ch2[icont];
                      vpp(0,idatoGrafCh2,2);
                      opantalla->Add(255,(canal2->oposx->value()*255)+(idatoGrafCh2*255)); 
@@ -1522,7 +1496,6 @@ void Osciloscopio::recorrerDatos(int num_canal){
         }                 
      }
      if (num_canal == 3){         
-             //if (otiempoDiv->value()<8){                                      // !!!!!!!!!Toca cambiarlo a < 2
              if (otiempoDiv->value()<2){                             // !!!!!!!!!Toca cambiarlo a < 2
                   opantalla->TraceColour(Fl_Color(canal2->ncolor)); 
                   idatoGrafCh2 = idato_osc_ch2;  
@@ -1604,9 +1577,8 @@ void Osciloscopio::recorrerDatos(int num_canal){
                   }
              }
              else{
-                  //for(icont=0;icont < SIZE_OSC-1 ; icont++){
-                  for(icont=0;icont < 571; icont++){
-                     idatoGrafCh1 = buf_osc_ch1[icont];
+                  for(icont=0;icont < SIZE_OSC-1 ; icont++){
+                     idatoGrafCh1 = bufOscCh1[icont];
                      idatoGrafCh2 = buf_osc_ch2[icont];
                      if (bsuma == 1){ 
                         if (bacopleGnd1 == 1){
@@ -1707,17 +1679,18 @@ void Osciloscopio::cbLogOsc(Fl_Widget* pboton, void *pany){
 }
 
 void Osciloscopio::cbLogOscIn(){
-    ofstream log("osc_ch1.txt");
-    for(int icont=0;icont < 571; icont++){
-         log << buf_osc_ch1[icont] << endl;             
+    ofstream log("osch1.txt");
+    for(int icont=0;icont < 507; icont++){
+         //log << buf_osc_ch1[icont] << endl;             
+         log << bufOscCh1[icont] << endl;             
     }
 	log.close(); 
 		
-	ofstream log2("osc_ch2.txt");
-    for(int icont=0;icont < 571; icont++){
+/*	ofstream log2("osch2.txt");
+    for(int icont=0;icont < 508; icont++){
          log2 << buf_osc_ch2[icont] << endl;             
     }
-	log2.close();
+	log2.close();*/
 }
 
 
@@ -1814,6 +1787,7 @@ void Osciloscopio::cbAcople1In(){
      odispOsc1->redraw();
      odispOsc2->redraw(); 
      ogroupOsc->redraw();
+     ogroupOsc->redraw();
      isec_acople++;  
 }
 
@@ -1888,6 +1862,8 @@ void Osciloscopio::cbAcople2In(){
      odispOsc1->redraw();
      odispOsc2->redraw(); 
      ogroupOsc->redraw();
+     ogroupOsc->redraw();
+     ogroupOsc->redraw();
      isec_acople2++;  
 }
 
@@ -1904,14 +1880,8 @@ void Osciloscopio::cbAyuda(Fl_Widget* pboton, void *pany){
 
 void Osciloscopio::cbAyudaIn(){
      if (oayudaOsc->value() == 1){
-        //oayudaOsc->box(FL_DOWN_BOX);
-        //oayudaOsc->label("8");
-        //oayudaOsc->set();                    
-        Fl_Tooltip::enable();
+        manual->show();
      }
-    // else{
-    //     Fl_Tooltip::disable(); 
-    // }
 }
 
 

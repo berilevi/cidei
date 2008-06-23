@@ -74,6 +74,7 @@ class Multimetro : public Instrumento
 	    Fl_PNG_Image *imultimetro;
 	    //Imagen del botón de prender el multímetro
         Fl_PNG_Image *ionMult;
+        Fl_PNG_Image *ionRedMult;
         //Box para colocar la imagen del botón prender
         Fl_Box *oboxOnMult;
 		// class constructor
@@ -103,10 +104,11 @@ private:
 		// Boton que habilita la ayuda para el uso del instrumento.
         Fl_Button *ohelpMult;
         //Botón que habilita la ayuda flotante para el uso de los botones del instrumento. 
-        Fl_Check_Button *oayudaMult;
+        //Fl_Check_Button *oayudaMult;
+        Fl_Button *oayudaMult;
 		//Botón de activación del medidor de voltaje en ac.
 		Fl_Button *ovoltAc;
-		//
+		//Box para mascara botón Voltímetro AC
 		Fl_Box *boxVac;
 	    //Mascara del volt ac.
 	    Fl_PNG_Image *iVoltAc;
@@ -114,31 +116,31 @@ private:
 		Fl_PNG_Image *multVac;
 		//Botón de activación del medidor de voltaje en dc.
 	    Fl_Button *ovoltDc;
-	    //
+	    //Box para mascara botón Voltímetro DC
 		Fl_Box *boxVdc;
 	    //Mascara del volt dc.
 	    Fl_PNG_Image *iVoltDc;
 	    //Botón de activación del medidor de corriente en ac.
 	    Fl_Button *oampAc;
-	    //
+	    //Box para mascara botón Amperímetro AC
 		Fl_Box *boxAac;
 	    //Mascara del amp ac.
 	    Fl_PNG_Image *iAmpAc;
 	    //Botón de activación del medidor de corriente en dc.
 	    Fl_Button *oampDc;
-	    //
+	    //Box para mascara botón Amperímetro DC
 		Fl_Box *boxAdc;
 	    //Mascara del amp dc.
 	    Fl_PNG_Image *iAmpDc;
 	    //Botón de activación del medidor de resistencia.
 	    Fl_Button *oohm;
-	    //
+	    //Box para mascara botón Ohmetro
 		Fl_Box *boxOhm;
 	    //Mascara del ohmetro.
 	    Fl_PNG_Image *iOhm;
 	    //Botón de activación del medidor de continuidad.
 	    Fl_Button *ocontinuidad;
-	    //
+	    //Box para mascara botón Continuidad
 		Fl_Box *boxCont;
 	    //Mascara del medidor de continuidad.
 	    Fl_PNG_Image *iCont;
@@ -161,10 +163,11 @@ private:
         static void cbCont(Fl_Widget*, void *);
         inline void cbContIn();
 	    //Boton para encender el instrumento multimetro.
-        //Fl_Light_Button *omultOn;
         Fl_Button *omultOn;
         // Widget para colocar en texto las unidades de medida de la medición realizada con el multímetro.
         Fl_Box *ounidades;
+        //Box para el nombre del instrumento
+        Fl_Box *boxNomMult;
 };
 
 #endif // MULTIMETRO_H

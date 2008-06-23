@@ -67,20 +67,16 @@ class Osciloscopio : public Instrumento{
         //Instancia de Canal 2.
         Canal *canal2;	
         //Botón para prender/apagar el osciloscopio.
-        //Fl_Light_Button *ooscOn;
         Fl_Button *ooscOn;
         //Botón para prender/apagar el canal 1.
-		//Fl_Light_Button *och1On;
 		Fl_Button *och1On;
         //Botón para prender/apagar el canal 2.
-		//Fl_Light_Button *och2On;
 		Fl_Button *och2On;
         //Botón de repetición para seleccionar el canal fuente del trigger.
         Fl_Repeat_Button *oselTrigger;
         //Botón de repetición para seleccionar la operación entre señales en modo dual.
         Fl_Repeat_Button *odualMenu; 
         //Botón para detener las gráficas que se presentan en la pantalla del osciloscopio.
-        //Fl_Light_Button *ostop;
         Fl_Button *ostop;
         //Imagen para el botón de stop
         Fl_PNG_Image *ipause;
@@ -98,6 +94,7 @@ class Osciloscopio : public Instrumento{
         Fl_Box *oboxguardar;
         //Imagen del botón de prender el osciloscopio
         Fl_PNG_Image *ionosc;
+        Fl_PNG_Image *ionoscred;
         //Box para colocar la imagen del botón prender
         Fl_Box *oboxOnOsc;
         //Imagen para el botón de cuadricula
@@ -107,14 +104,12 @@ class Osciloscopio : public Instrumento{
         //Botón que habilita la ayuda para el uso del instrumento. 
         Fl_Button *ohelpOsc;
         //Botón que habilita la ayuda flotante para el uso de los botones del instrumento.
-        //Fl_Check_Button *oayudaOsc;
         Fl_Button *oayudaOsc;
         //Imagen del botón de ayuda flotante
         Fl_PNG_Image *ipreg;
         //Box para colocar la imagen del botón de ayuda flotante
         Fl_Box *oboxPreg;
         //Selector de la escala de tiempo por división.
-        //Fl_Knob *otiempoDiv;
         Fl_Dial *otiempoDiv;
         //Perilla para el desplazamiento horizontal de la señal graficada.
         Fl_Dial *oposy;
