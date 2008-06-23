@@ -2,8 +2,6 @@
 
 #include "multimetro.h" // class's header file
 
-
-
 /*******************************************************************************
  * Multímetro: Clase que representa las funciones del instrumento multímetro con
  *             6 tipos de medición:
@@ -40,15 +38,13 @@ Multimetro::Multimetro(){
     ounidades->box(FL_FLAT_BOX);
     ounidades->color(FL_BLACK);
     
-   // ohelpMult  = new Fl_Button (935,23,40,16,"Help");                           //Botón que inicia la ventana de ayuda de uso del instrumento.
-   // ohelpMult->labelsize(9);
-    //ohelpMult->box(FL_NO_BOX);
-   // ohelpMult->tooltip("Inicia la ayuda de usuario para el uso del multímetro");
+    boxNomMult = new Fl_Box(742,10,196,27,"MULTIMETRO");
+    boxNomMult->box(FL_ENGRAVED_FRAME);
+    boxNomMult->labelfont(FL_HELVETICA_BOLD);
+    boxNomMult->labelsize(21);
     
-    oayudaMult = new Fl_Check_Button(985,20,20,20,"");
-    
-    
-    
+    oayudaMult = new Fl_Button(980,10,35,27,"");
+    oayudaMult->box(FL_ENGRAVED_FRAME);
     
     ovoltAc = new Fl_Button(762,169,80,25,"");                              //Botón que activa el instrumento voltímetro AC.   
     ovoltAc->box(FL_ENGRAVED_FRAME);
@@ -82,6 +78,7 @@ Multimetro::Multimetro(){
     
     
     ionMult = new Fl_PNG_Image("onmult.png"); 
+    ionRedMult = new Fl_PNG_Image("onMultRed.png");
     oboxOnMult->image(ionMult);
     
     imultimetro = new Fl_PNG_Image("mult.png");
@@ -107,16 +104,14 @@ Multimetro::Multimetro(){
     
     ogroup_mult-> end();                                                        //Fin del grupo de elementos del multímetro
       
-     
-    //omultOn = new Fl_Light_Button(942,10,33,27,"");                          //Botón que enciende/apaga el instrumento
+      
     omultOn = new Fl_Button(942,10,33,27,"");
     omultOn->type(FL_TOGGLE_BUTTON);
     omultOn->box(FL_ENGRAVED_FRAME);
-    //omultOn->labelsize(9); 
-    
     
     
     // Callbacks de los diferentes botones del instrumento
+    
     omultOn->callback(cbMultOn, this);
     ovoltAc->callback(cbVoltAc, this);
     ovoltDc->callback(cbVoltDc, this);
@@ -124,13 +119,7 @@ Multimetro::Multimetro(){
     oampDc->callback(cbAmpDc, this);
     oohm->callback(cbOhm, this);
     ocontinuidad->callback(cbCont, this);
-   // ohelpMult->callback(cbHelpMult,this);
     oayudaMult->callback(cbAyudaMult,this);
-    
-}
-
-// class destructor
-Multimetro::~Multimetro(){
 }
 
 
@@ -150,6 +139,7 @@ void Multimetro::cbMultOnIn(){
         Encapsular('K','a','1','0',0x00,0x00);                                  //Trama de inicio de multímetro
         Transmision();
         if (bhardware==1){
+           oboxOnMult->image(ionRedMult);
            ogroup_mult->activate();
            cbVoltAcIn();                                                     //Inicio por defecto de voltímetro AC
            ounidades->label("VAC");
@@ -163,17 +153,12 @@ void Multimetro::cbMultOnIn(){
      if (omultOn->value()== 0){                                                //Apagar el Multímetro
         Fl::remove_timeout(cbTimerMult, this);
         activar(0);
-        ovoltAc->box(FL_UP_BOX);
+        oboxOnMult->image(ionMult);
         ovoltAc->clear();
-        ovoltDc->box(FL_UP_BOX);
         ovoltDc->clear();
-        oampAc->box(FL_UP_BOX);
         oampAc->clear();
-        oampDc->box(FL_UP_BOX);
         oampDc->clear();
-        oohm->box(FL_UP_BOX);
         oohm->clear();
-        ocontinuidad->box(FL_UP_BOX);
         ocontinuidad->clear(); 
         ogroup_mult->deactivate();
         Fl_Tooltip::disable(); 
@@ -414,27 +399,20 @@ void Multimetro::cbVoltAc(Fl_Widget* pboton, void *any){
 }
 
 void Multimetro::cbVoltAcIn(){
-     if (ovoltAc->value()== 0){
+     if (ovoltAc->value()== 1){
         Fl::remove_timeout(cbTimerMult, this);
-        ovoltDc->box(FL_UP_BOX);
         ovoltDc->clear();
-        oampAc->box(FL_UP_BOX);
         oampAc->clear();
-        oampDc->box(FL_UP_BOX);
         oampDc->clear();
-        oohm->box(FL_UP_BOX);
         oohm->clear();
-        ocontinuidad->box(FL_UP_BOX);
-        ocontinuidad->clear();        
-        ovoltAc->box(FL_DOWN_BOX);
+        ocontinuidad->clear();       
         ovoltAc->set();
         instrument = volt_ac;
         ounidades->label("VAC");
         configInstrumento(volt_ac);
      }
      else{
-          ovoltAc->box(FL_UP_BOX);
-          ovoltAc->clear();
+         ovoltAc->clear();
      }
 }
 
@@ -455,27 +433,20 @@ void Multimetro::cbVoltDc(Fl_Widget* pboton, void *any){
 }
 
 void Multimetro::cbVoltDcIn(){
-     if (ovoltDc->value()== 0){
+     if (ovoltDc->value()== 1){
         Fl::remove_timeout(cbTimerMult, this);
-        ovoltAc->box(FL_UP_BOX);
         ovoltAc->clear();
-        oampAc->box(FL_UP_BOX);
         oampAc->clear();
-        oampDc->box(FL_UP_BOX);
         oampDc->clear();
-        oohm->box(FL_UP_BOX);
         oohm->clear();
-        ocontinuidad->box(FL_UP_BOX);
-        ocontinuidad->clear();                     
-        ovoltDc->box(FL_DOWN_BOX);
+        ocontinuidad->clear();     
         ovoltDc->set();
         instrument = volt_dc;
         ounidades->label("VDC");
         configInstrumento(volt_dc);
      }
      else{
-          ovoltDc->box(FL_UP_BOX);
-          ovoltDc->clear();
+         ovoltDc->clear();
      }
 }
 
@@ -496,27 +467,20 @@ void Multimetro::cbAmpAc(Fl_Widget* pboton, void *any){
 }
 
 void Multimetro::cbAmpAcIn(){
-    if (oampAc->value()== 0){
+    if (oampAc->value()== 1){
         Fl::remove_timeout(cbTimerMult, this);
-        //fl_alert("Verifique las puntas de prueba");
-        ovoltAc->box(FL_UP_BOX);
+        fl_alert("Verifique las puntas de prueba");
         ovoltAc->clear();
-        ovoltDc->box(FL_UP_BOX);
         ovoltDc->clear();
-        oampDc->box(FL_UP_BOX);
         oampDc->clear();
-        oohm->box(FL_UP_BOX);
         oohm->clear();
-        ocontinuidad->box(FL_UP_BOX);
-        ocontinuidad->clear();                     
-        oampAc->box(FL_DOWN_BOX);
+        ocontinuidad->clear();          
         oampAc->set();
         instrument = amp_ac;
         ounidades->label("AAC");
         configInstrumento(amp_ac);
      }
      else{
-          oampAc->box(FL_UP_BOX);
           oampAc->clear();
      } 
 }
@@ -538,27 +502,20 @@ void Multimetro::cbAmpDc(Fl_Widget* pboton, void *any){
 }
 
 void Multimetro::cbAmpDcIn(){
-    if (oampDc->value()== 0){
+    if (oampDc->value()== 1){
         Fl::remove_timeout(cbTimerMult, this);
         fl_alert("Verifique las puntas de prueba");
-        ovoltAc->box(FL_UP_BOX);
         ovoltAc->clear();
-        ovoltDc->box(FL_UP_BOX);
         ovoltDc->clear();
-        oampAc->box(FL_UP_BOX);
         oampAc->clear();
-        oohm->box(FL_UP_BOX);
         oohm->clear();
-        ocontinuidad->box(FL_UP_BOX);
-        ocontinuidad->clear();                     
-        oampDc->box(FL_DOWN_BOX);
+        ocontinuidad->clear();        
         oampDc->set();
         instrument = amp_dc;
         ounidades->label("ADC");
         configInstrumento(amp_dc);
      }
      else{
-          oampDc->box(FL_UP_BOX);
           oampDc->clear();
      } 
 }
@@ -580,26 +537,19 @@ void Multimetro::cbOhm(Fl_Widget* pboton, void *any){
 }
 
 void Multimetro::cbOhmIn(){
-     if (oohm->value()== 0){
+     if (oohm->value()== 1){
         Fl::remove_timeout(cbTimerMult, this);
-        ovoltAc->box(FL_UP_BOX);
         ovoltAc->clear();
-        ovoltDc->box(FL_UP_BOX);
         ovoltDc->clear();
-        oampDc->box(FL_UP_BOX);
         oampDc->clear();
-        oampAc->box(FL_UP_BOX);
         oampAc->clear();
-        ocontinuidad->box(FL_UP_BOX);
-        ocontinuidad->clear();                     
-        oohm->box(FL_DOWN_BOX);
+        ocontinuidad->clear();      
         oohm->set();
         instrument = ohm;
         ounidades->label("R");
         configInstrumento(ohm);
      }
      else{
-          oohm->box(FL_UP_BOX);
           oohm->clear();
      }
 }
@@ -624,54 +574,30 @@ void Multimetro::cbCont(Fl_Widget* pboton, void *any){
 }
 
 void Multimetro::cbContIn(){
-     if (ocontinuidad->value()== 0){
+     if (ocontinuidad->value()== 1){
         Fl::remove_timeout(cbTimerMult, this);
-        ovoltAc->box(FL_UP_BOX);
         ovoltAc->clear();
-        ovoltDc->box(FL_UP_BOX);
         ovoltDc->clear();
-        oampDc->box(FL_UP_BOX);
         oampDc->clear();
-        oampAc->box(FL_UP_BOX);
         oampAc->clear();
-        oohm->box(FL_UP_BOX);
-        oohm->clear();                     
-        ocontinuidad->box(FL_DOWN_BOX);
+        oohm->clear();                    
         ocontinuidad->set();
         instrument = continuidad;
         ounidades->label("Cont");
         configInstrumento(ohm);
-       // Beep(1000,1000);
      }
      else{
-          ocontinuidad->box(FL_UP_BOX);
           ocontinuidad->clear();
      }
 }
 
 
 /*******************************************************************************
- * Multimetro::cbHelpMult: Callback del botón que lanza la ayuda del uso del
- *                      instrumento. 
+ * Multimetro::cbAyudaMult: Callback del botón que lanza la ayuda del uso del
+ *                      instrumento.
  * El Callaback consta de la función static e inline cbHelpMult y cbHelpMultIn.
  * Se despliega una ventana de ayuda con un archivo en html con la guía de
  * usuario del instrumento.
-*******************************************************************************/
-
-void Multimetro::cbHelpMult(Fl_Widget* pboton, void *any){
-     Multimetro* pmult=(Multimetro*)any;
-     pmult->cbHelpMultIn();
-}
-
-void Multimetro::cbHelpMultIn(){
-      //manualMult->show();
-}
-
-
-/*******************************************************************************
- * Multimetro::cbAyudaMult: Callback del botón que activa los globos de ayuda
- *                       flotante para cada botón del multímetro.
- * El Callaback consta de la función static e inline cbAyudaMult y cbAyudaMultIn.
 *******************************************************************************/
 void Multimetro::cbAyudaMult(Fl_Widget* pboton, void *pany){
      Multimetro* pmult=(Multimetro*)pany;
@@ -680,9 +606,14 @@ void Multimetro::cbAyudaMult(Fl_Widget* pboton, void *pany){
 
 void Multimetro::cbAyudaMultIn(){
      if (oayudaMult->value() == 1){
-        Fl_Tooltip::enable();
+        //manualMult->show();
      }
-     else{
-         Fl_Tooltip::disable(); 
-     }
+}
+
+
+/*******************************************************************************
+ * Multimetro::~Multimetro: Destructor de clase                
+*******************************************************************************/
+
+Multimetro::~Multimetro(){
 }

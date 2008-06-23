@@ -38,7 +38,7 @@ void Instrumento::Sethardware(bool x){
 *******************************************************************************/
 void Instrumento::archivar(){
      ofstream log("oscill.txt");
-     log << "Hello World, from www.cpp-home.com and Loobian!" << endl;
+     log << "Hello World" << endl;
 	 log.close();	 
 }
 
@@ -72,10 +72,7 @@ void Instrumento::Transmision(){
 
       DWORD RecvLength=190;                                                           //Longitud maxima del buffer que recibe los datos de transmision        
       DWORD SentDataLength;                                                           
-      
-      //if (trama_control[2]=='e'){
-        // fl_message("trama acople: %s", trama_control);
-      //}    
+        
     
       MPUSBWrite(myOutPipe,trama_control,10,&SentDataLength,100);                     //Transmitir la trama al hardware
       fflush(stdin);                                                                  //Limpiar el buffer de salida
@@ -83,8 +80,7 @@ void Instrumento::Transmision(){
       MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);                            //Recibir lo que transmite el hardware
       MPUSBRead(myInPipe,receive_buf,190,&RecvLength,100);
   
-      //fl_message("trama recibida: %s", receive_buf);
-      
+
       Desencapsular(receive_buf);                                                     //Desencapsular la trama enviada desde el hardware
              
       MPUSBClose(myOutPipe);                                                          //Cerrar los pipes al terminar cada comunicacion 
@@ -146,57 +142,45 @@ void Instrumento::Desencapsular(BYTE recibida []){
      switch (recibida [1]){
             case 'A':                                                    //Informacion Canal 1
                  if (recibida [2] == '1'){                               //Primer vector de datos para canal 1
-                   //for (icont = 4; icont < 132; icont++){              //**Para el vector de 512 datos**
-                   for (icont = 4; icont < 147; icont++){
-                        buf_osc_ch1[icont-4]=int(recibida[icont]);
+                   for (icont = 4; icont < 132; icont++){   
+                        bufOscCh1[icont-4]=int(recibida[icont]);
                     }
                  }
                  else if (recibida [2] == '2'){                          //Segundo vector de datos para el canal 1
-                      //for (icont = 4; icont < 132; icont++){
-                      for (icont = 4; icont < 147; icont++){
-                          //buf_osc_ch1[(icont-4)+128]=int(recibida[icont]);
-                          buf_osc_ch1[(icont-4)+143]=int(recibida[icont]);
+                      for (icont = 4; icont < 132; icont++){
+                          bufOscCh1[(icont-4)+127]=int(recibida[icont]);
                       }
                  }
                  else if (recibida [2] == '3'){                           //Tercer vector de datos para el canal 1
-                      for (icont = 4; icont < 147; icont++){
-                          //buf_osc_ch1[(icont-4)+256]=int(recibida[icont]);
-                          buf_osc_ch1[(icont-4)+286]=int(recibida[icont]);
+                      for (icont = 4; icont < 132; icont++){
+                          bufOscCh1[(icont-4)+253]=int(recibida[icont]);
                       }
                  }
                  else if (recibida [2] == '4'){                           //Cuarto vector de datos para el canal 1
-                      for (icont = 4; icont < 147; icont++){
-                          //buf_osc_ch1[(icont-4)+385]=int(recibida[icont]);
-                          buf_osc_ch1[(icont-4)+429]=int(recibida[icont]);
+                      for (icont = 4; icont < 132; icont++){
+                          bufOscCh1[(icont-4)+380]=int(recibida[icont]);
                       }
                  }
             break;
             case 'B':                                                     //Informacion para Canal 2
                  if (recibida [2] == '1'){                                //Primer vector de datos para canal 2
-                    //for (icont = 4; icont < 132; icont++){
-                    for (icont = 4; icont < 147; icont++){
+                    for (icont = 4; icont < 132; icont++){
                         buf_osc_ch2[icont-4]=int(recibida[icont]);
                     }
                  }
                  else if (recibida [2] == '2'){                           //Segundo vector de datos para canal 2
-                      //for (icont = 4; icont < 132; icont++){
-                      for (icont = 4; icont < 147; icont++){
-                          //buf_osc_ch2[(icont-4)+128]=int(recibida[icont]);
-                          buf_osc_ch2[(icont-4)+143]=int(recibida[icont]);
+                      for (icont = 4; icont < 132; icont++){
+                          buf_osc_ch2[(icont-4)+127]=int(recibida[icont]);
                       }
                  }
                  else if (recibida [2] == '3'){                           //Tercer vector de datos para canal 2
-                      //for (icont = 4; icont < 132; icont++){
-                      for (icont = 4; icont < 147; icont++){
-                          //buf_osc_ch2[(icont-4)+256]=int(recibida[icont]);
-                          buf_osc_ch2[(icont-4)+286]=int(recibida[icont]);
+                      for (icont = 4; icont < 132; icont++){
+                          buf_osc_ch2[(icont-4)+253]=int(recibida[icont]);
                       }
                  }
                  else if (recibida [2] == '4'){                           //Cuarto vector de datos para canal 2
-                      //for (icont = 4; icont < 132; icont++){
-                      for (icont = 4; icont < 147; icont++){
-                          //buf_osc_ch2[(icont-4)+385]=int(recibida[icont]);
-                          buf_osc_ch2[(icont-4)+429]=int(recibida[icont]);
+                      for (icont = 4; icont < 132; icont++){
+                          buf_osc_ch2[(icont-4)+380]=int(recibida[icont]);
                       }
                  } 
             break;                  
@@ -261,7 +245,6 @@ void Instrumento::Desencapsular(BYTE recibida []){
             case 'J':                                                     //Pruebas de conectividad de LIV
                  if (recibida [2]== 0x06){                                //ACK
                     Sethardware(true);
-                    //fl_message("trama recibida: %s", receive_buf);
                  }
                  else if (recibida [2] == 0x15){                          //NACK
                       Sethardware(false);
