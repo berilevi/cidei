@@ -110,7 +110,7 @@ class Analizador : public Instrumento {
 	    //Mascara del analizador.
 	    Fl_PNG_Image *ianaliza;
 	    //Contiene el nombre del instrumento
-	    //Fl_Box *obox_nombre;
+	    Fl_Box *oboxNomAnalizador;
         //Botón para prender/apagar el instrumento analizador
         Fl_Button *oana_on;
         Fl_PNG_Image *iOnAnalizador;

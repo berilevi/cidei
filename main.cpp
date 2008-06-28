@@ -47,9 +47,9 @@ int main (int argc, char ** argv)
   
   window = new Fl_Double_Window (0,0,1024,708);
   osc = new Osciloscopio();
-  //ana = new Analizador();
+  ana = new Analizador();
   mult = new Multimetro();
-  //gene = new Generador();
+  gene = new Generador();
   // osc = new Osciloscopio();
   
 

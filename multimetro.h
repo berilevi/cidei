@@ -99,75 +99,74 @@ private:
          void configInstrumento(int);
          //Calcula el valor de la medición en el rango de escala en que se encuentre.
          void escalarValor(int);
-		//Varaible que representa los instrumentos que contiene el multímetro.
-		inst instrument;
-		// Boton que habilita la ayuda para el uso del instrumento.
-        Fl_Button *ohelpMult;
-        //Botón que habilita la ayuda flotante para el uso de los botones del instrumento. 
-        //Fl_Check_Button *oayudaMult;
-        Fl_Button *oayudaMult;
-		//Botón de activación del medidor de voltaje en ac.
-		Fl_Button *ovoltAc;
-		//Box para mascara botón Voltímetro AC
-		Fl_Box *boxVac;
-	    //Mascara del volt ac.
-	    Fl_PNG_Image *iVoltAc;
-		//Imagen del botón de voltaje ac.
-		Fl_PNG_Image *multVac;
-		//Botón de activación del medidor de voltaje en dc.
-	    Fl_Button *ovoltDc;
-	    //Box para mascara botón Voltímetro DC
-		Fl_Box *boxVdc;
-	    //Mascara del volt dc.
-	    Fl_PNG_Image *iVoltDc;
-	    //Botón de activación del medidor de corriente en ac.
-	    Fl_Button *oampAc;
-	    //Box para mascara botón Amperímetro AC
-		Fl_Box *boxAac;
-	    //Mascara del amp ac.
-	    Fl_PNG_Image *iAmpAc;
-	    //Botón de activación del medidor de corriente en dc.
-	    Fl_Button *oampDc;
-	    //Box para mascara botón Amperímetro DC
-		Fl_Box *boxAdc;
-	    //Mascara del amp dc.
-	    Fl_PNG_Image *iAmpDc;
-	    //Botón de activación del medidor de resistencia.
-	    Fl_Button *oohm;
-	    //Box para mascara botón Ohmetro
-		Fl_Box *boxOhm;
-	    //Mascara del ohmetro.
-	    Fl_PNG_Image *iOhm;
-	    //Botón de activación del medidor de continuidad.
-	    Fl_Button *ocontinuidad;
-	    //Box para mascara botón Continuidad
-		Fl_Box *boxCont;
-	    //Mascara del medidor de continuidad.
-	    Fl_PNG_Image *iCont;
-	    //Callback del botón que activa el medidor de voltaje en ac.
-        static void cbVoltAc(Fl_Widget*, void *);
-        inline void cbVoltAcIn();
-        //Callback del botón que activa el medidor de voltaje en dc.
-        static void cbVoltDc(Fl_Widget*, void *);
-        inline void cbVoltDcIn();
-        //Callback del botón que activa el medidor de corriente en ac.
-        static void cbAmpAc(Fl_Widget*, void *);
-        inline void cbAmpAcIn();
-        //Callback del botón que activa el medidor de corriente en dc.
-        static void cbAmpDc(Fl_Widget*, void *);
-        inline void cbAmpDcIn();
-        //Callback del botón que activa el medidor de resistencia 
-        static void cbOhm(Fl_Widget*, void *);
-        inline void cbOhmIn();
-        //Callback del botón que activa el medidor de continuidad
-        static void cbCont(Fl_Widget*, void *);
-        inline void cbContIn();
-	    //Boton para encender el instrumento multimetro.
-        Fl_Button *omultOn;
-        // Widget para colocar en texto las unidades de medida de la medición realizada con el multímetro.
-        Fl_Box *ounidades;
-        //Box para el nombre del instrumento
-        Fl_Box *boxNomMult;
+		 //Varaible que representa los instrumentos que contiene el multímetro.
+		 inst instrument;
+		 // Boton que habilita la ayuda para el uso del instrumento.
+         Fl_Button *ohelpMult;
+         //Botón que habilita la ayuda flotante para el uso de los botones del instrumento. 
+         Fl_Button *oayudaMult;
+		 //Botón de activación del medidor de voltaje en ac.
+		 Fl_Button *ovoltAc;
+		 //Box para mascara botón Voltímetro AC
+		 Fl_Box *boxVac;
+	     //Mascara del volt ac.
+	     Fl_PNG_Image *iVoltAc;
+		 //Imagen del botón de voltaje ac.
+		 Fl_PNG_Image *multVac;
+		 //Botón de activación del medidor de voltaje en dc.
+	     Fl_Button *ovoltDc;
+	     //Box para mascara botón Voltímetro DC
+		 Fl_Box *boxVdc;
+	     //Mascara del volt dc.
+	     Fl_PNG_Image *iVoltDc;
+	     //Botón de activación del medidor de corriente en ac.
+	     Fl_Button *oampAc;
+	     //Box para mascara botón Amperímetro AC
+		 Fl_Box *boxAac;
+	     //Mascara del amp ac.
+	     Fl_PNG_Image *iAmpAc;
+	     //Botón de activación del medidor de corriente en dc.
+	     Fl_Button *oampDc;
+	     //Box para mascara botón Amperímetro DC
+		 Fl_Box *boxAdc;
+	     //Mascara del amp dc.
+	     Fl_PNG_Image *iAmpDc;
+	     //Botón de activación del medidor de resistencia.
+	     Fl_Button *oohm;
+	     //Box para mascara botón Ohmetro
+		 Fl_Box *boxOhm;
+	     //Mascara del ohmetro.
+	     Fl_PNG_Image *iOhm;
+	     //Botón de activación del medidor de continuidad.
+	     Fl_Button *ocontinuidad;
+	     //Box para mascara botón Continuidad
+		 Fl_Box *boxCont;
+	     //Mascara del medidor de continuidad.
+	     Fl_PNG_Image *iCont;
+	     //Callback del botón que activa el medidor de voltaje en ac.
+         static void cbVoltAc(Fl_Widget*, void *);
+         inline void cbVoltAcIn();
+         //Callback del botón que activa el medidor de voltaje en dc.
+         static void cbVoltDc(Fl_Widget*, void *);
+         inline void cbVoltDcIn();
+         //Callback del botón que activa el medidor de corriente en ac.
+         static void cbAmpAc(Fl_Widget*, void *);
+         inline void cbAmpAcIn();
+         //Callback del botón que activa el medidor de corriente en dc.
+         static void cbAmpDc(Fl_Widget*, void *);
+         inline void cbAmpDcIn();
+         //Callback del botón que activa el medidor de resistencia 
+         static void cbOhm(Fl_Widget*, void *);
+         inline void cbOhmIn();
+         //Callback del botón que activa el medidor de continuidad
+         static void cbCont(Fl_Widget*, void *);
+         inline void cbContIn();
+	     //Boton para encender el instrumento multimetro.
+         Fl_Button *omultOn;
+         // Widget para colocar en texto las unidades de medida de la medición realizada con el multímetro.
+         Fl_Box *ounidades;
+         //Box para el nombre del instrumento
+         Fl_Box *boxNomMult;
 };
 
 #endif // MULTIMETRO_H
