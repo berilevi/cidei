@@ -8,29 +8,23 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
              
      ncolor = ncolo;                                               //Color de la gráfica 
      ogroupCh = new Fl_Group (x,y,w,h,"");
-     //ogroupCh->box(FL_ENGRAVED_FRAME);
      ogroupCh->box(FL_NO_BOX);
-     //ogroupCh->deactivate();
-    // boxCanal = new Fl_Box(x,y+7,w,h,"");
      oposx = new Fl_Dial ((x+4),(y+87),42,42,"");            //Botón para modificar la posición vertical de la gráfica
      oposx->labelsize(9);
      oposx->box(FL_NO_BOX);
      oposx->range(-100,100);
      oposx->step(1);
      oposx->round(1);
-     //ovoltDiv = new Fl_Knob ((x+62),(y+67),80,80,"Vol-Div");      //Selector de escala de Voltios por División
      ovoltDiv = new Fl_Dial ((x+69),(y+77),62,62,"");      //Selector de escala de Voltios por División
      ovoltDiv->box(FL_NO_BOX);
      ovoltDiv->angles(30,330);
+     ovoltDiv->angles(30,330);
      ovoltDiv->step(1);
      ovoltDiv->labelsize(9);
-    // ovoltDiv->color(147);
      ovoltDiv->type(8);
-     //ovoltDiv->scaleticks(11);
      ovoltDiv->range(0,11);
      omenuvDiv = new Fl_Choice((x+55),(y+32),92,24,"");    //Menú de las escalas de Voltios por División
      omenuvDiv->labelsize(10);
-     //omenuvDiv->align(FL_ALIGN_TOP);
      omenuvDiv->add("5",0,(Fl_Callback *)cbVdiv5,this);
      omenuvDiv->add("2",0,(Fl_Callback *)cbVdiv2,this);
      omenuvDiv->add("1",0,(Fl_Callback *)cbVdiv1,this);
@@ -50,12 +44,10 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      oacopGnd->labelfont(FL_HELVETICA_BOLD);
      oacopGnd->labelsize(13);
      oacopGnd->box(FL_FLAT_BOX);
-     //oacopGnd->align(FL_ALIGN_TOP);
      oacopDc  = new Fl_Box((x+86),(y+166),19,18,"DC");                  //Indicador de acople Dc del canal
      oacopDc->labelfont(FL_HELVETICA_BOLD);
      oacopDc->labelsize(13);
      oacopDc->box(FL_FLAT_BOX);
-     //oacopDc->align(FL_ALIGN_TOP);
      oacopAc  = new Fl_Box((x+62),(y+166),19,18,"AC");                   //Indicador de acople Ac del canal
      oacopAc->labelfont(FL_HELVETICA_BOLD);
      oacopAc->labelsize(13);

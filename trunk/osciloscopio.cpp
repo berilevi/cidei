@@ -30,8 +30,7 @@ Osciloscopio::Osciloscopio(){
                                
     Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
     //strcpy(cnombre,"osc.txt");                                    // Nombre del para el archivo de texto donde se almacenan los datos
-                                                    
-    
+                                                   
     //Inicialización de las variables globales
     ctDiv = '1';                                                   // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
     isec_trigger = 0;                                                      
@@ -145,14 +144,12 @@ Osciloscopio::Osciloscopio(){
     omenuTdiv->add("2us",0,(Fl_Callback *)cbTdiv2us,this);    
     omenuTdiv->add("1us",0,(Fl_Callback *)cbTdiv1us,this);   
    
-
     oposy = new Fl_Dial (451,227,50,47,"");
     oposy->box(FL_NO_BOX);
     oposy->labelsize(10);
     oposy->angles(30,330);
     oposy->range(-100,100);                                                  
     
-
     ostop = new Fl_Button(417,280,27,27,"");
     ostop->type(FL_TOGGLE_BUTTON);
     ostop->box(FL_NO_BOX);
