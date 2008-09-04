@@ -6,7 +6,7 @@
 
 Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
              
-     ncolor = ncolo;                                               //Color de la gráfica 
+     ncolor = ncolo;                                         //Color de la gráfica 
      ogroupCh = new Fl_Group (x,y,w,h,"");
      ogroupCh->box(FL_NO_BOX);
      oposx = new Fl_Dial ((x+4),(y+87),42,42,"");            //Botón para modificar la posición vertical de la gráfica
@@ -15,7 +15,7 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      oposx->range(-100,100);
      oposx->step(1);
      oposx->round(1);
-     ovoltDiv = new Fl_Dial ((x+69),(y+77),62,62,"");      //Selector de escala de Voltios por División
+     ovoltDiv = new Fl_Dial ((x+69),(y+77),62,62,"");        //Selector de escala de Voltios por División
      ovoltDiv->box(FL_NO_BOX);
      ovoltDiv->angles(30,330);
      ovoltDiv->angles(30,330);
@@ -37,10 +37,10 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      omenuvDiv->add("5m",0,(Fl_Callback *)cbVdiv5m,this);
      omenuvDiv->add("2m",0,(Fl_Callback *)cbVdiv2m,this);
      omenuvDiv->add("1m",0,(Fl_Callback *)cbVdiv1m,this);
-     oselAcople = new Fl_Repeat_Button((x+4),(y+167),41,15,"");   //Botón selector del tipo de acople del canal.
+     oselAcople = new Fl_Repeat_Button((x+4),(y+167),41,15,"");         //Botón selector del tipo de acople del canal.
      oselAcople->labelsize(10);
      oselAcople->box(FL_ENGRAVED_FRAME);
-     oacopGnd = new Fl_Box((x+110),(y+166),28,18,"GND");                 //Indicador de acople gnd del canal. 
+     oacopGnd = new Fl_Box((x+110),(y+166),28,18,"GND");                //Indicador de acople gnd del canal. 
      oacopGnd->labelfont(FL_HELVETICA_BOLD);
      oacopGnd->labelsize(13);
      oacopGnd->box(FL_FLAT_BOX);
@@ -48,14 +48,14 @@ Canal::Canal(int x, int y, int w, int h, const char *l, int ncolo) {
      oacopDc->labelfont(FL_HELVETICA_BOLD);
      oacopDc->labelsize(13);
      oacopDc->box(FL_FLAT_BOX);
-     oacopAc  = new Fl_Box((x+62),(y+166),19,18,"AC");                   //Indicador de acople Ac del canal
+     oacopAc  = new Fl_Box((x+62),(y+166),19,18,"AC");                  //Indicador de acople Ac del canal
      oacopAc->labelfont(FL_HELVETICA_BOLD);
      oacopAc->labelsize(13);
      oacopAc->box(FL_FLAT_BOX);
      //oacopAc->align(FL_ALIGN_TOP);
      
-  //   icanal = new Fl_PNG_Image("canal.png");
-   //  boxCanal->image(icanal);
+    // icanal = new Fl_PNG_Image("canal.png");
+    // boxCanal->image(icanal);
      
      ogroupCh->end();
 }

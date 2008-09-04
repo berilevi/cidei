@@ -12,15 +12,15 @@
 #include <windows.h> 
 
 
-Osciloscopio *osc = 0;
-pthread_t thread1;
+//Osciloscopio *osc = 0;
+//pthread_t thread1;
 
-int status, status2, status3;
+//int status, status2, status3;
 
 
-void *runhilo2(void *threadid){
+/*void *runhilo2(void *threadid){
   osc = new Osciloscopio();
-}
+}*/
 
 int main (int argc, char ** argv)
 {
@@ -28,15 +28,16 @@ int main (int argc, char ** argv)
   Analizador *ana;
   Generador *gene;
   Multimetro *mult;
+  Osciloscopio *osc;
   
   
-  Fl_Box *box_mult;
+  /*Fl_Box *box_mult;
   Fl_Box *boxVacMult;
   Fl_Box *box_osc;
   Fl_Box *boxNomOsc;
   Fl_Box *boxOscOn;
   Fl_Box *box_analizador;
-  Fl_Box *box_generador;
+  Fl_Box *box_generador;*/
   
   
   int t =0;
@@ -46,11 +47,11 @@ int main (int argc, char ** argv)
   int rc, rc2, rc3, rc4;
   
   window = new Fl_Double_Window (0,0,1024,708);
-  osc = new Osciloscopio();
+  //osc = new Osciloscopio();
   ana = new Analizador();
-  mult = new Multimetro();
-  gene = new Generador();
-  // osc = new Osciloscopio();
+  //mult = new Multimetro();
+  //gene = new Generador();
+  osc = new Osciloscopio();
   
 
 
