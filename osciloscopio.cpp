@@ -29,7 +29,7 @@ bool bacopleGnd2 = 0;     // Variable global que indica si el canal 2 está en ac
 Osciloscopio::Osciloscopio(){
                                
     Fl_Tooltip::disable();                                        // Inicio desactivado de las ayudas flotantes
-    //strcpy(cnombre,"osc.txt");                                    // Nombre del para el archivo de texto donde se almacenan los datos
+    //strcpy(cnombre,"osc.txt");                                  // Nombre del para el archivo de texto donde se almacenan los datos
                                                    
     //Inicialización de las variables globales
     ctDiv = '1';                                                   // Variable para almacenar el caracter que se va a enviar de la escala de Tiempo por division
@@ -47,13 +47,13 @@ Osciloscopio::Osciloscopio(){
     icont_datos = 0;
               
     ogroupOsc = new Fl_Group (5,5,724,360,"");                   // Inicia el grupo de los elementos del osciloscopio
-    ogroupOsc->box(FL_ENGRAVED_FRAME);                 
-    ogroupOsc->box(FL_UP_BOX);
-    ogroupOsc->deactivate();
+    ogroupOsc->box(FL_ENGRAVED_FRAME);                           // Tipo de marco del osciloscopio                 
+    ogroupOsc->box(FL_UP_BOX);                                   // Marco del osciloscopio en alto relieve
+    ogroupOsc->deactivate();                                     // El marco inicia desactivado hasta que se prenda el instrumento
     
-    oboxgroupOsc = new Fl_Box(4,12,725,359,"");
+    oboxgroupOsc = new Fl_Box(4,12,725,359,"");                  // Marco para colocar la mascara del osciloscopio
     
-    oboxNombre = new Fl_Box(10,8,237,30,"OSCILOSCOPIO");                           //Cuadro para colocar el nombre del instrumento
+    oboxNombre = new Fl_Box(10,8,237,30,"OSCILOSCOPIO");         //Cuadro para colocar el nombre del instrumento
     oboxNombre->box(FL_ENGRAVED_FRAME);
     oboxNombre->labelfont(FL_HELVETICA_BOLD);
     oboxNombre->labelsize(22);
@@ -61,56 +61,55 @@ Osciloscopio::Osciloscopio(){
     canal1 = new Canal(415,9,152,190,"",255);                     // Instancia de canal para crear el objeto canal 1
     canal2 = new Canal(575,9,152,190,"",250);                     // Instancia de canal para crear el objeto canal 2
     
-    och1On = new Fl_Button(415,11,54,18,"CH 1");
+    och1On = new Fl_Button(415,11,54,18,"CH 1");                  // Botón para activar / desactivar el canal 1
     och1On->type(FL_TOGGLE_BUTTON);
     och1On->labelfont(FL_HELVETICA_BOLD);
     och1On->labelsize(14);
     och1On->box(FL_ENGRAVED_FRAME);
     
-    och2On = new Fl_Button(575,11,54,18,"CH 2");
+    och2On = new Fl_Button(575,11,54,18,"CH 2");                  // Botón para activar /desactivar el canal 2
     och2On->type(FL_TOGGLE_BUTTON);
     och2On->labelfont(FL_HELVETICA_BOLD);
     och2On->labelsize(14);
     och2On->box(FL_ENGRAVED_FRAME);
     
-    odualMenu = new Fl_Repeat_Button(440,331,53,17,"");      //Botón para seleccionar la operación dual suma resta o lissajous 
+    odualMenu = new Fl_Repeat_Button(440,331,53,17,"");           //Botón para seleccionar la operación dual suma resta o lissajous 
     odualMenu->box(FL_ENGRAVED_FRAME);
     odualMenu->labelsize(10);
     odualMenu->deactivate();
-    //odualMenu->tooltip("Botón para seleccionar la operación dual de las gráficas");
     
-    osuma = new Fl_Box(535,330,18,19,"+");                     // Indicador de la operación de suma de las dos señales
+    osuma = new Fl_Box(535,330,18,19,"+");                        // Indicador de la operación de suma de las dos señales
     osuma->labelfont(FL_HELVETICA_BOLD);
     osuma->labelsize(18);
     osuma->box(FL_FLAT_BOX);
-    oresta = new Fl_Box(558,330,18,19,"-");                   // Indicador de la operación de resta de las dos señales
+    oresta = new Fl_Box(558,330,18,19,"-");                       // Indicador de la operación de resta de las dos señales
     oresta->labelfont(FL_HELVETICA_BOLD);
     oresta->labelsize(22);
     oresta->box(FL_FLAT_BOX);
-    oxy = new Fl_Box(583,330,18,19,"XY");                       // Indicador de la operación x vs y 
+    oxy = new Fl_Box(583,330,18,19,"XY");                         // Indicador de la operación x vs y 
     oxy->labelfont(FL_HELVETICA_BOLD);
     oxy->labelsize(12);
     oxy->box(FL_FLAT_BOX);   
         
-    ologOsc = new Fl_Button (328,10,34,27,"");
+    ologOsc = new Fl_Button (328,10,34,27,"");                    // Botón para salvar los datos del osciloscopio en archivo plano
     ologOsc->box(FL_ENGRAVED_FRAME);
     ologOsc->labelsize(9);
     ologOsc->image(iguardar); 
    
-   oboxGrid = new Fl_Box(290,18,34,27,"");
-   oboxguardar = new Fl_Box(329,18,34,27,"");
-   oboxOnOsc = new Fl_Box(251,18,34,27,"");
+   oboxGrid = new Fl_Box(290,18,34,27,"");                        // Marco para clocar la imagen del botón cuadricula
+   oboxguardar = new Fl_Box(329,18,34,27,"");                     // Marco para clocar la imagen del botón guardar
+   oboxOnOsc = new Fl_Box(251,18,34,27,"");                       // Marco para clocar la imagen del botón on / off
    
     //ohelpOsc  = new Fl_Button (370,24,40,14,"Help");             // Botón que activa la ayuda del instrumento
     //ohelpOsc->labelsize(9);
     //ohelpOsc->tooltip("Botón para iniciar el archivo de ayuda de uso del instrumento ");
     
-    oayudaOsc  = new Fl_Button (368,10,34,27,"");
+    oayudaOsc  = new Fl_Button (368,10,34,27,"");                 // Botón que activa la ayuda del instrumento 
     oayudaOsc->box(FL_ENGRAVED_FRAME);
     oayudaOsc->labelsize(12);
     oboxPreg = new Fl_Box(368,18,34,27,"");
     
-    ogrillaOn = new Fl_Button(290,10,34,27,"");
+    ogrillaOn = new Fl_Button(290,10,34,27,"");                   // 
     ogrillaOn->box(FL_ENGRAVED_FRAME);
     ogrillaOn->type(FL_TOGGLE_BUTTON);
     ogrillaOn->labelsize(10);
@@ -124,27 +123,27 @@ Osciloscopio::Osciloscopio(){
     otiempoDiv->step(1);
     otiempoDiv->round(1);
     
-    omenuTdiv = new Fl_Choice(627,226,92,23,"");                //Menú selector de la escala de tiempo por división
-    omenuTdiv->add("0.5s",0,(Fl_Callback *)cbTdiv05s,this);
-    omenuTdiv->add("0.2s",0,(Fl_Callback *)cbTdiv02s,this);            
-    omenuTdiv->add("0.1s",0,(Fl_Callback *)cbTdiv01s,this);            
-    omenuTdiv->add("50ms",0,(Fl_Callback *)cbTdiv50ms,this);  
-    omenuTdiv->add("20ms",0,(Fl_Callback *)cbTdiv20ms,this);  
-    omenuTdiv->add("10ms",0,(Fl_Callback *)cbTdiv10ms,this);  
-    omenuTdiv->add("5ms",0,(Fl_Callback *)cbTdiv5ms,this);  
-    omenuTdiv->add("2ms",0,(Fl_Callback *)cbTdiv2ms,this);  
-    omenuTdiv->add("1ms",0,(Fl_Callback *)cbTdiv1ms,this);  
-    omenuTdiv->add("0.5ms",0,(Fl_Callback *)cbTdiv05ms,this); 
-    omenuTdiv->add("0.2ms",0,(Fl_Callback *)cbTdiv02ms,this); 
-    omenuTdiv->add("0.1ms",0,(Fl_Callback *)cbTdiv01ms,this); 
-    omenuTdiv->add("50us",0,(Fl_Callback *)cbTdiv50us,this);  
-    omenuTdiv->add("20us",0,(Fl_Callback *)cbTdiv20us,this);    
-    omenuTdiv->add("10us",0,(Fl_Callback *)cbTdiv10us,this);  
-    omenuTdiv->add("5us",0,(Fl_Callback *)cbTdiv5us,this);    
-    omenuTdiv->add("2us",0,(Fl_Callback *)cbTdiv2us,this);    
-    omenuTdiv->add("1us",0,(Fl_Callback *)cbTdiv1us,this);   
+    omenuTdiv = new Fl_Choice(627,226,92,23,"");                // Menú selector de la escala de tiempo por división
+    omenuTdiv->add("0.5s",0,(Fl_Callback *)cbTdiv05s,this);     // 0.5 s / div
+    omenuTdiv->add("0.2s",0,(Fl_Callback *)cbTdiv02s,this);     // 0.2 s / div            
+    omenuTdiv->add("0.1s",0,(Fl_Callback *)cbTdiv01s,this);     // 0.1 s / div            
+    omenuTdiv->add("50ms",0,(Fl_Callback *)cbTdiv50ms,this);    // 50 ms / div  
+    omenuTdiv->add("20ms",0,(Fl_Callback *)cbTdiv20ms,this);    // 20 ms / div  
+    omenuTdiv->add("10ms",0,(Fl_Callback *)cbTdiv10ms,this);    // 10 ms / div  
+    omenuTdiv->add("5ms",0,(Fl_Callback *)cbTdiv5ms,this);      // 5  ms / div 
+    omenuTdiv->add("2ms",0,(Fl_Callback *)cbTdiv2ms,this);      // 2  ms / div  
+    omenuTdiv->add("1ms",0,(Fl_Callback *)cbTdiv1ms,this);      // 1  ms / div   
+    omenuTdiv->add("0.5ms",0,(Fl_Callback *)cbTdiv05ms,this);   // 0.5  ms / div 
+    omenuTdiv->add("0.2ms",0,(Fl_Callback *)cbTdiv02ms,this);   // 0.2  ms / div 
+    omenuTdiv->add("0.1ms",0,(Fl_Callback *)cbTdiv01ms,this);   // 0.1  ms / div 
+    omenuTdiv->add("50us",0,(Fl_Callback *)cbTdiv50us,this);    // 50   us / div  
+    omenuTdiv->add("20us",0,(Fl_Callback *)cbTdiv20us,this);    // 20   us / div    
+    omenuTdiv->add("10us",0,(Fl_Callback *)cbTdiv10us,this);    // 10   us / div  
+    omenuTdiv->add("5us",0,(Fl_Callback *)cbTdiv5us,this);      // 5    us / div    
+    omenuTdiv->add("2us",0,(Fl_Callback *)cbTdiv2us,this);      // 2    us / div    
+    omenuTdiv->add("1us",0,(Fl_Callback *)cbTdiv1us,this);      // 1    us / div   
    
-    oposy = new Fl_Dial (451,227,50,47,"");
+    oposy = new Fl_Dial (451,227,50,47,"");                     // 
     oposy->box(FL_NO_BOX);
     oposy->labelsize(10);
     oposy->angles(30,330);
@@ -215,10 +214,6 @@ Osciloscopio::Osciloscopio(){
     ogrilla = new grid(7,43,400,320,"");                                 //Instancia de la cuadricula para la pantalla 
     ogrilla->banalizador_on = 0;                                         //En cero para que no se active la grilla del analizador
     
-    /*oboxNombre = new Fl_Box(10,8,237,30,"OSCILOSCOPIO");                           //Cuadro para colocar el nombre del instrumento
-    oboxNombre->box(FL_ENGRAVED_FRAME);
-    oboxNombre->labelfont(FL_HELVETICA_BOLD);
-    oboxNombre->labelsize(22);*/
     
     ooscOn = new Fl_Button(251,10,34,27,"");
     ooscOn->box(FL_ENGRAVED_FRAME);
@@ -262,8 +257,8 @@ Osciloscopio::Osciloscopio(){
 * todos los métodos y variables de la clase. 
 *******************************************************************************/
 void Osciloscopio::cbOscOn(Fl_Widget* pboton, void *pany){
-     Osciloscopio* posc=(Osciloscopio*)pany;              //Casting  del apuntador void para que tenga el tamaño de un objeto Osciloscopio    
-     posc->cbOscOnIn();                                //Llamado a la función inline sin argumentos.
+     Osciloscopio* posc=(Osciloscopio*)pany;                   //Casting  del apuntador void para que tenga el tamaño de un objeto Osciloscopio    
+     posc->cbOscOnIn();                                        //Llamado a la función inline sin argumentos.
 }
 
 /*******************************************************************************
@@ -307,7 +302,7 @@ void Osciloscopio::cbOscOnIn(){
             opantalla->bch1 = 1;
             muestreoTimer(1);                                   //Muestrear por vectores deacuerdo a la escala de tiempo por división.
          }                                                       
-         else {                                                  //Si la respuesta fue NAK o error en la comunicación USB
+         else {                                                 //Si la respuesta fue NAK o error en la comunicación USB
               fl_message("Error de conexión de hardware");  
               activar(0);                 
               ooscOn->value(0);                                 //Osciloscopio desactivado

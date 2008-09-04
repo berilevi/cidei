@@ -1,21 +1,24 @@
 # Project: LIV
 # Makefile created by Dev-C++ 4.9.9.2
 
+# This Makefile is written for syntax check!
+# Regenerate it if you want to use this Makefile to build.
+
 CPP  = g++.exe -D__DEBUG__
 CC   = gcc.exe -D__DEBUG__
 WINDRES = windres.exe
 RES  = LIV_private.res
 OBJ  = main.o instrumento.o osciloscopio.o canal.o multimetro.o Fl_Knob.o generador.o Fl_Scope.o Fl_7Seg.o analizador.o grid.o cursores.o mensajes.o DispOsc.o $(RES)
 LINKOBJ  = main.o instrumento.o osciloscopio.o canal.o multimetro.o Fl_Knob.o generador.o Fl_Scope.o Fl_7Seg.o analizador.o grid.o cursores.o mensajes.o DispOsc.o $(RES)
-LIBS =  -L"C:/Dev-Cpp/lib" -L"C:/Dev-Cpp/lib" -mwindows -lfltk -lole32 -luuid -lcomctl32 -lwsock32 -lm  setupapi.lib libmpusb.a  libpthreadGC1.a   C:/Dev-Cpp/lib/libfltk_images.a C:/Dev-Cpp/lib/libfltk_png.a C:/Dev-Cpp/lib/libfltk_z.a C:/Dev-Cpp/lib/libfltk_jpeg.a C:/Dev-Cpp/lib/libfltk.a  -g3 
+LIBS =  -L"C:/Dev-Cpp/lib" -L"C:/Dev-Cpp/lib" -mwindows -lfltk -lole32 -luuid -lcomctl32 -lwsock32 -lm  setupapi.lib libmpusb.a  libpthreadGC1.a   C:/Dev-Cpp/lib/libfltk_images.a C:/Dev-Cpp/lib/libfltk_png.a C:/Dev-Cpp/lib/libfltk_z.a C:/Dev-Cpp/lib/libfltk_jpeg.a C:/Dev-Cpp/lib/libfltk.a  -lgmon -pg  -g3 
 INCS =  -I"C:/Dev-Cpp/include"  -I"C:/Dev-Cpp/pthread/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include"  -I"C:/Dev-Cpp/pthread/include" 
 BIN  = LIV.exe
-CXXFLAGS = $(CXXINCS)   -g3
-CFLAGS = $(INCS) -DWIN32 -mms-bitfields   -g3
+CXXFLAGS = $(CXXINCS)   -pg -g3
+CFLAGS = $(INCS) -DWIN32 -mms-bitfields   -pg -g3
 RM = rm -f
 
-.PHONY: all all-before all-after clean clean-custom
+.PHONY: all all-before all-after clean clean-custom $(OBJ) $(BIN)
 
 all: all-before LIV.exe all-after
 
@@ -24,49 +27,48 @@ clean: clean-custom
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	$(CPP) $(LINKOBJ) -o "LIV.exe" $(LIBS)
 
-main.o: main.cpp
-	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+main.o:main.cpp
+	$(CPP) -S main.cpp -o nul $(CXXFLAGS)
 
-instrumento.o: instrumento.cpp
-	$(CPP) -c instrumento.cpp -o instrumento.o $(CXXFLAGS)
+instrumento.o:instrumento.cpp
+	$(CPP) -S instrumento.cpp -o nul $(CXXFLAGS)
 
-osciloscopio.o: osciloscopio.cpp
-	$(CPP) -c osciloscopio.cpp -o osciloscopio.o $(CXXFLAGS)
+osciloscopio.o:osciloscopio.cpp
+	$(CPP) -S osciloscopio.cpp -o nul $(CXXFLAGS)
 
-canal.o: canal.cpp
-	$(CPP) -c canal.cpp -o canal.o $(CXXFLAGS)
+canal.o:canal.cpp
+	$(CPP) -S canal.cpp -o nul $(CXXFLAGS)
 
-multimetro.o: multimetro.cpp
-	$(CPP) -c multimetro.cpp -o multimetro.o $(CXXFLAGS)
+multimetro.o:multimetro.cpp
+	$(CPP) -S multimetro.cpp -o nul $(CXXFLAGS)
 
-Fl_Knob.o: Fl_Knob.cxx
-	$(CPP) -c Fl_Knob.cxx -o Fl_Knob.o $(CXXFLAGS)
+Fl_Knob.o:Fl_Knob.cxx
+	$(CPP) -S Fl_Knob.cxx -o nul $(CXXFLAGS)
 
-generador.o: generador.cpp
-	$(CPP) -c generador.cpp -o generador.o $(CXXFLAGS)
+generador.o:generador.cpp
+	$(CPP) -S generador.cpp -o nul $(CXXFLAGS)
 
-Fl_Scope.o: Fl_Scope.cxx
-	$(CPP) -c Fl_Scope.cxx -o Fl_Scope.o $(CXXFLAGS)
+Fl_Scope.o:Fl_Scope.cxx
+	$(CPP) -S Fl_Scope.cxx -o nul $(CXXFLAGS)
 
-Fl_7Seg.o: Fl_7Seg.cpp
-	$(CPP) -c Fl_7Seg.cpp -o Fl_7Seg.o $(CXXFLAGS)
+Fl_7Seg.o:Fl_7Seg.cpp
+	$(CPP) -S Fl_7Seg.cpp -o nul $(CXXFLAGS)
 
-analizador.o: analizador.cpp
-	$(CPP) -c analizador.cpp -o analizador.o $(CXXFLAGS)
+analizador.o:analizador.cpp
+	$(CPP) -S analizador.cpp -o nul $(CXXFLAGS)
 
-grid.o: grid.cpp
-	$(CPP) -c grid.cpp -o grid.o $(CXXFLAGS)
+grid.o:grid.cpp
+	$(CPP) -S grid.cpp -o nul $(CXXFLAGS)
 
-cursores.o: cursores.cpp
-	$(CPP) -c cursores.cpp -o cursores.o $(CXXFLAGS)
+cursores.o:cursores.cpp
+	$(CPP) -S cursores.cpp -o nul $(CXXFLAGS)
 
-mensajes.o: mensajes.cpp
-	$(CPP) -c mensajes.cpp -o mensajes.o $(CXXFLAGS)
+mensajes.o:mensajes.cpp
+	$(CPP) -S mensajes.cpp -o nul $(CXXFLAGS)
 
-DispOsc.o: DispOsc.cpp
-	$(CPP) -c DispOsc.cpp -o DispOsc.o $(CXXFLAGS)
+DispOsc.o:DispOsc.cpp
+	$(CPP) -S DispOsc.cpp -o nul $(CXXFLAGS)
 
-LIV_private.res: LIV_private.rc 
-	$(WINDRES) -i LIV_private.rc --input-format=rc -o LIV_private.res -O coff 
+LIV_private.res:
+	$(WINDRES) -i LIV_private.rc --input-format=rc -o nul -O coff 
